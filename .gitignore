@@ -1,0 +1,5 @@
+### DEPENDENCIES ###
+node_modules/
+
+### GENERATED ###
+dist/

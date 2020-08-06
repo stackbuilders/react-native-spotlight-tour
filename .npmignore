@@ -1,0 +1,6 @@
+### DEPENDENCIES ###
+node_modules/
+
+### TYPESCRIPT FILES ###
+tsconfig.json
+src/

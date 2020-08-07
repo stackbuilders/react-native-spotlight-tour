@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "jsx": "react",
-    "module": "CommonJS",
+    "lib": ["ES6"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -15,18 +15,29 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
+    "plugins": [{
+      "name": "typescript-styled-plugin",
+      "lint": {
+        "duplicateProperties": "error",
+        "important": "error",
+        "validProperties": [
+          "aspect-ratio",
+          "elevation"
+        ]
+      }
+    }],
     "pretty": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ES5",
-    "typeRoots": ["node_modules/@types"]
+    "target": "ES6",
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["./src/**/*"],
   "exclude": [
-    "dist/**/*",
-    "node_modules/**/*"
+    "./dist/**/*",
+    "./node_modules/**/*"
   ]
 }

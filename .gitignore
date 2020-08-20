@@ -1,5 +1,6 @@
 ### DEPENDENCIES ###
 node_modules/
+yarn-error.log
 
 ### GENERATED ###
 dist/

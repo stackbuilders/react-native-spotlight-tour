@@ -3,14 +3,14 @@ import { LayoutRectangle } from "react-native";
 
 export enum Align {
   SCREEN = "screen",
-  SPOT = "spot",
+  SPOT = "spot"
 }
 
 export enum Position {
   BOTTOM = "bottom",
   LEFT = "left",
   RIGHT = "right",
-  TOP = "top",
+  TOP = "top"
 }
 
 export type RenderProps = Pick<Tour, "next" | "previous" | "stop"> & {

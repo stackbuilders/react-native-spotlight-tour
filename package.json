@@ -14,7 +14,7 @@
   },
   "scripts": {
     "compile": "tsc",
-    "lint": "tslint -c tslint.json \"**/*.ts?(x)\""
+    "lint": "tslint -c tslint.json \"!(dist)/**/*.ts?(x)\""
   },
   "dependencies": {
     "react-native-responsive-dimensions": "^3.1.1",

@@ -11,7 +11,7 @@ import {
 import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Tour } from "../SpotlightTour.context";
+import { AlignTo, Tour } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
@@ -43,10 +43,10 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
 
   const getTipStyles = (tipLayout: LayoutRectangle): Animated.WithAnimatedValue<StyleProp<ViewStyle>> => {
     const tipMargin: string = "2%";
-    const align = tourStep.alignTo ?? "spot";
+    const align = tourStep.alignTo ?? AlignTo.SPOT;
 
     switch (tourStep.position) {
-      case "bottom": return {
+      case tourStep.position.BOTTOM: return {
         left: align === "spot"
           ? Math.round(cx - (tipLayout.width / 2))
           : Math.round((vwDP(100) - tipLayout.width) / 2),
@@ -54,19 +54,19 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
         top: Math.round(cy + r)
       };
 
-      case "top": return {
+      case tourStep.position.TOP: return {
         left: Math.round(cx - (tipLayout.width / 2)),
         marginBottom: tipMargin,
         top: Math.round(cy - r - tipLayout.height)
       };
 
-      case "left": return {
+      case tourStep.position.LEFT: return {
         left: Math.round(cx - r - tipLayout.width),
         marginRight: tipMargin,
         top: Math.round(cy - (tipLayout.height / 2))
       };
 
-      case "right": return {
+      case tourStep.position.RIGHT: return {
         left: Math.round(cx + r),
         marginLeft: tipMargin,
         top: Math.round(cy - (tipLayout.height / 2))

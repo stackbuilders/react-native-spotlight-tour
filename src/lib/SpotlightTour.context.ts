@@ -1,16 +1,27 @@
 import { createContext, useContext } from "react";
 import { LayoutRectangle } from "react-native";
 
+export enum AlignTo{
+  SPOT = "spot",
+  SCREEN = "screen",
+}
+
+enum Position {
+  TOP = "top",
+  LEFT = "left",
+  BOTTOM = "bottom",
+  RIGHT = "right",
+}
+
 export type RenderProps = Pick<Tour, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;
   isLast: boolean;
 };
-
 export interface TourStep {
-  alignTo?: "spot" | "screen";
+  alignTo?: AlignTo;
   render(props: RenderProps): React.ReactNode;
-  position: "top" | "left" | "bottom" | "right";
+  position: Position;
 }
 
 export interface Tour {

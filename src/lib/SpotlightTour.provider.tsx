@@ -2,19 +2,19 @@ import React, { useCallback, useImperativeHandle, useState } from "react";
 import { LayoutRectangle } from "react-native";
 import { rgbaArray } from "react-native-svg";
 
-import { Tour, TourContext, TourStep } from "./SpotlightTour.context";
+import { SpotlightTour, SpotlightTourContext, TourStep } from "./SpotlightTour.context";
 import { TourOverlay } from "./tour-overlay/TourOverlay.component";
 
-type ChildFn = (value: Tour) => React.ReactNode;
+type ChildFn = (value: SpotlightTour) => React.ReactNode;
 
-interface TourProviderProps {
+interface SpotlightTourProviderProps {
   children: React.ReactNode | ChildFn;
   overlayColor?: string | number | rgbaArray;
   overlayOpacity?: number | string;
   steps: TourStep[];
 }
 
-export const TourProvider = React.forwardRef<Tour, TourProviderProps>((props, ref) => {
+export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const { children, overlayColor, overlayOpacity, steps } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -50,7 +50,7 @@ export const TourProvider = React.forwardRef<Tour, TourProviderProps>((props, re
     }
   }, [current]);
 
-  const tour: Tour = {
+  const tour: SpotlightTour = {
     changeSpot,
     current,
     goTo,
@@ -65,14 +65,14 @@ export const TourProvider = React.forwardRef<Tour, TourProviderProps>((props, re
   useImperativeHandle(ref, () => tour);
 
   return (
-    <TourContext.Provider value={tour}>
+    <SpotlightTourContext.Provider value={tour}>
       {isChildrenFunction(children)
-        ? <TourContext.Consumer>{children}</TourContext.Consumer>
+        ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
         : children
       }
 
       <TourOverlay color={overlayColor} opacity={overlayOpacity} tour={tour} />
-    </TourContext.Provider>
+    </SpotlightTourContext.Provider>
   );
 });
 

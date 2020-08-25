@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { LayoutRectangle } from "react-native";
+import { LayoutRectangle, Omit } from "react-native";
 
 export enum Align {
   SCREEN = "screen",
@@ -13,18 +13,19 @@ export enum Position {
   TOP = "top"
 }
 
-export type RenderProps = Pick<Tour, "next" | "previous" | "stop"> & {
+export type RenderProps = Pick<SpotlightTour, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;
   isLast: boolean;
 };
+
 export interface TourStep {
   alignTo?: Align;
   render(props: RenderProps): React.ReactNode;
   position: Position;
 }
 
-export interface Tour {
+export interface SpotlightTour {
   changeSpot(spot: LayoutRectangle): void;
   current?: number;
   goTo(index: number): void;
@@ -36,7 +37,7 @@ export interface Tour {
   stop(): void;
 }
 
-export const TourContext = createContext<Tour>({
+export const SpotlightTourContext = createContext<SpotlightTour>({
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,
@@ -46,6 +47,15 @@ export const TourContext = createContext<Tour>({
   stop: () => undefined
 });
 
-export function useTour(): Tour {
-  return useContext(TourContext);
+export function useSpotlightTour(): Omit<SpotlightTour, "changeSpot" | "spot" | "steps"> {
+  const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
+
+  return {
+    current,
+    goTo,
+    next,
+    previous,
+    start,
+    stop
+  };
 }

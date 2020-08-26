@@ -1,6 +1,13 @@
 ### DEPENDENCIES ###
 node_modules/
 yarn-error.log
+package-lock.json
 
 ### GENERATED ###
 dist/
+
+### TEST ###
+coverage/
+
+### IDE's ###
+.idea/

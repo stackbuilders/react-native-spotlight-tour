@@ -11,14 +11,14 @@ import {
 import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, Position, Tour } from "../SpotlightTour.context";
+import { Align, Position, SpotlightTour } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
 interface TourOverlayProps {
   color?: string | number | rgbaArray;
   opacity?: number | string;
-  tour: Tour;
+  tour: SpotlightTour;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);

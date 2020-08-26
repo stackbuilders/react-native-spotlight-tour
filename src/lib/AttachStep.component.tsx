@@ -1,7 +1,7 @@
-import React, { ClassAttributes, isValidElement, useEffect, useRef } from "react";
+import React, { ClassAttributes, isValidElement, useContext, useEffect, useRef } from "react";
 import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
 
-import { useTour } from "./SpotlightTour.context";
+import { SpotlightTourContext } from "./SpotlightTour.context";
 
 interface AttachStepProps {
   index: number;
@@ -10,7 +10,7 @@ interface AttachStepProps {
 }
 
 export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, index, style }) => {
-  const { current, changeSpot, spot } = useTour();
+  const { current, changeSpot, spot } = useContext(SpotlightTourContext);
 
   const childRef = useRef<View>(null);
 

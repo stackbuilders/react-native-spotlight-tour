@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -29,20 +29,25 @@ import {
   Position,
   SpotlightTourProvider,
   TourStep,
-  useSpotlightTour
+  useSpotlightTour,
 } from 'react-native-spotlight-tour';
 
 const App = () => {
-
   const SpotlightTour = useSpotlightTour();
   const tourRef = useRef<SpotlightTour>(null);
 
-  function getTourSteps (): TourStep[] {
-    return [{
-      alignTo: Align.SCREEN,
-      position: Position.BOTTOM,
-      render: props => <View {...props} ><span>Step 1 example</span></View>
-    }];
+  function getTourSteps(): TourStep[] {
+    return [
+      {
+        alignTo: Align.SCREEN,
+        position: Position.BOTTOM,
+        render: (props) => (
+          <View {...props}>
+            <span>Step 1 example</span>
+          </View>
+        ),
+      },
+    ];
   }
 
   return (
@@ -59,7 +64,6 @@ const App = () => {
             steps={getTourSteps()}
             overlayColor={'gray'}
             overlayOpacity={0.36}>
-
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Step One</Text>

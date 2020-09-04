@@ -2,6 +2,8 @@
 node_modules/
 yarn-error.log
 package-lock.json
+.yarn
+.yarnrc
 
 ### GENERATED ###
 dist/

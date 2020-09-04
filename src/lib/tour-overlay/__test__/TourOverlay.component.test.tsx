@@ -12,7 +12,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-const createFakeComponent = (props: RenderProps): React.ReactNode => {
+const customTourComponent = (props: RenderProps): React.ReactNode => {
   expect(props.current).toEqual(0);
   expect(props.isFirst).toBeTruthy();
   expect(props.isLast).toBeFalsy();
@@ -80,11 +80,11 @@ describe("Tour Overlay component", () => {
     return {
       alignTo: Align.SCREEN,
       position,
-      render: createFakeComponent
+      render: customTourComponent
     };
   };
 
-  it("should render the component and fire next/prev spot events", () => {
+  it("should render the tour component and fire next/prev tour steps", () => {
     const colorOverlay = "blue";
     const opacityOverlay = 0.5;
     const currentSpot = 0;

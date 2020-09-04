@@ -147,7 +147,7 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
           />
         </Svg>
 
-        <TipView style={[tipStyle, { opacity: tipOpacity }]} onLayout={measureTip}>
+        <TipView style={[tipStyle, { opacity: tipOpacity }]} onLayout={measureTip} testID="tour.overlay.component.tipView">
           {tourStep.render({
             current,
             isFirst: current === 0,

@@ -40,6 +40,9 @@
     "modulePaths": [
       "<rootDir>"
     ],
+    "setupFiles": [
+      "<rootDir>/setup.ts"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native))"
     ]
@@ -54,7 +57,6 @@
     "@types/jest": "^26.0.10",
     "@types/react-native": "^0.63.4",
     "@types/styled-components": "^5.1.2",
-    "husky": "^4.2.5",
     "jest": "^26.4.2",
     "react": ">=16.8.0",
     "react-native": ">=0.50.0",
@@ -70,11 +72,5 @@
     "react": ">=16.8.0",
     "react-native": ">=0.50.0",
     "react-native-svg": ">=12.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run test",
-      "pre-push": "yarn run test"
-    }
   }
 }

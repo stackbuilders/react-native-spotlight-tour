@@ -1,5 +1,5 @@
 import "@testing-library/jest-native/extend-expect";
-import { act, cleanup, fireEvent, render } from "@testing-library/react-native";
+import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { Button, Text, View } from "react-native";
 
@@ -54,6 +54,7 @@ const ComponentElement = React.forwardRef((): React.ReactElement => {
         <Button testID="button.fake.component.third.item" onPress={fakeAction} title="Test button" />
       </AttachStep>
       <Button testID="button.tour.component.start" title="start tour" onPress={parentRef.start} />
+      <Button testID="button.tour.component.stop" title="stop tour" onPress={parentRef.stop} />
     </View>
   );
 });
@@ -101,7 +102,7 @@ const getComponentOverTour = () => {
   );
 };
 
-test("It should test the spotlight library behavior", () => {
+test("It should test the spotlight library behavior", async () => {
     const instanceMethods = {
       measureInWindow: (callback: any): void => {
         const x = 10;
@@ -118,10 +119,18 @@ test("It should test the spotlight library behavior", () => {
 
     });
 
-  const { getByTestId } = render(getComponentOverTour());
+  const { getByTestId, queryByTestId } = render(getComponentOverTour());
   const startTourButton = getByTestId("button.tour.component.start");
+  const stopTourButton = getByTestId("button.tour.component.stop");
+  const overlayViewComponent = queryByTestId("tour.overlay.component.overlayView");
+
+  expect(overlayViewComponent).toBeNull();
 
   fireEvent.press(startTourButton);
+
+  const mountedOverlayComponent  = await waitFor(() => getByTestId("tour.overlay.component.overlayView"));
+
+  expect(mountedOverlayComponent).toBeTruthy();
 
   const nextTourButton = getByTestId("spot.button.next");
   const tourOverlayComponent = getByTestId("tour.overlay.component.tipView");
@@ -193,7 +202,7 @@ test("It should test the spotlight library behavior", () => {
             * cy = spot.y + (spot.height / 2) = 10 + (50 / 2) = 35
             * r = (Math.max(spot.width, spot.height) / 2) * 1.15 = (Math.max(100, 50) / 2) * 1.15 = 57.49999999999999
             * tipLayout.height = 50
-        so, top = Math.round(35 - 57.49999999999999^ - 50) = 72
+        so, top = Math.round(35 - 57.49999999999999^ - 50) = -72
   */
   expect(tourOverlayComponent).toHaveStyle({
     left: 10,
@@ -201,4 +210,9 @@ test("It should test the spotlight library behavior", () => {
     position: "absolute",
     top: -72
   });
+
+  fireEvent.press(stopTourButton);
+
+  const overlayViewComponent1 = queryByTestId("tour.overlay.component.overlayView");
+  expect(overlayViewComponent1).toBeNull();
 });

@@ -124,7 +124,7 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
       transparent={true}
       visible={true}
     >
-      <OverlayView>
+      <OverlayView testID="tour.overlay.component.overlayView">
         <Svg height="100%" width="100%" viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}>
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">

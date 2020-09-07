@@ -13,7 +13,7 @@ export enum Position {
   TOP = "top"
 }
 
-export type RenderProps = Pick<SpotlightTour, "next" | "previous" | "stop"> & {
+export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;
   isLast: boolean;
@@ -25,7 +25,7 @@ export interface TourStep {
   position: Position;
 }
 
-export interface SpotlightTour {
+export interface SpotlightTourCtx {
   changeSpot(spot: LayoutRectangle): void;
   current?: number;
   goTo(index: number): void;
@@ -37,7 +37,7 @@ export interface SpotlightTour {
   stop(): void;
 }
 
-export const SpotlightTourContext = createContext<SpotlightTour>({
+export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,
@@ -47,7 +47,9 @@ export const SpotlightTourContext = createContext<SpotlightTour>({
   stop: () => undefined
 });
 
-export function useSpotlightTour(): Omit<SpotlightTour, "changeSpot" | "spot" | "steps"> {
+export type SpotlightTour = Omit<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
+
+export function useSpotlightTour(): SpotlightTour {
   const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
 
   return {

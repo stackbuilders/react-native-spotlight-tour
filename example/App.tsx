@@ -6,92 +6,118 @@
  * @flow strict-local
  */
 
-import React, {useRef} from 'react';
+import React from "react";
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
-} from 'react-native';
+  Button,
+} from "react-native";
 
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from "react-native/Libraries/NewAppScreen";
 
 import {
   Align,
+  AttachStep,
   Position,
   SpotlightTourProvider,
   TourStep,
   useSpotlightTour,
-} from 'react-native-spotlight-tour';
+} from "react-native-spotlight-tour";
 
-const App = () => {
-  const SpotlightTour = useSpotlightTour();
-  const tourRef = useRef<SpotlightTour>(null);
+const App=() => {
+  const SpotlightTour=useSpotlightTour();
 
-  function getTourSteps(): TourStep[] {
-    return [
+  const getTourSteps: TourStep[]=
+    [
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: (props) => (
-          <View {...props}>
-            <span>Step 1 example</span>
-          </View>
-        ),
+        render: (props) => {
+          const {previous, next}=useSpotlightTour();
+          return (
+            <View style={styles.box}>
+              <Text style={styles.title}>This is the Introduction</Text>
+              <View style={styles.fixToText}>
+                <Button title="Previous" onPress={previous}/>
+                <Button title="Next" onPress={next}/>
+              </View>
+            </View>
+          );
+        },
+      },
+      {
+        alignTo: Align.SPOT,
+        position: Position.LEFT,
+        render: (props) => {
+          const {previous, next}=useSpotlightTour();
+          return (
+            <View style={{backgroundColor: Colors.red}}>
+              <Text style={styles.title}>This is See your changes</Text>
+              <View style={styles.fixToText}>
+                <Button title="Previous" onPress={previous}/>
+                <Button title="Next" onPress={next}/>
+              </View>
+            </View>
+          );
+        },
       },
     ];
-  }
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
 
           <SpotlightTourProvider
-            ref={tourRef}
-            steps={getTourSteps()}
-            overlayColor={'gray'}
-            overlayOpacity={0.36}>
-            <View style={styles.body}>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Step One</Text>
-                <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.tsx</Text> to change
-                  this screen and then come back to see your edits.
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>See Your Changes</Text>
-                <Text style={styles.sectionDescription}>
-                  <ReloadInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Debug</Text>
-                <Text style={styles.sectionDescription}>
-                  <DebugInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Learn More</Text>
-                <Text style={styles.sectionDescription}>
-                  Read the docs to discover what to do next:
-                </Text>
-              </View>
-              <LearnMoreLinks />
-            </View>
+            steps={getTourSteps}
+            overlayColor={"gray"}
+            overlayOpacity={0.36}
+          >
+            {({start}) => (
+              <>
+                <Button title="Start" onPress={start}/>
+                <View style={styles.body}>
+                  <View style={styles.sectionContainer}>
+                    <AttachStep index={0}>
+                      <Text style={styles.sectionTitle}>Introduction</Text>
+                    </AttachStep>
+                    <Text style={styles.sectionDescription}>
+                      Edit <Text style={styles.highlight}>App.tsx</Text> to change
+                      this screen and then come back to see your edits.
+                    </Text>
+                  </View>
+                  <View style={styles.sectionContainer}>
+                    <AttachStep index={1}>
+                      <Text style={styles.sectionTitle}>See Your Changes</Text>
+                    </AttachStep>
+                    <Text style={styles.sectionDescription}>
+                      <ReloadInstructions/>
+                    </Text>
+                  </View>
+                  <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Debug</Text>
+                    <Text style={styles.sectionDescription}>
+                      <DebugInstructions/>
+                    </Text>
+                  </View>
+                  <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Learn More</Text>
+                    <Text style={styles.sectionDescription}>
+                      Read the docs to discover what to do next:
+                    </Text>
+                  </View>
+                </View>
+              </>
+            )}
           </SpotlightTourProvider>
         </ScrollView>
       </SafeAreaView>
@@ -99,12 +125,12 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles=StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
   },
   engine: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
   },
   body: {
@@ -116,25 +142,37 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.black,
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
     color: Colors.dark,
   },
   highlight: {
-    fontWeight: '700',
+    fontWeight: "700",
   },
   footer: {
     color: Colors.dark,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
     padding: 4,
     paddingRight: 12,
-    textAlign: 'right',
+    textAlign: "right",
+  },
+  title: {
+    textAlign: "center",
+    marginVertical: 8,
+
+  },
+  fixToText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  box: {
+    backgroundColor: Colors.red,
   },
 });
 

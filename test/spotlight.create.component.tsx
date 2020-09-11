@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Omit, Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 
 import {
   Align,
@@ -16,10 +16,7 @@ import {
 
 const ComponentElement = React.forwardRef(
   (): React.ReactElement => {
-    const parentRef: Omit<
-      SpotlightTour,
-      "changeSpot" | "spot" | "steps"
-    > = useSpotlightTour();
+    const parentRef: SpotlightTour = useSpotlightTour();
 
     const fakeAction = () => undefined;
 

@@ -2,7 +2,7 @@ import React, { useCallback, useImperativeHandle, useState } from "react";
 import { LayoutRectangle } from "react-native";
 import { rgbaArray } from "react-native-svg";
 
-import { SpotlightTour, SpotlightTourContext, TourStep } from "./SpotlightTour.context";
+import { SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep } from "./SpotlightTour.context";
 import { TourOverlay } from "./tour-overlay/TourOverlay.component";
 
 type ChildFn = (value: SpotlightTour) => React.ReactNode;
@@ -50,7 +50,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     }
   }, [current]);
 
-  const tour: SpotlightTour = {
+  const tour: SpotlightTourCtx = {
     changeSpot,
     current,
     goTo,
@@ -62,7 +62,14 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     stop
   };
 
-  useImperativeHandle(ref, () => tour);
+  useImperativeHandle(ref, () => ({
+    current,
+    goTo,
+    next,
+    previous,
+    start,
+    stop
+  }));
 
   return (
     <SpotlightTourContext.Provider value={tour}>

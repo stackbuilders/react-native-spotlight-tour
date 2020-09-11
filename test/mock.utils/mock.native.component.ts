@@ -1,27 +1,35 @@
 import React from "react";
+import {
+  Animated,
+  MeasureInWindowOnSuccessCallback,
+  NativeMethods
+} from "react-native";
 
-type NativeMethodsObj  = {
-  [key: string]: (...args: any) => any | jest.Mock;
-};
+import { MeasureOnSuccessCallbackParams } from "../../setup";
 
-const mockNativeComponent = (modulePath: string, mockMethods: NativeMethodsObj) => {
-  const RealComponent = jest.requireActual(modulePath);
-
+export function mockNativeComponent(
+  modulePath: string,
+  mockMethods: NativeMethods
+) {
+  const OriginalComponent = jest.requireActual(modulePath);
   const SuperClass =
-    typeof RealComponent === "function" ? RealComponent : React.Component;
+    typeof OriginalComponent === "function"
+      ? OriginalComponent
+      : React.Component;
 
   const Component = class extends SuperClass {
-    static displayName = "Component";
+    static displayName: string = "Component";
 
     render() {
-      const name =
-        RealComponent.displayName ||
-        RealComponent.name ||
-        (RealComponent.render // handle React.forwardRef
-          ? RealComponent.render.displayName || RealComponent.render.name
+      const name: string =
+        OriginalComponent.displayName ||
+        OriginalComponent.name ||
+        (OriginalComponent.render
+          ? OriginalComponent.render.displayName ||
+            OriginalComponent.render.name
           : "Unknown");
 
-      const props = Object.assign({}, RealComponent.defaultProps);
+      const props = Object.assign({}, OriginalComponent.defaultProps);
 
       if (this.props) {
         Object.keys(this.props).forEach(prop => {
@@ -39,14 +47,36 @@ const mockNativeComponent = (modulePath: string, mockMethods: NativeMethodsObj) 
     }
   };
 
-  Object.keys(RealComponent).forEach(classStatic => {
-    Component[classStatic] = RealComponent[classStatic];
+  Object.keys(OriginalComponent).forEach(classStatic => {
+    Component[classStatic] = OriginalComponent[classStatic];
   });
 
   Object.assign(Component.prototype, mockMethods);
 
   return Component;
+}
 
+export const emptyNativeMethods: NativeMethods = {
+  blur: jest.fn(),
+  focus: jest.fn(),
+  measure: jest.fn(),
+  measureInWindow: jest.fn(),
+  measureLayout: jest.fn(),
+  refs: {},
+  setNativeProps: jest.fn()
 };
 
-export default mockNativeComponent;
+export function createMeasureMethod(
+  mockMeasureData: MeasureOnSuccessCallbackParams
+): (callback: MeasureInWindowOnSuccessCallback) => void {
+  return (callback: MeasureInWindowOnSuccessCallback) => {
+    const { x, y, width, height } = mockMeasureData;
+    callback(x, y, width, height);
+  };
+}
+
+export const emptyAnimationMethods: Animated.CompositeAnimation = {
+  reset: () => undefined,
+  start: () => undefined,
+  stop: () => undefined
+};

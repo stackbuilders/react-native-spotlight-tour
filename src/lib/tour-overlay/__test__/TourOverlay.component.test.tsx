@@ -18,14 +18,14 @@ const customTourComponent = (props: RenderProps): React.ReactNode => {
   expect(props.isLast).toBeFalsy();
 
   return (
-    <View testID="container.fake.component" style={{
+    <View accessibilityLabel="Container fake component" style={{
       alignItems: "center",
       flex: 1,
       justifyContent: "center"
     }}>
       <Text>Hello, world!</Text>
-      <Button testID="spot.button.next" title="next spot" onPress={props.next} />
-      <Button testID="spot.button.previous" title="previous spot" onPress={props.previous} />
+      <Button accessibilityLabel="Next spot button" title="next spot" onPress={props.next} />
+      <Button accessibilityLabel="Previous spot button" title="previous spot" onPress={props.previous} />
     </View>
   );
 };
@@ -33,7 +33,7 @@ const customTourComponent = (props: RenderProps): React.ReactNode => {
 const getComponentRender = (
   colorOverlay: string,
   opacityOverlay: number,
-  { changeSpot, current, goTo, next, previous, start, steps, stop, spot }: {[key: string]: any}
+  { changeSpot, current, goTo, next, previous, start, steps, stop, spot }: SpotlightTour
   ) => {
   const tour: SpotlightTour = {
     changeSpot,
@@ -50,11 +50,61 @@ const getComponentRender = (
   return render(<TourOverlay color={colorOverlay} opacity={opacityOverlay} tour={tour} />);
 };
 
+const getSpotLayoutRectangle = ({ x, y, width, height }: LayoutRectangle): LayoutRectangle => {
+  return { x, y, width, height };
+};
+
+const getSpotStep = (position: Position): TourStep => {
+  return {
+    alignTo: Align.SCREEN,
+    position,
+    render: customTourComponent
+  };
+};
+
+const changeSpotCallback = jest.fn(() => undefined);
+const goToCallback = jest.fn(() => undefined);
+const nextCallback = jest.fn(() => undefined);
+
+const previousCallback = jest.fn(() => undefined);
+const startCallback = jest.fn(() => undefined);
+const stopCallback = jest.fn(() => undefined);
+
+const renderTourComponent = () => {
+  const colorOverlay: string = "blue";
+  const opacityOverlay: number = 0.5;
+  const currentSpot: number = 0;
+  const x: number = 0;
+  const y: number = 0;
+  const width: number = 100;
+  const height: number = 200;
+  const spotItem: LayoutRectangle = getSpotLayoutRectangle({ x, y, width, height });
+  const spotStep: TourStep = getSpotStep(Position.BOTTOM);
+  const secondSpotStep: TourStep = getSpotStep(Position.TOP);
+  const spotSteps: TourStep[] = [spotStep, secondSpotStep];
+  const renderer = getComponentRender(
+    colorOverlay,
+    opacityOverlay,
+    {
+      changeSpot: changeSpotCallback,
+      current: currentSpot,
+      goTo: goToCallback,
+      next: nextCallback,
+      previous: previousCallback,
+      spot: spotItem,
+      start: startCallback,
+      steps: spotSteps,
+      stop: stopCallback
+    });
+
+  return renderer;
+};
+
 describe("Tour Overlay component", () => {
-  it("should render null (without spot)", () => {
-    const colorOverlay = "blue";
-    const opacityOverlay = 0.5;
-    const currentSpot = 0;
+  it("render null because the spot doesn't exist)", () => {
+    const colorOverlay: string = "blue";
+    const opacityOverlay: number = 0.5;
+    const currentSpot: number = 0;
     const spotSteps: TourStep[] = [];
     const { toJSON } = getComponentRender(colorOverlay, opacityOverlay,
       {
@@ -72,74 +122,35 @@ describe("Tour Overlay component", () => {
     expect(toJSON()).toEqual(null);
   });
 
-  const getSpotLayoutRectangle = ({ x, y, width, height }: LayoutRectangle): LayoutRectangle => {
-    return { x, y, width, height };
-  };
+  describe("when render the tour component and fire next/prev tour steps", () => {
+    it("doesn't call any callback", async () => {
+      const { getByLabelText } = await renderTourComponent();
+      expect(getByLabelText("Container fake component")).toBeTruthy();
+      expect(getByLabelText("Container fake component")).toBeDefined();
+      expect(changeSpotCallback).toBeCalledTimes(0);
+      expect(goToCallback).toBeCalledTimes(0);
+      expect(nextCallback).toBeCalledTimes(0);
+      expect(previousCallback).toBeCalledTimes(0);
+      expect(startCallback).toBeCalledTimes(0);
+      expect(stopCallback).toBeCalledTimes(0);
+    });
 
-  const getSpotStep = (position: Position): TourStep => {
-    return {
-      alignTo: Align.SCREEN,
-      position,
-      render: customTourComponent
-    };
-  };
+    it("goes to the first spot and call once the next action button", async () => {
+      const { getByLabelText } = await renderTourComponent();
+      fireEvent.press(getByLabelText("Next spot button"));
 
-  it("should render the tour component and fire next/prev tour steps", () => {
-    const colorOverlay = "blue";
-    const opacityOverlay = 0.5;
-    const currentSpot = 0;
-    const x = 0;
-    const y = 0;
-    const width = 100;
-    const height = 200;
-    const spotItem: LayoutRectangle = getSpotLayoutRectangle({ x, y, width, height });
-    const spotStep: TourStep = getSpotStep(Position.BOTTOM);
-    const secondSpotStep: TourStep = getSpotStep(Position.TOP);
-    const spotSteps: TourStep[] = [spotStep, secondSpotStep];
-    const changeSpotCallback = jest.fn(() => undefined);
-    const goToCallback = jest.fn(() => undefined);
-    const nextCallback = jest.fn(() => undefined);
+      expect(nextCallback).toBeCalledTimes(1);
+      expect(nextCallback).toBeCalledWith();
+      expect(previousCallback).toBeCalledTimes(0);
+    });
 
-    const previousCallback = jest.fn(() => undefined);
-    const startCallback = jest.fn(() => undefined);
-    const stopCallback = jest.fn(() => undefined);
-    const { getByTestId } = getComponentRender(
-      colorOverlay,
-      opacityOverlay,
-      {
-        changeSpot: changeSpotCallback,
-        current: currentSpot,
-        goTo: goToCallback,
-        next: nextCallback,
-        previous: previousCallback,
-        spot: spotItem,
-        start: startCallback,
-        steps: spotSteps,
-        stop: stopCallback
-      });
-
-    const childrenSpot = getByTestId("container.fake.component");
-    const previousSpotButton = getByTestId("spot.button.previous");
-    const nextSpotButton = getByTestId("spot.button.next");
-    expect(childrenSpot).toBeTruthy();
-    expect(childrenSpot).toBeDefined();
-    expect(changeSpotCallback).toBeCalledTimes(0);
-    expect(goToCallback).toBeCalledTimes(0);
-    expect(nextCallback).toBeCalledTimes(0);
-    expect(previousCallback).toBeCalledTimes(0);
-    expect(startCallback).toBeCalledTimes(0);
-    expect(stopCallback).toBeCalledTimes(0);
-
-    fireEvent.press(nextSpotButton);
-
-    expect(nextCallback).toBeCalledTimes(1);
-    expect(nextCallback).toBeCalledWith();
-    expect(previousCallback).toBeCalledTimes(0);
-
-    fireEvent.press(previousSpotButton);
-    expect(nextCallback).toBeCalledTimes(1);
-    expect(previousCallback).toBeCalledWith();
-    expect(previousCallback).toBeCalledTimes(1);
-
+    it("goes the first spot, return to the start position and call once the previous action button", async () => {
+      const { getByLabelText } = await renderTourComponent();
+      fireEvent.press(getByLabelText("Next spot button"));
+      fireEvent.press(getByLabelText("Previous spot button"));
+      expect(nextCallback).toBeCalledTimes(1);
+      expect(previousCallback).toBeCalledWith();
+      expect(previousCallback).toBeCalledTimes(1);
+    });
   });
 });

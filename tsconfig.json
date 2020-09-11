@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "jsx": "react",
-    "lib": ["ES6"],
+    "lib": ["ES6", "es2019"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -40,6 +40,7 @@
   "exclude": [
     "./dist/**/*",
     "./node_modules/**/*",
-    "test/**"
+    "./test/**/*",
+    "**/__test__/**"
   ]
 }

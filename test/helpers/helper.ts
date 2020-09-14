@@ -17,13 +17,13 @@ export function checkValidIntersection(
   rectangle: Rectangle,
   circle: Circle
 ): boolean {
-  const circleDistanceX = Math.abs(circle.x - rectangle.x);
-  const circleDistanceY = Math.abs(circle.y - rectangle.y);
-
   const rectangleCentroid = {
     x: rectangle.x + rectangle.width / 2,
     y: rectangle.y + rectangle.height / 2
   };
+
+  const circleDistanceX = Math.abs(circle.x - rectangleCentroid.x);
+  const circleDistanceY = Math.abs(circle.y - rectangleCentroid.y);
 
   const circleAndRectangleCentroidDistance = Math.sqrt(
     Math.pow(rectangleCentroid.y - circle.y, 2) +
@@ -43,14 +43,15 @@ export function checkValidIntersection(
     return false;
   }
 
-  const cornerDistance =
+  const cornerDistance = Math.sqrt(
     Math.pow(circleDistanceX - rectangle.width / 2, 2) +
-    Math.pow(circleDistanceY - rectangle.height / 2, 2);
+    Math.pow(circleDistanceY - rectangle.height / 2, 2));
 
-  const cornerDistanceAreaIsSmallerThanCircleArea = cornerDistance <= Math.pow(circle.r, 2);
-  const circleRadiusAndVirtualRectangleRadiusRelation = circle.r / Math.max(rectangle.x / 2, rectangle.x / 2) >= 1;
+  const squaredCornerDistanceIsSmallerThanSquaredCircleRadius = Math.pow(cornerDistance, 2) <= Math.pow(circle.r, 2);
+  const circleRadiusAndVirtualRectangleRadiusRelation = circle.r
+    / Math.max(rectangle.width / 2, rectangle.height / 2) >= 1;
 
-  return (cornerDistanceAreaIsSmallerThanCircleArea && circleRadiusAndVirtualRectangleRadiusRelation);
+  return (squaredCornerDistanceIsSmallerThanSquaredCircleRadius && circleRadiusAndVirtualRectangleRadiusRelation);
 }
 
 type ChildProps = { [key: string]: any };

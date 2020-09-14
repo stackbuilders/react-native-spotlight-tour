@@ -9,10 +9,7 @@ import {
 
 import { buttonMockMeasureData, viewMockMeasureData } from "../setup";
 
-import {
-  checkValidIntersection,
-  findPropsOnTestInstance
-} from "./helpers/helper";
+import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helper";
 import { getComponentOverTour } from "./spotlight.create.component";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
@@ -73,7 +70,6 @@ describe("Spotlight tour", () => {
       it("the layout will be overlaid by the SVG circle", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
-        fireEvent.press(getByLabelText("Next spot button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
           nativeEvent: {
@@ -111,7 +107,6 @@ describe("Spotlight tour", () => {
       it("add the tip view on the right position", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
-        fireEvent.press(getByLabelText("Next spot button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
           nativeEvent: {
@@ -133,12 +128,10 @@ describe("Spotlight tour", () => {
       });
     });
 
-    describe("when going to the first spot", () => {
+    describe("when going to the second spot", () => {
       it("the layout will be overlaid by the SVG circle", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
-
-        fireEvent.press(getByLabelText("Next spot button"));
         fireEvent.press(getByLabelText("Next spot button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -177,8 +170,6 @@ describe("Spotlight tour", () => {
       it("add the tip view on the right position", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
-
-        fireEvent.press(getByLabelText("Next spot button"));
         fireEvent.press(getByLabelText("Next spot button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {

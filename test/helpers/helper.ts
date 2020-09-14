@@ -55,9 +55,7 @@ export function checkValidIntersection(
 
 type ChildProps = { [key: string]: any };
 
-function isReactTestInstance(
-  child: ReactTestInstance | string
-): child is ReactTestInstance {
+function isReactTestInstance( child: ReactTestInstance | string ): child is ReactTestInstance {
   return typeof child !== "string";
 }
 
@@ -66,29 +64,26 @@ export function findPropsOnTestInstance(
   componentName: string,
   depthSearch: number = 20
 ): ChildProps {
-  const findInside = (
-    testInstanceChildren: ReactTestInstance,
+  const findInsideChild = (
+    childReactTestInstance: ReactTestInstance,
     depth: number = depthSearch
   ): any => {
-    if (!isReactTestInstance(testInstanceChildren) || depth <= 0) {
+    if (!isReactTestInstance(childReactTestInstance) || depth <= 0) {
       return [Object()];
     }
 
-    if (testInstanceChildren.type === componentName) {
-      return testInstanceChildren.props;
+    if (childReactTestInstance.type === componentName) {
+      return childReactTestInstance.props;
     }
 
-    const child: Array<ReactTestInstance | string> =
-      testInstanceChildren.children;
+    const children: Array<ReactTestInstance | string> = childReactTestInstance.children;
 
-    return Array.isArray(child)
-      ? child.map((nestedChild: ReactTestInstance | string) =>
+    return children.map((nestedChild: ReactTestInstance | string) =>
           isReactTestInstance(nestedChild)
-            ? findInside(nestedChild, depth - 1)
+            ? findInsideChild(nestedChild, depth - 1)
             : Object()
-        )
-      : findInside(child);
+        );
   };
 
-  return findInside(reactTestInstance, depthSearch).flat(Infinity)[0];
+  return findInsideChild(reactTestInstance, depthSearch).flat(Infinity)[0];
 }

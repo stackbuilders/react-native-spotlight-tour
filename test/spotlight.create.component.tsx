@@ -14,9 +14,9 @@ import {
   useSpotlightTour
 } from "../src/lib/SpotlightTour.context";
 
-const ComponentElement = React.forwardRef(
+const TestComponent = React.forwardRef(
   (): React.ReactElement => {
-    const parentRef: SpotlightTour = useSpotlightTour();
+    const libraryContext: SpotlightTour = useSpotlightTour();
 
     const fakeAction = () => undefined;
 
@@ -28,10 +28,10 @@ const ComponentElement = React.forwardRef(
           justifyContent: "center"
         }}
       >
-        <AttachStep index={1}>
+        <AttachStep index={0}>
           <View>Hello, world!</View>
         </AttachStep>
-        <AttachStep index={2}>
+        <AttachStep index={1}>
           <Button
             onPress={fakeAction}
             title="Test button"
@@ -40,27 +40,19 @@ const ComponentElement = React.forwardRef(
         <Button
           accessibilityLabel="Start tour button"
           title="start tour"
-          onPress={parentRef.start}
+          onPress={libraryContext.start}
         />
         <Button
           accessibilityLabel="Stop tour button"
           title="stop tour"
-          onPress={parentRef.stop}
+          onPress={libraryContext.stop}
         />
       </View>
     );
   }
 );
 
-const getAttachedComponent = () => {
-  return (
-    <AttachStep index={0}>
-      <ComponentElement />
-    </AttachStep>
-  );
-};
-
-const customTourComponent = (props: RenderProps): React.ReactNode => {
+const customTipTourComponent = (props: RenderProps): React.ReactNode => {
   return (
     <View
       style={{
@@ -88,19 +80,18 @@ const getSpotStep = (position: Position, alignTo: Align): TourStep => {
   return {
     alignTo,
     position,
-    render: customTourComponent
+    render: customTipTourComponent
   };
 };
 
 export const getComponentOverTour = () => {
   const spotStep: TourStep = getSpotStep(Position.BOTTOM, Align.SCREEN);
-  const secondSpotStep: TourStep = getSpotStep(Position.BOTTOM, Align.SCREEN);
-  const thirdSpotStep: TourStep = getSpotStep(Position.TOP, Align.SCREEN);
-  const spotSteps: TourStep[] = [spotStep, secondSpotStep, thirdSpotStep];
+  const secondSpotStep: TourStep = getSpotStep(Position.TOP, Align.SCREEN);
+  const spotSteps: TourStep[] = [spotStep, secondSpotStep];
 
   return (
     <SpotlightTourProvider steps={spotSteps}>
-      {getAttachedComponent()}
+      {<TestComponent />}
     </SpotlightTourProvider>
   );
 };

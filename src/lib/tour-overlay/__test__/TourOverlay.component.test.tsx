@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render } from "@testing-library/react-native";
 import React from "react";
 import { Button, LayoutRectangle, Text, View } from "react-native";
 
-import { Align, Position, RenderProps, SpotlightTour, TourStep } from "../../SpotlightTour.context";
+import { Align, Position, RenderProps, SpotlightTourCtx, TourStep } from "../../SpotlightTour.context";
 import { TourOverlay } from "../TourOverlay.component";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
@@ -33,9 +33,9 @@ const customTourComponent = (props: RenderProps): React.ReactNode => {
 const getComponentRender = (
   colorOverlay: string,
   opacityOverlay: number,
-  { changeSpot, current, goTo, next, previous, start, steps, stop, spot }: SpotlightTour
+  { changeSpot, current, goTo, next, previous, start, steps, stop, spot }: SpotlightTourCtx
   ) => {
-  const tour: SpotlightTour = {
+  const tour: SpotlightTourCtx = {
     changeSpot,
     current,
     goTo,

@@ -87,19 +87,16 @@ describe("Spotlight tour", () => {
           "RNSVGCircle"
         );
 
-        const layoutIsOverlayByCircle = checkValidIntersection(
-          {
+        const layoutIsOverlayByCircle = checkValidIntersection({
             height: viewMockMeasureData.height,
             width: viewMockMeasureData.width,
             x: viewMockMeasureData.x,
             y: viewMockMeasureData.y
-          },
-          {
+          }, {
             r: svgCircleProps?.r,
             x: svgCircleProps?.cx,
             y: svgCircleProps?.cy
-          }
-        );
+          });
 
         expect(layoutIsOverlayByCircle).toBeTruthy();
       });
@@ -150,19 +147,16 @@ describe("Spotlight tour", () => {
           "RNSVGCircle"
         );
 
-        const layoutIsOverlayByCircle = checkValidIntersection(
-          {
+        const layoutIsOverlayByCircle = checkValidIntersection({
             height: buttonMockMeasureData.height,
             width: buttonMockMeasureData.width,
             x: buttonMockMeasureData.x,
             y: buttonMockMeasureData.y
-          },
-          {
+          }, {
             r: svgCircleProps?.r,
             x: svgCircleProps?.cx,
             y: svgCircleProps?.cy
-          }
-        );
+          });
 
         expect(layoutIsOverlayByCircle).toBeTruthy();
       });

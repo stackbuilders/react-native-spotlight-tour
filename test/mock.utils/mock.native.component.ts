@@ -7,13 +7,9 @@ import {
 
 import { MeasureOnSuccessCallbackParams } from "../../setup";
 
-export function mockNativeComponent(
-  modulePath: string,
-  mockMethods: NativeMethods
-) {
+export function mockNativeComponent(modulePath: string, mockMethods: NativeMethods) {
   const OriginalComponent = jest.requireActual(modulePath);
-  const SuperClass =
-    typeof OriginalComponent === "function"
+  const SuperClass = typeof OriginalComponent === "function"
       ? OriginalComponent
       : React.Component;
 
@@ -39,11 +35,7 @@ export function mockNativeComponent(
         });
       }
 
-      return React.createElement(
-        name.replace(/^(RCT|RK)/, ""),
-        props,
-        this.props.children
-      );
+      return React.createElement(name.replace(/^(RCT|RK)/, ""), props, this.props.children);
     }
   };
 

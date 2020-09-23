@@ -26,18 +26,24 @@ The `SpotlightTourProvider` allows you to wrap the section of the app we want to
 
 | Prop | Description |
 | ------ | ------ |
-|`ref`| Defines a mutable object for the Tour. This object will be populated through the provider. It is optional.|
-|`steps`| Receives an array of `TourStep`. This array will have the steps for the tour application. [Here](#set-tour-steps) you can find more info about it.|
-|`overlayColor`| Defines a color for the overlay. The value could be a string, number or rgbaArray. This property is optional and the color `black` is defined by default. |
-|`overlayOpacity`| Defines the opacity of the overlay. The value could be a number or strieng. This property is optional and the value `0.45` is defined by default. |
+|ref| Defines a mutable object for the Tour. This object will be populated through the provider. It is optional.|
+|steps| Receives an array of `TourStep`. This array will have the steps for the tour application. [Here](#setting-tour-steps) you can find more info about it.|
+|overlayColor| Defines a color for the overlay. The value could be a string, number or rgbaArray. This property is optional and the color `black` is defined by default. |
+|overlayOpacity| Defines the opacity of the overlay. The value could be a number or strieng. This property is optional and the value `0.45` is defined by default. |
+
+Also, the library expose the following methods:
+
+|Method| Description |
+| ------ | ------ |
+|start| This method allows to start the tour. |
 
 
 The `AttachStep` helps to wrap a part of the code that the tour will circle and display the effect. It receives the following properties: index and disabled
 
 | Prop | Description |
 | ------ | ------ |
-| `index` | Receives a number. It defines de number of secuence wich the area should be circle. |
-| `disabled` | It is an optional prop and receives a boolean. It defines if the circled area should be displayed or not. The value `false` is defined by default. |
+| index | Receives a number. It defines de number of secuence wich the area should be circle. |
+| disabled | It is an optional prop and receives a boolean. It defines if the circled area should be displayed or not. The value `false` is defined by default. |
 
 
 Example:
@@ -50,25 +56,30 @@ import {
 
 ...
 return (
-    <SpotlightTourProvider
-      steps={myTourSteps}
-      overlayColor={'gray'}
+   <SpotlightTourProvider
+      steps={getTourSteps}
+      overlayColor={"gray"}
       overlayOpacity={0.36}
     >
-      <View>
-        <View>
-          <Text>This component is part of my app tour</Text>
-          <AttachStep index={0}>
-            <TouchableOpacity><Text>Say Hello</Text></TouchableOpacity>
-          <AttachStep>
-        </View>
-        ...
-      </View>
-    </SpotligthTourProvider>
-);
+      {({start}) => (
+        <>
+          <Button title="Start" onPress={start}/>
+          <View style={styles.body}>
+            <View style={styles.sectionContainer}>
+              <AttachStep index={0}>
+                <TitleText>Introduction</TitleText>
+              </AttachStep>
+              <Text style={styles.sectionDescription}>
+                This is an example using the spotlight-tour.
+              </Text>
+            </View>
+            ...
+          </View>
+      );
+    </SpotlightTourProvider>
 ```
 
-### Set Tour Steps
+### Setting Tour Steps
 
 The `TourStep` type has the following properties: `alignTo`, `position` and `render`. To set the `alignTo` and `position` properties you could use the following enums which are exported by the library:
 * `Align`: has `SCREEN` and `SPOT` values.
@@ -79,35 +90,36 @@ The `render` property receives a function that returns a component. Example:
 ```jsx
 import {
   Align,
+  Position,
   TourStep,
-  Position
+  useSpotlightTour
 } from "react-native-spotlight-tour";
 
-const myTourSteps: TourStep = [
-  {
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
-    render: () => (
-      <View>
-        <Text>Step 1</Text>
-      </View>
-    ),
-  },
-  {
-    alignTo: Align.SPOT,
-    position: Position.LEFT,
-    render: () => (
-      <View>
-        <Text>Step 2</Text>
-      </View>
-    ),
-  },
-];
+const getTourSteps: TourStep[]=
+    [
+      {
+        alignTo: Align.SCREEN,
+        position: Position.BOTTOM,
+        render: (props) => {
+          const {previous, next}=useSpotlightTour();
+          return (
+            <View style={styles.box}>
+              <Text style={styles.title}>Step 1</Text>
+              <View style={styles.fixToText}>
+                <Button title="Previous" onPress={previous}/>
+                <Button title="Next" onPress={next}/>
+              </View>
+            </View>
+          );
+        },
+      },
+      ...
+    ];
 
 ```
 
+You could see the complete code [here](example)
 
-## Advanced usage (WIP)
 
 ## Contributing
 

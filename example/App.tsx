@@ -13,7 +13,7 @@ import {
   ScrollView,
   View,
   Text,
-  Button,
+  Button, StyleProp, TextStyle,
 } from "react-native";
 
 import {
@@ -30,6 +30,8 @@ import {
   TourStep,
   useSpotlightTour,
 } from "react-native-spotlight-tour";
+
+import {TitleText} from "./App.styles";
 
 const App=() => {
   const SpotlightTour=useSpotlightTour();
@@ -88,7 +90,7 @@ const App=() => {
                 <View style={styles.body}>
                   <View style={styles.sectionContainer}>
                     <AttachStep index={0}>
-                      <Text style={styles.sectionTitle}>Introduction</Text>
+                      <TitleText>Introduction</TitleText>
                     </AttachStep>
                     <Text style={styles.sectionDescription}>
                       Edit <Text style={styles.highlight}>App.tsx</Text> to change
@@ -97,20 +99,20 @@ const App=() => {
                   </View>
                   <View style={styles.sectionContainer}>
                     <AttachStep index={1}>
-                      <Text style={styles.sectionTitle}>See Your Changes</Text>
+                      <TitleText>See Your Changes</TitleText>
                     </AttachStep>
                     <Text style={styles.sectionDescription}>
                       <ReloadInstructions/>
                     </Text>
                   </View>
                   <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Debug</Text>
+                    <TitleText>Debug</TitleText>
                     <Text style={styles.sectionDescription}>
                       <DebugInstructions/>
                     </Text>
                   </View>
                   <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Learn More</Text>
+                    <TitleText>Learn More</TitleText>
                     <Text style={styles.sectionDescription}>
                       Read the docs to discover what to do next:
                     </Text>
@@ -139,11 +141,6 @@ const styles=StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-    color: Colors.black,
   },
   sectionDescription: {
     marginTop: 8,

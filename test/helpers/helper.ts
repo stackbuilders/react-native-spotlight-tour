@@ -15,6 +15,13 @@ type Circle = {
 };
 
 export function checkValidIntersection(rectangle: Rectangle, circle: Circle): boolean {
+  /*
+   The explanation of the formulas used are available on next the document
+   https://docs.google.com/document/d/1rrfTB7NN4r1HItxiPni83TvL-up3OYXt0dgLOsO9Sg0/edit?usp=sharing
+  * */
+
+  // Rectangles centroid formula:
+  // https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
   const rectangleCentroid = {
     x: rectangle.x + rectangle.width / 2,
     y: rectangle.y + rectangle.height / 2
@@ -23,12 +30,17 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
   const circleDistanceX = Math.abs(circle.x - rectangleCentroid.x);
   const circleDistanceY = Math.abs(circle.y - rectangleCentroid.y);
 
+  // Distance between two points formula:
+  // https://www.mathsisfun.com/algebra/distance-2-points.html
   const circleAndRectangleCentroidDistance = Math.sqrt(
     Math.pow(rectangleCentroid.y - circle.y, 2) +
       Math.pow(rectangleCentroid.x - circle.x, 2)
   );
 
   const isCircleRadiusShorterThanCentroidsDistance = circle.r <= circleAndRectangleCentroidDistance;
+
+  // This formula verifies if the distance between the rectangle centroid and circle centroid
+  // is larger than the circle radius
   const isCentroidsDistanceBiggerThanTheCirclesRadiusSum =
     circleAndRectangleCentroidDistance >= rectangle.height / 2 + circle.r &&
     circleAndRectangleCentroidDistance >= rectangle.width / 2 + circle.r;
@@ -41,6 +53,8 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
     return false;
   }
 
+  // A formula that explains this implementation can be found on
+  // https://math.stackexchange.com/a/2916460
   const cornerDistance = Math.sqrt(
     Math.pow(circleDistanceX - rectangle.width / 2, 2) +
       Math.pow(circleDistanceY - rectangle.height / 2, 2)

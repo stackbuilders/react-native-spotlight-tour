@@ -51,23 +51,25 @@ const startTour = async (): Promise<RenderAPI> => {
 
 describe("Spotlight tour", () => {
   describe("when the tour is not running", () => {
-    it("doesn't exist spotlight tour on view before start the tour", () => {
+    it("is not shown", () => {
       const { queryByLabelText } = render(getComponentOverTour());
       expect(queryByLabelText("Tour Overlay View")).toBeNull();
     });
 
-    it("shows the overlay after press the start button", async () => {
-      const { getByLabelText } = render(getComponentOverTour());
+    describe("when pressing the start button", () => {
+      it("shows the overlay view", async () => {
+        const { getByLabelText } = render(getComponentOverTour());
 
-      fireEvent.press(getByLabelText("Start tour button"));
+        fireEvent.press(getByLabelText("Start tour button"));
 
-      await waitFor(() => getByLabelText("Tour Overlay View"));
+        await waitFor(() => getByLabelText("Tour Overlay View"));
+      });
     });
   });
 
   describe("when the tour overlay starts", () => {
     describe("when going to the first spot", () => {
-      it("the layout will be overlaid by the SVG circle", async () => {
+      it("overlays the layout with the SVG circle", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
 
@@ -101,7 +103,7 @@ describe("Spotlight tour", () => {
         expect(layoutIsOverlayByCircle).toBeTruthy();
       });
 
-      it("add the tip view on the right position", async () => {
+      it("adds the tip view on the right position", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
 
@@ -126,7 +128,7 @@ describe("Spotlight tour", () => {
     });
 
     describe("when going to the second spot", () => {
-      it("the layout will be overlaid by the SVG circle", async () => {
+      it("overlays the layout with the SVG circle", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
@@ -161,7 +163,7 @@ describe("Spotlight tour", () => {
         expect(layoutIsOverlayByCircle).toBeTruthy();
       });
 
-      it("add the tip view on the right position", async () => {
+      it("adds the tip view on the right position", async () => {
         const { getByLabelText } = render(getComponentOverTour());
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
@@ -188,7 +190,7 @@ describe("Spotlight tour", () => {
   });
 
   describe("when the tour finishes", () => {
-    it("stops the tour and unmount the overlay", async () => {
+    it("stops the tour and hides the overlay view", async () => {
       const { getByLabelText, queryByLabelText } = await startTour();
 
       fireEvent.press(getByLabelText("Stop tour button"));

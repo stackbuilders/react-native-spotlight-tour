@@ -101,28 +101,30 @@ const renderTourComponent = () => {
 };
 
 describe("Tour Overlay component", () => {
-  it("render null because the spot doesn't exist)", () => {
-    const colorOverlay: string = "blue";
-    const opacityOverlay: number = 0.5;
-    const currentSpot: number = 0;
-    const spotSteps: TourStep[] = [];
-    const { toJSON } = getComponentRender(colorOverlay, opacityOverlay,
-      {
-        changeSpot: () => undefined,
-        current: currentSpot,
-        goTo: () => undefined,
-        next: () => undefined,
-        previous: () => undefined,
-        spot: undefined,
-        start: () => undefined,
-        steps: spotSteps,
-        stop: () => undefined
-      });
+  describe("the spot doesn't exist", () => {
+    it("renders null", () => {
+      const colorOverlay: string = "blue";
+      const opacityOverlay: number = 0.5;
+      const currentSpot: number = 0;
+      const spotSteps: TourStep[] = [];
+      const { toJSON } = getComponentRender(colorOverlay, opacityOverlay,
+        {
+          changeSpot: () => undefined,
+          current: currentSpot,
+          goTo: () => undefined,
+          next: () => undefined,
+          previous: () => undefined,
+          spot: undefined,
+          start: () => undefined,
+          steps: spotSteps,
+          stop: () => undefined
+        });
 
-    expect(toJSON()).toEqual(null);
+      expect(toJSON()).toEqual(null);
+    });
   });
 
-  describe("when render the tour component and fire next/prev tour steps", () => {
+  describe("when rendering the tour component and firing the next/prev tour steps", () => {
     it("doesn't call any callback", async () => {
       const { getByLabelText } = await renderTourComponent();
       expect(getByLabelText("Container fake component")).toBeTruthy();

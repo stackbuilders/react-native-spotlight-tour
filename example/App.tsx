@@ -31,42 +31,55 @@ import {
   useSpotlightTour,
 } from "react-native-spotlight-tour";
 
-import {TitleText} from "./App.styles";
+import {
+  DescriptionText,
+  BoldText,
+  SectionContainerView,
+  SpotDescriptionView,
+  TitleText,
+  ButtonsGroupView
+} from "./App.styles";
 
 const App=() => {
-  const SpotlightTour=useSpotlightTour();
-
   const getTourSteps: TourStep[]=
     [
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: (props) => {
-          const {previous, next}=useSpotlightTour();
+          const {next}=useSpotlightTour();
           return (
-            <View style={styles.box}>
-              <Text style={styles.title}>This is the Introduction</Text>
-              <View style={styles.fixToText}>
-                <Button title="Previous" onPress={previous}/>
+            <SpotDescriptionView>
+              <DescriptionText>
+                <BoldText>Tour: First StepFirst {"\n"}</BoldText>
+                This is the first step of tour example.
+                If you want to go to the next step, please press <BoldText>Next</BoldText>
+              </DescriptionText>
+              <ButtonsGroupView>
                 <Button title="Next" onPress={next}/>
-              </View>
-            </View>
+              </ButtonsGroupView>
+            </SpotDescriptionView>
           );
         },
       },
       {
-        alignTo: Align.SPOT,
-        position: Position.LEFT,
+        alignTo: Align.SCREEN,
+        position: Position.BOTTOM,
         render: (props) => {
-          const {previous, next}=useSpotlightTour();
+          const {previous, stop}=useSpotlightTour();
           return (
-            <View style={{backgroundColor: Colors.red}}>
-              <Text style={styles.title}>This is See your changes</Text>
-              <View style={styles.fixToText}>
+            <SpotDescriptionView>
+              <DescriptionText>
+                <BoldText>Tour: Second Step {"\n"}</BoldText>
+                This is the second step of tour example. {"\n"}
+                If you want to go to the previous step, press <BoldText>Previous. {"\n"}</BoldText>
+                If you want to finish the tour, press <BoldText>Finish. {"\n"}</BoldText>
+              </DescriptionText>
+              <ButtonsGroupView>
                 <Button title="Previous" onPress={previous}/>
-                <Button title="Next" onPress={next}/>
-              </View>
-            </View>
+                <Button title="Finish" onPress={stop}/>
+              </ButtonsGroupView>
+            </SpotDescriptionView>
           );
         },
       },
@@ -75,9 +88,7 @@ const App=() => {
   return (
     <>
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView>
 
           <SpotlightTourProvider
             steps={getTourSteps}
@@ -86,37 +97,32 @@ const App=() => {
           >
             {({start}) => (
               <>
-                <Button title="Start" onPress={start}/>
-                <View style={styles.body}>
-                  <View style={styles.sectionContainer}>
+                <View>
+                  <Button title="Start" onPress={start}/>
+
+                  <SectionContainerView>
                     <AttachStep index={0}>
                       <TitleText>Introduction</TitleText>
                     </AttachStep>
-                    <Text style={styles.sectionDescription}>
-                      Edit <Text style={styles.highlight}>App.tsx</Text> to change
+                    <DescriptionText>
+                      Edit <BoldText>App.tsx</BoldText> to change
                       this screen and then come back to see your edits.
-                    </Text>
-                  </View>
-                  <View style={styles.sectionContainer}>
+                    </DescriptionText>
+                  </SectionContainerView>
+                  <SectionContainerView>
                     <AttachStep index={1}>
                       <TitleText>See Your Changes</TitleText>
                     </AttachStep>
-                    <Text style={styles.sectionDescription}>
+                    <DescriptionText>
                       <ReloadInstructions/>
-                    </Text>
-                  </View>
-                  <View style={styles.sectionContainer}>
+                    </DescriptionText>
+                  </SectionContainerView>
+                  <SectionContainerView>
                     <TitleText>Debug</TitleText>
-                    <Text style={styles.sectionDescription}>
+                    <DescriptionText>
                       <DebugInstructions/>
-                    </Text>
-                  </View>
-                  <View style={styles.sectionContainer}>
-                    <TitleText>Learn More</TitleText>
-                    <Text style={styles.sectionDescription}>
-                      Read the docs to discover what to do next:
-                    </Text>
-                  </View>
+                    </DescriptionText>
+                  </SectionContainerView>
                 </View>
               </>
             )}
@@ -126,51 +132,5 @@ const App=() => {
     </>
   );
 };
-
-const styles=StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: "absolute",
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400",
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: "700",
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: "600",
-    padding: 4,
-    paddingRight: 12,
-    textAlign: "right",
-  },
-  title: {
-    textAlign: "center",
-    marginVertical: 8,
-
-  },
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  box: {
-    backgroundColor: Colors.red,
-  },
-});
 
 export default App;

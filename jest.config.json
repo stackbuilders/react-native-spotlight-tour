@@ -1,0 +1,16 @@
+{
+  "preset": "react-native",
+  "transform": {
+    "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "testRegex": "test/.*\\.test\\.(tsx?)$",
+  "moduleFileExtensions": ["ts", "tsx", "js"],
+  "setupFilesAfterEnv": [
+    "<rootDir>/test/setup.ts"
+  ],
+  "transformIgnorePatterns": [
+    "node_modules/(!react-native)",
+    "node_modules/(!@react-native-community)"
+  ]
+}

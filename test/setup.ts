@@ -1,32 +1,19 @@
 import { Animated } from "react-native";
 
 import {
+  isAnimatedTimingInterpolation,
+  isAnimatedValue,
+  isAnimatedValueXY,
+  isNumberValue,
+  isXYValue
+} from "./helpers/helper";
+import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
+import {
   createMeasureMethod,
   emptyAnimationMethods,
   emptyNativeMethods,
   mockNativeComponent
-} from "./test/mock.utils/mock.native.component";
-
-export type MeasureOnSuccessCallbackParams = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
-export const viewMockMeasureData: MeasureOnSuccessCallbackParams = {
-  height: 400,
-  width: 200,
-  x: 1,
-  y: 1
-};
-
-export const buttonMockMeasureData: MeasureOnSuccessCallbackParams = {
-  height: 50,
-  width: 100,
-  x: 10,
-  y: 10
-};
+} from "./mock.utils/mock.native.component";
 
 jest
   .mock("react-native/Libraries/Components/View/View", () => {
@@ -40,8 +27,7 @@ jest
       ...emptyNativeMethods,
       measureInWindow: createMeasureMethod(buttonMockMeasureData)
     });
-  })
-  .doMock("react-native/Libraries/Animated/src/AnimatedImplementation", () => {
+  }).doMock("react-native/Libraries/Animated/src/AnimatedImplementation", () => {
     const ActualAnimated = jest.requireActual(
       "react-native/Libraries/Animated/src/AnimatedImplementation"
     );
@@ -50,13 +36,24 @@ jest
       value: Animated.Value | Animated.ValueXY,
       config: Animated.TimingAnimationConfig
     ): Animated.CompositeAnimation => {
-      const anyValue: any = value;
 
       return {
         ...emptyAnimationMethods,
-        start: (callback?: Animated.EndCallback) => {
-          anyValue.setValue(config.toValue);
-          callback && callback({ finished: true });
+        start: callback => {
+          if (
+            isAnimatedValueXY(value) &&
+            !isAnimatedTimingInterpolation(config.toValue) &&
+            isXYValue(config.toValue)
+          ) {
+            value.setValue(config.toValue);
+          } else if (
+            isAnimatedValue(value) &&
+            !isAnimatedTimingInterpolation(config.toValue) &&
+            isNumberValue(config.toValue)
+          ) {
+            value.setValue(config.toValue);
+          }
+          callback?.({ finished: true });
         }
       };
     };
@@ -64,14 +61,17 @@ jest
     const springMock = (
       value: Animated.Value | Animated.ValueXY,
       config: Animated.SpringAnimationConfig
-    ) => {
-      const anyValue: any = value;
-
+    ): Animated.CompositeAnimation => {
       return {
         ...emptyAnimationMethods,
-        start: (callback?: Animated.EndCallback): void => {
-          anyValue.setValue(config.toValue);
-          callback && callback({ finished: true });
+        start: callback => {
+          if (isAnimatedValueXY(value) && isXYValue(config.toValue)) {
+            value.setValue(config.toValue);
+          } else if (isAnimatedValue(value) && isNumberValue(config.toValue)) {
+            value.setValue(config.toValue);
+          }
+
+          callback?.({ finished: true });
         }
       };
     };
@@ -82,3 +82,7 @@ jest
       timing: timingMock
     };
   });
+
+afterEach(() => {
+  jest.resetAllMocks();
+});

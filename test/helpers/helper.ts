@@ -1,4 +1,5 @@
 import React from "react";
+import { Animated } from "react-native";
 import { ReactTestInstance } from "react-test-renderer";
 
 type Rectangle = {
@@ -111,4 +112,30 @@ export function findPropsOnTestInstance(
     .filter(item => !!item)[0];
 
   return isReactProps(props) ? props : {};
+}
+
+type AnimatedValue = number | Animated.AnimatedValue | { x: number; y: number } | Animated.AnimatedValueXY;
+
+type TimingAnimatedValue = Animated.AnimatedInterpolation | AnimatedValue;
+
+export function isAnimatedTimingInterpolation(value: TimingAnimatedValue): value is Animated.AnimatedInterpolation {
+  return Animated.AnimatedInterpolation && value instanceof Animated.AnimatedInterpolation;
+}
+
+export function isAnimatedValue(value: AnimatedValue): value is Animated.Value {
+  return value instanceof Animated.Value;
+}
+
+export function isAnimatedValueXY(value: Animated.Value | Animated.ValueXY): value is Animated.ValueXY {
+  return value instanceof Animated.ValueXY;
+}
+
+export function isXYValue(value: AnimatedValue): value is { x: number; y: number } & number {
+  return !(value instanceof Animated.Value)
+    && !(value instanceof Animated.ValueXY)
+    && (typeof value === "number" || (typeof value !== "number" && !!(value?.x && value?.y)));
+}
+
+export function isNumberValue(value: AnimatedValue): value is number {
+  return typeof value === "number";
 }

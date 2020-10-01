@@ -129,7 +129,8 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
           accessibilityLabel="Svg overlay view"
           height="100%"
           width="100%"
-          viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}>
+          viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
+        >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height="100%" width="100%" fill="#fff" />
@@ -154,7 +155,8 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
         <TipView
           style={[tipStyle, { opacity: tipOpacity }]}
           onLayout={measureTip}
-          accessibilityLabel="Tip Overlay View">
+          accessibilityLabel="Tip Overlay View"
+        >
           {tourStep.render({
             current,
             isFirst: current === 0,

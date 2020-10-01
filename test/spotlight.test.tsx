@@ -1,46 +1,15 @@
 import "@testing-library/jest-native/extend-expect";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  RenderAPI,
-  waitFor
-} from "@testing-library/react-native";
-
-import { buttonMockMeasureData, viewMockMeasureData } from "../setup";
+import { fireEvent, render, RenderAPI, waitFor } from "@testing-library/react-native";
+import React from "react";
 
 import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helper";
-import { getComponentOverTour } from "./spotlight.create.component";
+import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
+import { ComponentOverTour } from "./spotlight.create.component";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
-/*
-* Previous declarations:
-  Dimensions mock by default are:
-  Dimensions: {
-            window: {
-              fontScale: 2,
-              height: 1334,
-              scale: 2,
-              width: 750,
-            },
-            screen: {
-              fontScale: 2,
-              height: 1334,
-              scale: 2,
-              width: 750,
-            },
-          }
-* */
-
-afterEach(() => {
-  cleanup();
-  jest.resetAllMocks();
-  jest.clearAllMocks();
-});
-
 const startTour = async (): Promise<RenderAPI> => {
-  const renderer = render(getComponentOverTour());
+  const renderer = render(<ComponentOverTour />);
 
   fireEvent.press(renderer.getByLabelText("Start tour button"));
 
@@ -52,13 +21,13 @@ const startTour = async (): Promise<RenderAPI> => {
 describe("Spotlight tour", () => {
   describe("when the tour is not running", () => {
     it("is not shown", () => {
-      const { queryByLabelText } = render(getComponentOverTour());
+      const { queryByLabelText } = render(<ComponentOverTour />);
       expect(queryByLabelText("Tour Overlay View")).toBeNull();
     });
 
     describe("when pressing the start button", () => {
       it("shows the overlay view", async () => {
-        const { getByLabelText } = render(getComponentOverTour());
+        const { getByLabelText } = render(<ComponentOverTour />);
 
         fireEvent.press(getByLabelText("Start tour button"));
 
@@ -70,7 +39,7 @@ describe("Spotlight tour", () => {
   describe("when the tour overlay starts", () => {
     describe("when going to the first spot", () => {
       it("overlays the layout with the SVG circle", async () => {
-        const { getByLabelText } = render(getComponentOverTour());
+        const { getByLabelText } = render(<ComponentOverTour />);
         fireEvent.press(getByLabelText("Start tour button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -104,7 +73,7 @@ describe("Spotlight tour", () => {
       });
 
       it("adds the tip view on the right position", async () => {
-        const { getByLabelText } = render(getComponentOverTour());
+        const { getByLabelText } = render(<ComponentOverTour />);
         fireEvent.press(getByLabelText("Start tour button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -129,7 +98,7 @@ describe("Spotlight tour", () => {
 
     describe("when going to the second spot", () => {
       it("overlays the layout with the SVG circle", async () => {
-        const { getByLabelText } = render(getComponentOverTour());
+        const { getByLabelText } = render(<ComponentOverTour />);
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
 
@@ -164,7 +133,7 @@ describe("Spotlight tour", () => {
       });
 
       it("adds the tip view on the right position", async () => {
-        const { getByLabelText } = render(getComponentOverTour());
+        const { getByLabelText } = render(<ComponentOverTour />);
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
 

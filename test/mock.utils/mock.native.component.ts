@@ -5,7 +5,7 @@ import {
   NativeMethods
 } from "react-native";
 
-import { MeasureOnSuccessCallbackParams } from "../../setup";
+import { MeasureOnSuccessCallbackParams } from "../helpers/measures";
 
 export function mockNativeComponent(modulePath: string, mockMethods: NativeMethods) {
   const OriginalComponent = jest.requireActual(modulePath);
@@ -61,7 +61,7 @@ export const emptyNativeMethods: NativeMethods = {
 export function createMeasureMethod(
   mockMeasureData: MeasureOnSuccessCallbackParams
 ): (callback: MeasureInWindowOnSuccessCallback) => void {
-  return (callback: MeasureInWindowOnSuccessCallback) => {
+  return callback => {
     const { x, y, width, height } = mockMeasureData;
     callback(x, y, width, height);
   };

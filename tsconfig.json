@@ -39,8 +39,6 @@
   "include": ["./src/**/*"],
   "exclude": [
     "./dist/**/*",
-    "./node_modules/**/*",
-    "./test/**/*",
-    "**/__test__/**"
+    "./node_modules/**/*"
   ]
 }

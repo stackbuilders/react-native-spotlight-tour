@@ -1,93 +1,51 @@
 import React from "react";
 import { Button, Text, View } from "react-native";
 
-import {
-  Align,
-  AttachStep,
-  Position,
-  RenderProps,
-  SpotlightTourProvider,
-  TourStep
-} from "../src";
-import {
-  SpotlightTour,
-  useSpotlightTour
-} from "../src/lib/SpotlightTour.context";
+import { Align, AttachStep, Position, SpotlightTourProvider, TourStep, useSpotlightTour } from "../src";
 
-const TestComponent = React.forwardRef(
-  (): React.ReactElement => {
-    const libraryContext: SpotlightTour = useSpotlightTour();
+export const BASE_STEP: TourStep = {
+  alignTo: Align.SCREEN,
+  position: Position.BOTTOM,
+  render: ({ next, previous }) => (
+    <View accessibilityLabel="Container fake component" >
+      <Text>Hello, world!</Text>
+      <Button accessibilityLabel="Next spot button" title="Next spot" onPress={next} />
+      <Button accessibilityLabel="Previous spot button" title="Previous spot" onPress={previous} />
+    </View>
+  )
+};
 
-    const fakeAction = () => undefined;
+const TestComponent: React.FC = () => {
+  const tourContext = useSpotlightTour();
 
-    return (
-      <View
-        style={{
-          alignItems: "center",
-          flex: 1,
-          justifyContent: "center"
-        }}
-      >
-        <AttachStep index={0}>
-          <View>Hello, world!</View>
-        </AttachStep>
-        <AttachStep index={1}>
-          <Button
-            onPress={fakeAction}
-            title="Test button"
-          />
-        </AttachStep>
-        <Button
-          accessibilityLabel="Start tour button"
-          title="start tour"
-          onPress={libraryContext.start}
-        />
-        <Button
-          accessibilityLabel="Stop tour button"
-          title="stop tour"
-          onPress={libraryContext.stop}
-        />
-      </View>
-    );
-  }
-);
+  const fakeAction = () => undefined;
 
-const customTipTourComponent = (props: RenderProps): React.ReactNode => {
   return (
-    <View
-      style={{
-        alignItems: "center",
-        flex: 1,
-        justifyContent: "center"
-      }}
-    >
-      <Text>Tour description!</Text>
+    <View>
+      <AttachStep index={0}>
+        <View>Hello, world!</View>
+      </AttachStep>
+      <AttachStep index={1}>
+        <Button onPress={fakeAction} title="Test button" />
+      </AttachStep>
       <Button
-        accessibilityLabel="Next spot button"
-        title="next spot"
-        onPress={props.next}
+        accessibilityLabel="Start tour button"
+        title="start tour"
+        onPress={tourContext.start}
       />
       <Button
-        accessibilityLabel="Previous spot button"
-        title="previous spot"
-        onPress={props.previous}
+        accessibilityLabel="Stop tour button"
+        title="stop tour"
+        onPress={tourContext.stop}
       />
     </View>
   );
 };
 
-const getSpotStep = (position: Position, alignTo: Align): TourStep => {
-  return {
-    alignTo,
-    position,
-    render: customTipTourComponent
-  };
-};
-
-export const getComponentOverTour = () => {
-  const spotStep: TourStep = getSpotStep(Position.BOTTOM, Align.SCREEN);
-  const secondSpotStep: TourStep = getSpotStep(Position.TOP, Align.SCREEN);
-  const spotSteps: TourStep[] = [spotStep, secondSpotStep];
+export const ComponentOverTour: React.FC = () => {
+  const spotStep = BASE_STEP;
+  const secondSpotStep = { ...BASE_STEP, position: Position.TOP };
+  const spotSteps = [spotStep, secondSpotStep];
 
   return (
     <SpotlightTourProvider steps={spotSteps}>

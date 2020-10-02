@@ -1,7 +1,7 @@
 # react-native-spotlight-tour
 For React Native applications. This library allows you to implement a highly customizable application tour feature with an awesome spotlight effect.
 
-<img src="example.png" alt="drawing" width="200"/>
+<img src="example.gif" alt="drawing" width="200"/>
 
 ## Requirements
 * react >= 16.8.0

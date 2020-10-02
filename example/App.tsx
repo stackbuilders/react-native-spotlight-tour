@@ -51,7 +51,7 @@ const App=() => {
           return (
             <SpotDescriptionView>
               <DescriptionText>
-                <BoldText>Tour: First StepFirst {"\n"}</BoldText>
+                <BoldText>Tour: Intro section {"\n"}</BoldText>
                 This is the first step of tour example.
                 If you want to go to the next step, please press <BoldText>Next</BoldText>
               </DescriptionText>
@@ -70,7 +70,7 @@ const App=() => {
           return (
             <SpotDescriptionView>
               <DescriptionText>
-                <BoldText>Tour: Second Step {"\n"}</BoldText>
+                <BoldText>Tour: Documentation section {"\n"}</BoldText>
                 This is the second step of tour example. {"\n"}
                 If you want to go to the previous step, press <BoldText>Previous. {"\n"}</BoldText>
                 If you want to finish the tour, press <BoldText>Finish. {"\n"}</BoldText>
@@ -105,22 +105,22 @@ const App=() => {
                       <TitleText>Introduction</TitleText>
                     </AttachStep>
                     <DescriptionText>
-                      Edit <BoldText>App.tsx</BoldText> to change
-                      this screen and then come back to see your edits.
+                      This is an example using the spotlight-tour library.
+                      Press the Start button to see it in action.
                     </DescriptionText>
                   </SectionContainerView>
                   <SectionContainerView>
                     <AttachStep index={1}>
-                      <TitleText>See Your Changes</TitleText>
+                      <TitleText>Documentation</TitleText>
                     </AttachStep>
                     <DescriptionText>
-                      <ReloadInstructions/>
+                      Please, read the documentation before install it.
                     </DescriptionText>
                   </SectionContainerView>
                   <SectionContainerView>
-                    <TitleText>Debug</TitleText>
+                    <TitleText>Try it!</TitleText>
                     <DescriptionText>
-                      <DebugInstructions/>
+                      Remember that all feedback are welcome.
                     </DescriptionText>
                   </SectionContainerView>
                 </View>

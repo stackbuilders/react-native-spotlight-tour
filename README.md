@@ -1,7 +1,7 @@
 # react-native-spotlight-tour
 For React Native applications. This library allows you to implement a highly customizable application tour feature with an awesome spotlight effect.
 
-(WIP, we could add a gif here to show the effect)
+<img src="example.png" alt="drawing" width="200"/>
 
 ## Requirements
 * react >= 16.8.0
@@ -20,9 +20,9 @@ For React Native applications. This library allows you to implement a highly cus
     $ yarn add react-native-spotlight-tour
     ```
 
-## Basic usage (WIP)
+## Basic usage
 
-The `SpotlightTourProvider` allows you to wrap the section of the app we want to implement a tour. This provider receive the following properties:
+The `SpotlightTourProvider` allows you to wrap a section of the app that you want to implement a tour. This provider receives the following properties:
 
 | Prop | Description |
 | ------ | ------ |
@@ -35,10 +35,13 @@ Also, the library expose the following methods:
 
 |Method| Description |
 | ------ | ------ |
-|start| This method allows to start the tour. |
+|start| To begin the tour. |
+|next| To navigate to the next defined step. |
+|previus| To navigate to the previous step.|
+|stop| To finish the tour.|
 
 
-The `AttachStep` helps to wrap a part of the code that the tour will circle and display the effect. It receives the following properties: index and disabled
+The `AttachStep` helps to wrap a part of the code that the tour will circle and display the effect. It receives the following properties:
 
 | Prop | Description |
 | ------ | ------ |
@@ -64,17 +67,24 @@ return (
       {({start}) => (
         <>
           <Button title="Start" onPress={start}/>
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <AttachStep index={0}>
-                <TitleText>Introduction</TitleText>
-              </AttachStep>
-              <Text style={styles.sectionDescription}>
-                This is an example using the spotlight-tour.
-              </Text>
-            </View>
-            ...
-          </View>
+          <SectionContainerView>
+            <AttachStep index={0}>
+              <TitleText>Introduction</TitleText>
+            </AttachStep>
+            <DescriptionText>
+              This is an example using the spotlight-tour library.
+              Press the Start button to see it in action.
+            </DescriptionText>
+          </SectionContainerView>
+          <SectionContainerView>
+            <AttachStep index={1}>
+              <TitleText>Documentation</TitleText>
+            </AttachStep>
+            <DescriptionText>
+              Please, read the documentation before install it.
+            </DescriptionText>
+          </SectionContainerView>
+          ...
       );
     </SpotlightTourProvider>
 ```
@@ -101,19 +111,42 @@ const getTourSteps: TourStep[]=
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: (props) => {
-          const {previous, next}=useSpotlightTour();
+          const {next}=useSpotlightTour();
           return (
-            <View style={styles.box}>
-              <Text style={styles.title}>Step 1</Text>
-              <View style={styles.fixToText}>
-                <Button title="Previous" onPress={previous}/>
+            <SpotDescriptionView>
+              <DescriptionText>
+                <BoldText>Tour: Intro section {"\n"}</BoldText>
+                This is the first step of tour example.
+                If you want to go to the next step, please press <BoldText>Next</BoldText>
+              </DescriptionText>
+              <ButtonsGroupView>
                 <Button title="Next" onPress={next}/>
-              </View>
-            </View>
+              </ButtonsGroupView>
+            </SpotDescriptionView>
           );
         },
       },
-      ...
+      {
+        alignTo: Align.SCREEN,
+        position: Position.BOTTOM,
+        render: (props) => {
+          const {previous, stop}=useSpotlightTour();
+          return (
+            <SpotDescriptionView>
+              <DescriptionText>
+                <BoldText>Tour: Documentation section {"\n"}</BoldText>
+                This is the second step of tour example. {"\n"}
+                If you want to go to the previous step, press <BoldText>Previous. {"\n"}</BoldText>
+                If you want to finish the tour, press <BoldText>Finish. {"\n"}</BoldText>
+              </DescriptionText>
+              <ButtonsGroupView>
+                <Button title="Previous" onPress={previous}/>
+                <Button title="Finish" onPress={stop}/>
+              </ButtonsGroupView>
+            </SpotDescriptionView>
+          );
+        },
+      }
     ];
 
 ```

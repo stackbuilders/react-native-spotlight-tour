@@ -7,47 +7,33 @@
  */
 
 import React from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button, StyleProp, TextStyle,
-} from "react-native";
-
-import {
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from "react-native/Libraries/NewAppScreen";
-
+import { Button, SafeAreaView, ScrollView, View } from "react-native";
 import {
   Align,
   AttachStep,
   Position,
   SpotlightTourProvider,
   TourStep,
-  useSpotlightTour,
+  useSpotlightTour
 } from "react-native-spotlight-tour";
 
 import {
-  DescriptionText,
   BoldText,
+  ButtonsGroupView,
+  DescriptionText,
   SectionContainerView,
   SpotDescriptionView,
-  TitleText,
-  ButtonsGroupView
+  TitleText
 } from "./App.styles";
 
-const App=() => {
-  const getTourSteps: TourStep[]=
+const App = () => {
+  const getTourSteps: TourStep[] =
     [
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: (props) => {
-          const {next}=useSpotlightTour();
+        render: () => {
+          const {next} = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
@@ -56,17 +42,17 @@ const App=() => {
                 If you want to go to the next step, please press <BoldText>Next</BoldText>
               </DescriptionText>
               <ButtonsGroupView>
-                <Button title="Next" onPress={next}/>
+                <Button title="Next" onPress={next} />
               </ButtonsGroupView>
             </SpotDescriptionView>
           );
-        },
+        }
       },
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: (props) => {
-          const {previous, stop}=useSpotlightTour();
+        render: () => {
+          const {previous, stop} = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
@@ -76,13 +62,13 @@ const App=() => {
                 If you want to finish the tour, press <BoldText>Finish. {"\n"}</BoldText>
               </DescriptionText>
               <ButtonsGroupView>
-                <Button title="Previous" onPress={previous}/>
-                <Button title="Finish" onPress={stop}/>
+                <Button title="Previous" onPress={previous} />
+                <Button title="Finish" onPress={stop} />
               </ButtonsGroupView>
             </SpotDescriptionView>
           );
-        },
-      },
+        }
+      }
     ];
 
   return (
@@ -98,7 +84,7 @@ const App=() => {
             {({start}) => (
               <>
                 <View>
-                  <Button title="Start" onPress={start}/>
+                  <Button title="Start" onPress={start} />
 
                   <SectionContainerView>
                     <AttachStep index={0}>

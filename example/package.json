@@ -6,8 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "tslint -c ../tslint.json \"*.ts?(x)\""
   },
   "dependencies": {
     "react": "16.13.1",
@@ -19,16 +18,14 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
-    "@react-native-community/eslint-config": "^1.1.0",
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
     "@types/styled-components": "^5.1.3",
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^2.27.0",
-    "eslint": "^6.5.1",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.0.4",
     "react-test-renderer": "16.13.1",
+    "tslint": "^6.1.3",
+    "tslint-react": "^5.0.0",
     "typescript": "^3.8.3"
   }
 }

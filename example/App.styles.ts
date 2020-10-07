@@ -1,4 +1,4 @@
-import {Colors} from "react-native/Libraries/NewAppScreen";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 import styled from "styled-components/native";
 
 const SectionContainerView = styled.View`

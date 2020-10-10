@@ -1,28 +1,31 @@
-import React from "react";
+import * as React from "react";
 import { Animated } from "react-native";
 import { ReactTestInstance } from "react-test-renderer";
 
-type Rectangle = {
+interface Rectangle {
   x: number;
   y: number;
   width: number;
   height: number;
-};
+}
 
-type Circle = {
+interface Circle {
   y: number;
   x: number;
   r: number;
-};
+}
 
 export function checkValidIntersection(rectangle: Rectangle, circle: Circle): boolean {
-  /*
-   The explanation of the formulas used are available on next the document
-   https://docs.google.com/document/d/1rrfTB7NN4r1HItxiPni83TvL-up3OYXt0dgLOsO9Sg0/edit?usp=sharing
-  * */
+  /**
+   * The explanation of the formulas used are available on following the document:
+   * https://docs.google.com/document/d/1rrfTB7NN4r1HItxiPni83TvL-up3OYXt0dgLOsO9Sg0/edit?usp=sharing
+   */
 
-  // Rectangles centroid formula:
-  // https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
+  /**
+   * Rectangles centroid formula:
+   * https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
+   */
+
   const rectangleCentroid = {
     x: rectangle.x + rectangle.width / 2,
     y: rectangle.y + rectangle.height / 2
@@ -33,9 +36,10 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
 
   // Distance between two points formula:
   // https://www.mathsisfun.com/algebra/distance-2-points.html
+  const rectangleCircleCentroidXDistance = Math.pow(rectangleCentroid.x - circle.x, 2);
+  const rectangleCircleCentroidYDistance = Math.pow(rectangleCentroid.y - circle.y, 2);
   const circleAndRectangleCentroidDistance = Math.sqrt(
-    Math.pow(rectangleCentroid.y - circle.y, 2) +
-      Math.pow(rectangleCentroid.x - circle.x, 2)
+    rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance
   );
 
   const isCircleRadiusShorterThanCentroidsDistance = circle.r <= circleAndRectangleCentroidDistance;
@@ -56,9 +60,10 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
 
   // A formula that explains this implementation can be found on
   // https://math.stackexchange.com/a/2916460
+  const relativeCircleRectangleXDistance = Math.pow(circleDistanceX - rectangle.width / 2, 2);
+  const relativeCircleRectangleYDistance = Math.pow(circleDistanceY - rectangle.height / 2, 2);
   const cornerDistance = Math.sqrt(
-    Math.pow(circleDistanceX - rectangle.width / 2, 2) +
-      Math.pow(circleDistanceY - rectangle.height / 2, 2)
+    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance
   );
 
   const squaredCornerDistanceIsSmallerThanSquaredCircleRadius =
@@ -67,8 +72,8 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
     circle.r / Math.max(rectangle.width / 2, rectangle.height / 2) >= 1;
 
   return (
-    squaredCornerDistanceIsSmallerThanSquaredCircleRadius &&
-    circleRadiusAndVirtualRectangleRadiusRelation
+    squaredCornerDistanceIsSmallerThanSquaredCircleRadius
+    && circleRadiusAndVirtualRectangleRadiusRelation
   );
 }
 
@@ -78,7 +83,9 @@ function isReactTestInstance(child: ReactTestInstance | string): child is ReactT
   return typeof child !== "string";
 }
 
-function isReactProps(props: React.PropsWithChildren<ChildProps> | null): props is React.PropsWithChildren<ChildProps> {
+function isReactProps<T extends object>(
+  props: React.PropsWithChildren<T> | null
+): props is React.PropsWithChildren<T> {
   return typeof props === "object";
 }
 

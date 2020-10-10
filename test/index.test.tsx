@@ -1,33 +1,31 @@
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, RenderAPI, waitFor } from "@testing-library/react-native";
-import React from "react";
+import * as React from "react";
 
 import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
-import { ComponentOverTour } from "./spotlight.create.component";
+import { TestScreen } from "./helpers/TestTour";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-
-const startTour = async (): Promise<RenderAPI> => {
-  const renderer = render(<ComponentOverTour />);
+async function startTour(): Promise<RenderAPI> {
+  const renderer = render(<TestScreen />);
 
   fireEvent.press(renderer.getByLabelText("Start tour button"));
 
   await waitFor(() => renderer.getByLabelText("Tour Overlay View"));
 
   return renderer;
-};
+}
 
 describe("Spotlight tour", () => {
   describe("when the tour is not running", () => {
-    it("is not shown", () => {
-      const { queryByLabelText } = render(<ComponentOverTour />);
+    it("the overlay is not shown", () => {
+      const { queryByLabelText } = render(<TestScreen />);
       expect(queryByLabelText("Tour Overlay View")).toBeNull();
     });
 
-    describe("when pressing the start button", () => {
+    describe("and the start button is pressed", () => {
       it("shows the overlay view", async () => {
-        const { getByLabelText } = render(<ComponentOverTour />);
+        const { getByLabelText } = render(<TestScreen />);
 
         fireEvent.press(getByLabelText("Start tour button"));
 
@@ -37,9 +35,9 @@ describe("Spotlight tour", () => {
   });
 
   describe("when the tour overlay starts", () => {
-    describe("when going to the first spot", () => {
-      it("overlays the layout with the SVG circle", async () => {
-        const { getByLabelText } = render(<ComponentOverTour />);
+    describe("and the tour moves to the first spot", () => {
+      it("wraps the component with the SVG circle", async () => {
+        const { getByLabelText } = render(<TestScreen />);
         fireEvent.press(getByLabelText("Start tour button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -73,7 +71,7 @@ describe("Spotlight tour", () => {
       });
 
       it("adds the tip view on the right position", async () => {
-        const { getByLabelText } = render(<ComponentOverTour />);
+        const { getByLabelText } = render(<TestScreen />);
         fireEvent.press(getByLabelText("Start tour button"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -96,9 +94,9 @@ describe("Spotlight tour", () => {
       });
     });
 
-    describe("when going to the second spot", () => {
-      it("overlays the layout with the SVG circle", async () => {
-        const { getByLabelText } = render(<ComponentOverTour />);
+    describe("and the tour moves to the second spot", () => {
+      it("wraps the component with the SVG circle", async () => {
+        const { getByLabelText } = render(<TestScreen />);
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
 
@@ -132,8 +130,8 @@ describe("Spotlight tour", () => {
         expect(layoutIsOverlayByCircle).toBeTruthy();
       });
 
-      it("adds the tip view on the right position", async () => {
-        const { getByLabelText } = render(<ComponentOverTour />);
+      it("adds the second tip view on the right position", async () => {
+        const { getByLabelText } = render(<TestScreen />);
         fireEvent.press(getByLabelText("Start tour button"));
         fireEvent.press(getByLabelText("Next spot button"));
 
@@ -158,9 +156,11 @@ describe("Spotlight tour", () => {
     });
   });
 
-  describe("when the tour finishes", () => {
+  describe("and when the tour finishes", () => {
     it("stops the tour and hides the overlay view", async () => {
       const { getByLabelText, queryByLabelText } = await startTour();
+
+      await waitFor(() => getByLabelText("Svg overlay view"));
 
       fireEvent.press(getByLabelText("Stop tour button"));
 

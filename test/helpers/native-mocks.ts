@@ -1,11 +1,11 @@
-import React from "react";
+import * as React from "react";
 import {
   Animated,
   MeasureInWindowOnSuccessCallback,
   NativeMethods
 } from "react-native";
 
-import { MeasureOnSuccessCallbackParams } from "../helpers/measures";
+import { MeasureOnSuccessCallbackParams } from "./measures";
 
 export function mockNativeComponent(modulePath: string, mockMethods: NativeMethods) {
   const OriginalComponent = jest.requireActual(modulePath);

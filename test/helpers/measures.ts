@@ -1,4 +1,4 @@
-export type MeasureOnSuccessCallbackParams = {
+export interface MeasureOnSuccessCallbackParams {
   x: number;
   y: number;
   width: number;

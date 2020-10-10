@@ -3,7 +3,7 @@ export interface MeasureOnSuccessCallbackParams {
   y: number;
   width: number;
   height: number;
-};
+}
 
 export const viewMockMeasureData: MeasureOnSuccessCallbackParams = {
   height: 400,

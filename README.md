@@ -1,7 +1,12 @@
 # react-native-spotlight-tour
-For React Native applications. This library allows you to implement a highly customizable application tour feature with an awesome spotlight effect.
+`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
+compatible). It allows you to implement a highly customizable tour feature with an awesome 
+spotlight effect. This library is perfect for the following:
 
-<img src="example.gif" alt="drawing" width="200"/>
+- Guiding users on how to use your application
+- Showing an introduction to your users
+
+<img src="example.gif" alt="spotlight" width="200"/>
 
 ## Requirements
 * react >= 16.8.0
@@ -22,35 +27,6 @@ For React Native applications. This library allows you to implement a highly cus
 
 ## Basic usage
 
-The `SpotlightTourProvider` allows you to wrap a section of the app that you want to implement a tour. This provider receives the following properties:
-
-| Prop | Description |
-| ------ | ------ |
-|ref| Defines a mutable object for the Tour. This object will be populated through the provider. It is optional.|
-|steps| Receives an array of `TourStep`. This array will have the steps for the tour application. [Here](#setting-tour-steps) you can find more info about it.|
-|overlayColor| Defines a color for the overlay. The value could be a string, number or rgbaArray. This property is optional and the color `black` is defined by default. |
-|overlayOpacity| Defines the opacity of the overlay. The value could be a number or strieng. This property is optional and the value `0.45` is defined by default. |
-
-Also, the library expose the following methods:
-
-|Method| Description |
-| ------ | ------ |
-|start| To begin the tour. |
-|next| To navigate to the next defined step. |
-|previus| To navigate to the previous step.|
-|stop| To finish the tour.|
-
-
-The `AttachStep` helps to wrap a part of the code that the tour will circle and display the effect. It receives the following properties:
-
-| Prop | Description |
-| ------ | ------ |
-| index | Receives a number. It defines de number of secuence wich the area should be circle. |
-| disabled | It is an optional prop and receives a boolean. It defines if the circled area should be displayed or not. The value `false` is defined by default. |
-
-
-Example:
-
 ```jsx
 import {
   AttachStep,
@@ -64,9 +40,9 @@ return (
       overlayColor={"gray"}
       overlayOpacity={0.36}
     >
-      {({start}) => (
+      {({ start }) => (
         <>
-          <Button title="Start" onPress={start}/>
+          <Button title="Start" onPress={start} />
           <SectionContainerView>
             <AttachStep index={0}>
               <TitleText>Introduction</TitleText>
@@ -89,9 +65,51 @@ return (
     </SpotlightTourProvider>
 ```
 
+### SpotlightTourProvider
+
+The `SpotlightTourProvider` provider allows you to wrap a section of the application to implement 
+the spotlight tour. In this section, you define a component that will trigger the tour sequence. 
+For example, a button with an onPress handler that will allow you to call the provided `start()` 
+method to start the tour workflow. To customize and set up this workflow, you should pass a list 
+of `steps` to the `SpotlightTourProvider` provider. 
+[Check out the tour steps section](#setting-tour-steps) for more details.
+
+Once the tour starts, an overlay component will be shown to highlight a component from the section.
+This library shows an overlay component that darkens other UI elements on the screen so that users 
+can focus on the children's components of `AttachStep`.
+
+
+| Prop | Description |
+| ------ | ------ |
+|ref| Optional. It defines a mutable object for the Tour. This object will be populated through the provider.|
+|steps| Array of `TourStep`. It defines the steps for the tour.|
+|overlayColor| Optional and `black` by default. String, Number or rgbaArray. It defines the color for the overlay.|
+|overlayOpacity| Optional and `0.45` by default. Number or String. It defines the opacity of the overlay. |
+
+
+|Method| Description |
+| ------ | ------ |
+|start| Begin the tour. |
+|next| Navigate to the next defined step. |
+|previus| Navigate to the previous step.|
+|stop| Finish the tour.|
+
+### AttachStep
+
+The `AttachStep` wraps the components that will be highlighted by the library. It receives the 
+following properties:
+
+| Prop | Description |
+| ------ | ------ |
+| index | Number. This value defines the order for the tour sequence. |
+| disabled | Optional. `false` by default. Boolean. It defines if the library should highlight the component or not. |
+
+
 ### Setting Tour Steps
 
-The `TourStep` type has the following properties: `alignTo`, `position` and `render`. To set the `alignTo` and `position` properties you could use the following enums which are exported by the library:
+The `TourStep` creates a small box with the information you want to display for each step in the tour. 
+This type has the following properties: `alignTo`, `position` and `render`. To set the `alignTo` and 
+`position` properties you could use the following enums which are exported by the library:
 * `Align`: has `SCREEN` and `SPOT` values.
 * `Position`: has `BOTTOM`, `LEFT`, `RIGHT` and `TOP` values.
 
@@ -105,22 +123,22 @@ import {
   useSpotlightTour
 } from "react-native-spotlight-tour";
 
-const getTourSteps: TourStep[]=
+const getTourSteps: TourStep[] =
     [
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: (props) => {
-          const {next}=useSpotlightTour();
+          const { next } = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
-                <BoldText>Tour: Intro section {"\n"}</BoldText>
-                This is the first step of tour example.
-                If you want to go to the next step, please press <BoldText>Next</BoldText>
+                <BoldText>{"Tour: Intro section \n"}</BoldText>
+                {"This is the first step of tour example. \nIf you want to go to the next step, please press"}
+                <BoldText>Next</BoldText>
               </DescriptionText>
               <ButtonsGroupView>
-                <Button title="Next" onPress={next}/>
+                <Button title="Next" onPress={next} />
               </ButtonsGroupView>
             </SpotDescriptionView>
           );
@@ -130,18 +148,18 @@ const getTourSteps: TourStep[]=
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: (props) => {
-          const {previous, stop}=useSpotlightTour();
+          const { previous, stop } = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
-                <BoldText>Tour: Documentation section {"\n"}</BoldText>
-                This is the second step of tour example. {"\n"}
-                If you want to go to the previous step, press <BoldText>Previous. {"\n"}</BoldText>
-                If you want to finish the tour, press <BoldText>Finish. {"\n"}</BoldText>
+                <BoldText>{"Tour: Documentation section \n"}</BoldText>
+                {"This is the second step of tour example. \nIf you want to go to the previous step, press"}
+                <BoldText>{"Previous. \n"}</BoldText>
+                If you want to finish the tour, press <BoldText>{"Finish. \n"}</BoldText>
               </DescriptionText>
               <ButtonsGroupView>
-                <Button title="Previous" onPress={previous}/>
-                <Button title="Finish" onPress={stop}/>
+                <Button title="Previous" onPress={previous} />
+                <Button title="Finish" onPress={stop} />
               </ButtonsGroupView>
             </SpotDescriptionView>
           );
@@ -151,12 +169,16 @@ const getTourSteps: TourStep[]=
 
 ```
 
-You could see the complete code [here](example)
+Check out the complete example [here](example)
 
 
 ## Contributing
 
 Contributions are always welcome! If you are interested in contribuiting, please checkout our [Conduct Code](CODE_OF_CONDUCT).
+
+Environment requirements:
+- nodejs >= 14.7.0
+- yarn >= 1.22.4
 
 ## License
 

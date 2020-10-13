@@ -26,7 +26,7 @@ import {
   TitleText
 } from "./App.styles";
 
-const App = () => {
+const App: React.FC = () => {
   const getTourSteps: TourStep[] =
     [
       {

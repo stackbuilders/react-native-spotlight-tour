@@ -64,8 +64,7 @@ const App: React.FC = () => {
     ];
 
   return (
-    <>
-      <SafeAreaView>
+    <SafeAreaView>
         <ScrollView>
 
           <SpotlightTourProvider
@@ -74,8 +73,7 @@ const App: React.FC = () => {
             overlayOpacity={0.36}
           >
             {({ start }) => (
-              <>
-                <View>
+              <View>
                   <Button title="Start" onPress={start} />
 
                   <SectionContainerView>
@@ -102,12 +100,10 @@ const App: React.FC = () => {
                     </DescriptionText>
                   </SectionContainerView>
                 </View>
-              </>
             )}
           </SpotlightTourProvider>
         </ScrollView>
       </SafeAreaView>
-    </>
   );
 };
 

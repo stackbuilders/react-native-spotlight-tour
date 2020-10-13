@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from "react";
 import { Button, SafeAreaView, ScrollView, View } from "react-native";
 import {
@@ -33,7 +25,7 @@ const App: React.FC = () => {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: () => {
-          const {next} = useSpotlightTour();
+          const { next } = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
@@ -52,7 +44,7 @@ const App: React.FC = () => {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
         render: () => {
-          const {previous, stop} = useSpotlightTour();
+          const { previous, stop } = useSpotlightTour();
           return (
             <SpotDescriptionView>
               <DescriptionText>
@@ -81,7 +73,7 @@ const App: React.FC = () => {
             overlayColor={"gray"}
             overlayOpacity={0.36}
           >
-            {({start}) => (
+            {({ start }) => (
               <>
                 <View>
                   <Button title="Start" onPress={start} />

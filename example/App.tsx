@@ -85,6 +85,7 @@ const App: React.FC = () => {
                       Press the Start button to see it in action.
                     </DescriptionText>
                   </SectionContainerView>
+
                   <SectionContainerView>
                     <AttachStep index={1}>
                       <TitleText>Documentation</TitleText>
@@ -93,6 +94,7 @@ const App: React.FC = () => {
                       Please, read the documentation before install it.
                     </DescriptionText>
                   </SectionContainerView>
+
                   <SectionContainerView>
                     <TitleText>Try it!</TitleText>
                     <DescriptionText>

@@ -19,7 +19,7 @@ import {
 } from "./App.styles";
 
 const App: React.FC = () => {
-  const getTourSteps: TourStep[] =
+  const tourSteps: TourStep[] =
     [
       {
         alignTo: Align.SCREEN,
@@ -68,7 +68,7 @@ const App: React.FC = () => {
         <ScrollView>
 
           <SpotlightTourProvider
-            steps={getTourSteps}
+            steps={tourSteps}
             overlayColor={"gray"}
             overlayOpacity={0.36}
           >

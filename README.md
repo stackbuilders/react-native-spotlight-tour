@@ -34,7 +34,6 @@ import {
 } from 'react-native-spotligh-tour'
 
 ...
-return (
    <SpotlightTourProvider
       steps={getTourSteps}
       overlayColor={"gray"}
@@ -43,6 +42,7 @@ return (
       {({ start }) => (
         <>
           <Button title="Start" onPress={start} />
+
           <SectionContainerView>
             <AttachStep index={0}>
               <TitleText>Introduction</TitleText>
@@ -69,7 +69,7 @@ return (
 
 The `SpotlightTourProvider` provider allows you to wrap a section of the application to implement 
 the spotlight tour. In this section, you define a component that will trigger the tour sequence. 
-For example, a button with an onPress handler that will allow you to call the provided `start()` 
+For example, a button with an `onPress` handler that will allow you to call the provided `start()` 
 method to start the tour workflow. To customize and set up this workflow, you should pass a list 
 of `steps` to the `SpotlightTourProvider` provider. 
 [Check out the tour steps section](#setting-tour-steps) for more details.
@@ -79,30 +79,30 @@ This library shows an overlay component that darkens other UI elements on the sc
 can focus on the children's components of `AttachStep`.
 
 
-| Prop | Description |
-| ------ | ------ |
-|ref| Optional. It defines a mutable object for the Tour. This object will be populated through the provider.|
-|steps| Array of `TourStep`. It defines the steps for the tour.|
-|overlayColor| Optional and `black` by default. String, Number or rgbaArray. It defines the color for the overlay.|
-|overlayOpacity| Optional and `0.45` by default. Number or String. It defines the opacity of the overlay. |
+| Prop | Required? | Default | Description |
+| ---- | --------- | ------- | ----------- |
+|`ref`| No | N/A | Mutable object for the Tour. Populated through the provider.|
+|`steps`| Yes | N/A | Steps for the tour (array of `TourStep`).|
+|`overlayColor`| No | `black` | Color for the overlay (`String`, `Number` or `rgbaArray`).|
+|`overlayOpacity`| No | `0.45` | Opacity of the overlay (`Number` or `String`) |
 
 
 |Method| Description |
 | ------ | ------ |
-|start| Begin the tour. |
-|next| Navigate to the next defined step. |
-|previus| Navigate to the previous step.|
-|stop| Finish the tour.|
+|`start`| Begin the tour. |
+|`next`| Navigate to the next defined step. |
+|`previous`| Navigate to the previous step. |
+|`stop`| Finish the tour. |
 
 ### AttachStep
 
 The `AttachStep` wraps the components that will be highlighted by the library. It receives the 
 following properties:
 
-| Prop | Description |
-| ------ | ------ |
-| index | Number. This value defines the order for the tour sequence. |
-| disabled | Optional. `false` by default. Boolean. It defines if the library should highlight the component or not. |
+| Prop | Required? | Default | Description |
+| -----| --------- |-------- | ----------- |
+| `index` | Yes | N/A | Defines the order for the tour sequence (`Number`). |
+| `disabled` | No | `false` | Defines if the library should highlight the component or not (`Boolean`). |
 
 
 ### Setting Tour Steps
@@ -123,12 +123,13 @@ import {
   useSpotlightTour
 } from "react-native-spotlight-tour";
 
+...
 const getTourSteps: TourStep[] =
     [
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: (props) => {
+        render: () => {
           const { next } = useSpotlightTour();
           return (
             <SpotDescriptionView>
@@ -147,7 +148,7 @@ const getTourSteps: TourStep[] =
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: (props) => {
+        render: () => {
           const { previous, stop } = useSpotlightTour();
           return (
             <SpotDescriptionView>
@@ -167,16 +168,17 @@ const getTourSteps: TourStep[] =
       }
     ];
 
+...
 ```
 
-Check out the complete example [here](example)
+Check out the complete example [here](example/).
 
 
 ## Contributing
 
-Contributions are always welcome! If you are interested in contribuiting, please checkout our [Conduct Code](CODE_OF_CONDUCT).
+Contributions are always welcome! If you are interested in contribuiting, please checkout our [Conduct Code](CODE_OF_CONDUCT.md).
 
-Environment requirements:
+To run the library code locally, please consider the following versions:
 - nodejs >= 14.7.0
 - yarn >= 1.22.4
 

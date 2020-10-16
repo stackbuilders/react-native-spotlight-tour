@@ -1,52 +1,25 @@
 version: 2.1
+orbs:
+  node: 'circleci/node@4.1.0'
 
 jobs:
   build:
     working_directory: ~/repo/react-native-sportlight-tour
-    
-    machine:
-      docker_layer_caching: true
-      image: circleci/classic:latest
+
+    executor:
+      name: node/default
+      tag: '14.7'
 
     steps:
-      - checkout:
-          path: ~/repo/react-native-sportlight-tour
+      - checkout
+      - node/install:
+          node-version: '14.7.0'
+          install-npm: false
+          install-yarn: true
+          yarn-version: '1.22.4'
 
-      - run:
-          name: Setup NVM
-          command: |
-            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-            source $BASH_ENV
-
-      - run:
-          name: Install NodeJS
-          command: |
-            nvm install
-            nvm use
-            nvm alias default node
-
-      - run:
-          name: Install Yarn
-          command: |
-            curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.4
-            echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
-            source $BASH_ENV
-
-      - restore_cache:
-          keys:
-            - v1-node-modules-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-node-modules-{{ .Branch }}-
-            - v1-node-modules-
-
-      - run:
-          name: Install dependencies
-          command: yarn install --frozen-lockfile
-
-      - save_cache:
-          key: v1-node-modules-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
+      - node/install-packages:
+          pkg-manager: yarn
 
       - run:
           name: Lint
@@ -55,6 +28,10 @@ jobs:
       - run:
           name: Compile
           command: yarn compile
+
+      - run:
+          name: Tests
+          command: yarn test
 
 workflows:
   build-and-check:

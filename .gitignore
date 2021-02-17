@@ -7,3 +7,9 @@ dist/
 
 ### IDE's ###
 .idea/
+
+# Android/IntelliJ
+build/
+.gradle
+local.properties
+*.iml

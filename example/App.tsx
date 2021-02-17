@@ -24,8 +24,7 @@ const App: React.FC = () => {
       {
         alignTo: Align.SCREEN,
         position: Position.BOTTOM,
-        render: () => {
-          const { next } = useSpotlightTour();
+        render: ({ next }) => {
           return (
             <SpotDescriptionView>
               <DescriptionText>

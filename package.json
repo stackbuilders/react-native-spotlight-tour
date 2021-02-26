@@ -8,10 +8,6 @@
   "author": "Jose Luis Leon <joseluis5000l@gmail.com>",
   "license": "MIT",
   "private": false,
-  "engines": {
-    "node": "14.7.0",
-    "yarn": "1.22.4"
-  },
   "scripts": {
     "compile": "tsc",
     "lint": "tslint -c tslint.json \"!(dist)/**/*.ts?(x)\"",

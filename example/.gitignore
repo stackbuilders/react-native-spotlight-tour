@@ -29,6 +29,12 @@ build/
 local.properties
 *.iml
 
+# VSCode
+#
+.classpath
+.project
+.settings/
+
 # node.js
 #
 node_modules/

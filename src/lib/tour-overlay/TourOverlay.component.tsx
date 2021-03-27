@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import {
   Animated,
   InteractionManager,
@@ -15,6 +15,10 @@ import { Align, Position, SpotlightTourCtx } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
+export interface TourOverlayRef {
+  hideTip(): Promise<void>;
+}
+
 interface TourOverlayProps {
   color?: string | number | rgbaArray;
   opacity?: number | string;
@@ -23,7 +27,8 @@ interface TourOverlayProps {
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opacity = 0.45, tour }) => {
+export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
+  const { color = "black", opacity = 0.45, tour } = props;
   const { current, next, previous, spot, steps, stop } = tour;
 
   if (!spot || current === undefined) {
@@ -103,21 +108,28 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
         useNativeDriver: true
       })
     ]);
-    const moveOut = Animated.timing(tipOpacity, {
-      duration: 200,
-      toValue: 0,
-      useNativeDriver: true
-    });
 
-    moveOut.start(({ finished }) => {
-      if (finished) {
-        setTourStep(steps[current]);
-        setTipStyle(undefined);
+    setTourStep(steps[current]);
+    setTipStyle(undefined);
 
-        InteractionManager.runAfterInteractions(moveIn.start);
-      }
-    });
+    InteractionManager.runAfterInteractions(moveIn.start);
   }, [spot, current]);
+
+  useImperativeHandle(ref, () => ({
+    hideTip() {
+      return new Promise<void>((resolve, reject) => {
+        Animated.timing(tipOpacity, {
+          duration: 200,
+          toValue: 0,
+          useNativeDriver: true
+        })
+        .start(({ finished }) => finished
+          ? resolve()
+          : reject()
+        );
+      });
+    }
+  }));
 
   return (
     <Modal
@@ -171,4 +183,4 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
       </OverlayView>
     </Modal>
   );
-};
+});

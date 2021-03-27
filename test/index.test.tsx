@@ -1,6 +1,7 @@
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import * as React from "react";
+
 import { TourStep } from "../src";
 
 import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helper";
@@ -203,18 +204,18 @@ describe("Spotlight tour", () => {
           { ...BASE_STEP, before: beforeSpy }
         ];
         const { getByText } = render(<TestScreen steps={steps} />);
-  
+
         await waitFor(() => getByText("Start"));
-  
+
         fireEvent.press(getByText("Start"));
-  
+
         await waitFor(() => {
           expect(beforeSpy).not.toBeCalled();
           getByText("Step 1");
         });
-  
+
         fireEvent.press(getByText("Next"));
-  
+
         await waitFor(() => {
           expect(beforeSpy).toBeCalledTimes(1);
           getByText("Step 2");
@@ -231,18 +232,18 @@ describe("Spotlight tour", () => {
             { ...BASE_STEP, before: beforeSpy }
           ];
           const { getByText } = render(<TestScreen steps={steps} />);
-    
+
           await waitFor(() => getByText("Start"));
-    
+
           fireEvent.press(getByText("Start"));
-    
+
           await waitFor(() => {
             expect(beforeSpy).not.toBeCalled();
             getByText("Step 1");
           });
-    
+
           fireEvent.press(getByText("Next"));
-    
+
           await waitFor(() => {
             expect(beforeSpy).toBeCalledTimes(1);
             getByText("Step 2");
@@ -258,16 +259,16 @@ describe("Spotlight tour", () => {
             { ...BASE_STEP, before: beforeSpy }
           ];
           const { getByText, queryByText } = render(<TestScreen steps={steps} />);
-    
+
           await waitFor(() => getByText("Start"));
-    
+
           fireEvent.press(getByText("Start"));
-    
+
           await waitFor(() => {
             expect(beforeSpy).not.toBeCalled();
             getByText("Step 1");
           });
-    
+
           fireEvent.press(getByText("Next"));
 
           await waitFor(() => {

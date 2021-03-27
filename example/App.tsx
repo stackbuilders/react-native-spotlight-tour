@@ -70,6 +70,7 @@ const App: React.FC = () => {
       })
       .start();
     },
+    position: Position.TOP,
     render: ({ previous, stop }) => (
       <SpotDescriptionView>
         <DescriptionText>
@@ -87,8 +88,7 @@ const App: React.FC = () => {
           <Button title="Finish" onPress={stop} />
         </ButtonsGroupView>
       </SpotDescriptionView>
-    ),
-    position: Position.TOP
+    )
   }];
 
   return (
@@ -115,7 +115,7 @@ const App: React.FC = () => {
                       `}
                     </DescriptionText>
                   </SectionContainerView>
-                  
+
                   <SectionContainerView>
                     <AttachStep index={1}>
                       <TitleText>{"Documentation"}</TitleText>

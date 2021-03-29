@@ -1,5 +1,5 @@
-import dedent from "dedent";
-import React, { useRef, useState } from "react";
+import dedent from "@cometlib/dedent";
+import React, { useRef } from "react";
 import { Animated, Button, SafeAreaView, ScrollView, View } from "react-native";
 import {
   Align,

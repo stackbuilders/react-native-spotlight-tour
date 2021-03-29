@@ -9,7 +9,7 @@
     "lint": "tslint -c ../tslint.json \"*.ts?(x)\""
   },
   "dependencies": {
-    "dedent": "^0.7.0",
+    "@cometlib/dedent": "^0.8.0-es.10",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-spotlight-tour": "file:../",

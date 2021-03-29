@@ -1,14 +1,14 @@
 import React, { useCallback, useImperativeHandle, useState } from "react";
-import { LayoutRectangle } from "react-native";
+import { InteractionManager, LayoutRectangle } from "react-native";
 import { rgbaArray } from "react-native-svg";
+
+import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
 import { SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep } from "./SpotlightTour.context";
 import { TourOverlay } from "./tour-overlay/TourOverlay.component";
 
-type ChildFn = (value: SpotlightTour) => React.ReactNode;
-
 interface SpotlightTourProviderProps {
-  children: React.ReactNode | ChildFn;
+  children: React.ReactNode | ChildFn<SpotlightTour>;
   overlayColor?: string | number | rgbaArray;
   overlayOpacity?: number | string;
   steps: TourStep[];
@@ -20,35 +20,50 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState<LayoutRectangle>();
 
-  const changeSpot = useCallback((newSpot: LayoutRectangle) => {
-    setSpot(newSpot);
-  }, []);
-
-  const start = useCallback(() => {
-    setCurrent(0);
-  }, []);
-
-  const stop = useCallback(() => {
-    setCurrent(undefined);
-  }, []);
-
-  const next = useCallback(() => {
-    if (current !== undefined && current < steps.length - 1) {
-      setCurrent(current + 1);
-    }
-  }, [current]);
-
-  const previous = useCallback(() => {
-    if (current !== undefined && current > 0) {
-      setCurrent(current - 1);
-    }
-  }, [current]);
-
-  const goTo = useCallback((index: number) => {
+  const renderStep = useCallback((index: number) => {
     if (steps[index] !== undefined) {
-      setCurrent(index);
+      const beforeHook = steps[index].before?.();
+      const beforePromise = isPromise(beforeHook)
+        ? beforeHook
+        : Promise.resolve();
+
+      return beforePromise.then(() => {
+        InteractionManager.runAfterInteractions(() => {
+          setCurrent(index);
+        });
+      });
     }
-  }, [current]);
+
+    return Promise.resolve();
+  }, [steps]);
+
+  const changeSpot = (newSpot: LayoutRectangle) => {
+    setSpot(newSpot);
+  };
+
+  const start = () => {
+    renderStep(0);
+  };
+
+  const stop = () => {
+    setCurrent(undefined);
+  };
+
+  const next = () => {
+    if (current !== undefined && current < steps.length - 1) {
+      renderStep(current + 1);
+    }
+  };
+
+  const previous = () => {
+    if (current !== undefined && current > 0) {
+      renderStep(current - 1);
+    }
+  };
+
+  const goTo = (index: number) => {
+    renderStep(index);
+  };
 
   const tour: SpotlightTourCtx = {
     changeSpot,
@@ -73,20 +88,12 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
 
   return (
     <SpotlightTourContext.Provider value={tour}>
-      {isChildrenFunction(children)
+      {isChildFunction(children)
         ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
-        : children
+        : <>{children}</>
       }
 
       <TourOverlay color={overlayColor} opacity={overlayOpacity} tour={tour} />
     </SpotlightTourContext.Provider>
   );
 });
-
-function isChildrenFunction(children: React.ReactNode | ChildFn): children is ChildFn {
-  if (typeof children === "function") {
-    return true;
-  }
-
-  return false;
-}

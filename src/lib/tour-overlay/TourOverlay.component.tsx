@@ -55,7 +55,9 @@ export const TourOverlay: React.FC<TourOverlayProps> = ({ color = "black", opaci
       };
 
       case Position.TOP: return {
-        left: Math.round(cx - (tipLayout.width / 2)),
+        left: align === Align.SPOT
+          ? Math.round(cx - (tipLayout.width / 2))
+          : Math.round((vwDP(100) - tipLayout.width) / 2),
         marginBottom: tipMargin,
         top: Math.round(cy - r - tipLayout.height)
       };

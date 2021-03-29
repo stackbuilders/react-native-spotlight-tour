@@ -21,6 +21,7 @@ export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> &
 
 export interface TourStep {
   alignTo?: Align;
+  before?(): void | Promise<void>;
   render(props: RenderProps): React.ReactNode;
   position: Position;
 }

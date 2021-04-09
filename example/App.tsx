@@ -19,7 +19,7 @@ import {
   TitleText
 } from "./App.styles";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [gap] = useState(new Animated.Value(0));
 
   const tourSteps: TourStep[] = [{
@@ -145,5 +145,3 @@ const App: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-export default App;

@@ -1,7 +1,7 @@
 # react-native-spotlight-tour
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
-compatible). It allows you to implement a highly customizable tour feature with an awesome 
-spotlight effect with animations at the native level. This library is perfect for the following:
+compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
+effect. This library handles animations at the native level and is perfect for the following:
 
 * Guiding users on how to use your application
 * Showing an introduction to your users
@@ -106,16 +106,19 @@ following properties:
 
 ### Setting Tour Steps
 
-The `TourStep` lets you render a component with the information you want to display for each step in the tour. It has the following properties:
-| Prop       | Required? | Description |
-| ---------- | :-------: | ----------- |
-| `alignTo`  | No        | Aligns the step component to the `Align.SPOT` or the `Align.SCREEN`. Defaults to `Align.SPOT` |
-| `before`   | No        | If present, runs an operation before the step start. The function can return either `void`, or `Promise<void>`. |
-| `render`   | Yes       | A function component that will be rendered in the step. The props of this component should include the [RenderProps](#render-props). |
-| `position` | Yes       | The position with respect to the spot where the step component should be rendered: Possible values are `Position.BOTTOM`, `Position.LEFT`, `Position.RIGHT`, or `Position.TOP` |
+The `TourStep` lets you render a component with the information you want to display for each step 
+in the tour. It has the following properties:
+
+| Prop       | Required? | Default             | Description |
+| ---------- | :-------: | ------------------- | ----------- |
+| `alignTo`  | No        | `Align.SPOT`        | Aligns the step component to the `Align.SPOT` or the `Align.SCREEN`. |
+| `before`   | No        | `Promise.resolve()` | If present, it runs an operation before a step starts. The function can return either `void`, or `Promise<void>`. |
+| `render`   | Yes       | -                   | A function component that will be rendered in the step. The props of this component should include the [RenderProps](#render-props). |
+| `position` | Yes       | -                   | The position with respect to the spot where the step component will be rendered. Possible values are `Position.BOTTOM`, `Position.LEFT`, `Position.RIGHT`, or `Position.TOP` |
 
 #### Render props
-These props will be passed to the function component of `render` in a `TourStep` object. It contains the following:
+These props will be passed to the function component of `render` in a `TourStep` object. The props contain the following:
+
 | Prop       | Type         | Description |
 | ---------- | ------------ | ----------- |
 | `current`  | `number`     | The current step index. Starting from `0`. |

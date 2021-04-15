@@ -15,11 +15,11 @@ export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, inde
   const childRef = useRef<View>(null);
 
   useEffect(() => {
-    if (!disabled && current === index) {
-      if (!spot) {
-        changeSpot({ height: 0, width: 0, x: 0, y: 0 });
-      }
+    if (!spot) {
+      changeSpot({ height: 0, width: 0, x: 0, y: 0 });
+    }
 
+    if (!disabled && current === index) {
       childRef.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });

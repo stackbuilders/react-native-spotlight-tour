@@ -1,6 +1,6 @@
 import dedent from "@cometlib/dedent";
-import React, { useRef } from "react";
-import { Animated, Button, SafeAreaView, ScrollView, View } from "react-native";
+import React, { useState } from "react";
+import { Animated, Button, SafeAreaView } from "react-native";
 import {
   Align,
   AttachStep,
@@ -19,8 +19,8 @@ import {
   TitleText
 } from "./App.styles";
 
-const App: React.FC = () => {
-  const gapValue = useRef(new Animated.Value(0));
+export const App: React.FC = () => {
+  const [gap] = useState(new Animated.Value(0));
 
   const tourSteps: TourStep[] = [{
     alignTo: Align.SCREEN,
@@ -62,13 +62,19 @@ const App: React.FC = () => {
     }
   }, {
     alignTo: Align.SCREEN,
-    before: () => {
-      Animated.spring(gapValue.current, {
-        mass: 0.5,
-        toValue: 275,
-        useNativeDriver: false
-      })
-      .start();
+    before() {
+      return new Promise<void>((resolve, reject) => {
+        Animated.spring(gap, {
+          bounciness: 100,
+          speed: 1,
+          toValue: 275,
+          useNativeDriver: true
+        })
+        .start(({ finished }) => finished
+          ? resolve()
+          : reject()
+        );
+      });
     },
     position: Position.TOP,
     render: ({ previous, stop }) => (
@@ -93,54 +99,49 @@ const App: React.FC = () => {
 
   return (
     <SafeAreaView>
-        <ScrollView>
+      <SpotlightTourProvider
+        steps={tourSteps}
+        overlayColor={"gray"}
+        overlayOpacity={0.36}
+      >
+        {({ start }) => (
+          <>
+            <Button title="Start" onPress={start} />
 
-          <SpotlightTourProvider
-            steps={tourSteps}
-            overlayColor={"gray"}
-            overlayOpacity={0.36}
-          >
-            {({ start }) => (
-              <View>
-                  <Button title="Start" onPress={start} />
+            <SectionContainerView>
+              <AttachStep index={0}>
+                <TitleText>{"Introduction"}</TitleText>
+              </AttachStep>
+              <DescriptionText>
+                {dedent`
+                  This is an example using react-native-spotlight-tour library. \
+                  Press the Start button to see it in action.
+                `}
+              </DescriptionText>
+            </SectionContainerView>
 
-                  <SectionContainerView>
-                    <AttachStep index={0}>
-                      <TitleText>{"Introduction"}</TitleText>
-                    </AttachStep>
-                    <DescriptionText>
-                      {dedent`
-                        This is an example using the spotlight-tour library. \
-                        Press the Start button to see it in action.
-                      `}
-                    </DescriptionText>
-                  </SectionContainerView>
+            <SectionContainerView>
+              <AttachStep index={1}>
+                <TitleText>{"Documentation"}</TitleText>
+              </AttachStep>
+              <DescriptionText>
+                {"Please, read the documentation before installing."}
+              </DescriptionText>
+            </SectionContainerView>
 
-                  <SectionContainerView>
-                    <AttachStep index={1}>
-                      <TitleText>{"Documentation"}</TitleText>
-                    </AttachStep>
-                    <DescriptionText>
-                      {"Please, read the documentation before install it."}
-                    </DescriptionText>
-                  </SectionContainerView>
-
-                  <Animated.View style={{ marginTop: gapValue.current }}>
-                    <SectionContainerView>
-                      <AttachStep index={2}>
-                        <TitleText>{"Try it!"}</TitleText>
-                      </AttachStep>
-                      <DescriptionText>
-                        {"Remember that all feedback are welcome."}
-                      </DescriptionText>
-                    </SectionContainerView>
-                  </Animated.View>
-                </View>
-            )}
-          </SpotlightTourProvider>
-        </ScrollView>
-      </SafeAreaView>
+            <Animated.View style={{ transform: [{ translateY: gap }] }}>
+              <SectionContainerView>
+                <AttachStep index={2}>
+                  <TitleText>{"Try it!"}</TitleText>
+                </AttachStep>
+                <DescriptionText>
+                  {"Remember that all feedback is welcome."}
+                </DescriptionText>
+              </SectionContainerView>
+            </Animated.View>
+          </>
+        )}
+      </SpotlightTourProvider>
+    </SafeAreaView>
   );
 };
-
-export default App;

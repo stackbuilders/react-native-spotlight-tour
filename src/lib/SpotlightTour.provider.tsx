@@ -1,11 +1,11 @@
-import React, { useCallback, useImperativeHandle, useState } from "react";
+import React, { useCallback, useImperativeHandle, useRef, useState } from "react";
 import { InteractionManager, LayoutRectangle } from "react-native";
 import { rgbaArray } from "react-native-svg";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
 import { SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep } from "./SpotlightTour.context";
-import { TourOverlay } from "./tour-overlay/TourOverlay.component";
+import { TourOverlay, TourOverlayRef } from "./tour-overlay/TourOverlay.component";
 
 interface SpotlightTourProviderProps {
   children: React.ReactNode | ChildFn<SpotlightTour>;
@@ -20,6 +20,8 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState<LayoutRectangle>();
 
+  const overlayRef = useRef<TourOverlayRef>(null);
+
   const renderStep = useCallback((index: number) => {
     if (steps[index] !== undefined) {
       const beforeHook = steps[index].before?.();
@@ -27,7 +29,11 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         ? beforeHook
         : Promise.resolve();
 
-      return beforePromise.then(() => {
+      return Promise.all([
+        beforePromise,
+        overlayRef.current?.hideTip()
+      ])
+      .then(() => {
         InteractionManager.runAfterInteractions(() => {
           setCurrent(index);
         });
@@ -93,7 +99,12 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         : <>{children}</>
       }
 
-      <TourOverlay color={overlayColor} opacity={overlayOpacity} tour={tour} />
+      <TourOverlay
+        ref={overlayRef}
+        color={overlayColor}
+        opacity={overlayOpacity}
+        tour={tour}
+      />
     </SpotlightTourContext.Provider>
   );
 });

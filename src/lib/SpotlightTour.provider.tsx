@@ -1,5 +1,5 @@
 import React, { useCallback, useImperativeHandle, useRef, useState } from "react";
-import { InteractionManager, LayoutRectangle } from "react-native";
+import { LayoutRectangle } from "react-native";
 import { rgbaArray } from "react-native-svg";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
@@ -33,11 +33,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         beforePromise,
         overlayRef.current?.hideTip()
       ])
-      .then(() => {
-        InteractionManager.runAfterInteractions(() => {
-          setCurrent(index);
-        });
-      });
+      .then(() => setCurrent(index));
     }
 
     return Promise.resolve();

@@ -2,12 +2,17 @@
   "name": "react-native-spotlight-tour",
   "version": "0.1.0",
   "description": "React Native library to implement a highly customizable app tour feature with an awesome spotlight effect",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "repository": "git@github.com:stackbuilders/react-native-spotlight-tour.git",
   "author": "Jose Luis Leon <joseluis5000l@gmail.com>",
   "license": "MIT",
   "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "react-native": "./src/index.ts",
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "scripts": {
     "compile": "tsc",
     "lint": "tslint -c tslint.json \"!(dist)/**/*.ts?(x)\"",

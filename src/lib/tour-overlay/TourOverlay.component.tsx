@@ -1,10 +1,10 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import {
   Animated,
-  InteractionManager,
   LayoutChangeEvent,
   LayoutRectangle,
   Modal,
+  Platform,
   StyleProp,
   ViewStyle
 } from "react-native";
@@ -45,6 +45,12 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const radius = useRef(new Animated.Value(0)).current;
   const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const tipOpacity = useRef(new Animated.Value(0)).current;
+
+  const useNativeDriver = useMemo(() => Platform.select({
+    android: false,
+    default: false,
+    ios: true
+  }), [Platform.OS]);
 
   const getTipStyles = (tipLayout: LayoutRectangle): Animated.WithAnimatedValue<StyleProp<ViewStyle>> => {
     const tipMargin: string = "2%";
@@ -92,27 +98,27 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         mass: 5,
         stiffness: 300,
         toValue: { x: cx, y: cy },
-        useNativeDriver: true
+        useNativeDriver
       }),
       Animated.spring(radius, {
         damping: 30,
         mass: 5,
         stiffness: 300,
         toValue: r,
-        useNativeDriver: true
+        useNativeDriver
       }),
       Animated.timing(tipOpacity, {
         delay: 500,
         duration: 500,
         toValue: 1,
-        useNativeDriver: true
+        useNativeDriver
       })
     ]);
 
     setTourStep(steps[current]);
     setTipStyle(undefined);
 
-    InteractionManager.runAfterInteractions(moveIn.start);
+    moveIn.start();
   }, [spot, current]);
 
   useImperativeHandle(ref, () => ({
@@ -121,7 +127,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         Animated.timing(tipOpacity, {
           duration: 200,
           toValue: 0,
-          useNativeDriver: true
+          useNativeDriver
         })
         .start(({ finished }) => finished
           ? resolve()

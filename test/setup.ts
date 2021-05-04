@@ -15,7 +15,7 @@ import {
   mockNativeComponent
 } from "./helpers/native-mocks";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper")
+jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
     .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
@@ -28,9 +28,9 @@ jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper")
       measureInWindow: createMeasureMethod(buttonMockMeasureData)
     });
   })
-  .doMock("react-native/Libraries/Animated/src/AnimatedImplementation", () => {
+  .doMock("react-native/Libraries/Animated/AnimatedImplementation", () => {
     const ActualAnimated = jest.requireActual(
-      "react-native/Libraries/Animated/src/AnimatedImplementation"
+      "react-native/Libraries/Animated/AnimatedImplementation"
     );
 
     const timingMock = (

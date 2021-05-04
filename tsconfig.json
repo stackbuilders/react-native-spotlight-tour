@@ -32,8 +32,7 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ES6",
-    "module": "commonjs",
+    "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["./src/**/*"],

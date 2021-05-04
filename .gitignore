@@ -4,6 +4,7 @@ yarn-error.log
 
 ### GENERATED ###
 dist/
+react-native-spotlight-tour-v[0-9].[0-9].[0-9].tgz
 
 ### IDE's ###
 .idea/

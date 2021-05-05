@@ -25,7 +25,7 @@ You should be located in the `/example` directory.
 
 For running the iOS example, run:
 ```
-yarn iOS
+yarn ios
 ```
 
 For running the Android example, run:

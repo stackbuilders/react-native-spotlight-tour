@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useMemo, useState } from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -37,14 +37,13 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
 
   const [tourStep, setTourStep] = useState(steps[current]);
   const [tipStyle, setTipStyle] = useState<Animated.WithAnimatedValue<StyleProp<ViewStyle>>>();
+  const [radius] = useState(new Animated.Value(0));
+  const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
+  const [tipOpacity] = useState(new Animated.Value(0));
 
   const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
   const cx = spot.x + (spot.width / 2);
   const cy = spot.y + (spot.height / 2);
-
-  const radius = useRef(new Animated.Value(0)).current;
-  const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
-  const tipOpacity = useRef(new Animated.Value(0)).current;
 
   const useNativeDriver = useMemo(() => Platform.select({
     android: false,
@@ -177,7 +176,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           onLayout={measureTip}
           accessibilityLabel="Tip Overlay View"
         >
-          {tourStep.render({
+          {tipStyle && tourStep.render({
             current,
             isFirst: current === 0,
             isLast: current === steps.length - 1,

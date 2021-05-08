@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useMemo, useState } from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -36,15 +36,14 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   }
 
   const [tourStep, setTourStep] = useState(steps[current]);
-  const [tipStyle, setTipStyle] = useState<Animated.WithAnimatedValue<StyleProp<ViewStyle>>>();
+  const [tipStyle, setTipStyle] = useState<StyleProp<ViewStyle>>();
+  const [radius] = useState(new Animated.Value(0));
+  const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
+  const [tipOpacity] = useState(new Animated.Value(0));
 
   const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
   const cx = spot.x + (spot.width / 2);
   const cy = spot.y + (spot.height / 2);
-
-  const radius = useRef(new Animated.Value(0)).current;
-  const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
-  const tipOpacity = useRef(new Animated.Value(0)).current;
 
   const useNativeDriver = useMemo(() => Platform.select({
     android: false,
@@ -52,7 +51,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     ios: true
   }), [Platform.OS]);
 
-  const getTipStyles = (tipLayout: LayoutRectangle): Animated.WithAnimatedValue<StyleProp<ViewStyle>> => {
+  const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
     const align = tourStep.alignTo ?? Align.SPOT;
 
@@ -115,10 +114,18 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
       })
     ]);
 
+    moveIn.stop();
     setTourStep(steps[current]);
-    setTipStyle(undefined);
 
-    moveIn.start();
+    /**
+     * We need to start the animation asynchronously or the layout callback may
+     * overlap, causing different behaviors in iOS and than Android.
+     * TODO: Refactor the animation flow to better handle the layout callback.
+     */
+    setTimeout(() => {
+      setTipStyle(undefined);
+      moveIn.start();
+    });
   }, [spot, current]);
 
   useImperativeHandle(ref, () => ({
@@ -173,9 +180,9 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         </Svg>
 
         <TipView
-          style={[tipStyle, { opacity: tipOpacity }]}
-          onLayout={measureTip}
           accessibilityLabel="Tip Overlay View"
+          onLayout={measureTip}
+          style={[tipStyle, { opacity: tipOpacity }]}
         >
           {tourStep.render({
             current,

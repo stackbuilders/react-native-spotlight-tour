@@ -79,6 +79,8 @@ describe("Spotlight tour", () => {
 
         fireEvent.press(getByText("Start"));
 
+        await waitFor(() => getByText("Step 1"));
+
         await waitFor(() => getByLabelText("Tip Overlay View"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
@@ -157,6 +159,8 @@ describe("Spotlight tour", () => {
         fireEvent.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
+
+        await waitFor(() => getByLabelText("Tip Overlay View"));
 
         fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
           nativeEvent: {

@@ -36,7 +36,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   }
 
   const [tourStep, setTourStep] = useState(steps[current]);
-  const [tipStyle, setTipStyle] = useState<Animated.WithAnimatedValue<StyleProp<ViewStyle>>>();
+  const [tipStyle, setTipStyle] = useState<StyleProp<ViewStyle>>();
   const [radius] = useState(new Animated.Value(0));
   const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
   const [tipOpacity] = useState(new Animated.Value(0));
@@ -51,7 +51,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     ios: true
   }), [Platform.OS]);
 
-  const getTipStyles = (tipLayout: LayoutRectangle): Animated.WithAnimatedValue<StyleProp<ViewStyle>> => {
+  const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
     const align = tourStep.alignTo ?? Align.SPOT;
 
@@ -114,10 +114,18 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
       })
     ]);
 
+    moveIn.stop();
     setTourStep(steps[current]);
-    setTipStyle(undefined);
 
-    moveIn.start();
+    /**
+     * We need to start the animation asynchronously or the layout callback may
+     * overlap, causing different behaviors in iOS and than Android.
+     * TODO: Refactor the animation flow to better handle the layout callback.
+     */
+    setTimeout(() => {
+      setTipStyle(undefined);
+      moveIn.start();
+    });
   }, [spot, current]);
 
   useImperativeHandle(ref, () => ({
@@ -172,11 +180,11 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         </Svg>
 
         <TipView
-          style={[tipStyle, { opacity: tipOpacity }]}
-          onLayout={measureTip}
           accessibilityLabel="Tip Overlay View"
+          onLayout={measureTip}
+          style={[tipStyle, { opacity: tipOpacity }]}
         >
-          {tipStyle && tourStep.render({
+          {tourStep.render({
             current,
             isFirst: current === 0,
             isLast: current === steps.length - 1,

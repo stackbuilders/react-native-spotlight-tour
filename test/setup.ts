@@ -16,7 +16,7 @@ import {
 } from "./helpers/native-mocks";
 
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
-    .mock("react-native/Libraries/Components/View/View", () => {
+  .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
       measureInWindow: createMeasureMethod(viewMockMeasureData)

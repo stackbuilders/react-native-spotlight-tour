@@ -12,7 +12,7 @@ Then, you need to run:
 ```
 yarn pack
 ```
-This will generate a `react-native-spotlight-tour-<version>.tgz` file. This file is the one that will be used by the examples. Inside the `/example` directory, you could check the `dependencies` section of the `package.json` file to verify this. 
+This will generate a `react-native-spotlight-tour-<version>.tgz` file. This will be used by the example as a package. Inside the `/example` directory, you could check the `dependencies` section of the `package.json` file to verify this. 
 
 If the library is not referenced, add it with the following command:
 ```

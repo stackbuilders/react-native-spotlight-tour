@@ -46,7 +46,7 @@ jobs:
 
       - node/install:
           node-version: '16.0.0'
-          install-npm: true
+          install-npm: false
           install-yarn: true
           yarn-version: '1.22.5'
 

@@ -50,7 +50,6 @@
     "react-native-svg": ">=12.1.0"
   },
   "release": {
-    "branches": ".*",
-    "tagFormat": "v${version}"
+    "branches": ["master", "^v[0-9]+\\.[0-9]+\\.[0-9]+$"]
   }
 }

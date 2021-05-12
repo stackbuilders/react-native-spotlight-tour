@@ -34,7 +34,7 @@ jobs:
           name: Tests
           command: yarn test
 
-  release:
+  publish:
     working_directory: ~/repo/react-native-sportlight-tour
 
     executor:
@@ -65,16 +65,11 @@ jobs:
 workflows:
   main:
     jobs:
-      - build:
-          filters:
-            tags:
-              only: /.*/
+      - build
 
-      - release:
+      - publish:
           requires:
             - build
           filters:
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              ignore: /.*/
+              only: release

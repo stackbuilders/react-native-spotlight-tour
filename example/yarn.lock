@@ -3715,7 +3715,7 @@ react-native-responsive-dimensions@^3.1.1:
 
 react-native-spotlight-tour@../react-native-spotlight-tour-v0.1.0.tgz:
   version "0.1.0"
-  resolved "../react-native-spotlight-tour-v0.1.0.tgz#0d937bd4006f620341f29a9aae272b3bc8224bac"
+  resolved "../react-native-spotlight-tour-v0.1.0.tgz#7526b6d36208d19f5c45412b151f5fec31e6cfb6"
   dependencies:
     react-native-responsive-dimensions "^3.1.1"
     styled-components "^5.2.3"

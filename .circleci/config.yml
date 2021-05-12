@@ -58,12 +58,8 @@ jobs:
           command: yarn compile
 
       - run:
-          name: NPM Registry Auth
-          command: npm set //registry.npmjs.org/:_authToken $NPM_TOKEN
-
-      - run:
           name: Publish
-          command: npm publish
+          command: yarn semantic-release
 
 
 workflows:

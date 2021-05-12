@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@cometlib/dedent": "^0.8.0-es.10",
+    "@stackbuilders/react-native-spotlight-tour": "../stackbuilders-react-native-spotlight-tour-v0.1.0.tgz",
     "react": "17.0.1",
     "react-native": "0.64.0",
-    "react-native-spotlight-tour": "../react-native-spotlight-tour-v0.1.0.tgz",
     "react-native-svg": "^12.1.1",
     "styled-components": "^5.2.3"
   },

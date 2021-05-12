@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: 'circleci/node@4.1.0'
+  node: 'circleci/node@4.3.0'
 
 jobs:
   build:
@@ -8,15 +8,16 @@ jobs:
 
     executor:
       name: node/default
-      tag: '14.7'
+      tag: '16.0'
 
     steps:
       - checkout
+
       - node/install:
-          node-version: '14.7.0'
+          node-version: '16.0.0'
           install-npm: false
           install-yarn: true
-          yarn-version: '1.22.4'
+          yarn-version: '1.22.5'
 
       - node/install-packages:
           pkg-manager: yarn
@@ -33,7 +34,44 @@ jobs:
           name: Tests
           command: yarn test
 
+  release:
+    working_directory: ~/repo/react-native-sportlight-tour
+
+    executor:
+      name: node/default
+      tag: '16.0'
+
+    steps:
+      - checkout
+
+      - node/install:
+          node-version: '16.0.0'
+          install-npm: true
+          install-yarn: true
+          yarn-version: '1.22.5'
+
+      - node/install-packages:
+          pkg-manager: yarn
+
+      - run:
+          name: Compile
+          command: yarn compile
+
+      - run:
+          name: Publish
+          command: yarn semantic-release
+
+
 workflows:
-  build-and-check:
+  main:
     jobs:
       - build
+
+      - release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/

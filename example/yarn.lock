@@ -898,6 +898,13 @@
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
+"@stackbuilders/react-native-spotlight-tour@../stackbuilders-react-native-spotlight-tour-v0.1.0.tgz":
+  version "0.1.0"
+  resolved "../stackbuilders-react-native-spotlight-tour-v0.1.0.tgz#b3945314b272c7cd5e962e47d25dbabd59611fc6"
+  dependencies:
+    react-native-responsive-dimensions "^3.1.1"
+    styled-components "^5.2.3"
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -3712,13 +3719,6 @@ react-native-responsive-dimensions@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-native-responsive-dimensions/-/react-native-responsive-dimensions-3.1.1.tgz#c4daf977b30a909f21164de53a8ba4c9451efefc"
   integrity sha512-Vo2OhWsphq0HgKsmeZOeyW+c+vsFn1ZaCFkGDgdeCEEiLriT76jGA1JlUjtrj27hvyo/xzeTlBZ+vBso1A84fw==
-
-react-native-spotlight-tour@../react-native-spotlight-tour-v0.1.0.tgz:
-  version "0.1.0"
-  resolved "../react-native-spotlight-tour-v0.1.0.tgz#7526b6d36208d19f5c45412b151f5fec31e6cfb6"
-  dependencies:
-    react-native-responsive-dimensions "^3.1.1"
-    styled-components "^5.2.3"
 
 react-native-svg@^12.1.1:
   version "12.1.1"

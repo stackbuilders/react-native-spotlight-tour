@@ -972,10 +972,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@npmcli/arborist@^2.0.0", "@npmcli/arborist@^2.3.0", "@npmcli/arborist@^2.4.4":
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/@npmcli/arborist/-/arborist-2.4.4.tgz#8a5885b9d8076264aaf5547eb8c1faa95fc8e4c1"
-  integrity sha512-mqZvcPCWT6gSSYxs08aKvXmECXh9fP85q1pUIY/jDkaQ58QTRy6F7XrUQr7F77jXpYfpYKPUi6RhpuSpOXCITA==
+"@npmcli/arborist@^2.3.0", "@npmcli/arborist@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@npmcli/arborist/-/arborist-2.5.0.tgz#3a2bf74e47b4cbe20e0983291f291a2ec2c3d06f"
+  integrity sha512-YPSkV/8vofpbAJyeu52J12YnC5VTkYIcfcNkRoSW6qjfQG+QybgbJtCbcdx+M0YxfdzDKS6iDTjpNMoETZ8HOA==
   dependencies:
     "@npmcli/installed-package-contents" "^1.0.7"
     "@npmcli/map-workspaces" "^1.0.2"
@@ -5138,12 +5138,12 @@ libnpmexec@^1.1.1:
     read-package-json-fast "^2.0.2"
     walk-up-path "^1.0.0"
 
-libnpmfund@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/libnpmfund/-/libnpmfund-1.0.2.tgz#d9552d4b76dd7f0a1a61b7af6b8f27184e51b0f5"
-  integrity sha512-Scw2JiLxfT7wqW/VbxIXV8u3FaFT/ZlR8YLFgTdCPsL1Hhli0554ZXyP8JTu1sLeDpHsoqtgLb4mgYVQnqigjA==
+libnpmfund@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/libnpmfund/-/libnpmfund-1.1.0.tgz#ee91313905b3194b900530efa339bc3f9fc4e5c4"
+  integrity sha512-Kfmh3pLS5/RGKG5WXEig8mjahPVOxkik6lsbH4iX0si1xxNi6eeUh/+nF1MD+2cgalsQif3O5qyr6mNz2ryJrQ==
   dependencies:
-    "@npmcli/arborist" "^2.0.0"
+    "@npmcli/arborist" "^2.5.0"
 
 libnpmhook@^6.0.2:
   version "6.0.2"
@@ -5290,7 +5290,7 @@ lodash.uniqby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz#d99c07a669e9e6d24e1362dfe266c67616af1302"
   integrity sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI=
 
-lodash@4.x, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.7.0:
+lodash@4.x, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -6165,11 +6165,11 @@ npm-user-validate@^1.0.1:
   integrity sha512-uQwcd/tY+h1jnEaze6cdX/LrhWhoBxfSknxentoqmIuStxUExxjWd3ULMLFPiFUrZKbOVMowH6Jq2FRWfmhcEw==
 
 npm@^7.0.0:
-  version "7.12.1"
-  resolved "https://registry.yarnpkg.com/npm/-/npm-7.12.1.tgz#ef808e9684ccc1624991e76fed53f19827fc90e4"
-  integrity sha512-vjIniB3kqujcDTgH+k90J2i5PPqYZyf1gi5Ni5fARK4WQr5FuVnTQlTXloyk15+qWUxwWHcy6U8YCWwh/TLzmA==
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/npm/-/npm-7.13.0.tgz#c2c094fdb830320cf6eb4143dab0bd1dc3c0119a"
+  integrity sha512-6D9tWuUN4ef9Mi0o4Gwkv92SKsd+AS8QF/xtdWCNpX5aLlvb1x3juyiPvzPxuisxFUq2S3fZBMNehEt+Aae9Hg==
   dependencies:
-    "@npmcli/arborist" "^2.4.4"
+    "@npmcli/arborist" "^2.5.0"
     "@npmcli/ci-detect" "^1.2.0"
     "@npmcli/config" "^2.2.0"
     "@npmcli/run-script" "^1.8.5"
@@ -6195,7 +6195,7 @@ npm@^7.0.0:
     libnpmaccess "^4.0.2"
     libnpmdiff "^2.0.4"
     libnpmexec "^1.1.1"
-    libnpmfund "^1.0.2"
+    libnpmfund "^1.1.0"
     libnpmhook "^6.0.2"
     libnpmorg "^2.0.2"
     libnpmpack "^2.0.1"
@@ -6830,7 +6830,7 @@ react-devtools-core@^4.6.0:
     shell-quote "^1.6.1"
     ws "^7"
 
-"react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1:
+"react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
@@ -7335,10 +7335,10 @@ scheduler@^0.20.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-semantic-release@^17.4.2:
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.2.tgz#b5147b5a629c227b7074ad4cc89920a14cb08c96"
-  integrity sha512-TPLWuoe2L2DmgnQEh+OLWW5V1T+ZAa1xWuHXsuPAWEko0BqSdLPl+5+BlQ+D5Bp27S5gDJ1//Y1tgbmvUhnOCw==
+semantic-release@^17.4.3:
+  version "17.4.3"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.3.tgz#e01b2d0c0adaf5a6cc427359f1df755d1e908927"
+  integrity sha512-lTOUSrkbaQ+TRs3+BmtJhLtPSyiO7iTGmh5SyuEFqNO8HQbQ4nzXg4UlPrDQasO/C0eFK/V0eCbOzJdjtKBOYw==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
@@ -7356,7 +7356,7 @@ semantic-release@^17.4.2:
     git-log-parser "^1.2.0"
     hook-std "^2.0.0"
     hosted-git-info "^4.0.0"
-    lodash "^4.17.15"
+    lodash "^4.17.21"
     marked "^2.0.0"
     marked-terminal "^4.1.1"
     micromatch "^4.0.2"

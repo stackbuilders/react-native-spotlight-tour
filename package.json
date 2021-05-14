@@ -54,5 +54,8 @@
     "branches": [
       "release"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

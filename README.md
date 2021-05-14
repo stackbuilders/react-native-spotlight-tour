@@ -171,7 +171,6 @@ const mySteps: TourStep[] = [{
 
 Check out the complete example [here](example/).
 
-
 ## Contributing
 
 Contributions are always welcome! If you are interested in contributing, please check out our [Conduct Code](CODE_OF_CONDUCT.md).

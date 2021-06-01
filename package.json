@@ -10,8 +10,8 @@
   "types": "./dist/index.d.ts",
   "react-native": "./src/index.ts",
   "files": [
-    "./dist",
-    "./src"
+    "dist/",
+    "src/"
   ],
   "scripts": {
     "compile": "tsc",

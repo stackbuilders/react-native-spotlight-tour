@@ -1,6 +1,4 @@
 import dedent from "@cometlib/dedent";
-import React, { useState } from "react";
-import { Animated, Button, SafeAreaView } from "react-native";
 import {
   Align,
   AttachStep,
@@ -8,7 +6,9 @@ import {
   SpotlightTourProvider,
   TourStep,
   useSpotlightTour
-} from "react-native-spotlight-tour";
+} from "@stackbuilders/react-native-spotlight-tour";
+import React, { useState } from "react";
+import { Animated, Button, SafeAreaView } from "react-native";
 
 import {
   BoldText,

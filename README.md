@@ -1,4 +1,4 @@
-# react-native-spotlight-tour
+# React Native Spotlight Tour
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
 compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
 effect. This library handles animations at the native level and is perfect for the following:
@@ -16,18 +16,18 @@ effect. This library handles animations at the native level and is perfect for t
 ## Installation
 With `npm`:
 ```sh
-$ npm install react-native-spotlight-tour
+$ npm install @stackbuilders/react-native-spotlight-tour
 ```
 
 With `yarn`:
 ```sh
-$ yarn add react-native-spotlight-tour
+$ yarn add @stackbuilders/react-native-spotlight-tour
 ```
 
 ## Basic usage
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotligh-tour";
+import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
   ...
@@ -136,7 +136,7 @@ import {
   Position,
   TourStep,
   useSpotlightTour
-} from "react-native-spotlight-tour";
+} from "@stackbuilders/react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [{
   alignTo: Align.SCREEN,

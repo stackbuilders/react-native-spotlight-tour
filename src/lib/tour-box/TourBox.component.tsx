@@ -66,9 +66,6 @@ export const TourBox: React.FC<TourBoxProps> = props => {
       }
 
       <FooterContainer>
-        {
-          // having a way to customize the bottom nav should be useful
-        }
         {!hideBack && (
           <NavButton style={backStyle} onPress={handleBack}>
             <Text>

@@ -4,7 +4,7 @@ import { vh } from "../../helpers/responsive";
 
 export const MainContainer = styled.View`
   background-color: white;
-  border-radius: 8;
+  border-radius: 8px;
   width: 90%;
   align-items: center;
   justify-content: center;

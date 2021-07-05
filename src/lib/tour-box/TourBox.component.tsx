@@ -16,7 +16,6 @@ interface TourBoxProps extends RenderProps {
   backStyle?: StyleProp<ViewStyle>;
   nextStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
-  descriptionStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -32,7 +31,6 @@ export const TourBox: React.FC<TourBoxProps> = props => {
     backStyle,
     nextStyle,
     titleStyle,
-    descriptionStyle,
     style,
     children,
     isLast,
@@ -60,27 +58,26 @@ export const TourBox: React.FC<TourBoxProps> = props => {
         </TitleText>
       )}
 
-      {typeof children === "string"
-        ? <Text style={descriptionStyle}>{children}</Text>
-        : children
-      }
+      {children}
 
-      <FooterContainer>
-        {!hideBack && (
-          <NavButton style={backStyle} onPress={handleBack}>
-            <Text>
-              {backText ?? "Back"}
-            </Text>
-          </NavButton>
-        )}
-        {!hideNext && (
-          <NavButton style={nextStyle} onPress={handleNext}>
-            <Text>
-              {nextText ?? "Next"}
-            </Text>
-          </NavButton>
-        )}
-      </FooterContainer>
+      {hideBack && hideNext && (
+        <FooterContainer>
+          {!hideBack && (
+            <NavButton style={backStyle} onPress={handleBack}>
+              <Text>
+                {backText ?? "Back"}
+              </Text>
+            </NavButton>
+          )}
+          {!hideNext && (
+            <NavButton style={nextStyle} onPress={handleNext}>
+              <Text>
+                {nextText ?? "Next"}
+              </Text>
+            </NavButton>
+          )}
+        </FooterContainer>
+      )}
     </MainContainer>
   );
 };

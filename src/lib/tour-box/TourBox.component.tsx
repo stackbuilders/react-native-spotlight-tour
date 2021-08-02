@@ -60,7 +60,7 @@ export const TourBox: React.FC<TourBoxProps> = props => {
 
       {children}
 
-      {hideBack && hideNext && (
+      {(!hideBack || !hideNext) && (
         <FooterContainer>
           {!hideBack && (
             <NavButton style={backStyle} onPress={handleBack}>

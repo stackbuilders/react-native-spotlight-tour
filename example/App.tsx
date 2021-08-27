@@ -65,7 +65,8 @@ export const App: React.FC = () => {
   {
     alignTo: Align.SCREEN,
     position: Position.BOTTOM,
-    render: props => <TourBox
+    render: props => (
+      <TourBox
         title="Tour: Customization"
         backText="Previous"
         nextText="Next"
@@ -77,6 +78,7 @@ export const App: React.FC = () => {
           {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
         </Text>
       </TourBox>
+    )
   }, {
     alignTo: Align.SCREEN,
     before() {

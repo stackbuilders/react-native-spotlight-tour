@@ -3,13 +3,13 @@ import styled from "styled-components/native";
 import { vh } from "../../helpers/responsive";
 
 export const MainContainer = styled.View`
+  align-items: center;
+  align-self: center;
   background-color: white;
   border-radius: 8px;
-  width: 90%;
-  align-items: center;
   justify-content: center;
-  align-self: center;
   padding: ${vh(1)};
+  width: 90%;
 `;
 
 export const TitleText = styled.Text`
@@ -19,11 +19,11 @@ export const TitleText = styled.Text`
 export const FooterContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
-  width: 100%;
   margin-top: ${vh(1)};
+  width: 100%;
 `;
 
 export const NavButton = styled.TouchableOpacity`
-  padding: ${vh(2)};
   align-items: center;
+  padding: ${vh(2)};
 `;

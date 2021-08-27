@@ -65,14 +65,14 @@ export const TourBox: React.FC<TourBoxProps> = props => {
           {!hideBack && (
             <NavButton style={backStyle} onPress={handleBack}>
               <Text>
-                {backText ?? "Back"}
+                {backText || "Back"}
               </Text>
             </NavButton>
           )}
           {!hideNext && (
             <NavButton style={nextStyle} onPress={handleNext}>
               <Text>
-                {nextText ?? "Next"}
+                {nextText || "Next"}
               </Text>
             </NavButton>
           )}

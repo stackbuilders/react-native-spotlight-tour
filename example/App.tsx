@@ -4,11 +4,12 @@ import {
   AttachStep,
   Position,
   SpotlightTourProvider,
+  TourBox,
   TourStep,
   useSpotlightTour
 } from "@stackbuilders/react-native-spotlight-tour";
 import React, { useState } from "react";
-import { Animated, Button, SafeAreaView } from "react-native";
+import { Animated, Button, SafeAreaView, Text } from "react-native";
 
 import {
   BoldText,
@@ -60,6 +61,24 @@ export const App: React.FC = () => {
         </SpotDescriptionView>
       );
     }
+  },
+  {
+    alignTo: Align.SCREEN,
+    position: Position.BOTTOM,
+    render: props => (
+      <TourBox
+        title="Tour: Customization"
+        backText="Previous"
+        nextText="Next"
+        {...props}
+      >
+        <Text>
+          {"This is the third step of tour example.\n"}
+          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        </Text>
+      </TourBox>
+    )
   }, {
     alignTo: Align.SCREEN,
     before() {
@@ -82,7 +101,7 @@ export const App: React.FC = () => {
         <DescriptionText>
           <BoldText>{"Tour: Try it!\n"}</BoldText>
           {dedent`
-            This is the third step of the tour example.
+            This is the final step of the tour example.
             You can move your view or make transitions before an step kicks off!\n
           `}
           {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
@@ -129,9 +148,18 @@ export const App: React.FC = () => {
               </DescriptionText>
             </SectionContainerView>
 
+            <SectionContainerView>
+              <AttachStep index={2}>
+                <TitleText>{"It is fully customizable!"}</TitleText>
+              </AttachStep>
+              <DescriptionText>
+                {"A variety of options are available and you can create your own"}
+              </DescriptionText>
+            </SectionContainerView>
+
             <Animated.View style={{ transform: [{ translateY: gap }] }}>
               <SectionContainerView>
-                <AttachStep index={2}>
+                <AttachStep index={3}>
                   <TitleText>{"Try it!"}</TitleText>
                 </AttachStep>
                 <DescriptionText>

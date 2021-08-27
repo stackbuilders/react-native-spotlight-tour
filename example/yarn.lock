@@ -898,9 +898,9 @@
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@stackbuilders/react-native-spotlight-tour@../stackbuilders-react-native-spotlight-tour-v0.1.0.tgz":
-  version "0.1.0"
-  resolved "../stackbuilders-react-native-spotlight-tour-v0.1.0.tgz#b3945314b272c7cd5e962e47d25dbabd59611fc6"
+"@stackbuilders/react-native-spotlight-tour@../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz":
+  version "0.0.0"
+  resolved "../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz#e0e83148b99d83bfe34c1416d2eb1c02e542857f"
   dependencies:
     react-native-responsive-dimensions "^3.1.1"
     styled-components "^5.2.3"

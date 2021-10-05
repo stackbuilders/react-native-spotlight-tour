@@ -1,4 +1,8 @@
-# React Native Spotlight Tour
+![logo](https://user-images.githubusercontent.com/28307017/135991906-d1ce8a34-2b5f-42af-87ad-bc6f5eb4562d.png)
+
+
+
+# React Native Spotlight Tour 🔎
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
 compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
 effect. This library handles animations at the native level and is perfect for the following:
@@ -8,12 +12,12 @@ effect. This library handles animations at the native level and is perfect for t
 
 <img src="tour-demo.gif" alt="spotlight" width="200"/>
 
-## Requirements
+## Requirements ⚓
 * react >= 16.8.0
 * react-native >= 0.50.0
 * react-native-svg >= 12.1.0
 
-## Installation
+## Installation ✨
 With `npm`:
 ```sh
 $ npm install @stackbuilders/react-native-spotlight-tour
@@ -24,7 +28,7 @@ With `yarn`:
 $ yarn add @stackbuilders/react-native-spotlight-tour
 ```
 
-## Basic usage
+## Basic usage ⚙️
 
 ```tsx
 import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
@@ -64,7 +68,7 @@ const mySteps: TourStep[] = [
   ...
 ```
 
-### SpotlightTourProvider
+### SpotlightTourProvider 🔎
 
 The `SpotlightTourProvider` allows you to wrap a section of the application to implement 
 the spotlight tour. In this section, you can define a component that will trigger the tour sequence. 
@@ -171,7 +175,7 @@ const mySteps: TourStep[] = [{
 
 Check out the complete example [here](example/).
 
-## Contributing
+## Contributing ❤️
 
 Contributions are always welcome! If you are interested in contributing, please check out our [Conduct Code](CODE_OF_CONDUCT.md).
 

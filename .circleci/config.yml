@@ -8,16 +8,16 @@ jobs:
 
     executor:
       name: node/default
-      tag: '16.0'
+      tag: '17.3.0'
 
     steps:
       - checkout
 
       - node/install:
-          node-version: '16.0.0'
+          node-version: '17.3.0'
           install-npm: false
           install-yarn: true
-          yarn-version: '1.22.5'
+          yarn-version: '1.22.17'
 
       - node/install-packages:
           pkg-manager: yarn
@@ -39,16 +39,16 @@ jobs:
 
     executor:
       name: node/default
-      tag: '16.0'
+      tag: '17.3.0'
 
     steps:
       - checkout
 
       - node/install:
-          node-version: '16.0.0'
+          node-version: '17.3.0'
           install-npm: false
           install-yarn: true
-          yarn-version: '1.22.5'
+          yarn-version: '1.22.17'
 
       - node/install-packages:
           pkg-manager: yarn

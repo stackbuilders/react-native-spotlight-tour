@@ -9,7 +9,7 @@ import {
   useSpotlightTour
 } from "@stackbuilders/react-native-spotlight-tour";
 import React, { useState } from "react";
-import { Animated, Button, SafeAreaView, Text } from "react-native";
+import { Animated, Button, Dimensions, Platform, SafeAreaView, Text } from "react-native";
 
 import {
   BoldText,
@@ -86,8 +86,8 @@ export const App: React.FC = () => {
         Animated.spring(gap, {
           bounciness: 100,
           speed: 1,
-          toValue: 275,
-          useNativeDriver: true
+          toValue: Dimensions.get("screen").height * 0.25,
+          useNativeDriver: Platform.OS !== "android"
         })
         .start(({ finished }) => finished
           ? resolve()

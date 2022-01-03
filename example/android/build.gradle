@@ -36,3 +36,7 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
+
+wrapper {
+    distributionType = "all"
+}

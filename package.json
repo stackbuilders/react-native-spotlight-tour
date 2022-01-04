@@ -52,6 +52,9 @@
     "react-native": ">=0.50.0",
     "react-native-svg": ">=12.1.0"
   },
+  "resolutions": {
+    "@types/react-native": "^0.66.10"
+  },
   "release": {
     "branches": [
       "release"

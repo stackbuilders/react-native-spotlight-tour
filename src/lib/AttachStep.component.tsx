@@ -1,5 +1,6 @@
-import React, { ClassAttributes, isValidElement, useContext, useEffect, useRef } from "react";
-import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
+import React, { useContext, useEffect, useRef } from "react";
+import { StyleProp, View, ViewStyle } from "react-native";
+import styled from "styled-components/native";
 
 import { SpotlightTourContext } from "./SpotlightTour.context";
 
@@ -8,6 +9,10 @@ interface AttachStepProps {
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }
+
+const StepView = styled.View`
+  align-self: flex-start;
+`;
 
 export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, index, style }) => {
   const { current, changeSpot, spot } = useContext(SpotlightTourContext);
@@ -26,16 +31,9 @@ export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, inde
     }
   }, [current, disabled]);
 
-  if (isValidElement(children) && React.Children.count(children) === 1) {
-    return React.cloneElement<ClassAttributes<View> & ViewProps>(
-      React.Children.only(children),
-      { ref: childRef, collapsable: false }
-    );
-  }
-
   return (
-    <View ref={childRef} collapsable={false} style={style}>
+    <StepView ref={childRef} collapsable={false} style={style}>
       {children}
-    </View>
+    </StepView>
   );
 };

@@ -1068,7 +1068,7 @@
 
 "@stackbuilders/react-native-spotlight-tour@../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz":
   version "0.0.0"
-  resolved "../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz#1c9cab35d8a64af870ea92fcd10a92078f3e6191"
+  resolved "../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz#a50e50ba75ee637a0b40ea177f238640d79e6772"
   dependencies:
     react-native-responsive-dimensions "^3.1.1"
     styled-components "^5.2.3"

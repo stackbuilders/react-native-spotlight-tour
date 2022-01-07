@@ -66,7 +66,7 @@ describe("Lib.TourOverlay.TourOverlayComponent", () => {
     });
 
     describe("and the next step is triggered", () => {
-      it("rcalls the next callback once", async () => {
+      it("calls the next callback once", async () => {
         const { getByText } = render(<TourOverlay tour={BASE_TOUR} />);
 
         await waitFor(() => getByText("Step 1"));

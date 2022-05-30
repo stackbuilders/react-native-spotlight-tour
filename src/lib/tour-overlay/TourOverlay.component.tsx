@@ -11,7 +11,7 @@ import {
 import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, Position, SpotlightTourCtx } from "../SpotlightTour.context";
+import { Align, Position, SpotlightTourCtx, Shape } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
@@ -26,6 +26,7 @@ interface TourOverlayProps {
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;
@@ -40,6 +41,9 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const [radius] = useState(new Animated.Value(0));
   const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
   const [tipOpacity] = useState(new Animated.Value(0));
+  const [rectCoordinates] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
+
+  const shape = tourStep.shape ?? Shape.SPOTLIGHT;
 
   const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
   const cx = spot.x + (spot.width / 2);
@@ -50,6 +54,17 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     default: false,
     ios: true
   }), [Platform.OS]);
+
+  const rectWidth = spot.width;
+  const rectHeight = spot.height;
+
+  const circleProperties = { r: radius, cx: center.x, cy: center.y };
+  const rectProperties = { x: rectCoordinates.x, y: rectCoordinates.y };
+
+  const MaskElement = {
+    [Shape.SPOTLIGHT]: <AnimatedCircle {...circleProperties} fill="black" />,
+    [Shape.RECTANGLE]: <AnimatedRect {...rectProperties} width={rectWidth} height={rectHeight} fill="black" />,
+  }[shape];
 
   const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
@@ -161,12 +176,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height="100%" width="100%" fill="#fff" />
-              <AnimatedCircle
-                r={radius}
-                cx={center.x}
-                cy={center.y}
-                fill="black"
-              />
+                {MaskElement}
             </Mask>
           </Defs>
 

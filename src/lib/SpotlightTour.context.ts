@@ -18,6 +18,11 @@ export enum Shape {
   RECTANGLE = "rectangle",
 }
 
+export enum Motion {
+  SLIDING = 'sliding',
+  FADING = 'fading',
+}
+
 export type RectangleProps = {
   horizontalRadius?: number;
   verticalRadius?: number;

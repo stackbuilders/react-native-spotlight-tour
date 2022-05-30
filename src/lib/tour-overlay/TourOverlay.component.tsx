@@ -28,6 +28,12 @@ interface TourOverlayProps {
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
+const shapeProperties = {
+  borderWidth: 0,
+  horizontalRadius: 0,
+  verticalRadius: 0,
+};
+
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;
   const { current, next, previous, spot, steps, stop } = tour;
@@ -44,6 +50,11 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const [rectCoordinates] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
 
   const shape = tourStep.shape ?? Shape.SPOTLIGHT;
+  const {
+    borderWidth = 0,
+    horizontalRadius = 0,
+    verticalRadius = 0,
+  } = tourStep.shapeProperties ?? shapeProperties;
 
   const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
   const cx = spot.x + (spot.width / 2);
@@ -55,17 +66,17 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     ios: true
   }), [Platform.OS]);
 
-  const rectWidth = spot.width;
-  const rectHeight = spot.height;
-  const rectX = spot.x;
-  const rectY = spot.y;
+  const rectWidth = spot.width + 2 * borderWidth;
+  const rectHeight = spot.height + 2 * borderWidth;
+  const rectX = spot.x - borderWidth;
+  const rectY = spot.y - borderWidth;
 
   const circleProperties = { r: radius, cx: center.x, cy: center.y };
   const rectProperties = { x: rectCoordinates.x, y: rectCoordinates.y };
 
   const MaskElement = {
     [Shape.SPOTLIGHT]: <AnimatedCircle {...circleProperties} fill="black" />,
-    [Shape.RECTANGLE]: <AnimatedRect {...rectProperties} width={rectWidth} height={rectHeight} fill="black" />,
+    [Shape.RECTANGLE]: <AnimatedRect {...rectProperties} width={rectWidth} height={rectHeight} rx={horizontalRadius} ry={verticalRadius} fill="black" />,
   }[shape];
 
   const getSpotlightTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {

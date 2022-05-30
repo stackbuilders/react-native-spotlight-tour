@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import React, { useEffect, useImperativeHandle, useState, useCallback } from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -37,7 +37,7 @@ const shapeProperties = {
 const USE_NATIVE_DRIVER = true;
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
-  const { color = "black", opacity = 0.45, tour } = props;
+  const { color = "black", opacity = 0.45, tour, shouldContinueOnBackdropPress } = props;
   const { current, next, previous, spot, steps, stop } = tour;
 
   const isLastStep = current === steps.length - 1;
@@ -85,6 +85,14 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     [Shape.SPOTLIGHT]: <AnimatedCircle {...circleProperties} fill="black" />,
     [Shape.RECTANGLE]: <AnimatedRect {...rectProperties} width={rectWidth} height={rectHeight} rx={horizontalRadius} ry={verticalRadius} fill="black" />,
   }[shape];
+
+  const backdropPressHandler = useCallback(() => {
+    if (!shouldContinueOnBackdropPress) {
+      return;
+    }
+
+    return isLastStep ? stop() : next();
+  }, [isLastStep, shouldContinueOnBackdropPress, stop, next]);
 
   const getSpotlightTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";

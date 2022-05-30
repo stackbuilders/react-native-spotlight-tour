@@ -1,10 +1,9 @@
-import React, { useEffect, useImperativeHandle, useMemo, useState } from "react";
+import React, { useEffect, useImperativeHandle, useState } from "react";
 import {
   Animated,
   LayoutChangeEvent,
   LayoutRectangle,
   Modal,
-  Platform,
   StyleProp,
   ViewStyle
 } from "react-native";
@@ -39,6 +38,8 @@ const USE_NATIVE_DRIVER = true;
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;
   const { current, next, previous, spot, steps, stop } = tour;
+
+  const isLastStep = current === steps.length - 1;
 
   if (!spot || current === undefined) {
     return null;
@@ -267,7 +268,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           {tourStep.render({
             current,
             isFirst: current === 0,
-            isLast: current === steps.length - 1,
+            isLast: isLastStep,
             next,
             previous,
             stop

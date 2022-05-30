@@ -29,6 +29,7 @@ export interface TourStep {
   before?(): void | Promise<void>;
   render(props: RenderProps): React.ReactNode;
   position: Position;
+  shape?: Shape;
 }
 
 export interface SpotlightTourCtx {

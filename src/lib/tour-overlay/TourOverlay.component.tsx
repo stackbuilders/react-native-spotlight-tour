@@ -22,6 +22,7 @@ interface TourOverlayProps {
   color?: string | number | rgbaArray;
   opacity?: number | string;
   tour: SpotlightTourCtx;
+  shouldContinueOnBackdropPress?: boolean;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);

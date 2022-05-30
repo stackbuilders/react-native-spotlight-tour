@@ -12,6 +12,8 @@ interface SpotlightTourProviderProps {
   overlayColor?: string | number | rgbaArray;
   overlayOpacity?: number | string;
   steps: TourStep[];
+  shouldContinueOnBackdropPress?: boolean;
+  onStop?: () => void;
 }
 
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {

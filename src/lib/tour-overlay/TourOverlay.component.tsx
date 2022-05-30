@@ -179,6 +179,13 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         toValue: r,
         useNativeDriver
       }),
+      Animated.spring(rectCoordinates, {
+        damping: 50,
+        mass: 5,
+        stiffness: 300,
+        toValue: { x: rectX, y: rectY },
+        useNativeDriver,
+      }),
       Animated.timing(componentOpacity, {
         delay: 500,
         duration: 500,

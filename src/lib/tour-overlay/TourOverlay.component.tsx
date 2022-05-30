@@ -38,7 +38,7 @@ const shapeProperties = {
 const USE_NATIVE_DRIVER = true;
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
-  const { color = "black", opacity = 0.45, tour, shouldContinueOnBackdropPress } = props;
+  const { color = "black", opacity = 0.45, tour, shouldContinueOnBackdropPress = false } = props;
   const { current, next, previous, spot, steps, stop } = tour;
 
   const isLastStep = current === steps.length - 1;

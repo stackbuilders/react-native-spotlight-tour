@@ -5,7 +5,8 @@ import {
   LayoutRectangle,
   Modal,
   StyleProp,
-  ViewStyle
+  ViewStyle,
+  TouchableWithoutFeedback
 } from "react-native";
 import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
 
@@ -246,6 +247,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
       transparent={true}
       visible={true}
     >
+      <TouchableWithoutFeedback onPress={backdropPressHandler}>
       <OverlayView accessibilityLabel="Tour Overlay View">
         <Svg
           accessibilityLabel="Svg overlay view"
@@ -284,6 +286,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           })}
         </TipView>
       </OverlayView>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 });

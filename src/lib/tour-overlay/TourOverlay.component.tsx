@@ -46,8 +46,8 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const [tipStyle, setTipStyle] = useState<StyleProp<ViewStyle>>();
   const [radius] = useState(new Animated.Value(0));
   const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
-  const [tipOpacity] = useState(new Animated.Value(0));
   const [rectCoordinates] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
+  const [componentOpacity] = useState(new Animated.Value(0));
 
   const shape = tourStep.shape ?? Shape.SPOTLIGHT;
   const {
@@ -179,7 +179,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         toValue: r,
         useNativeDriver
       }),
-      Animated.timing(tipOpacity, {
+      Animated.timing(componentOpacity, {
         delay: 500,
         duration: 500,
         toValue: 1,
@@ -204,7 +204,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   useImperativeHandle(ref, () => ({
     hideTip() {
       return new Promise<void>((resolve, reject) => {
-        Animated.timing(tipOpacity, {
+        Animated.timing(componentOpacity, {
           duration: 200,
           toValue: 0,
           useNativeDriver
@@ -250,7 +250,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         <TipView
           accessibilityLabel="Tip Overlay View"
           onLayout={measureTip}
-          style={[tipStyle, { opacity: tipOpacity }]}
+          style={[tipStyle, { opacity: componentOpacity }]}
         >
           {tourStep.render({
             current,

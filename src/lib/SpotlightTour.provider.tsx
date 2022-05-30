@@ -17,7 +17,7 @@ interface SpotlightTourProviderProps {
 }
 
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
-  const { children, overlayColor, overlayOpacity, steps } = props;
+  const { children, overlayColor, overlayOpacity, steps, onStop } = props;
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState<LayoutRectangle>();
@@ -51,6 +51,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
 
   const stop = () => {
     setCurrent(undefined);
+    onStop?.();
   };
 
   const next = () => {

@@ -36,6 +36,7 @@ export interface TourStep {
   render(props: RenderProps): React.ReactNode;
   position: Position;
   shape?: Shape;
+  shapeProperties?: RectangleProps;
 }
 
 export interface SpotlightTourCtx {

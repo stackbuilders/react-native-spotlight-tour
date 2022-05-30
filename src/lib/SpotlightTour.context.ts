@@ -18,6 +18,12 @@ export enum Shape {
   RECTANGLE = "rectangle",
 }
 
+export type RectangleProps = {
+  horizontalRadius?: number;
+  verticalRadius?: number;
+  borderWidth?: number;
+};
+
 export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;

@@ -34,6 +34,8 @@ const shapeProperties = {
   verticalRadius: 0,
 };
 
+const USE_NATIVE_DRIVER = true;
+
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;
   const { current, next, previous, spot, steps, stop } = tour;
@@ -59,12 +61,6 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
   const cx = spot.x + (spot.width / 2);
   const cy = spot.y + (spot.height / 2);
-
-  const useNativeDriver = useMemo(() => Platform.select({
-    android: false,
-    default: false,
-    ios: true
-  }), [Platform.OS]);
 
   const rectWidth = spot.width + 2 * borderWidth;
   const rectHeight = spot.height + 2 * borderWidth;
@@ -179,27 +175,27 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         mass: 5,
         stiffness: 300,
         toValue: { x: cx, y: cy },
-        useNativeDriver
+        useNativeDriver: USE_NATIVE_DRIVER
       }),
       Animated.spring(radius, {
         damping: 30,
         mass: 5,
         stiffness: 300,
         toValue: r,
-        useNativeDriver
+        useNativeDriver: USE_NATIVE_DRIVER
       }),
       Animated.spring(rectCoordinates, {
         damping: 50,
         mass: 5,
         stiffness: 300,
         toValue: { x: rectX, y: rectY },
-        useNativeDriver,
+        useNativeDriver: USE_NATIVE_DRIVER
       }),
       Animated.timing(componentOpacity, {
         delay: 500,
         duration: 500,
         toValue: 1,
-        useNativeDriver
+        useNativeDriver: USE_NATIVE_DRIVER
       })
     ]);
 
@@ -223,7 +219,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         Animated.timing(componentOpacity, {
           duration: 200,
           toValue: 0,
-          useNativeDriver
+          useNativeDriver: USE_NATIVE_DRIVER
         })
         .start(({ finished }) => finished
           ? resolve()

@@ -42,6 +42,7 @@ export interface TourStep {
   position: Position;
   shape?: Shape;
   shapeProperties?: RectangleProps;
+  motion?: Motion;
 }
 
 export interface SpotlightTourCtx {

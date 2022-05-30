@@ -11,7 +11,7 @@ import {
 import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, Position, SpotlightTourCtx, Shape } from "../SpotlightTour.context";
+import { Align, Position, SpotlightTourCtx, Shape, Motion } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
@@ -71,8 +71,17 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const rectX = spot.x - borderWidth;
   const rectY = spot.y - borderWidth;
 
-  const circleProperties = { r: radius, cx: center.x, cy: center.y };
-  const rectProperties = { x: rectCoordinates.x, y: rectCoordinates.y };
+  const motion = tourStep.motion ?? Motion.SLIDING;
+
+  const circleProperties = {
+    [Motion.SLIDING]: { r: radius, cx: center.x, cy: center.y },
+    [Motion.FADING]: { r, cx, cy, opacity: componentOpacity },
+  }[motion];
+
+  const rectProperties = {
+    [Motion.SLIDING]: { x: rectCoordinates.x, y: rectCoordinates.y },
+    [Motion.FADING]: { x: rectX, y: rectY, opacity: componentOpacity },
+  }[motion];
 
   const MaskElement = {
     [Shape.SPOTLIGHT]: <AnimatedCircle {...circleProperties} fill="black" />,

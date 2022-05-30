@@ -57,6 +57,8 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
 
   const rectWidth = spot.width;
   const rectHeight = spot.height;
+  const rectX = spot.x;
+  const rectY = spot.y;
 
   const circleProperties = { r: radius, cx: center.x, cy: center.y };
   const rectProperties = { x: rectCoordinates.x, y: rectCoordinates.y };
@@ -66,7 +68,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     [Shape.RECTANGLE]: <AnimatedRect {...rectProperties} width={rectWidth} height={rectHeight} fill="black" />,
   }[shape];
 
-  const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
+  const getSpotlightTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
     const align = tourStep.alignTo ?? Align.SPOT;
 
@@ -101,8 +103,53 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     }
   };
 
+  const getRectangleTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
+    const tipMargin = 10;
+    const align = tourStep.alignTo ?? Align.SPOT;
+
+    const center = {
+      x: Math.round(rectX + rectWidth / 2),
+      y: Math.round(rectY + rectHeight / 2),
+    };
+
+    switch (tourStep.position) {
+      case Position.BOTTOM: return {
+        left: align === Align.SPOT
+          ? Math.round(center.x - tipLayout.width / 2)
+          : Math.round((vwDP(100) - tipLayout.width) / 2),
+        marginTop: tipMargin,
+        top: Math.round(rectY + rectHeight),
+      };
+
+      case Position.TOP: return {
+        left: align === Align.SPOT
+          ? Math.round(center.x - tipLayout.width / 2)
+          : Math.round((vwDP(100) - tipLayout.width) / 2),
+        marginBottom: tipMargin,
+        top: Math.round(rectY - tipLayout.height - tipMargin),
+      };
+
+      case Position.LEFT: return {
+        left: Math.round(rectX - tipLayout.width),
+        marginRight: tipMargin,
+        top: Math.round(center.y - tipLayout.height / 2),
+      };
+
+      case Position.RIGHT: return {
+        left: Math.round(rectX + rectWidth),
+        marginLeft: tipMargin,
+        top: Math.round(center.y - tipLayout.height / 2),
+      };
+    }
+  };
+
   const measureTip = (event: LayoutChangeEvent) => {
-    setTipStyle(getTipStyles(event.nativeEvent.layout));
+    const style = {
+      [Shape.SPOTLIGHT]: getSpotlightTipStyles(event.nativeEvent.layout),
+      [Shape.RECTANGLE]: getRectangleTipStyles(event.nativeEvent.layout),
+    }[shape];
+
+    setTipStyle(style);
   };
 
   useEffect(() => {

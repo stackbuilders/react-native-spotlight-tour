@@ -13,6 +13,11 @@ export enum Position {
   TOP = "top"
 }
 
+export enum Shape {
+  SPOTLIGHT = "spotlight",
+  RECTANGLE = "rectangle",
+}
+
 export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;

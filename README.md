@@ -102,6 +102,7 @@ following properties:
 | ---------- | :-------: | -------- | ----------- |
 | `index`    | Yes       | N/A      | Defines the order for the tour sequence (`Number`). |
 | `disabled` | No        | `false`  | Defines if the library should highlight the component or not (`Boolean`). |
+| `style`    | No        | N/A      | Defines the style for the `AttachStep` that wraps the highlighted components (`ViewStyle`). |
 
 
 ### Setting Tour Steps

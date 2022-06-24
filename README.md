@@ -1,4 +1,5 @@
 # React Native Spotlight Tour
+
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
 compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
 effect. This library handles animations at the native level and is perfect for the following:
@@ -9,18 +10,22 @@ effect. This library handles animations at the native level and is perfect for t
 <img src="tour-demo.gif" alt="spotlight" width="200"/>
 
 ## Requirements
-* react >= 16.8.0
-* react-native >= 0.50.0
-* react-native-svg >= 12.1.0
+
+* [ReactJS](https://reactjs.org/) >= 16.8.0
+* [React Native](https://reactnative.dev/) >= 0.50.0
+* [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
 
 ## Installation
+
 With `npm`:
-```sh
+
+```bash
 $ npm install @stackbuilders/react-native-spotlight-tour
 ```
 
 With `yarn`:
-```sh
+
+```bash
 $ yarn add @stackbuilders/react-native-spotlight-tour
 ```
 
@@ -171,14 +176,15 @@ const mySteps: TourStep[] = [{
 
 Check out the complete example [here](example/).
 
-## Contributing
-
-Contributions are always welcome! If you are interested in contributing, please check out our [Conduct Code](CODE_OF_CONDUCT.md).
-
-To run the library code locally, please consider the following versions:
-* nodejs >= 14.7.0
-* yarn >= 1.22.4
-
 ## License
 
-[MIT License](LICENSE).
+MIT, see [the LICENSE file](LICENSE).
+
+## Contributing
+
+Do you want to contribute to this project? Please take a look at our [contributing guideline](/docs/CONTRIBUTING.md) to know how you can help us build it.
+
+---
+<img src="https://www.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>  
+[Check out our libraries](https://github.com/stackbuilders/) | [Join our team](https://www.stackbuilders.com/join-us/)
+

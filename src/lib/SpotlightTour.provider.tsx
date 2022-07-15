@@ -12,10 +12,12 @@ interface SpotlightTourProviderProps {
   overlayColor?: string | number | rgbaArray;
   overlayOpacity?: number | string;
   steps: TourStep[];
+  shouldContinueOnBackdropPress?: boolean;
+  onStop?: () => void;
 }
 
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
-  const { children, overlayColor, overlayOpacity, steps } = props;
+  const { children, overlayColor, overlayOpacity, steps, onStop, shouldContinueOnBackdropPress } = props;
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState<LayoutRectangle>();
@@ -49,6 +51,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
 
   const stop = () => {
     setCurrent(undefined);
+    onStop?.();
   };
 
   const next = () => {
@@ -100,6 +103,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         color={overlayColor}
         opacity={overlayOpacity}
         tour={tour}
+        shouldContinueOnBackdropPress={shouldContinueOnBackdropPress}
       />
     </SpotlightTourContext.Provider>
   );

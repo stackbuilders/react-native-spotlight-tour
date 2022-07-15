@@ -13,6 +13,22 @@ export enum Position {
   TOP = "top"
 }
 
+export enum Shape {
+  SPOTLIGHT = "spotlight",
+  RECTANGLE = "rectangle",
+}
+
+export enum Motion {
+  SLIDING = 'sliding',
+  FADING = 'fading',
+}
+
+export type RectangleProps = {
+  horizontalRadius?: number;
+  verticalRadius?: number;
+  borderWidth?: number;
+};
+
 export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
   current: number;
   isFirst: boolean;
@@ -24,6 +40,9 @@ export interface TourStep {
   before?(): void | Promise<void>;
   render(props: RenderProps): React.ReactNode;
   position: Position;
+  shape?: Shape;
+  shapeProperties?: RectangleProps;
+  motion?: Motion;
 }
 
 export interface SpotlightTourCtx {

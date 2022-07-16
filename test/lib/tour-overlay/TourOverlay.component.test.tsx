@@ -1,105 +1,84 @@
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import * as React from "react";
+import React, { useEffect } from "react";
+import { Text, View } from "react-native";
 
-import { SpotlightTourCtx } from "../../../src/lib/SpotlightTour.context";
-import { TourOverlay } from "../../../src/lib/tour-overlay/TourOverlay.component";
+import { AttachStep, SpotlightTourProvider, useSpotlightTour } from "../../../src";
 import { BASE_STEP } from "../../helpers/TestTour";
 
-const changeSpot = jest.fn(() => undefined);
-const goTo = jest.fn(() => undefined);
-const next = jest.fn(() => undefined);
-const previous = jest.fn(() => undefined);
-const start = jest.fn(() => undefined);
-const stop = jest.fn(() => undefined);
+const STEPS = Array(2).fill(BASE_STEP);
 
-const BASE_TOUR: SpotlightTourCtx = {
-  changeSpot,
-  current: 0,
-  goTo,
-  next,
-  previous,
-  spot: { x: 0, y: 0, width: 100, height: 200 },
-  start,
-  steps: Array(2).fill(BASE_STEP),
-  stop
-};
+function TestScreen(): React.ReactElement {
+  const { start } = useSpotlightTour();
+
+  useEffect(() => {
+    start();
+  }, []);
+
+  return (
+    <View>
+      <AttachStep index={0}>
+        <Text>{"Test Tour 1"}</Text>
+      </AttachStep>
+
+      <AttachStep index={1}>
+        <Text>{"Test Tour 2"}</Text>
+      </AttachStep>
+    </View>
+  );
+}
 
 describe("Lib.TourOverlay.TourOverlayComponent", () => {
-  describe("when the spot is NOT present", () => {
-    it("does not render anything", () => {
-      const tour: SpotlightTourCtx = {
-        ...BASE_TOUR,
-        spot: undefined
-      };
-      const { toJSON } = render(<TourOverlay tour={tour} />);
+  describe("when the spot is in the first step", () => {
+    it("renders the first step", async () => {
+      const { getByText } = render(
+        <SpotlightTourProvider steps={STEPS}>
+          <TestScreen />
+        </SpotlightTourProvider>
+      );
 
-      expect(toJSON()).toEqual(null);
+      await waitFor(() => getByText("Step 1"));
     });
   });
 
-  describe("when the current index is NOT present", () => {
-    it("does not render anything", () => {
-      const tour: SpotlightTourCtx = {
-        ...BASE_TOUR,
-        current: undefined
-      };
-      const { toJSON } = render(<TourOverlay tour={tour} />);
-
-      expect(toJSON()).toEqual(null);
-    });
-  });
-
-  describe("when the spot and the current index are present", () => {
-    describe("and the spot is in the first step", () => {
-      it("does NOT call any callback", async () => {
-        const { getByText } = render(<TourOverlay tour={BASE_TOUR} />);
-
-        await waitFor(() => getByText("Step 1"));
-
-        expect(changeSpot).not.toBeCalled();
-        expect(goTo).not.toBeCalled();
-        expect(next).not.toBeCalled();
-        expect(previous).not.toBeCalled();
-        expect(start).not.toBeCalled();
-        expect(stop).not.toBeCalled();
-      });
-    });
-
-    describe("and the next step is triggered", () => {
-      it("calls the next callback once", async () => {
-        const { getByText } = render(<TourOverlay tour={BASE_TOUR} />);
-
-        await waitFor(() => getByText("Step 1"));
-
-        fireEvent.press(getByText("Next"));
-
-        await waitFor(() => {
-          expect(next).toBeCalledTimes(1);
-          expect(previous).not.toBeCalled();
-        });
-      });
-    });
-  });
-
-  describe("and previous step is triggered", () => {
-    it("calls the previous callback once", async () => {
-      const { getByText } = render(<TourOverlay tour={BASE_TOUR} />);
+  describe("when the next action is called", () => {
+    it("removes the previous step and renders the next step", async () => {
+      const { getByText, queryByText } = render(
+        <SpotlightTourProvider steps={STEPS}>
+          <TestScreen />
+        </SpotlightTourProvider>
+      );
 
       await waitFor(() => getByText("Step 1"));
 
       fireEvent.press(getByText("Next"));
 
-      await waitFor(() => {
-        expect(next).toBeCalledTimes(1);
-        expect(previous).not.toBeCalled();
-      });
+      await waitFor(() => getByText("Step 2"));
+
+      expect(queryByText("Step 1")).toBeNull();
+    });
+  });
+
+  describe("when previous action is called", () => {
+    it("removes the current step and renders the previous step", async () => {
+      const { getByText, queryByText } = render(
+        <SpotlightTourProvider steps={STEPS}>
+          <TestScreen />
+        </SpotlightTourProvider>
+      );
+
+      await waitFor(() => getByText("Step 1"));
+
+      fireEvent.press(getByText("Next"));
+
+      await waitFor(() => getByText("Step 2"));
+
+      expect(queryByText("Step 1")).toBeNull();
 
       fireEvent.press(getByText("Previous"));
 
-      await waitFor(() => {
-        expect(next).toBeCalledTimes(1);
-        expect(previous).toBeCalledTimes(1);
-      });
+      await waitFor(() => getByText("Step 1"));
+
+      expect(queryByText("Step 2")).toBeNull();
     });
   });
 });

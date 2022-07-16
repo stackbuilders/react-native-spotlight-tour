@@ -1,4 +1,13 @@
-import React, { ComponentClass, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import React, {
+  ComponentClass,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import {
   Animated,
   ColorValue,
@@ -12,7 +21,7 @@ import {
 import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, Position, SpotlightTourCtx } from "../SpotlightTour.context";
+import { Align, Position, SpotlightTourContext, TourStep } from "../SpotlightTour.context";
 
 import { OverlayView, TipView } from "./TourOverlay.styles";
 
@@ -22,29 +31,35 @@ export interface TourOverlayRef {
 
 interface TourOverlayProps {
   color?: ColorValue;
+  current: number;
   opacity?: number | string;
-  tour: SpotlightTourCtx;
+  spot: LayoutRectangle;
+  tourStep: TourStep;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent<ComponentClass<CircleProps>>(Circle);
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
-  const { color = "black", opacity = 0.45, tour } = props;
-  const { current, next, previous, spot, steps, stop } = tour;
+  const { color = "black", current, opacity = 0.45, spot, tourStep } = props;
+  const { next, previous, steps, stop } = useContext(SpotlightTourContext);
 
-  if (!spot || current === undefined) {
-    return null;
-  }
-
-  const [tourStep, setTourStep] = useState(steps[current]);
   const [tipStyle, setTipStyle] = useState<StyleProp<ViewStyle>>();
-  const [radius] = useState(new Animated.Value(0));
-  const [center] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
-  const [tipOpacity] = useState(new Animated.Value(0));
 
-  const r = (Math.max(spot.width, spot.height) / 2) * 1.15;
-  const cx = spot.x + (spot.width / 2);
-  const cy = spot.y + (spot.height / 2);
+  const radius = useRef(new Animated.Value(0)).current;
+  const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const tipOpacity = useRef(new Animated.Value(0)).current;
+
+  const r = useMemo((): number => {
+    return (Math.max(spot.width, spot.height) / 2) * 1.15;
+  }, [spot.width, spot.height]);
+
+  const cx = useMemo((): number => {
+    return spot.x + (spot.width / 2);
+  }, [spot.x, spot.width]);
+
+  const cy = useMemo((): number => {
+    return spot.y + (spot.height / 2);
+  }, [spot.y, spot.height]);
 
   /**
    * Animations in the native thread are disabled at the moment as they are
@@ -59,7 +74,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
     ios: false
   }), [Platform.OS]);
 
-  const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
+  const getTipStyles = useCallback((tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
     const align = tourStep?.alignTo ?? Align.SPOT;
 
@@ -92,9 +107,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         top: Math.round(cy - (tipLayout.height / 2))
       };
     }
-
-    return tipStyle;
-  };
+  }, [r, cx, cy, tourStep.position, tourStep.alignTo]);
 
   const measureTip = (event: LayoutChangeEvent) => {
     setTipStyle(getTipStyles(event.nativeEvent.layout));
@@ -124,18 +137,10 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
       })
     ]);
 
-    moveIn.stop();
-    setTourStep(steps[current]);
+    setTipStyle(undefined);
+    moveIn.start();
 
-    /**
-     * We need to start the animation asynchronously or the layout callback may
-     * overlap, causing different behaviors in iOS and than Android.
-     * TODO: Refactor the animation flow to better handle the layout callback.
-     */
-    setTimeout(() => {
-      setTipStyle(undefined);
-      moveIn.start();
-    });
+    return () => moveIn.stop();
   }, [spot, current]);
 
   useImperativeHandle(ref, () => ({
@@ -194,14 +199,14 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           onLayout={measureTip}
           style={[tipStyle, { opacity: tipOpacity }]}
         >
-          {tourStep?.render({
-            current,
-            isFirst: current === 0,
-            isLast: current === steps.length - 1,
-            next,
-            previous,
-            stop
-          })}
+          <tourStep.render
+            current={current}
+            isFirst={current === 0}
+            isLast={current === steps.length - 1}
+            next={next}
+            previous={previous}
+            stop={stop}
+          />
         </TipView>
       </OverlayView>
     </Modal>

@@ -1,4 +1,4 @@
-import React, { useCallback, useImperativeHandle, useRef, useState } from "react";
+import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
@@ -36,35 +36,41 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     }
 
     return Promise.resolve();
-  }, [steps]);
+  }, [steps, overlayRef.current]);
 
-  const changeSpot = (newSpot: LayoutRectangle) => {
+  const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
-  };
+  }, []);
 
-  const start = () => {
+  const start = useCallback((): void => {
     renderStep(0);
-  };
+  }, [renderStep]);
 
-  const stop = () => {
+  const stop = useCallback((): void => {
     setCurrent(undefined);
-  };
+  }, []);
 
-  const next = () => {
+  const next = useCallback((): void => {
     if (current !== undefined && current < steps.length - 1) {
       renderStep(current + 1);
     }
-  };
+  }, [renderStep, current, steps.length]);
 
-  const previous = () => {
+  const previous = useCallback((): void => {
     if (current !== undefined && current > 0) {
       renderStep(current - 1);
     }
-  };
+  }, [renderStep, current]);
 
-  const goTo = (index: number) => {
+  const goTo = useCallback((index: number): void => {
     renderStep(index);
-  };
+  }, [renderStep]);
+
+  const currentStep = useMemo((): TourStep | undefined => {
+    return current !== undefined
+      ? steps[current]
+      : undefined;
+  }, [steps, current]);
 
   const tour: SpotlightTourCtx = {
     changeSpot,
@@ -94,12 +100,16 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         : <>{children}</>
       }
 
-      <TourOverlay
-        ref={overlayRef}
-        color={overlayColor}
-        opacity={overlayOpacity}
-        tour={tour}
-      />
+      {spot !== undefined && current !== undefined && currentStep !== undefined && (
+        <TourOverlay
+          ref={overlayRef}
+          color={overlayColor}
+          current={current}
+          opacity={overlayOpacity}
+          spot={spot}
+          tourStep={currentStep}
+        />
+      )}
     </SpotlightTourContext.Provider>
   );
 });

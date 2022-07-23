@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.prod.json",
     "compile": "tsc -p tsconfig.json",
+    "dev": "./scripts/install-dev-on-example.sh",
     "lint": "tslint -c tslint.json \"!(build|dist)/**/*.ts?(x)\"",
     "semantic-release": "semantic-release",
     "test": "jest"
@@ -24,8 +25,8 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/preset-env": "^7.18.6",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
     "@testing-library/jest-native": "^4.0.5",
     "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^28.1.6",
@@ -37,11 +38,11 @@
     "jest": "^28.1.3",
     "react": "18.2.0",
     "react-is": "^18.2.0",
-    "react-native": "0.69.1",
+    "react-native": "0.69.2",
     "react-native-svg": "12.4.0",
     "react-test-renderer": "18.2.0",
     "semantic-release": "^19.0.3",
-    "ts-jest": "^28.0.6",
+    "ts-jest": "^28.0.7",
     "tslint": "^6.1.3",
     "tslint-react": "^5.0.0",
     "typescript": "^4.7.4",

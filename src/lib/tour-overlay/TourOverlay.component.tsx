@@ -49,7 +49,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const useNativeDriver = useMemo(() => Platform.select({
     android: false,
     default: false,
-    ios: true
+    ios: false
   }), [Platform.OS]);
 
   const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {

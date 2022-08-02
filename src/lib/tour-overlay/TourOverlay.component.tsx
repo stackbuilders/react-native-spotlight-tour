@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useMemo, useState } from "react";
+import React, { ComponentClass, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import {
   Animated,
   ColorValue,
@@ -9,7 +9,7 @@ import {
   StyleProp,
   ViewStyle
 } from "react-native";
-import Svg, { Circle, Defs, Mask, Rect } from "react-native-svg";
+import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
 import { Align, Position, SpotlightTourCtx } from "../SpotlightTour.context";
@@ -26,7 +26,7 @@ interface TourOverlayProps {
   tour: SpotlightTourCtx;
 }
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedCircle = Animated.createAnimatedComponent<ComponentClass<CircleProps>>(Circle);
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;

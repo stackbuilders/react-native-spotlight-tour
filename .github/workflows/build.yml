@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         node:
-          # - 16
+          - 16
           - 17
-          # - 18
+          - 18
 
     steps:
       - uses: actions/checkout@v3

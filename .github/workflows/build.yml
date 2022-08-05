@@ -1,0 +1,24 @@
+---
+name: Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          # - 16
+          - 17
+          # - 18
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "yarn"
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test

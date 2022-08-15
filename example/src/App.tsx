@@ -8,8 +8,8 @@ import {
   TourStep,
   useSpotlightTour
 } from "@stackbuilders/react-native-spotlight-tour";
-import React, { useState } from "react";
-import { Animated, Button, Dimensions, Platform, SafeAreaView, Text } from "react-native";
+import React, { useRef } from "react";
+import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {
   BoldText,
@@ -21,7 +21,7 @@ import {
 } from "./App.styles";
 
 export const App: React.FC = () => {
-  const [gap] = useState(new Animated.Value(0));
+  const gap = useRef(new Animated.Value(0)).current;
 
   const tourSteps: TourStep[] = [{
     alignTo: Align.SCREEN,
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
           bounciness: 100,
           speed: 1,
           toValue: Dimensions.get("screen").height * 0.25,
-          useNativeDriver: Platform.OS !== "android"
+          useNativeDriver: false // Disabled as RNST does not use native driver either (for now)
         })
         .start(({ finished }) => finished
           ? resolve()

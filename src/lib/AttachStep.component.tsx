@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { ReactElement, ReactNode, useContext, useEffect, useRef } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 
 import { SpotlightTourContext } from "./SpotlightTour.context";
 
 interface AttachStepProps {
-  index: number;
+  children: ReactNode;
   disabled?: boolean;
+  index: number;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -14,7 +15,7 @@ const StepView = styled.View`
   align-self: flex-start;
 `;
 
-export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, index, style }) => {
+export function AttachStep({ children, disabled, index, style }: AttachStepProps): ReactElement {
   const { current, changeSpot, spot } = useContext(SpotlightTourContext);
 
   const childRef = useRef<View>(null);
@@ -36,4 +37,4 @@ export const AttachStep: React.FC<AttachStepProps> = ({ children, disabled, inde
       {children}
     </StepView>
   );
-};
+}

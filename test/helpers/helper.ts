@@ -118,7 +118,9 @@ export function findPropsOnTestInstance(
     .flat(Infinity)
     .filter(item => !!item)[0];
 
-  return isReactProps(props) ? props : {};
+  return props !== undefined && isReactProps(props)
+    ? props
+    : {};
 }
 
 type AnimatedValue = number | Animated.AnimatedValue | { x: number; y: number } | Animated.AnimatedValueXY;

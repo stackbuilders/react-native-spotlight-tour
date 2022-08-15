@@ -6,15 +6,17 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
+    "incremental": true,
     "jsx": "react",
     "lib": ["ES6", "ES2019"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
+    "outDir": "./build",
     "plugins": [{
       "name": "typescript-styled-plugin",
       "lint": {
@@ -27,17 +29,23 @@
       }
     }],
     "pretty": true,
+    "removeComments": false,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "ES2017",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ]
   },
-  "include": ["./src/**/*"],
   "exclude": [
-    "./dist/**/*",
-    "./node_modules/**/*"
+    ".yarn",
+    "build/*",
+    "dist/*",
+    "example/*",
+    "node_modules/*"
   ]
 }

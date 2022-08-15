@@ -1,6 +1,7 @@
-import React, { useEffect, useImperativeHandle, useMemo, useState } from "react";
+import React, { ComponentClass, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import {
   Animated,
+  ColorValue,
   LayoutChangeEvent,
   LayoutRectangle,
   Modal,
@@ -8,7 +9,7 @@ import {
   StyleProp,
   ViewStyle
 } from "react-native";
-import Svg, { Circle, Defs, Mask, Rect, rgbaArray } from "react-native-svg";
+import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
 import { Align, Position, SpotlightTourCtx } from "../SpotlightTour.context";
@@ -20,12 +21,12 @@ export interface TourOverlayRef {
 }
 
 interface TourOverlayProps {
-  color?: string | number | rgbaArray;
+  color?: ColorValue;
   opacity?: number | string;
   tour: SpotlightTourCtx;
 }
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedCircle = Animated.createAnimatedComponent<ComponentClass<CircleProps>>(Circle);
 
 export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const { color = "black", opacity = 0.45, tour } = props;
@@ -45,17 +46,24 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const cx = spot.x + (spot.width / 2);
   const cy = spot.y + (spot.height / 2);
 
+  /**
+   * Animations in the native thread are disabled at the moment as they are
+   * causing insonconsistent renders due to the current animation workflow.
+   *
+   * We need to re-work how animation are executed, plus give the user the
+   * option to choose wheher or not the tour should use the native driver.
+   */
   const useNativeDriver = useMemo(() => Platform.select({
     android: false,
     default: false,
-    ios: true
+    ios: false
   }), [Platform.OS]);
 
   const getTipStyles = (tipLayout: LayoutRectangle): StyleProp<ViewStyle> => {
     const tipMargin: string = "2%";
-    const align = tourStep.alignTo ?? Align.SPOT;
+    const align = tourStep?.alignTo ?? Align.SPOT;
 
-    switch (tourStep.position) {
+    switch (tourStep?.position) {
       case Position.BOTTOM: return {
         left: align === Align.SPOT
           ? Math.round(cx - (tipLayout.width / 2))
@@ -84,6 +92,8 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
         top: Math.round(cy - (tipLayout.height / 2))
       };
     }
+
+    return tipStyle;
   };
 
   const measureTip = (event: LayoutChangeEvent) => {
@@ -184,7 +194,7 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
           onLayout={measureTip}
           style={[tipStyle, { opacity: tipOpacity }]}
         >
-          {tourStep.render({
+          {tourStep?.render({
             current,
             isFirst: current === 0,
             isLast: current === steps.length - 1,

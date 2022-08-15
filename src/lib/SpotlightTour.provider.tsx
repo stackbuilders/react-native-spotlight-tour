@@ -1,6 +1,5 @@
 import React, { useCallback, useImperativeHandle, useRef, useState } from "react";
-import { LayoutRectangle } from "react-native";
-import { rgbaArray } from "react-native-svg";
+import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
@@ -9,7 +8,7 @@ import { TourOverlay, TourOverlayRef } from "./tour-overlay/TourOverlay.componen
 
 interface SpotlightTourProviderProps {
   children: React.ReactNode | ChildFn<SpotlightTour>;
-  overlayColor?: string | number | rgbaArray;
+  overlayColor?: ColorValue;
   overlayOpacity?: number | string;
   steps: TourStep[];
 }
@@ -24,7 +23,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
 
   const renderStep = useCallback((index: number) => {
     if (steps[index] !== undefined) {
-      const beforeHook = steps[index].before?.();
+      const beforeHook = steps[index]?.before?.();
       const beforePromise = isPromise(beforeHook)
         ? beforeHook
         : Promise.resolve();

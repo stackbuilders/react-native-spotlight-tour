@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { StyleProp, Text, TextStyle, ViewStyle } from "react-native";
 
 import { RenderProps } from "../SpotlightTour.context";
@@ -6,6 +6,7 @@ import { RenderProps } from "../SpotlightTour.context";
 import { FooterContainer, MainContainer, NavButton, TitleText } from "./TourBox.styles";
 
 interface TourBoxProps extends RenderProps {
+  children?: ReactNode;
   backText?: string;
   nextText?: string;
   title?: string;
@@ -19,7 +20,7 @@ interface TourBoxProps extends RenderProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const TourBox: React.FC<TourBoxProps> = props => {
+export function TourBox(props: TourBoxProps): ReactElement {
   const {
     backText,
     nextText,
@@ -80,5 +81,5 @@ export const TourBox: React.FC<TourBoxProps> = props => {
       )}
     </MainContainer>
   );
-};
+}
 

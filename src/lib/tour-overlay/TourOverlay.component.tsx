@@ -46,6 +46,13 @@ export const TourOverlay = React.forwardRef<TourOverlayRef, TourOverlayProps>((p
   const cx = spot.x + (spot.width / 2);
   const cy = spot.y + (spot.height / 2);
 
+  /**
+   * Animations in the native thread are disabled at the moment as they are
+   * causing insonconsistent renders due to the current animation workflow.
+   *
+   * We need to re-work how animation are executed, plus give the user the
+   * option to choose wheher or not the tour should use the native driver.
+   */
   const useNativeDriver = useMemo(() => Platform.select({
     android: false,
     default: false,

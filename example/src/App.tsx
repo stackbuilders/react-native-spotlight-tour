@@ -87,7 +87,7 @@ export const App: React.FC = () => {
           bounciness: 100,
           speed: 1,
           toValue: Dimensions.get("screen").height * 0.25,
-          useNativeDriver: false
+          useNativeDriver: false // Disabled as RNST does not use native driver either (for now)
         })
         .start(({ finished }) => finished
           ? resolve()

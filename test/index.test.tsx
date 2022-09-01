@@ -177,7 +177,7 @@ describe("Spotlight tour", () => {
           left: 325,
           marginBottom: "2%",
           position: "absolute",
-          top: -79
+          top: -72
         });
       });
     });

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, ReactElement, useContext } from "react";
 import { LayoutRectangle, Omit } from "react-native";
 
 export enum Align {
@@ -21,21 +21,21 @@ export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> &
 
 export interface TourStep {
   alignTo?: Align;
-  before?(): void | Promise<void>;
-  render(props: RenderProps): React.ReactNode;
+  before?: () => void | Promise<void>;
+  render: (props: RenderProps) => ReactElement;
   position: Position;
 }
 
 export interface SpotlightTourCtx {
-  changeSpot(spot: LayoutRectangle): void;
+  changeSpot: (spot: LayoutRectangle) => void;
   current?: number;
-  goTo(index: number): void;
-  next(): void;
-  previous(): void;
+  goTo: (index: number) => void;
+  next: () => void;
+  previous: () => void;
   spot?: LayoutRectangle;
-  start(): void;
+  start: () => void;
   steps: TourStep[];
-  stop(): void;
+  stop: () => void;
 }
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({

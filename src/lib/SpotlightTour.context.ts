@@ -32,7 +32,7 @@ export interface SpotlightTourCtx {
   goTo: (index: number) => void;
   next: () => void;
   previous: () => void;
-  spot?: LayoutRectangle;
+  spot: LayoutRectangle;
   start: () => void;
   steps: TourStep[];
   stop: () => void;
@@ -43,6 +43,7 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   goTo: () => undefined,
   next: () => undefined,
   previous: () => undefined,
+  spot: { height: 0, width: 0, x: 0, y: 0 },
   start: () => undefined,
   steps: [],
   stop: () => undefined

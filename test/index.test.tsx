@@ -11,22 +11,22 @@ import { BASE_STEP, TestScreen } from "./helpers/TestTour";
 describe("Spotlight tour", () => {
   describe("when the tour is not running", () => {
     it("the overlay is not shown", async () => {
-      const { getByText, queryByLabelText } = render(<TestScreen />);
+      const { getByText, queryByTestId } = render(<TestScreen />);
 
       await waitFor(() => getByText("Start"));
 
-      expect(queryByLabelText("Tour Overlay View")).toBeNull();
+      expect(queryByTestId("Overlay View")).toBeNull();
     });
 
     describe("and the start button is pressed", () => {
       it("shows the overlay view", async () => {
-        const { getByText, getByLabelText } = render(<TestScreen />);
+        const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
         fireEvent.press(getByText("Start"));
 
-        await waitFor(() => getByLabelText("Tour Overlay View"));
+        await waitFor(() => getByTestId("Overlay View"));
       });
     });
   });
@@ -34,15 +34,15 @@ describe("Spotlight tour", () => {
   describe("when the tour is running", () => {
     describe("and the tour moves to the first spot", () => {
       it("wraps the component with the SVG circle", async () => {
-        const { getByText, getByLabelText } = render(<TestScreen />);
+        const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
         fireEvent.press(getByText("Start"));
 
-        await waitFor(() => getByLabelText("Tip Overlay View"));
+        await waitFor(() => getByTestId("Tooltip View"));
 
-        fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
+        fireEvent(getByTestId("Tooltip View"), "onLayout", {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
@@ -51,10 +51,10 @@ describe("Spotlight tour", () => {
           }
         });
 
-        await waitFor(() => getByLabelText("Svg overlay view"));
+        await waitFor(() => getByTestId("Spot Svg"));
 
         const svgCircleProps = findPropsOnTestInstance(
-          getByLabelText("Svg overlay view"),
+          getByTestId("Spot Svg"),
           "RNSVGCircle"
         );
 
@@ -73,7 +73,7 @@ describe("Spotlight tour", () => {
       });
 
       it("adds the tip view on the right position", async () => {
-        const { getByText, getByLabelText } = render(<TestScreen />);
+        const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
@@ -81,9 +81,9 @@ describe("Spotlight tour", () => {
 
         await waitFor(() => getByText("Step 1"));
 
-        await waitFor(() => getByLabelText("Tip Overlay View"));
+        await waitFor(() => getByTestId("Tooltip View"));
 
-        fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
+        fireEvent(getByTestId("Tooltip View"), "onLayout", {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
@@ -92,9 +92,9 @@ describe("Spotlight tour", () => {
           }
         });
 
-        await waitFor(() => getByLabelText("Svg overlay view"));
+        await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByLabelText("Tip Overlay View")).toHaveStyle({
+        expect(getByTestId("Tooltip View")).toHaveStyle({
           left: 275,
           marginTop: "2%",
           position: "absolute",
@@ -105,7 +105,7 @@ describe("Spotlight tour", () => {
 
     describe("and the tour moves to the second spot", () => {
       it("wraps the component with the SVG circle", async () => {
-        const { getByText, getByLabelText } = render(<TestScreen />);
+        const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
@@ -117,7 +117,7 @@ describe("Spotlight tour", () => {
 
         await waitFor(() => getByText("Step 2"));
 
-        fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
+        fireEvent(getByTestId("Tooltip View"), "onLayout", {
           nativeEvent: {
             layout: {
               height: buttonMockMeasureData.height,
@@ -126,10 +126,10 @@ describe("Spotlight tour", () => {
           }
         });
 
-        await waitFor(() => getByLabelText("Svg overlay view"));
+        await waitFor(() => getByTestId("Spot Svg"));
 
         const svgCircleProps = findPropsOnTestInstance(
-          getByLabelText("Svg overlay view"),
+          getByTestId("Spot Svg"),
           "RNSVGCircle"
         );
 
@@ -148,7 +148,7 @@ describe("Spotlight tour", () => {
       });
 
       it("adds the second tip view on the right position", async () => {
-        const { getByText, getByLabelText } = render(<TestScreen />);
+        const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
@@ -160,9 +160,9 @@ describe("Spotlight tour", () => {
 
         await waitFor(() => getByText("Step 2"));
 
-        await waitFor(() => getByLabelText("Tip Overlay View"));
+        await waitFor(() => getByTestId("Tooltip View"));
 
-        fireEvent(getByLabelText("Tip Overlay View"), "onLayout", {
+        fireEvent(getByTestId("Tooltip View"), "onLayout", {
           nativeEvent: {
             layout: {
               height: buttonMockMeasureData.height,
@@ -171,9 +171,9 @@ describe("Spotlight tour", () => {
           }
         });
 
-        await waitFor(() => getByLabelText("Svg overlay view"));
+        await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByLabelText("Tip Overlay View")).toHaveStyle({
+        expect(getByTestId("Tooltip View")).toHaveStyle({
           left: 325,
           marginBottom: "2%",
           position: "absolute",
@@ -185,7 +185,7 @@ describe("Spotlight tour", () => {
 
   describe("and the tour is stopped", () => {
     it("unmounts the overlay view", async () => {
-      const { getByText, queryByLabelText } = render(<TestScreen />);
+      const { getByText, queryByTestId } = render(<TestScreen />);
 
       await waitFor(() => getByText("Start"));
 
@@ -195,7 +195,7 @@ describe("Spotlight tour", () => {
 
       fireEvent.press(getByText("Stop"));
 
-      expect(queryByLabelText("Tour Overlay View")).toBeNull();
+      expect(queryByTestId("Overlay View")).toBeNull();
     });
   });
 

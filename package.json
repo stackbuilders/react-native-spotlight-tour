@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.prod.json",
     "compile": "tsc -p tsconfig.json",
-    "dev": "./scripts/install-dev-on-example.sh",
+    "dev": "./scripts/install-dev-on-example.sh && cd example && yarn start",
     "lint": "tslint -c tslint.json \"!(build|dist)/**/*.ts?(x)\"",
     "semantic-release": "semantic-release",
     "test": "jest"

@@ -3,7 +3,7 @@ import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
-import { Position, SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep } from "./SpotlightTour.context";
+import { Position, SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep, ZERO_SPOT } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./tour-overlay/TourOverlay.component";
 
 export interface OSConfig<T> {
@@ -46,20 +46,13 @@ interface SpotlightTourProviderProps {
   nativeDriver?: boolean | OSConfig<boolean>;
 }
 
-const ZERO_SPOT: LayoutRectangle = {
-  height: 0,
-  width: 0,
-  x: 0,
-  y: 0
-};
-
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
-    nativeDriver = false
+    nativeDriver = true
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -69,21 +62,19 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     hideTooltip: () => Promise.resolve({ finished: false })
   });
 
-  const renderStep = useCallback((index: number) => {
+  const renderStep = useCallback((index: number): void => {
     if (steps[index] !== undefined) {
       const beforeResult = steps[index]?.before?.();
       const beforePromise = isPromise(beforeResult)
         ? beforeResult
         : Promise.resolve();
 
-      return Promise.all([
+      Promise.all([
         beforePromise,
         overlay.current.hideTooltip()
       ])
       .then(() => setCurrent(index));
     }
-
-    return Promise.resolve();
   }, [steps]);
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {

@@ -32,23 +32,31 @@ export interface SpotlightTourCtx {
   goTo: (index: number) => void;
   next: () => void;
   previous: () => void;
-  spot?: LayoutRectangle;
+  spot: LayoutRectangle;
   start: () => void;
   steps: TourStep[];
   stop: () => void;
 }
+
+export type SpotlightTour = Omit<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
+
+export const ZERO_SPOT: LayoutRectangle = {
+  height: 0,
+  width: 0,
+  x: 0,
+  y: 0
+};
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,
   previous: () => undefined,
+  spot: ZERO_SPOT,
   start: () => undefined,
   steps: [],
   stop: () => undefined
 });
-
-export type SpotlightTour = Omit<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
 
 export function useSpotlightTour(): SpotlightTour {
   const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);

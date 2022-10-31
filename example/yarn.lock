@@ -1418,7 +1418,7 @@ __metadata:
     react: ">=16.8.0"
     react-native: ">=0.50.0"
     react-native-svg: ">=12.1.0"
-  checksum: a521283956f54208848df43f8a7113bbc19176cd02b92448eb3ddddef671ab63f5f867d2453c2b0fae9710623bb78cc8fb7f479b260e7f05bd95e38231d12972
+  checksum: e7a3abe847c65559e2eab01be0b781b7ae7268564e8221b4cac41dc6ebbcf576a1fd7d8a78b4843fe97af186467c59c7b5c3764f8204077d84304ff472d8d9e7
   languageName: node
   linkType: hard
 

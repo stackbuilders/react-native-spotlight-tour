@@ -122,6 +122,7 @@ export const App: React.FC = () => {
         steps={tourSteps}
         overlayColor={"gray"}
         overlayOpacity={0.36}
+        nativeDriver={true}
       >
         {({ start }) => (
           <>

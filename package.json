@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.prod.json",
+    "check": "yarn compile && yarn lint && yarn test",
     "compile": "tsc -p tsconfig.json",
     "dev": "./scripts/install-dev-on-example.sh && cd example && yarn start",
     "lint": "tslint -c tslint.json \"!(build|dist)/**/*.ts?(x)\"",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
+    "@stackbuilders/assertive-ts": "^1.2.0",
     "@testing-library/jest-native": "^4.0.5",
     "@testing-library/react-native": "^11.0.0",
     "@types/jest": "^28.1.6",

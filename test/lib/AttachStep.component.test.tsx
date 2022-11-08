@@ -38,7 +38,7 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
   });
 
   context("when a function component is passed as child", () => {
-    it("renders the child wrapped on a navite View", async () => {
+    it("renders the child wrapped on a native View", async () => {
       const { getByTestId } = render(
         <SpotlightTourProvider steps={[]}>
           <AttachStep index={0}>

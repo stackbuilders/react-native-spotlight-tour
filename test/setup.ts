@@ -15,6 +15,8 @@ import {
   mockNativeComponent
 } from "./helpers/native-mocks";
 
+global.context = describe;
+
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {

@@ -1,6 +1,9 @@
+import { expect as jestExpect } from "@jest/globals";
+import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import * as React from "react";
+import { ViewStyle } from "react-native";
 
 import { TourStep } from "../src";
 
@@ -8,7 +11,7 @@ import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helpe
 import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
 import { BASE_STEP, TestScreen } from "./helpers/TestTour";
 
-describe("Spotlight tour", () => {
+describe("[Integration] index.test.tsx", () => {
   describe("when the tour is not running", () => {
     it("the overlay is not shown", async () => {
       const { getByText, queryByTestId } = render(<TestScreen />);
@@ -69,7 +72,7 @@ describe("Spotlight tour", () => {
           y: svgCircleProps?.cy
         });
 
-        expect(layoutIsOverlayByCircle).toEqual(true);
+        expect(layoutIsOverlayByCircle).toBeTrue();
       });
 
       it("adds the tip view on the right position", async () => {
@@ -94,12 +97,15 @@ describe("Spotlight tour", () => {
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByTestId("Tooltip View")).toHaveStyle({
-          left: 275,
-          marginTop: "2%",
-          position: "absolute",
-          top: 431
-        });
+        expect(getByTestId("Tooltip View").props.style)
+          .asType(TypeFactories.object<ViewStyle>())
+          .toBeEqual({
+            left: 275,
+            marginTop: "2%",
+            opacity: 1,
+            position: "absolute",
+            top: 431
+          });
       });
     });
 
@@ -144,7 +150,7 @@ describe("Spotlight tour", () => {
           y: svgCircleProps?.cy
         });
 
-        expect(layoutIsOverlayByCircle).toEqual(true);
+        expect(layoutIsOverlayByCircle).toBeTrue();
       });
 
       it("adds the second tip view on the right position", async () => {
@@ -173,12 +179,15 @@ describe("Spotlight tour", () => {
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByTestId("Tooltip View")).toHaveStyle({
-          left: 325,
-          marginBottom: "2%",
-          position: "absolute",
-          top: -72
-        });
+        expect(getByTestId("Tooltip View").props.style)
+          .asType(TypeFactories.object<ViewStyle>())
+          .toBeEqual({
+            left: 325,
+            marginBottom: "2%",
+            opacity: 1,
+            position: "absolute",
+            top: -79
+          });
       });
     });
   });
@@ -214,14 +223,14 @@ describe("Spotlight tour", () => {
         fireEvent.press(getByText("Start"));
 
         await waitFor(() => {
-          expect(beforeSpy).not.toBeCalled();
+          jestExpect(beforeSpy).not.toBeCalled();
           getByText("Step 1");
         });
 
         fireEvent.press(getByText("Next"));
 
         await waitFor(() => {
-          expect(beforeSpy).toBeCalledTimes(1);
+          jestExpect(beforeSpy).toBeCalledTimes(1);
           getByText("Step 2");
         });
       });
@@ -242,14 +251,14 @@ describe("Spotlight tour", () => {
           fireEvent.press(getByText("Start"));
 
           await waitFor(() => {
-            expect(beforeSpy).not.toBeCalled();
+            jestExpect(beforeSpy).not.toBeCalled();
             getByText("Step 1");
           });
 
           fireEvent.press(getByText("Next"));
 
           await waitFor(() => {
-            expect(beforeSpy).toBeCalledTimes(1);
+            jestExpect(beforeSpy).toBeCalledTimes(1);
             getByText("Step 2");
           });
         });
@@ -269,14 +278,14 @@ describe("Spotlight tour", () => {
           fireEvent.press(getByText("Start"));
 
           await waitFor(() => {
-            expect(beforeSpy).not.toBeCalled();
+            jestExpect(beforeSpy).not.toBeCalled();
             getByText("Step 1");
           });
 
           fireEvent.press(getByText("Next"));
 
           await waitFor(() => {
-            expect(beforeSpy).toBeCalledTimes(1);
+            jestExpect(beforeSpy).toBeCalledTimes(1);
             expect(queryByText("Step 2")).toBeNull();
           });
         });

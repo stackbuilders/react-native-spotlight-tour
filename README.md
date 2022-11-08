@@ -1,3 +1,5 @@
+![Main branch status](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/build.yml/badge.svg?branch=main)
+
 # React Native Spotlight Tour
 
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 

@@ -1,3 +1,4 @@
+import { expect } from "@stackbuilders/assertive-ts";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
@@ -27,7 +28,7 @@ function TestScreen(): React.ReactElement {
   );
 }
 
-describe("Lib.TourOverlay.TourOverlayComponent", () => {
+describe("[Integration] TourOverlay.component.test.tsx", () => {
   describe("when the spot is in the first step", () => {
     it("renders the first step", async () => {
       const { getByText } = render(

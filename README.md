@@ -10,7 +10,7 @@ effect. This library handles animations at the native level and is perfect for t
 * Guiding users on how to use your application
 * Showing an introduction to your users
 
-<img src="tour-demo.gif" alt="spotlight" width="200"/>
+<img src="docs/demo.gif" alt="spotlight-demo-gif" width="300"/>
 
 ## Requirements
 

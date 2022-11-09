@@ -57,7 +57,7 @@
   },
   "release": {
     "branches": [
-      "release"
+      "setup_gh_actions"
     ]
   },
   "publishConfig": {

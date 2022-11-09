@@ -1,4 +1,3 @@
-
 import React, { ReactElement, useContext, useLayoutEffect, useRef } from "react";
 import { View } from "react-native";
 

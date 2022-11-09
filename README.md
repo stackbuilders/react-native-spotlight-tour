@@ -10,7 +10,7 @@ effect. This library handles animations at the native level and is perfect for t
 * Guiding users on how to use your application
 * Showing an introduction to your users
 
-<img src="tour-demo.gif" alt="spotlight" width="200"/>
+<img src="docs/demo.gif" alt="spotlight-demo-gif" width="300"/>
 
 ## Requirements
 
@@ -108,8 +108,9 @@ following properties:
 
 | Prop       | Required? | Default  | Description |
 | ---------- | :-------: | -------- | ----------- |
-| `index`    | Yes       | N/A      | Defines the order for the tour sequence (`Number`). |
-| `disabled` | No        | `false`  | Defines if the library should highlight the component or not (`Boolean`). |
+| `children` | Yes       | N/A      | The element in which the spotlight will be to wrapped to in the specified step of the tour. |
+| `index`    | Yes       | N/A      | The index of the `steps` array to which the step is attatched to. |
+| `fill`     | No        | false    | When `AttachStep` wraps a Functional Component, it needs to add an aditional `View` on top of it to be able to measure the layout upon render. This prop allows to define the behavior of the width of such `View`. When set to `false`, it adjusts to its contents, when set to `true`, it stretches out and tries to fill it view. |
 
 
 ### Setting Tour Steps

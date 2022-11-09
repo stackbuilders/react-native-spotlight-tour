@@ -1,5 +1,8 @@
 # React Native Spotlight Tour
 
+[![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
+[![Release](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml)
+
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
 compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
 effect. This library handles animations at the native level and is perfect for the following:

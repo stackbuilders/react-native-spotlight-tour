@@ -7,13 +7,9 @@ concurrency:
   group: ci-${{ github.ref_name }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
-  id-token: write
-  issues: write
-
 jobs:
   build:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:

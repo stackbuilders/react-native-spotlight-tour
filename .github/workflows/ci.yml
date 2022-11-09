@@ -1,14 +1,10 @@
 ---
-name: Build
+name: CI
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: push
 
 concurrency:
-  group: build-${{ github.ref_name }}
+  group: ci-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:

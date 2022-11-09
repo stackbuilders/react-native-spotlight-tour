@@ -2,14 +2,10 @@
 name: Pages
 
 on:
-  push:
-    branches: [docs/gh-pages]
-
-# on:
-#   workflow_run:
-#     workflows: [Release]
-#     branches: [release]
-#     types: [completed]
+  workflow_run:
+    workflows: [Release]
+    branches: [release]
+    types: [completed]
 
 permissions:
   contents: read
@@ -22,15 +18,14 @@ concurrency:
 
 jobs:
   build:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-            ref: docs/gh-pages
-            # ref: release
+          ref: release
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll

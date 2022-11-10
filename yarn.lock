@@ -2677,6 +2677,13 @@ __metadata:
     react: ">=16.8.0"
     react-native: ">=0.50.0"
     react-native-svg: ">=12.1.0"
+  peerDependenciesMeta:
+    react:
+      optional: false
+    react-native:
+      optional: false
+    react-native-svg:
+      optional: false
   languageName: unknown
   linkType: soft
 

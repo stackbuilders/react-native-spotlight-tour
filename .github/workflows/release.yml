@@ -3,7 +3,7 @@ name: Release
 
 on:
   push:
-    branches: [release]
+    branches: [chore/refactor-release-workflow]
 
 concurrency:
   group: release
@@ -25,7 +25,7 @@ jobs:
           cache: yarn
       - run: yarn install --immutable
       - run: yarn build
-      - run: yarn semantic-release
+      - run: yarn semantic-release --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

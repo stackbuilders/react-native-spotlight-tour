@@ -3,7 +3,6 @@ name: CI
 
 on:
   push:
-    branches-ignore: [chore/refactor-release-workflow]
   workflow_call:
 
 concurrency:

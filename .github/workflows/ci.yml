@@ -1,7 +1,9 @@
 ---
 name: CI
 
-on: push
+on:
+  push:
+  workflow_call:
 
 concurrency:
   group: ci-${{ github.ref_name }}

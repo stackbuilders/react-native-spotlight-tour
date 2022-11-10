@@ -3,8 +3,22 @@
   "version": "0.0.0",
   "description": "React Native library to implement a highly customizable app tour feature with an awesome spotlight effect",
   "repository": "git@github.com:stackbuilders/react-native-spotlight-tour.git",
-  "author": "Stack Builders <info@stackbuilders.com>",
+  "homepage": "https://stackbuilders.github.io/react-native-spotlight-tour/",
+  "bugs": "https://github.com/stackbuilders/react-native-spotlight-tour/issues",
+  "author": "Stack Builders <info@stackbuilders.com> (https://github.com/stackbuilders)",
   "license": "MIT",
+  "keywords": [
+    "app-tour",
+    "android",
+    "customizable",
+    "ios",
+    "react-native",
+    "step-by-step",
+    "spotlight",
+    "spotlight-tour",
+    "tour",
+    "user-guide"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "react-native": "./src/index.ts",
@@ -55,13 +69,16 @@
     "react-native": ">=0.50.0",
     "react-native-svg": ">=12.1.0"
   },
-  "release": {
-    "branches": [
-      "release"
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "react-native": {
+      "optional": false
+    },
+    "react-native-svg": {
+      "optional": false
+    }
   },
   "packageManager": "yarn@3.2.1"
 }

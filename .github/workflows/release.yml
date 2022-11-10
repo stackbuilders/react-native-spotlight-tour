@@ -31,5 +31,5 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pages:
-    uses: .github/workflows/pages.yml
+    uses: ./.github/workflows/pages.yml
     needs: [deploy]

@@ -1,51 +1,38 @@
-import * as React from "react";
+import { Component, ComponentClass, createElement, forwardRef, PropsWithChildren, ReactNode } from "react";
 import {
   Animated,
   MeasureInWindowOnSuccessCallback,
-  NativeMethods
+  NativeMethods,
 } from "react-native";
 
 import { MeasureOnSuccessCallbackParams } from "./measures";
 
-export function mockNativeComponent(modulePath: string, mockMethods: NativeMethods) {
-  const OriginalComponent = jest.requireActual(modulePath);
-  const SuperClass = typeof OriginalComponent === "function"
-      ? OriginalComponent
-      : React.Component;
+type Comp = ReturnType<typeof forwardRef> | ComponentClass;
 
-  const Component = class extends SuperClass {
-    static displayName: string = "Component";
+export function mockNativeComponent<T extends Comp>(modulePath: string, mockMethods: NativeMethods): T {
+  const OriginalComponent = jest.requireActual<T>(modulePath);
 
-    render() {
-      const name: string =
-        OriginalComponent.displayName ||
-        OriginalComponent.name ||
-        (OriginalComponent.render
-          ? OriginalComponent.render.displayName ||
-            OriginalComponent.render.name
-          : "Unknown");
+  const name = OriginalComponent.displayName ?? OriginalComponent.name;
 
-      const props = Object.assign({}, OriginalComponent.defaultProps);
+  const Mocked = class Other<X> extends Component<PropsWithChildren<X>> {
+    public static displayName = "Component";
 
-      if (this.props) {
-        Object.keys(this.props).forEach(prop => {
-          if (this.props[prop] !== undefined) {
-            props[prop] = this.props[prop];
-          }
-        });
-      }
+    public constructor(props: X) {
+      super(props);
+    }
 
-      return React.createElement(name.replace(/^(RCT|RK)/, ""), props, this.props.children);
+    public render(): ReactNode {
+      return createElement(
+        name.replace(/^(RCT|RK)/, ""),
+        this.props,
+        this.props.children
+      );
     }
   };
 
-  Object.keys(OriginalComponent).forEach(classStatic => {
-    Component[classStatic] = OriginalComponent[classStatic];
-  });
+  Object.assign(Mocked.prototype, mockMethods);
 
-  Object.assign(Component.prototype, mockMethods);
-
-  return Component;
+  return Mocked as T;
 }
 
 export const emptyNativeMethods: NativeMethods = {
@@ -55,11 +42,11 @@ export const emptyNativeMethods: NativeMethods = {
   measureInWindow: jest.fn(),
   measureLayout: jest.fn(),
   refs: {},
-  setNativeProps: jest.fn()
+  setNativeProps: jest.fn(),
 };
 
 export function createMeasureMethod(
-  mockMeasureData: MeasureOnSuccessCallbackParams
+  mockMeasureData: MeasureOnSuccessCallbackParams,
 ): (callback: MeasureInWindowOnSuccessCallback) => void {
   return callback => {
     const { x, y, width, height } = mockMeasureData;
@@ -70,5 +57,5 @@ export function createMeasureMethod(
 export const emptyAnimationMethods: Animated.CompositeAnimation = {
   reset: () => undefined,
   start: () => undefined,
-  stop: () => undefined
+  stop: () => undefined,
 };

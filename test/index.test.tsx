@@ -4,6 +4,7 @@ import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import * as React from "react";
 import { ViewStyle } from "react-native";
+import { CircleProps } from "react-native-svg";
 
 import { TourStep } from "../src";
 
@@ -49,27 +50,27 @@ describe("[Integration] index.test.tsx", () => {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
-              width: viewMockMeasureData.width
-            }
-          }
+              width: viewMockMeasureData.width,
+            },
+          },
         });
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        const svgCircleProps = findPropsOnTestInstance(
+        const svgCircleProps = findPropsOnTestInstance<CircleProps>(
           getByTestId("Spot Svg"),
-          "RNSVGCircle"
+          "RNSVGCircle",
         );
 
         const layoutIsOverlayByCircle = checkValidIntersection({
           height: viewMockMeasureData.height,
           width: viewMockMeasureData.width,
           x: viewMockMeasureData.x,
-          y: viewMockMeasureData.y
+          y: viewMockMeasureData.y,
         }, {
-          r: svgCircleProps?.r,
-          x: svgCircleProps?.cx,
-          y: svgCircleProps?.cy
+          r: Number(svgCircleProps?.r),
+          x: Number(svgCircleProps?.cx),
+          y: Number(svgCircleProps?.cy),
         });
 
         expect(layoutIsOverlayByCircle).toBeTrue();
@@ -90,9 +91,9 @@ describe("[Integration] index.test.tsx", () => {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
-              width: viewMockMeasureData.width
-            }
-          }
+              width: viewMockMeasureData.width,
+            },
+          },
         });
 
         await waitFor(() => getByTestId("Spot Svg"));
@@ -104,7 +105,7 @@ describe("[Integration] index.test.tsx", () => {
             marginTop: "2%",
             opacity: 1,
             position: "absolute",
-            top: 431
+            top: 431,
           });
       });
     });
@@ -127,27 +128,27 @@ describe("[Integration] index.test.tsx", () => {
           nativeEvent: {
             layout: {
               height: buttonMockMeasureData.height,
-              width: buttonMockMeasureData.width
-            }
-          }
+              width: buttonMockMeasureData.width,
+            },
+          },
         });
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        const svgCircleProps = findPropsOnTestInstance(
+        const svgCircleProps = findPropsOnTestInstance<CircleProps>(
           getByTestId("Spot Svg"),
-          "RNSVGCircle"
+          "RNSVGCircle",
         );
 
         const layoutIsOverlayByCircle = checkValidIntersection({
           height: buttonMockMeasureData.height,
           width: buttonMockMeasureData.width,
           x: buttonMockMeasureData.x,
-          y: buttonMockMeasureData.y
+          y: buttonMockMeasureData.y,
         }, {
-          r: svgCircleProps?.r,
-          x: svgCircleProps?.cx,
-          y: svgCircleProps?.cy
+          r: Number(svgCircleProps?.r),
+          x: Number(svgCircleProps?.cx),
+          y: Number(svgCircleProps?.cy),
         });
 
         expect(layoutIsOverlayByCircle).toBeTrue();
@@ -172,9 +173,9 @@ describe("[Integration] index.test.tsx", () => {
           nativeEvent: {
             layout: {
               height: buttonMockMeasureData.height,
-              width: buttonMockMeasureData.width
-            }
-          }
+              width: buttonMockMeasureData.width,
+            },
+          },
         });
 
         await waitFor(() => getByTestId("Spot Svg"));
@@ -186,7 +187,7 @@ describe("[Integration] index.test.tsx", () => {
             marginBottom: "2%",
             opacity: 1,
             position: "absolute",
-            top: -79
+            top: -79,
           });
       });
     });
@@ -214,7 +215,7 @@ describe("[Integration] index.test.tsx", () => {
         const beforeSpy = jest.fn(() => undefined);
         const steps: TourStep[] = [
           BASE_STEP,
-          { ...BASE_STEP, before: beforeSpy }
+          { ...BASE_STEP, before: beforeSpy },
         ];
         const { getByText } = render(<TestScreen steps={steps} />);
 
@@ -242,7 +243,7 @@ describe("[Integration] index.test.tsx", () => {
           const beforeSpy = jest.fn(() => Promise.resolve());
           const steps: TourStep[] = [
             BASE_STEP,
-            { ...BASE_STEP, before: beforeSpy }
+            { ...BASE_STEP, before: beforeSpy },
           ];
           const { getByText } = render(<TestScreen steps={steps} />);
 
@@ -269,7 +270,7 @@ describe("[Integration] index.test.tsx", () => {
           const beforeSpy = jest.fn(() => Promise.reject(new Error("Fail!")));
           const steps: TourStep[] = [
             BASE_STEP,
-            { ...BASE_STEP, before: beforeSpy }
+            { ...BASE_STEP, before: beforeSpy },
           ];
           const { getByText, queryByText } = render(<TestScreen steps={steps} />);
 

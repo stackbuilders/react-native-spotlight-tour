@@ -4,4 +4,5 @@ declare namespace NodeJS {
   }
 }
 
+// eslint-disable-next-line no-var
 declare var context: jest.Describe;

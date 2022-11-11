@@ -26,13 +26,11 @@ export const BASE_STEP: TourStep = {
         <Text>{"Stop"}</Text>
       </TouchableOpacity>
     </View>
-  )
+  ),
 };
 
 const TestComponent: React.FC = () => {
   const tourContext = useSpotlightTour();
-
-  const fakeAction = () => undefined;
 
   return (
     <View>
@@ -41,7 +39,7 @@ const TestComponent: React.FC = () => {
       </AttachStep>
 
       <AttachStep index={1}>
-        <Button onPress={fakeAction} title="Test button" />
+        <Button onPress={jest.fn()} title="Test button" />
       </AttachStep>
 
       <TouchableOpacity onPress={tourContext.start}>
@@ -54,7 +52,7 @@ const TestComponent: React.FC = () => {
 export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
   const defaultSteps = [
     BASE_STEP,
-    { ...BASE_STEP, position: Position.TOP }
+    { ...BASE_STEP, position: Position.TOP },
   ];
 
   return (

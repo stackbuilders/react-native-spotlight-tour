@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode, useCallback } from "react";
 import { StyleProp, Text, TextStyle, ViewStyle } from "react-native";
 
 import { RenderProps } from "../SpotlightTour.context";
@@ -6,18 +6,18 @@ import { RenderProps } from "../SpotlightTour.context";
 import { FooterContainer, MainContainer, NavButton, TitleText } from "./TourBox.styles";
 
 interface TourBoxProps extends RenderProps {
-  children?: ReactNode;
+  backStyle?: StyleProp<ViewStyle>;
   backText?: string;
-  nextText?: string;
-  title?: string;
-  hideNext?: boolean;
+  children?: ReactNode;
   hideBack?: boolean;
+  hideNext?: boolean;
+  nextStyle?: StyleProp<ViewStyle>;
+  nextText?: string;
   onBack?: () => void;
   onNext?: () => void;
-  backStyle?: StyleProp<ViewStyle>;
-  nextStyle?: StyleProp<ViewStyle>;
-  titleStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
+  title?: string;
+  titleStyle?: StyleProp<TextStyle>;
 }
 
 export function TourBox(props: TourBoxProps): ReactElement {
@@ -38,18 +38,18 @@ export function TourBox(props: TourBoxProps): ReactElement {
     isFirst,
     previous,
     stop,
-    next
+    next,
   } = props;
 
-  const handleBack = () => {
+  const handleBack = useCallback((): void => {
     isFirst ? stop() : previous();
     onBack?.();
-  };
+  }, [isFirst, stop, previous, onBack]);
 
-  const handleNext = () => {
+  const handleNext = useCallback((): void => {
     isLast ? stop() : next();
     onNext?.();
-  };
+  }, [isLast, stop, next, onNext]);
 
   return (
     <MainContainer style={style}>
@@ -82,4 +82,3 @@ export function TourBox(props: TourBoxProps): ReactElement {
     </MainContainer>
   );
 }
-

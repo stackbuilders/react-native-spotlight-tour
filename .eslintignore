@@ -1,0 +1,13 @@
+# Core
+.yarn/**/*
+build/**/*
+dist/**/*
+node_modules/**/*
+
+# Example
+example/.bundle/**/*
+example/.yarn/**/*
+example/android/**/*
+example/ios/**/*
+example/node_modules/**/*
+example/vendor/**/*

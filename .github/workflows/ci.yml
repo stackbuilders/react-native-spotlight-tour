@@ -23,6 +23,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - run: yarn install --immutable
+      - run: ./scripts/install-dev-on-example.sh
       - run: yarn compile
       - run: yarn lint
       - run: yarn test

@@ -6,7 +6,9 @@ import { Text } from "react-native";
 import { AttachStep, SpotlightTourProvider } from "../../src";
 
 /**
- * Simulate a native component. They are mocked by Jest as functional components.
+ * Native components are mocked by Jest and transformed to functional
+ * components on runtime. To simulate the native component behavior we forward
+ * a reference to it so native methods like `measureInWindow(..)` are available.
  */
 const NativeText = forwardRef<Text>((_props, ref) => {
   return (
@@ -28,7 +30,7 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
           <AttachStep index={0}>
             <NativeText />
           </AttachStep>
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() => getByText("Native Text"));
@@ -44,12 +46,12 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
           <AttachStep index={0}>
             <CustomText />
           </AttachStep>
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() =>
         within(getByTestId("attach-wrapper-view"))
-          .getByText("Custom Text")
+          .getByText("Custom Text"),
       );
     });
   });

@@ -24,7 +24,9 @@
         "important": "error",
         "validProperties": [
           "aspect-ratio",
-          "elevation"
+          "elevation",
+          "padding-horizontal",
+          "padding-vertical"
         ]
       }
     }],

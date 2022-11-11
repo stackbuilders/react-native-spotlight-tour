@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
-  useState
+  useState,
 } from "react";
 import {
   Animated,
@@ -16,7 +16,7 @@ import {
   LayoutRectangle,
   Modal,
   Platform,
-  ViewStyle
+  ViewStyle,
 } from "react-native";
 import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
 
@@ -48,7 +48,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     opacity,
     spot,
     tourStep,
-    nativeDriver
+    nativeDriver,
   } = props;
 
   const { next, previous, steps, stop } = useContext(SpotlightTourContext);
@@ -79,7 +79,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     return Platform.select({
       android: driverConfig.android,
       default: false,
-      ios: driverConfig.ios
+      ios: driverConfig.ios,
     });
   }, [nativeDriver]);
 
@@ -93,7 +93,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           ? Math.round(cx - (tipLayout.width / 2))
           : Math.round((vwDP(100) - tipLayout.width) / 2),
         marginTop: tipMargin,
-        top: Math.round(cy + r)
+        top: Math.round(cy + r),
       };
 
       case Position.TOP: return {
@@ -101,19 +101,19 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           ? Math.round(cx - (tipLayout.width / 2))
           : Math.round((vwDP(100) - tipLayout.width) / 2),
         marginBottom: tipMargin,
-        top: Math.round(cy - r - tipLayout.height)
+        top: Math.round(cy - r - tipLayout.height),
       };
 
       case Position.LEFT: return {
         left: Math.round(cx - r - tipLayout.width),
         marginRight: tipMargin,
-        top: Math.round(cy - (tipLayout.height / 2))
+        top: Math.round(cy - (tipLayout.height / 2)),
       };
 
       case Position.RIGHT: return {
         left: Math.round(cx + r),
         marginLeft: tipMargin,
-        top: Math.round(cy - (tipLayout.height / 2))
+        top: Math.round(cy - (tipLayout.height / 2)),
       };
     }
   }, [r, cx, cy, tourStep.position, tourStep.alignTo]);
@@ -131,21 +131,21 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         mass: 5,
         stiffness: 300,
         toValue: { x: cx, y: cy },
-        useNativeDriver
+        useNativeDriver,
       }),
       Animated.spring(radius, {
         damping: 30,
         mass: 5,
         stiffness: 300,
         toValue: r,
-        useNativeDriver
+        useNativeDriver,
       }),
       Animated.timing(tipOpacity, {
         delay: 500,
         duration: 300,
         toValue: 1,
-        useNativeDriver
-      })
+        useNativeDriver,
+      }),
     ]);
 
     moveSpot.start(() => setTooltipStyle({ }));
@@ -158,14 +158,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           Animated.timing(tipOpacity, {
             duration: 300,
             toValue: 0,
-            useNativeDriver
+            useNativeDriver,
           })
           .start(resolve);
         } else {
           resolve({ finished: true });
         }
       });
-    }
+    },
   }), [current !== undefined]);
 
   return (

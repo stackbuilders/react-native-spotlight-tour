@@ -38,7 +38,7 @@ export function TourBox(props: TourBoxProps): ReactElement {
     isFirst,
     previous,
     stop,
-    next
+    next,
   } = props;
 
   const handleBack = () => {

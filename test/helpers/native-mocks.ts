@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Animated,
   MeasureInWindowOnSuccessCallback,
-  NativeMethods
+  NativeMethods,
 } from "react-native";
 
 import { MeasureOnSuccessCallbackParams } from "./measures";
@@ -14,9 +14,9 @@ export function mockNativeComponent(modulePath: string, mockMethods: NativeMetho
       : React.Component;
 
   const Component = class extends SuperClass {
-    static displayName: string = "Component";
+    public static displayName: string = "Component";
 
-    render() {
+    public render() {
       const name: string =
         OriginalComponent.displayName ||
         OriginalComponent.name ||
@@ -55,11 +55,11 @@ export const emptyNativeMethods: NativeMethods = {
   measureInWindow: jest.fn(),
   measureLayout: jest.fn(),
   refs: {},
-  setNativeProps: jest.fn()
+  setNativeProps: jest.fn(),
 };
 
 export function createMeasureMethod(
-  mockMeasureData: MeasureOnSuccessCallbackParams
+  mockMeasureData: MeasureOnSuccessCallbackParams,
 ): (callback: MeasureInWindowOnSuccessCallback) => void {
   return callback => {
     const { x, y, width, height } = mockMeasureData;
@@ -70,5 +70,5 @@ export function createMeasureMethod(
 export const emptyAnimationMethods: Animated.CompositeAnimation = {
   reset: () => undefined,
   start: () => undefined,
-  stop: () => undefined
+  stop: () => undefined,
 };

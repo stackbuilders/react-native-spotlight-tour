@@ -1418,7 +1418,14 @@ __metadata:
     react: ">=16.8.0"
     react-native: ">=0.50.0"
     react-native-svg: ">=12.1.0"
-  checksum: e7a3abe847c65559e2eab01be0b781b7ae7268564e8221b4cac41dc6ebbcf576a1fd7d8a78b4843fe97af186467c59c7b5c3764f8204077d84304ff472d8d9e7
+  peerDependenciesMeta:
+    react:
+      optional: false
+    react-native:
+      optional: false
+    react-native-svg:
+      optional: false
+  checksum: 443a481498f6bdd0175922a0e9fc11d7bd3576686a2b0d0d421154648d67a7950d02612647ef1d35943cd76ad25001e5148575b358746d3e923063cd41939127
   languageName: node
   linkType: hard
 

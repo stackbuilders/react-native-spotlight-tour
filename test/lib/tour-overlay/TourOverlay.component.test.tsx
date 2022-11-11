@@ -34,7 +34,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() => getByText("Step 1"));
@@ -46,7 +46,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() => getByText("Step 1"));
@@ -64,7 +64,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() => getByText("Step 1"));

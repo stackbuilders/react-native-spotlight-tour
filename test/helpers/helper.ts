@@ -28,7 +28,7 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
 
   const rectangleCentroid = {
     x: rectangle.x + rectangle.width / 2,
-    y: rectangle.y + rectangle.height / 2
+    y: rectangle.y + rectangle.height / 2,
   };
 
   const circleDistanceX = Math.abs(circle.x - rectangleCentroid.x);
@@ -39,7 +39,7 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
   const rectangleCircleCentroidXDistance = Math.pow(rectangleCentroid.x - circle.x, 2);
   const rectangleCircleCentroidYDistance = Math.pow(rectangleCentroid.y - circle.y, 2);
   const circleAndRectangleCentroidDistance = Math.sqrt(
-    rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance
+    rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance,
   );
 
   const isCircleRadiusShorterThanCentroidsDistance = circle.r <= circleAndRectangleCentroidDistance;
@@ -63,7 +63,7 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
   const relativeCircleRectangleXDistance = Math.pow(circleDistanceX - rectangle.width / 2, 2);
   const relativeCircleRectangleYDistance = Math.pow(circleDistanceY - rectangle.height / 2, 2);
   const cornerDistance = Math.sqrt(
-    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance
+    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance,
   );
 
   const squaredCornerDistanceIsSmallerThanSquaredCircleRadius =
@@ -84,18 +84,18 @@ function isReactTestInstance(child: ReactTestInstance | string): child is ReactT
 }
 
 function isReactProps<T extends object>(
-  props: React.PropsWithChildren<T> | null
+  props: React.PropsWithChildren<T> | null,
 ): props is React.PropsWithChildren<T> {
   return typeof props === "object";
 }
 
 export function findPropsOnTestInstance(
   reactTestInstance: ReactTestInstance,
-  componentName: string
+  componentName: string,
 ): React.PropsWithChildren<ChildProps> {
   const findInsideChild = (
     childReactTestInstance: ReactTestInstance,
-    depth: number
+    depth: number,
   ): (React.PropsWithChildren<ChildProps> | null)[] => {
     if (!isReactTestInstance(childReactTestInstance) || depth <= 0) {
       return [null];
@@ -110,7 +110,7 @@ export function findPropsOnTestInstance(
     return children.map(nestedChild =>
       isReactTestInstance(nestedChild)
         ? findInsideChild(nestedChild, depth - 1)
-        : null
+        : null,
     );
   };
 

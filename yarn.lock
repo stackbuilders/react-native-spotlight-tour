@@ -2671,6 +2671,7 @@ __metadata:
     ts-jest: ^28.0.7
     tslint: ^6.1.3
     tslint-react: ^5.0.0
+    tslint-react-hooks: ^2.2.2
     typescript: ^4.7.4
     typescript-styled-plugin: ^0.18.2
   peerDependencies:
@@ -10852,6 +10853,16 @@ __metadata:
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+  languageName: node
+  linkType: hard
+
+"tslint-react-hooks@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "tslint-react-hooks@npm:2.2.2"
+  peerDependencies:
+    tslint: 5 - 6
+    typescript: ">=2.1.0"
+  checksum: 63afdb72620374e365e690a9e9ac163d630501bcbb11444738b72412b90f607803482017d8a2f09699dd836ea569a4357e1a562fdf0ede56be47694e3957a8bc
   languageName: node
   linkType: hard
 

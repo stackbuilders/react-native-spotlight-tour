@@ -2,21 +2,34 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:recommended",
-    "tslint-react"
+    "tslint-react",
+    "tslint-react-hooks"
   ],
-  "jsRules": {},
   "rules": {
+    "align": [true, "statements"],
     "array-type": false,
     "arrow-parens": [true, "ban-single-arg-parens"],
     "eofline": true,
     "indent": [true, "spaces", 2],
     "interface-name": false,
+    "jsx-alignment": true,
+    "jsx-curly-spacing": [true, "never"],
+    "jsx-equals-spacing": [true, "never"],
+    "jsx-key": true,
+    "jsx-no-bind": true,
+    "jsx-no-lambda": true,
     "jsx-no-multiline-js": false,
+    "jsx-no-string-ref": true,
+    "jsx-self-close": true,
     "jsx-space-before-trailing-slash": true,
+    "linebreak-style": [true, "LF"],
     "max-line-length": [true, 120],
+    "member-access": [true, "check-constructor"],
     "no-console": true,
+    "no-duplicate-imports": true,
     "no-namespace": [true, "allow-declarations"],
     "no-trailing-whitespace": true,
+    "no-unbound-method": false,
     "no-unused-expression": false,
     "only-arrow-functions": false,
     "object-literal-sort-keys": true,
@@ -41,14 +54,25 @@
     ],
     "trailing-comma": [true, {
       "singleline": "never",
-      "multiline": "never"
+      "multiline": {
+        "arrays": "always",
+        "objects": "always",
+        "functions": "always",
+        "imports": "always",
+        "exports": "always",
+        "typeLiterals": "always"
+      },
+      "esSpecCompliant": true
     }],
     "variable-name": [true, "allow-pascal-case", "allow-leading-underscore"]
   },
   "linterOptions": {
     "exclude": [
-      "node_modules/**/*",
-      "example/node_modules/**/*"
+      ".yarn/**/*",
+      "build/**/*",
+      "dist/**/*",
+      "example/node_modules/**/*",
+      "node_modules/**/*"
     ]
   }
 }

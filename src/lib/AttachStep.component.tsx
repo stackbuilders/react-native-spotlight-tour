@@ -56,7 +56,7 @@ export function AttachStep({ children, fill = false, index }: AttachStepProps): 
         {React.cloneElement(
           children,
           rest,
-          children.props.children
+          children.props.children,
         )}
       </View>
     );
@@ -65,6 +65,6 @@ export function AttachStep({ children, fill = false, index }: AttachStepProps): 
   return React.cloneElement(
     children,
     { ...children.props, ref: childRef },
-    children.props?.children
+    children.props?.children,
   );
 }

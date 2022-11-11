@@ -28,7 +28,7 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
           <AttachStep index={0}>
             <NativeText />
           </AttachStep>
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() => getByText("Native Text"));
@@ -44,12 +44,12 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
           <AttachStep index={0}>
             <CustomText />
           </AttachStep>
-        </SpotlightTourProvider>
+        </SpotlightTourProvider>,
       );
 
       await waitFor(() =>
         within(getByTestId("attach-wrapper-view"))
-          .getByText("Custom Text")
+          .getByText("Custom Text"),
       );
     });
   });

@@ -26,7 +26,7 @@ export const BASE_STEP: TourStep = {
         <Text>{"Stop"}</Text>
       </TouchableOpacity>
     </View>
-  )
+  ),
 };
 
 const TestComponent: React.FC = () => {
@@ -54,7 +54,7 @@ const TestComponent: React.FC = () => {
 export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
   const defaultSteps = [
     BASE_STEP,
-    { ...BASE_STEP, position: Position.TOP }
+    { ...BASE_STEP, position: Position.TOP },
   ];
 
   return (

@@ -6,7 +6,7 @@ import {
   SpotlightTourProvider,
   TourBox,
   TourStep,
-  useSpotlightTour
+  useSpotlightTour,
 } from "@stackbuilders/react-native-spotlight-tour";
 import React, { useRef } from "react";
 import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
@@ -17,7 +17,7 @@ import {
   DescriptionText,
   SectionContainerView,
   SpotDescriptionView,
-  TitleText
+  TitleText,
 } from "./App.styles";
 
 export const App: React.FC = () => {
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
           <Button title="Next" onPress={next} />
         </ButtonsGroupView>
       </SpotDescriptionView>
-    )
+    ),
   }, {
     alignTo: Align.SCREEN,
     position: Position.BOTTOM,
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
           </ButtonsGroupView>
         </SpotDescriptionView>
       );
-    }
+    },
   },
   {
     alignTo: Align.SCREEN,
@@ -78,21 +78,18 @@ export const App: React.FC = () => {
           {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
         </Text>
       </TourBox>
-    )
+    ),
   }, {
     alignTo: Align.SCREEN,
     before() {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>(resolve => {
         Animated.spring(gap, {
           bounciness: 100,
           speed: 1,
           toValue: Dimensions.get("screen").height * 0.25,
-          useNativeDriver: false // Disabled as RNST does not use native driver either (for now)
+          useNativeDriver: false, // Translate animation not supported native by native driver
         })
-        .start(({ finished }) => finished
-          ? resolve()
-          : reject()
-        );
+        .start(() => resolve());
       });
     },
     position: Position.TOP,
@@ -113,7 +110,7 @@ export const App: React.FC = () => {
           <Button title="Finish" onPress={stop} />
         </ButtonsGroupView>
       </SpotDescriptionView>
-    )
+    ),
   }];
 
   return (

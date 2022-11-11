@@ -3,14 +3,14 @@ import { LayoutRectangle, Omit } from "react-native";
 
 export enum Align {
   SCREEN = "screen",
-  SPOT = "spot"
+  SPOT = "spot",
 }
 
 export enum Position {
   BOTTOM = "bottom",
   LEFT = "left",
   RIGHT = "right",
-  TOP = "top"
+  TOP = "top",
 }
 
 export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
@@ -44,7 +44,7 @@ export const ZERO_SPOT: LayoutRectangle = {
   height: 0,
   width: 0,
   x: 0,
-  y: 0
+  y: 0,
 };
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
@@ -55,7 +55,7 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   spot: ZERO_SPOT,
   start: () => undefined,
   steps: [],
-  stop: () => undefined
+  stop: () => undefined,
 });
 
 export function useSpotlightTour(): SpotlightTour {
@@ -67,6 +67,6 @@ export function useSpotlightTour(): SpotlightTour {
     next,
     previous,
     start,
-    stop
+    stop,
   };
 }

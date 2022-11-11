@@ -5,14 +5,14 @@ import {
   isAnimatedValue,
   isAnimatedValueXY,
   isNumberValue,
-  isXYValue
+  isXYValue,
 } from "./helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
 import {
   createMeasureMethod,
   emptyAnimationMethods,
   emptyNativeMethods,
-  mockNativeComponent
+  mockNativeComponent,
 } from "./helpers/native-mocks";
 
 global.context = describe;
@@ -21,23 +21,23 @@ jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
-      measureInWindow: createMeasureMethod(viewMockMeasureData)
+      measureInWindow: createMeasureMethod(viewMockMeasureData),
     });
   })
   .mock("react-native/Libraries/Components/Button", () => {
     return mockNativeComponent("react-native/Libraries/Components/Button", {
       ...emptyNativeMethods,
-      measureInWindow: createMeasureMethod(buttonMockMeasureData)
+      measureInWindow: createMeasureMethod(buttonMockMeasureData),
     });
   })
   .doMock("react-native/Libraries/Animated/AnimatedImplementation", () => {
     const ActualAnimated = jest.requireActual(
-      "react-native/Libraries/Animated/AnimatedImplementation"
+      "react-native/Libraries/Animated/AnimatedImplementation",
     );
 
     const timingMock = (
       value: Animated.Value | Animated.ValueXY,
-      config: Animated.TimingAnimationConfig
+      config: Animated.TimingAnimationConfig,
     ): Animated.CompositeAnimation => {
 
       return {
@@ -57,13 +57,13 @@ jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
             value.setValue(config.toValue);
           }
           callback?.({ finished: true });
-        }
+        },
       };
     };
 
     const springMock = (
       value: Animated.Value | Animated.ValueXY,
-      config: Animated.SpringAnimationConfig
+      config: Animated.SpringAnimationConfig,
     ): Animated.CompositeAnimation => {
       return {
         ...emptyAnimationMethods,
@@ -75,14 +75,14 @@ jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
           }
 
           callback?.({ finished: true });
-        }
+        },
       };
     };
 
     return {
       ...ActualAnimated,
       spring: springMock,
-      timing: timingMock
+      timing: timingMock,
     };
   });
 

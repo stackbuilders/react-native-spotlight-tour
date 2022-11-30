@@ -6,7 +6,6 @@ import {
   SpotlightTourProvider,
   TourBox,
   TourStep,
-  useSpotlightTour
 } from "@stackbuilders/react-native-spotlight-tour";
 import React, { useRef } from "react";
 import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
@@ -17,8 +16,9 @@ import {
   DescriptionText,
   SectionContainerView,
   SpotDescriptionView,
-  TitleText
+  TitleText,
 } from "./App.styles";
+import { DocsTooltip } from "./DocsTooltip";
 
 export const App: React.FC = () => {
   const gap = useRef(new Animated.Value(0)).current;
@@ -37,30 +37,11 @@ export const App: React.FC = () => {
           <Button title="Next" onPress={next} />
         </ButtonsGroupView>
       </SpotDescriptionView>
-    )
+    ),
   }, {
     alignTo: Align.SCREEN,
     position: Position.BOTTOM,
-    render: () => {
-      // You can also use the hook instead of the props here!
-      const { previous, next } = useSpotlightTour();
-
-      return (
-        <SpotDescriptionView>
-          <DescriptionText>
-            <BoldText>{"Tour: Documentation section\n"}</BoldText>
-            {"This is the second step of tour example.\n"}
-            {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
-            {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
-          </DescriptionText>
-
-          <ButtonsGroupView>
-            <Button title="Previous" onPress={previous} />
-            <Button title="Next" onPress={next} />
-          </ButtonsGroupView>
-        </SpotDescriptionView>
-      );
-    }
+    render: DocsTooltip,
   },
   {
     alignTo: Align.SCREEN,
@@ -78,21 +59,18 @@ export const App: React.FC = () => {
           {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
         </Text>
       </TourBox>
-    )
+    ),
   }, {
     alignTo: Align.SCREEN,
     before() {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>(resolve => {
         Animated.spring(gap, {
           bounciness: 100,
           speed: 1,
           toValue: Dimensions.get("screen").height * 0.25,
-          useNativeDriver: false // Disabled as RNST does not use native driver either (for now)
+          useNativeDriver: false, // Translate animation not supported native by native driver
         })
-        .start(({ finished }) => finished
-          ? resolve()
-          : reject()
-        );
+        .start(() => resolve());
       });
     },
     position: Position.TOP,
@@ -113,7 +91,7 @@ export const App: React.FC = () => {
           <Button title="Finish" onPress={stop} />
         </ButtonsGroupView>
       </SpotDescriptionView>
-    )
+    ),
   }];
 
   return (

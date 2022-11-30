@@ -1,4 +1,3 @@
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import styled from "styled-components/native";
 
 export const SectionContainerView = styled.View`
@@ -10,7 +9,7 @@ export const TitleText = styled.Text`
   background-color: #D3D3D3;
   font-size: 24px;
   font-weight: 600;
-  color: ${Colors.black};
+  color: black;
   align-self: flex-start;
 `;
 
@@ -18,7 +17,7 @@ export const DescriptionText = styled.Text`
   margin-top: 8px;
   font-size: 18px;
   font-weight: 400;
-  color: ${Colors.dark};
+  color: #444;
   align-self: flex-start;
 `;
 

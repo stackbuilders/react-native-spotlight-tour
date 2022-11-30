@@ -1,14 +1,20 @@
-import React, { ReactElement, useContext, useLayoutEffect, useRef } from "react";
-import { View } from "react-native";
+import React, { ReactElement, ReactNode, RefObject, useContext, useLayoutEffect, useRef } from "react";
+import { StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "./SpotlightTour.context";
 
-interface AttachStepProps {
+interface ChildProps<T> {
+  children?: ReactNode;
+  ref: RefObject<unknown>;
+  style: StyleProp<T>;
+}
+
+interface AttachStepProps<T> {
   /**
    * The element in which the spotlight will be to wrapped to in the specified
    * step of the tour.
    */
-  children: ReactElement;
+  children: ReactElement<ChildProps<T>>;
   /**
    * When `AttachStep` wraps a Functional Component, it needs to add an
    * aditional `View` on top of it to be able to measure the layout upon
@@ -29,7 +35,7 @@ interface AttachStepProps {
   index: number;
 }
 
-export function AttachStep({ children, fill = false, index }: AttachStepProps): ReactElement {
+export function AttachStep<T>({ children, fill = false, index }: AttachStepProps<T>): ReactElement {
   const { current, changeSpot } = useContext(SpotlightTourContext);
 
   const childRef = useRef<View>(null);
@@ -44,19 +50,20 @@ export function AttachStep({ children, fill = false, index }: AttachStepProps): 
 
   if (typeof children.type === "function") {
     const { style, ...rest } = children.props;
+    const childStyle = style ?? { };
 
     return (
       <View
         testID="attach-wrapper-view"
         ref={childRef}
-        style={{ alignSelf: fill ? "stretch" : "flex-start", ...style }}
+        style={{ alignSelf: fill ? "stretch" : "flex-start", ...childStyle }}
         collapsable={false}
         focusable={false}
       >
         {React.cloneElement(
           children,
           rest,
-          children.props.children
+          children.props.children,
         )}
       </View>
     );
@@ -65,6 +72,6 @@ export function AttachStep({ children, fill = false, index }: AttachStepProps): 
   return React.cloneElement(
     children,
     { ...children.props, ref: childRef },
-    children.props?.children
+    children.props?.children,
   );
 }

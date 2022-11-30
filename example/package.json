@@ -6,8 +6,7 @@
     "android": "react-native run-android",
     "compile": "tsc",
     "ios": "react-native run-ios",
-    "start": "react-native start",
-    "lint": "tslint -c ../tslint.json \"*.ts?(x)\""
+    "start": "react-native start"
   },
   "dependencies": {
     "@cometlib/dedent": "^0.8.0-es.10",
@@ -27,8 +26,6 @@
     "@types/styled-components-react-native": "^5.1.3",
     "metro-react-native-babel-preset": "^0.72.0",
     "prettier": "^2.7.1",
-    "tslint": "^6.1.3",
-    "tslint-react": "^5.0.0",
     "typescript": "^4.7.4"
   },
   "packageManager": "yarn@3.2.1"

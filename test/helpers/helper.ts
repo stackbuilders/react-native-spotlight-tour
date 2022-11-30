@@ -1,34 +1,32 @@
-import * as React from "react";
+import { PropsWithChildren } from "react";
 import { Animated } from "react-native";
 import { ReactTestInstance } from "react-test-renderer";
 
 interface Rectangle {
+  height: number;
+  width: number;
   x: number;
   y: number;
-  width: number;
-  height: number;
 }
 
 interface Circle {
-  y: number;
-  x: number;
   r: number;
+  x: number;
+  y: number;
 }
 
+/**
+ * The explanation of the formulas used are available on following the
+ * document:
+ * https://docs.google.com/document/d/1rrfTB7NN4r1HItxiPni83TvL-up3OYXt0dgLOsO9Sg0/edit?usp=sharing
+ *
+ * Rectangles centroid formula:
+ * https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
+ */
 export function checkValidIntersection(rectangle: Rectangle, circle: Circle): boolean {
-  /**
-   * The explanation of the formulas used are available on following the document:
-   * https://docs.google.com/document/d/1rrfTB7NN4r1HItxiPni83TvL-up3OYXt0dgLOsO9Sg0/edit?usp=sharing
-   */
-
-  /**
-   * Rectangles centroid formula:
-   * https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
-   */
-
   const rectangleCentroid = {
     x: rectangle.x + rectangle.width / 2,
-    y: rectangle.y + rectangle.height / 2
+    y: rectangle.y + rectangle.height / 2,
   };
 
   const circleDistanceX = Math.abs(circle.x - rectangleCentroid.x);
@@ -39,13 +37,15 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
   const rectangleCircleCentroidXDistance = Math.pow(rectangleCentroid.x - circle.x, 2);
   const rectangleCircleCentroidYDistance = Math.pow(rectangleCentroid.y - circle.y, 2);
   const circleAndRectangleCentroidDistance = Math.sqrt(
-    rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance
+    rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance,
   );
 
   const isCircleRadiusShorterThanCentroidsDistance = circle.r <= circleAndRectangleCentroidDistance;
 
-  // This formula verifies if the distance between the rectangle centroid and circle centroid
-  // is larger than the circle radius
+  /**
+   * This formula verifies if the distance between the rectangle centroid and
+   * circle centroid is larger than the circle radius
+   */
   const isCentroidsDistanceBiggerThanTheCirclesRadiusSum =
     circleAndRectangleCentroidDistance >= rectangle.height / 2 + circle.r &&
     circleAndRectangleCentroidDistance >= rectangle.width / 2 + circle.r;
@@ -58,12 +58,14 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
     return false;
   }
 
-  // A formula that explains this implementation can be found on
-  // https://math.stackexchange.com/a/2916460
+  /**
+   * A formula that explains this implementation can be found on:
+   * https://math.stackexchange.com/a/2916460
+   */
   const relativeCircleRectangleXDistance = Math.pow(circleDistanceX - rectangle.width / 2, 2);
   const relativeCircleRectangleYDistance = Math.pow(circleDistanceY - rectangle.height / 2, 2);
   const cornerDistance = Math.sqrt(
-    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance
+    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance,
   );
 
   const squaredCornerDistanceIsSmallerThanSquaredCircleRadius =
@@ -77,41 +79,37 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
   );
 }
 
-type ChildProps = { [key: string]: any };
-
 function isReactTestInstance(child: ReactTestInstance | string): child is ReactTestInstance {
   return typeof child !== "string";
 }
 
 function isReactProps<T extends object>(
-  props: React.PropsWithChildren<T> | null
-): props is React.PropsWithChildren<T> {
+  props: PropsWithChildren<T> | null,
+): props is PropsWithChildren<T> {
   return typeof props === "object";
 }
 
-export function findPropsOnTestInstance(
+export function findPropsOnTestInstance<P>(
   reactTestInstance: ReactTestInstance,
-  componentName: string
-): React.PropsWithChildren<ChildProps> {
-  const findInsideChild = (
+  componentName: string,
+): PropsWithChildren<P> {
+  const findInsideChild = <T extends P>(
     childReactTestInstance: ReactTestInstance,
-    depth: number
-  ): (React.PropsWithChildren<ChildProps> | null)[] => {
+    depth: number,
+  ): Array<PropsWithChildren<T> | null> => {
     if (!isReactTestInstance(childReactTestInstance) || depth <= 0) {
       return [null];
     }
 
     if (childReactTestInstance.type === componentName) {
-      return [childReactTestInstance.props];
+      return [childReactTestInstance.props as PropsWithChildren<T>];
     }
 
-    const children: Array<ReactTestInstance | string> = childReactTestInstance.children;
-
-    return children.map(nestedChild =>
+    return childReactTestInstance.children.map(nestedChild =>
       isReactTestInstance(nestedChild)
         ? findInsideChild(nestedChild, depth - 1)
-        : null
-    );
+        : null,
+    ) as Array<PropsWithChildren<T> | null>;
   };
 
   const props = findInsideChild(reactTestInstance, 20)
@@ -119,11 +117,11 @@ export function findPropsOnTestInstance(
     .filter(item => !!item)[0];
 
   return props !== undefined && isReactProps(props)
-    ? props
-    : {};
+    ? props as PropsWithChildren<P>
+    : { } as PropsWithChildren<P>;
 }
 
-type AnimatedValue = number | Animated.AnimatedValue | { x: number; y: number } | Animated.AnimatedValueXY;
+type AnimatedValue = number | Animated.AnimatedValue | { x: number; y: number; } | Animated.AnimatedValueXY;
 
 type TimingAnimatedValue = Animated.AnimatedInterpolation | AnimatedValue;
 
@@ -139,7 +137,7 @@ export function isAnimatedValueXY(value: Animated.Value | Animated.ValueXY): val
   return value instanceof Animated.ValueXY;
 }
 
-export function isXYValue(value: AnimatedValue): value is { x: number; y: number } & number {
+export function isXYValue(value: AnimatedValue): value is { x: number; y: number; } & number {
   return !(value instanceof Animated.Value)
     && !(value instanceof Animated.ValueXY)
     && (typeof value === "number" || (typeof value !== "number" && !!(value?.x && value?.y)));

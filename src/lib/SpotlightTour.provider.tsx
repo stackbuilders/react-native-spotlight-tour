@@ -3,7 +3,14 @@ import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
-import { Position, SpotlightTour, SpotlightTourContext, SpotlightTourCtx, TourStep, ZERO_SPOT } from "./SpotlightTour.context";
+import {
+  Position,
+  SpotlightTour,
+  SpotlightTourContext,
+  SpotlightTourCtx,
+  TourStep,
+  ZERO_SPOT,
+} from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./tour-overlay/TourOverlay.component";
 
 export interface OSConfig<T> {
@@ -20,6 +27,15 @@ interface SpotlightTourProviderProps {
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
   /**
+   * Define if the animations in the tour should use the native driver or not.
+   * A boolean can be used to apply the same value to both Android and iOS, or
+   * an object with `android` and `ios` keys can be used to define a value for
+   * each OS.
+   *
+   * @default false
+   */
+  nativeDriver?: boolean | OSConfig<boolean>;
+  /**
    * The color of the overlay of the tour.
    *
    * @default black
@@ -35,15 +51,6 @@ interface SpotlightTourProviderProps {
    * An array of `TourStep` objects that define each step of the tour.
    */
   steps: TourStep[];
-  /**
-   * Define if the animations in the tour should use the native driver or not.
-   * A boolean can be used to apply the same value to both Android and iOS, or
-   * an object with `android` and `ios` keys can be used to define a value for
-   * each OS.
-   *
-   * @default false
-   */
-  nativeDriver?: boolean | OSConfig<boolean>;
 }
 
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
@@ -52,14 +59,14 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
-    nativeDriver = true
+    nativeDriver = true,
   } = props;
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
 
   const overlay = useRef<TourOverlayRef>({
-    hideTooltip: () => Promise.resolve({ finished: false })
+    hideTooltip: () => Promise.resolve({ finished: false }),
   });
 
   const renderStep = useCallback((index: number): void => {
@@ -71,7 +78,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
 
       Promise.all([
         beforePromise,
-        overlay.current.hideTooltip()
+        overlay.current.hideTooltip(),
       ])
       .then(() => setCurrent(index));
     }
@@ -123,7 +130,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     spot,
     start,
     steps,
-    stop
+    stop,
   };
 
   useImperativeHandle(ref, () => ({
@@ -132,7 +139,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     next,
     previous,
     start,
-    stop
+    stop,
   }));
 
   return (

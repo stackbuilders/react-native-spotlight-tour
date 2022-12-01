@@ -1425,7 +1425,7 @@ __metadata:
       optional: false
     react-native-svg:
       optional: false
-  checksum: e76df08a62036373b87aa5ff9d5d89d3fb58ca5122cb9bf7a39c186972501b1fd6caa14ec42e1826fed3309f84c793347864401e4808d02056e2a0f20991498d
+  checksum: 8736cd2449cb30e6d13836d6e334a20165e62041e4d7b5ea322296aca6f67fd8b2da7859c804ffdf6cd763a57f56206304efe9a1d002881680ede8b45be47a8e
   languageName: node
   linkType: hard
 

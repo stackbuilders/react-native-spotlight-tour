@@ -7,7 +7,7 @@ const jestConfig: Config = {
   testRegex: "test/.*\\.test\\.(tsx?)$",
   transform: {
     "^.+\\.jsx$": "babel-jest",
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.tsx?$": ["ts-jest", { isolatedModules: true }],
   },
   transformIgnorePatterns: [
     "node_modules/jest-runner",

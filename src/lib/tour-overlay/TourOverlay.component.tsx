@@ -21,7 +21,7 @@ import {
 import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, Position, SpotlightTourContext, TourStep } from "../SpotlightTour.context";
+import { Align, BackdropPressBehavior, Position, SpotlightTourContext, TourStep } from "../SpotlightTour.context";
 import { OSConfig } from "../SpotlightTour.provider";
 
 import { OverlayView } from "./TourOverlay.styles";
@@ -32,8 +32,9 @@ export interface TourOverlayRef {
 
 interface TourOverlayProps {
   color: ColorValue;
-  current: number | undefined;
+  current: Optional<number>;
   nativeDriver: boolean | OSConfig<boolean>;
+  onBackdropPress: Optional<BackdropPressBehavior>;
   opacity: number;
   spot: LayoutRectangle;
   tourStep: TourStep;
@@ -45,19 +46,28 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   const {
     color,
     current,
+    onBackdropPress,
     opacity,
     spot,
     tourStep,
     nativeDriver,
   } = props;
 
-  const { next, previous, steps, stop } = useContext(SpotlightTourContext);
+  const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
 
   const [toolipStyle, setTooltipStyle] = useState<ViewStyle>({ });
 
   const radius = useRef(new Animated.Value(0)).current;
   const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const tipOpacity = useRef(new Animated.Value(0)).current;
+
+  const isFirstStep = useMemo((): boolean => {
+    return current === 0;
+  }, [current]);
+
+  const isLastStep = useMemo((): boolean => {
+    return current === steps.length - 1;
+  }, [current, steps]);
 
   const r = useMemo((): number => {
     return (Math.max(spot.width, spot.height) / 2) * 1.15;
@@ -124,6 +134,23 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     setTooltipStyle(computedStyles);
   }, [computeTooltipStyles]);
 
+  const handleBackdropPress = useCallback((): void => {
+    const handler = tourStep.onBackdropPress ?? onBackdropPress;
+
+    if (handler !== undefined && current !== undefined) {
+      switch (handler) {
+        case "continue":
+          return next();
+
+        case "stop":
+          return stop();
+
+        default:
+          return handler({ current, goTo, next, previous, start, stop });
+      }
+    }
+  }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop]);
+
   useEffect(() => {
     const moveSpot = Animated.parallel([
       Animated.spring(center, {
@@ -181,6 +208,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           height="100%"
           width="100%"
           viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
+          onPress={handleBackdropPress}
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
@@ -211,8 +239,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           {current !== undefined && (
             <tourStep.render
               current={current}
-              isFirst={current === 0}
-              isLast={current === steps.length - 1}
+              isFirst={isFirstStep}
+              isLast={isLastStep}
               next={next}
               previous={previous}
               stop={stop}

@@ -101,6 +101,7 @@ export const App: React.FC = () => {
         overlayColor={"gray"}
         overlayOpacity={0.36}
         nativeDriver={true}
+        onBackdropPress="continue"
       >
         {({ start }) => (
           <>

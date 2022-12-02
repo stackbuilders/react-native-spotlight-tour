@@ -17,7 +17,7 @@ export function mockNativeComponent<T extends Comp>(modulePath: string, mockMeth
   const Mocked = class Other<X> extends Component<PropsWithChildren<X>> {
     public static displayName = "Component";
 
-    public constructor(props: X) {
+    public constructor(props: PropsWithChildren<X>) {
       super(props);
     }
 

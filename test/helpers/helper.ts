@@ -121,26 +121,32 @@ export function findPropsOnTestInstance<P>(
     : { } as PropsWithChildren<P>;
 }
 
-type AnimatedValue = number | Animated.AnimatedValue | { x: number; y: number; } | Animated.AnimatedValueXY;
+type AnimatedValue = Animated.SpringAnimationConfig["toValue"];
 
-type TimingAnimatedValue = Animated.AnimatedInterpolation | AnimatedValue;
+type TimingAnimatedValue = Animated.AnimatedInterpolation<number> | AnimatedValue;
 
-export function isAnimatedTimingInterpolation(value: TimingAnimatedValue): value is Animated.AnimatedInterpolation {
-  return Animated.AnimatedInterpolation && value instanceof Animated.AnimatedInterpolation;
+export function isAnimatedTimingInterpolation(
+  value: TimingAnimatedValue
+): value is Animated.AnimatedInterpolation<number> {
+  return typeof value === "object"
+    && value instanceof Animated.AnimatedInterpolation<number>;
 }
 
 export function isAnimatedValue(value: AnimatedValue): value is Animated.Value {
-  return value instanceof Animated.Value;
+  return typeof value === "object"
+    && value instanceof Animated.Value;
 }
 
 export function isAnimatedValueXY(value: Animated.Value | Animated.ValueXY): value is Animated.ValueXY {
-  return value instanceof Animated.ValueXY;
+  return typeof value === "object"
+    && value instanceof Animated.ValueXY;
 }
 
-export function isXYValue(value: AnimatedValue): value is { x: number; y: number; } & number {
-  return !(value instanceof Animated.Value)
+export function isXYValue(value: AnimatedValue): value is { x: number; y: number; } {
+  return typeof value === "object"
     && !(value instanceof Animated.ValueXY)
-    && (typeof value === "number" || (typeof value !== "number" && !!(value?.x && value?.y)));
+    && "x" in value
+    && "y" in value;
 }
 
 export function isNumberValue(value: AnimatedValue): value is number {

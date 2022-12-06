@@ -13,7 +13,7 @@ import {
   emptyAnimationMethods,
   emptyNativeMethods,
   mockNativeComponent,
-} from "./helpers/native-mocks";
+} from "./helpers/nativeMocks";
 
 global.context = describe;
 

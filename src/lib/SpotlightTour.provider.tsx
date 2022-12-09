@@ -4,6 +4,7 @@ import { ColorValue, LayoutRectangle } from "react-native";
 import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
 
 import {
+  BackdropPressBehavior,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -36,6 +37,18 @@ interface SpotlightTourProviderProps {
    */
   nativeDriver?: boolean | OSConfig<boolean>;
   /**
+   * Sets the default behavior of pressing the tour's backdrop. You can use
+   * either one of the following values:
+   * - A callback function with the {@link SpotlightTour} options object in the
+   * first argument. This allows more franular control over the tour.
+   * - The `continue` literal string, which is a shortcut to move to the next
+   * step, and stop the tour on the last step.
+   * - the `stop` literal string, which is a shortcut to stop the tour.
+   *
+   * **NOTE:** You can also override this behavior on each step configuration.
+   */
+  onBackdropPress?: BackdropPressBehavior;
+  /**
    * The color of the overlay of the tour.
    *
    * @default black
@@ -56,6 +69,7 @@ interface SpotlightTourProviderProps {
 export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
+    onBackdropPress,
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
@@ -98,8 +112,10 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
   }, []);
 
   const next = useCallback((): void => {
-    if (current !== undefined && current < steps.length - 1) {
-      renderStep(current + 1);
+    if (current !== undefined) {
+      current === steps.length - 1
+        ? stop()
+        : renderStep(current + 1);
     }
   }, [renderStep, current, steps.length]);
 
@@ -121,7 +137,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     return step ?? { position: Position.BOTTOM, render: () => <></> };
   }, [steps, current]);
 
-  const tour: SpotlightTourCtx = {
+  const tour = useMemo((): SpotlightTourCtx => ({
     changeSpot,
     current,
     goTo,
@@ -131,7 +147,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
     start,
     steps,
     stop,
-  };
+  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,
@@ -154,6 +170,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         color={overlayColor}
         current={current}
         opacity={overlayOpacity}
+        onBackdropPress={onBackdropPress}
         spot={spot}
         tourStep={currentStep}
         nativeDriver={nativeDriver}

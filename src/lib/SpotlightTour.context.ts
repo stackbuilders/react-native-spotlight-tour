@@ -45,7 +45,7 @@ export interface TourStep {
    * Overrides the behavior of pressing the tour's backdrop for this specific
    * step. You can use either one of the following values:
    * - A callback function with the {@link SpotlightTour} options object in the
-   * first argument. This allows more franular control over the tour.
+   * first argument. This allows more granular control over the tour.
    * - The `continue` literal string, which is a shortcut to move to the next
    * step, and stop the tour on the last step.
    * - the `stop` literal string, which is a shortcut to stop the tour.

@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, RefObject, useContext, useLayoutEffect, useRef } from "react";
 import { StyleProp, View } from "react-native";
 
-import { SpotlightTourContext } from "./SpotlightTour.context";
+import { SpotlightTourContext } from "../../SpotlightTour.context";
 
 interface ChildProps<T> {
   children?: ReactNode;

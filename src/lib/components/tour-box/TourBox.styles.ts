@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-import { vh } from "../../helpers/responsive";
+import { vh } from "../../../helpers/responsive";
 
 export const MainContainer = styled.View`
   align-items: center;

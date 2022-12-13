@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useCallback } from "react";
 import { StyleProp, Text, TextStyle, ViewStyle } from "react-native";
 
-import { RenderProps } from "../SpotlightTour.context";
+import { RenderProps } from "../../SpotlightTour.context";
 
 import { FooterContainer, MainContainer, NavButton, TitleText } from "./TourBox.styles";
 

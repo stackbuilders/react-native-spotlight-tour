@@ -121,7 +121,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         ? stop()
         : renderStep(current + 1);
     }
-  }, [renderStep, current, steps.length]);
+  }, [stop, renderStep, current, steps.length]);
 
   const previous = useCallback((): void => {
     if (current !== undefined && current > 0) {

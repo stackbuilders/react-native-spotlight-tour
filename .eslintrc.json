@@ -28,7 +28,10 @@
     "plugin:react/recommended"
   ],
   "overrides": [{
-    "files": ["*.ts", "*.tsx"]
+    "files": ["test/**/*.ts?(x)"],
+    "rules": {
+      "react-hooks/exhaustive-deps": "off"
+    }
   }, {
     "files": ["*.js"],
     "rules": {
@@ -152,7 +155,9 @@
     }],
     "react/jsx-no-bind": "error",
     "react/jsx-tag-spacing": "error",
+    "react/prop-types": "off",
     "react/self-closing-comp": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "semi-spacing": "error",
     "sort-keys": "error",

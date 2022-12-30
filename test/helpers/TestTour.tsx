@@ -49,12 +49,12 @@ const TestComponent: React.FC = () => {
   );
 };
 
-export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
-  const defaultSteps = [
-    BASE_STEP,
-    { ...BASE_STEP, position: Position.TOP },
-  ];
+const defaultSteps = [
+  BASE_STEP,
+  { ...BASE_STEP, position: Position.TOP },
+];
 
+export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
   return (
     <SpotlightTourProvider steps={steps ?? defaultSteps}>
       <TestComponent />

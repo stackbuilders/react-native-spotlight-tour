@@ -17,7 +17,8 @@ import {
 
 global.context = describe;
 
-jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
+jest
+  .mock("react-native/Libraries/Animated/NativeAnimatedHelper")
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
@@ -44,18 +45,21 @@ jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
         ...emptyAnimationMethods,
         start(callback) {
           if (
-            isAnimatedValueXY(value) &&
-            !isAnimatedTimingInterpolation(config.toValue) &&
-            isXYValue(config.toValue)
-          ) {
-            value.setValue(config.toValue);
-          } else if (
-            isAnimatedValue(value) &&
-            !isAnimatedTimingInterpolation(config.toValue) &&
-            isNumberValue(config.toValue)
+            isAnimatedValueXY(value)
+              && !isAnimatedTimingInterpolation(config.toValue)
+              && isXYValue(config.toValue)
           ) {
             value.setValue(config.toValue);
           }
+
+          if (
+            isAnimatedValue(value)
+              && !isAnimatedTimingInterpolation(config.toValue)
+              && isNumberValue(config.toValue)
+          ) {
+            value.setValue(config.toValue);
+          }
+
           callback?.({ finished: true });
         },
       };
@@ -70,7 +74,9 @@ jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper")
         start(callback) {
           if (isAnimatedValueXY(value) && isXYValue(config.toValue)) {
             value.setValue(config.toValue);
-          } else if (isAnimatedValue(value) && isNumberValue(config.toValue)) {
+          }
+
+          if (isAnimatedValue(value) && isNumberValue(config.toValue)) {
             value.setValue(config.toValue);
           }
 

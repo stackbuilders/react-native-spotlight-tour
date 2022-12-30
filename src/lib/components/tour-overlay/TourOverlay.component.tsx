@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useLayoutEffect,
+  useEffect,
 } from "react";
 import {
   Animated,
@@ -143,14 +143,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     }
   }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     tooltipRef.current?.measureInWindow((x, y, width, height) => {
       const computedStyles = computeTooltipStyles({ height, width, x, y });
       setTooltipStyle(computedStyles);
     });
   }, [computeTooltipStyles]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const { height, width, x, y } = spot;
 
     if ([height, width, x, y].every(value => value > 0)) {
@@ -162,7 +162,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       })
       .start();
     }
-  }, [spot]);
+  }, [spot, tooltipOpacity, useNativeDriver]);
 
   useImperativeHandle<TourOverlayRef, TourOverlayRef>(ref, () => ({
     hideTooltip: () => {
@@ -179,7 +179,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         }
       });
     },
-  }), [current]);
+  }), [current, tooltipOpacity, useNativeDriver]);
 
   return (
     <Modal

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, RefObject, useContext, useLayoutEffect, useRef } from "react";
+import React, { ReactElement, ReactNode, RefObject, useContext, useEffect, useRef } from "react";
 import { StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
@@ -40,13 +40,13 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
 
   const childRef = useRef<View>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (current === index) {
       childRef.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });
     }
-  }, [current]);
+  }, [changeSpot, current, index]);
 
   if (typeof children.type === "function") {
     const { style, ...rest } = children.props;

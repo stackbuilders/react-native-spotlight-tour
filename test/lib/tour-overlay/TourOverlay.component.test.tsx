@@ -36,7 +36,7 @@ function TestScreen(): React.ReactElement {
 
 describe("[Integration] TourOverlay.component.test.tsx", () => {
   context("when the spot is in the first step", () => {
-    it("renders the first step", async () => {
+    it.only("renders the first step", async () => {
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />

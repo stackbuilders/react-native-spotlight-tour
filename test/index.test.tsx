@@ -2,15 +2,14 @@ import { expect as jestExpect } from "@jest/globals";
 import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import * as React from "react";
 import { ViewStyle } from "react-native";
 import { CircleProps } from "react-native-svg";
 
 import { TourStep } from "../src";
 
+import { BASE_STEP, TestScreen } from "./helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "./helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
-import { BASE_STEP, TestScreen } from "./helpers/TestTour";
 
 describe("[Integration] index.test.tsx", () => {
   describe("when the tour is not running", () => {
@@ -102,7 +101,7 @@ describe("[Integration] index.test.tsx", () => {
           .asType(TypeFactories.object<ViewStyle>())
           .toBeEqual({
             left: 275,
-            marginTop: "2%",
+            marginTop: 10,
             opacity: 1,
             position: "absolute",
             top: 431,
@@ -183,11 +182,11 @@ describe("[Integration] index.test.tsx", () => {
         expect(getByTestId("Tooltip View").props.style)
           .asType(TypeFactories.object<ViewStyle>())
           .toBeEqual({
-            left: 325,
-            marginBottom: "2%",
+            bottom: 1363,
+            left: 275,
+            marginBottom: 10,
             opacity: 1,
             position: "absolute",
-            top: -79,
           });
       });
     });

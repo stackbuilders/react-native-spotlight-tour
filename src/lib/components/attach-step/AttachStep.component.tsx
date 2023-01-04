@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, RefObject, useContext, useEffect, useRef } from "react";
+import { cloneElement, ReactElement, ReactNode, RefObject, useContext, useEffect, useRef } from "react";
 import { StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
@@ -60,7 +60,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
         collapsable={false}
         focusable={false}
       >
-        {React.cloneElement(
+        {cloneElement(
           children,
           rest,
           children.props.children,
@@ -69,7 +69,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     );
   }
 
-  return React.cloneElement(
+  return cloneElement(
     children,
     { ...children.props, ref: childRef },
     children.props?.children,

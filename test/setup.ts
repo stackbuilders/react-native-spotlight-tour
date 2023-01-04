@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { Animated } from "react-native";
 
 import {
@@ -30,6 +31,30 @@ jest
       ...emptyNativeMethods,
       measureInWindow: createMeasureMethod(buttonMockMeasureData),
     });
+  })
+  .doMock("react-native/Libraries/Animated/nodes/AnimatedValue.js", () => {
+    const ActualValue = jest.requireActual<typeof Animated.Value>(
+      "react-native/Libraries/Animated/nodes/AnimatedValue.js"
+    );
+
+    return class MockedValue extends ActualValue {
+
+      public constructor(value: number) {
+        super(value);
+      }
+    };
+  })
+  .doMock("react-native/Libraries/Animated/nodes/AnimatedValueXY.js", () => {
+    const ActualValueXY = jest.requireActual<typeof Animated.ValueXY>(
+      "react-native/Libraries/Animated/nodes/AnimatedValueXY.js"
+    );
+
+    return class MockedValue extends ActualValueXY {
+
+      public constructor(valueIn: { x: number | Animated.Value; y: number | Animated.Value; }) {
+        super(valueIn);
+      }
+    };
   })
   .doMock("react-native/Libraries/Animated/AnimatedImplementation", () => {
     const ActualAnimated = jest.requireActual<Animated.Animated>(

@@ -1,4 +1,4 @@
-import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction } from "../helpers/common";
@@ -32,7 +32,7 @@ interface SpotlightTourProviderProps {
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
    *
-   * @default Motion.SLIDE
+   * @default Motion.BOUNCE
    */
   motion?: Motion;
   /**
@@ -74,14 +74,14 @@ interface SpotlightTourProviderProps {
   steps: TourStep[];
 }
 
-export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
+export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
     onBackdropPress,
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
-    motion = Motion.SLIDE,
+    motion = Motion.BOUNCE,
     nativeDriver = true,
   } = props;
 

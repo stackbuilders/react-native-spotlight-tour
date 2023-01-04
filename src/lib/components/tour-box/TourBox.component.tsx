@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useCallback } from "react";
+import { ReactElement, ReactNode, useCallback } from "react";
 import { StyleProp, Text, TextStyle, ViewStyle } from "react-native";
 
 import { RenderProps } from "../../SpotlightTour.context";

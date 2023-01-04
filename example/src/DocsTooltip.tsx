@@ -1,5 +1,5 @@
 import { useSpotlightTour } from "@stackbuilders/react-native-spotlight-tour";
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Button } from "react-native";
 
 import { BoldText, ButtonsGroupView, DescriptionText, SpotDescriptionView } from "./App.styles";

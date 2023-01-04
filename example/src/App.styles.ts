@@ -6,19 +6,19 @@ export const SectionContainerView = styled.View`
 `;
 
 export const TitleText = styled.Text`
+  align-self: flex-start;
   background-color: #D3D3D3;
+  color: black;
   font-size: 24px;
   font-weight: 600;
-  color: black;
-  align-self: flex-start;
 `;
 
 export const DescriptionText = styled.Text`
-  margin-top: 8px;
+  align-self: flex-start;
+  color: #444;
   font-size: 18px;
   font-weight: 400;
-  color: #444;
-  align-self: flex-start;
+  margin-top: 8px;
 `;
 
 export const BoldText = styled.Text`
@@ -28,7 +28,6 @@ export const BoldText = styled.Text`
 export const SpotDescriptionView = styled.View`
   background-color: #B0C4DE;
   padding: 10px;
-  margin: 10px;
 `;
 
 export const ButtonsGroupView = styled.View`

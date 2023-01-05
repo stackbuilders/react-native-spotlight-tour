@@ -32,7 +32,7 @@ interface SpotlightTourProviderProps {
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
    *
-   * @default Motion.BOUNCE
+   * @default bounce
    */
   motion?: Motion;
   /**
@@ -81,7 +81,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
-    motion = Motion.BOUNCE,
+    motion = "bounce",
     nativeDriver = true,
   } = props;
 
@@ -93,10 +93,12 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   });
 
   const renderStep = useCallback((index: number): void => {
-    if (steps[index] !== undefined) {
+    const step = steps[index];
+
+    if (step !== undefined) {
       Promise.all([
         overlay.current.hideTooltip(),
-        Promise.resolve().then(steps[index]?.before),
+        Promise.resolve().then(step.before),
       ])
       .then(() => setCurrent(index));
     }

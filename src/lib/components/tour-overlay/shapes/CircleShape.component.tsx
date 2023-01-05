@@ -26,7 +26,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
 
     const transition = (): Animated.CompositeAnimation => {
       switch (motion) {
-        case Motion.BOUNCE:
+        case "bounce":
           opacity.current.setValue(1);
 
           return Animated.parallel([
@@ -46,7 +46,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
             }),
           ]);
 
-        case Motion.FADE:
+        case "fade":
           return Animated.sequence([
             Animated.timing(opacity.current, {
               duration: 400,
@@ -72,7 +72,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
             }),
           ]);
 
-        case Motion.SLIDE:
+        case "slide":
           opacity.current.setValue(1);
 
           return Animated.parallel([

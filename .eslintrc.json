@@ -93,6 +93,10 @@
       "destructuredArrayIgnorePattern": "^_",
       "ignoreRestSiblings": true
     }],
+    "@typescript-eslint/no-use-before-define": ["error", {
+      "functions": false,
+      "classes": false
+    }],
     "@typescript-eslint/no-var-requires": "error",
     "@typescript-eslint/parameter-properties": "error",
     "@typescript-eslint/prefer-for-of": "error",
@@ -163,6 +167,7 @@
     "no-throw-literal": "error",
     "no-trailing-spaces": "error",
     "no-underscore-dangle": "error",
+    "no-use-before-define": "off",
     "no-useless-computed-key": ["error", { "enforceForClassMembers": true }],
     "no-var": "error",
     "object-shorthand": "error",

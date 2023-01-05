@@ -13,11 +13,7 @@ export enum Position {
   TOP = "top",
 }
 
-export enum Motion {
-  BOUNCE = "bounce",
-  SLIDE = "slide",
-  FADE = "fade",
-}
+export type Motion = "bounce" | "slide" | "fade";
 
 export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
   current: number;
@@ -51,7 +47,7 @@ export interface TourStep {
    * Specifies the transition motion for the step. You can set the default
    * motion globally on the `SpotlightTourProvider` props too.
    *
-   * @default Motion.BOUNCE
+   * @default bounce
    */
   motion?: Motion;
   /**

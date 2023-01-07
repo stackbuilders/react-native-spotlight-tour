@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+export type Optional<T> = T | undefined;
+
 export type ChildFn<T> = (value: T) => ReactNode;
 
 export function isChildFunction<T>(children: ReactNode | ChildFn<T>): children is ChildFn<T> {

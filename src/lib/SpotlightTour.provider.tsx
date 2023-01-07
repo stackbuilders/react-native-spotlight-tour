@@ -1,10 +1,11 @@
-import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
-import { ChildFn, isChildFunction, isPromise } from "../helpers/common";
+import { ChildFn, isChildFunction } from "../helpers/common";
 
 import {
   BackdropPressBehavior,
+  Motion,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -12,7 +13,7 @@ import {
   TourStep,
   ZERO_SPOT,
 } from "./SpotlightTour.context";
-import { TourOverlay, TourOverlayRef } from "./tour-overlay/TourOverlay.component";
+import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
 export interface OSConfig<T> {
   android: T;
@@ -27,6 +28,13 @@ interface SpotlightTourProviderProps {
    * argument.
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
+  /**
+   * Sets the default transition motion for all steps. You can override this
+   * value on each step too.
+   *
+   * @default bounce
+   */
+  motion?: Motion;
   /**
    * Define if the animations in the tour should use the native driver or not.
    * A boolean can be used to apply the same value to both Android and iOS, or
@@ -66,13 +74,14 @@ interface SpotlightTourProviderProps {
   steps: TourStep[];
 }
 
-export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
+export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
     onBackdropPress,
     overlayColor = "black",
     overlayOpacity = 0.45,
     steps,
+    motion = "bounce",
     nativeDriver = true,
   } = props;
 
@@ -84,15 +93,12 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
   });
 
   const renderStep = useCallback((index: number): void => {
-    if (steps[index] !== undefined) {
-      const beforeResult = steps[index]?.before?.();
-      const beforePromise = isPromise(beforeResult)
-        ? beforeResult
-        : Promise.resolve();
+    const step = steps[index];
 
+    if (step !== undefined) {
       Promise.all([
-        beforePromise,
         overlay.current.hideTooltip(),
+        Promise.resolve().then(step.before),
       ])
       .then(() => setCurrent(index));
     }
@@ -117,7 +123,7 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         ? stop()
         : renderStep(current + 1);
     }
-  }, [renderStep, current, steps.length]);
+  }, [stop, renderStep, current, steps.length]);
 
   const previous = useCallback((): void => {
     if (current !== undefined && current > 0) {
@@ -169,11 +175,12 @@ export const SpotlightTourProvider = React.forwardRef<SpotlightTour, SpotlightTo
         ref={overlay}
         color={overlayColor}
         current={current}
-        opacity={overlayOpacity}
+        backdropOpacity={overlayOpacity}
         onBackdropPress={onBackdropPress}
         spot={spot}
         tourStep={currentStep}
         nativeDriver={nativeDriver}
+        motion={motion}
       />
     </SpotlightTourContext.Provider>
   );

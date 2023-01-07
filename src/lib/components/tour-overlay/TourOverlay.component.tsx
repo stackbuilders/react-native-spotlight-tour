@@ -1,65 +1,73 @@
-import React, {
-  ComponentClass,
+import {
   forwardRef,
   useCallback,
   useContext,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import {
   Animated,
   ColorValue,
-  LayoutChangeEvent,
+  Dimensions,
   LayoutRectangle,
   Modal,
   Platform,
+  View,
   ViewStyle,
 } from "react-native";
-import { Circle, CircleProps, Defs, Mask, Rect, Svg } from "react-native-svg";
+import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
-import { vhDP, vwDP } from "../../helpers/responsive";
-import { Align, BackdropPressBehavior, Position, SpotlightTourContext, TourStep } from "../SpotlightTour.context";
-import { OSConfig } from "../SpotlightTour.provider";
+import { Optional } from "../../../helpers/common";
+import { vhDP, vwDP } from "../../../helpers/responsive";
+import {
+  Align,
+  BackdropPressBehavior,
+  Motion,
+  Position,
+  SpotlightTourContext,
+  TourStep,
+} from "../../SpotlightTour.context";
+import { OSConfig } from "../../SpotlightTour.provider";
 
-import { OverlayView } from "./TourOverlay.styles";
+import { OverlayView, SPOT_PADDING } from "./TourOverlay.styles";
+import { CircleShape } from "./shapes/CircleShape.component";
 
 export interface TourOverlayRef {
   hideTooltip: () => Promise<Animated.EndResult>;
 }
 
 interface TourOverlayProps {
+  backdropOpacity: number;
   color: ColorValue;
   current: Optional<number>;
+  motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
-  opacity: number;
   spot: LayoutRectangle;
   tourStep: TourStep;
 }
-
-const AnimatedCircle = Animated.createAnimatedComponent<ComponentClass<CircleProps>>(Circle);
 
 export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const {
     color,
     current,
+    motion,
+    nativeDriver,
     onBackdropPress,
-    opacity,
+    backdropOpacity,
     spot,
     tourStep,
-    nativeDriver,
   } = props;
 
   const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
 
   const [toolipStyle, setTooltipStyle] = useState<ViewStyle>({ });
 
-  const radius = useRef(new Animated.Value(0)).current;
-  const center = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
-  const tipOpacity = useRef(new Animated.Value(0)).current;
+  const tooltipRef = useRef<View>(null);
+  const tooltipOpacity = useRef(new Animated.Value(0));
 
   const isFirstStep = useMemo((): boolean => {
     return current === 0;
@@ -68,18 +76,6 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   const isLastStep = useMemo((): boolean => {
     return current === steps.length - 1;
   }, [current, steps]);
-
-  const r = useMemo((): number => {
-    return (Math.max(spot.width, spot.height) / 2) * 1.15;
-  }, [spot.width, spot.height]);
-
-  const cx = useMemo((): number => {
-    return spot.x + (spot.width / 2);
-  }, [spot.x, spot.width]);
-
-  const cy = useMemo((): number => {
-    return spot.y + (spot.height / 2);
-  }, [spot.y, spot.height]);
 
   const useNativeDriver = useMemo(() => {
     const driverConfig: OSConfig<boolean> = typeof nativeDriver === "boolean"
@@ -92,47 +88,6 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       ios: driverConfig.ios,
     });
   }, [nativeDriver]);
-
-  const computeTooltipStyles = useCallback((tipLayout: LayoutRectangle): ViewStyle => {
-    const tipMargin = "2%";
-    const align = tourStep.alignTo ?? Align.SPOT;
-
-    switch (tourStep.position) {
-      case Position.BOTTOM: return {
-        left: align === Align.SPOT
-          ? Math.round(cx - (tipLayout.width / 2))
-          : Math.round((vwDP(100) - tipLayout.width) / 2),
-        marginTop: tipMargin,
-        top: Math.round(cy + r),
-      };
-
-      case Position.TOP: return {
-        left: align === Align.SPOT
-          ? Math.round(cx - (tipLayout.width / 2))
-          : Math.round((vwDP(100) - tipLayout.width) / 2),
-        marginBottom: tipMargin,
-        top: Math.round(cy - r - tipLayout.height),
-      };
-
-      case Position.LEFT: return {
-        left: Math.round(cx - r - tipLayout.width),
-        marginRight: tipMargin,
-        top: Math.round(cy - (tipLayout.height / 2)),
-      };
-
-      case Position.RIGHT: return {
-        left: Math.round(cx + r),
-        marginLeft: tipMargin,
-        top: Math.round(cy - (tipLayout.height / 2)),
-      };
-    }
-  }, [r, cx, cy, tourStep.position, tourStep.alignTo]);
-
-  const measureTooltip = useCallback((event: LayoutChangeEvent): void => {
-    const computedStyles = computeTooltipStyles(event.nativeEvent.layout);
-
-    setTooltipStyle(computedStyles);
-  }, [computeTooltipStyles]);
 
   const handleBackdropPress = useCallback((): void => {
     const handler = tourStep.onBackdropPress ?? onBackdropPress;
@@ -152,38 +107,68 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop]);
 
   useEffect(() => {
-    const moveSpot = Animated.parallel([
-      Animated.spring(center, {
-        damping: 50,
-        mass: 5,
-        stiffness: 300,
-        toValue: { x: cx, y: cy },
-        useNativeDriver,
-      }),
-      Animated.spring(radius, {
-        damping: 30,
-        mass: 5,
-        stiffness: 300,
-        toValue: r,
-        useNativeDriver,
-      }),
-      Animated.timing(tipOpacity, {
-        delay: 500,
-        duration: 300,
+    tooltipRef.current?.measureInWindow((_x, _y, width, height) => {
+      setTooltipStyle(() => {
+        const align = tourStep.alignTo ?? Align.SPOT;
+        const half = (Math.max(spot.width, spot.height) / 2) * SPOT_PADDING;
+        const cx = spot.x + (spot.width / 2);
+        const cy = spot.y + (spot.height / 2);
+        const window = Dimensions.get("window");
+        const tooltipGap = 10;
+
+        switch (tourStep.position) {
+          case Position.BOTTOM: return {
+            left: align === Align.SPOT
+              ? cx - (width / 2)
+              : (vwDP(100) - width) / 2,
+            marginTop: tooltipGap,
+            top: cy + half,
+          };
+
+          case Position.TOP: return {
+            bottom: window.height - cy + half,
+            left: align === Align.SPOT
+              ? cx - (width / 2)
+              : (vwDP(100) - width) / 2,
+            marginBottom: tooltipGap,
+          };
+
+          case Position.LEFT: return {
+            marginRight: tooltipGap,
+            right: window.width - cx + half,
+            top: cy - (height / 2),
+          };
+
+          case Position.RIGHT: return {
+            left: cx + half,
+            marginLeft: tooltipGap,
+            top: cy - (height / 2),
+          };
+        }
+      });
+    });
+  }, [spot.height, spot.width, spot.x, spot.y, tourStep.alignTo, tourStep.position]);
+
+  useEffect(() => {
+    const { height, width } = spot;
+
+    if ([height, width].every(value => value > 0)) {
+      Animated.timing(tooltipOpacity.current, {
+        delay: 400,
+        duration: 400,
         toValue: 1,
         useNativeDriver,
-      }),
-    ]);
-
-    moveSpot.start(() => setTooltipStyle({ }));
-  }, [spot]);
+      })
+      .start();
+    }
+  }, [spot, useNativeDriver]);
 
   useImperativeHandle<TourOverlayRef, TourOverlayRef>(ref, () => ({
     hideTooltip: () => {
       return new Promise(resolve => {
         if (current !== undefined) {
-          Animated.timing(tipOpacity, {
-            duration: 300,
+          Animated.timing(tooltipOpacity.current, {
+            duration: 400,
             toValue: 0,
             useNativeDriver,
           })
@@ -193,7 +178,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         }
       });
     },
-  }), [current !== undefined]);
+  }), [current, useNativeDriver]);
 
   return (
     <Modal
@@ -209,15 +194,15 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           width="100%"
           viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
           onPress={handleBackdropPress}
+          shouldRasterizeIOS={true}
+          renderToHardwareTextureAndroid={true}
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height="100%" width="100%" fill="#fff" />
-              <AnimatedCircle
-                r={radius}
-                cx={center.x}
-                cy={center.y}
-                fill="black"
+              <CircleShape
+                motion={tourStep.motion ?? motion}
+                useNativeDriver={useNativeDriver}
               />
             </Mask>
           </Defs>
@@ -227,14 +212,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             width="100%"
             fill={color}
             mask="url(#mask)"
-            opacity={opacity}
+            opacity={backdropOpacity}
           />
         </Svg>
 
         <Animated.View
+          ref={tooltipRef}
           testID="Tooltip View"
-          onLayout={measureTooltip}
-          style={{ ...toolipStyle, opacity: tipOpacity, position: "absolute" }}
+          style={{ ...toolipStyle, opacity: tooltipOpacity.current, position: "absolute" }}
         >
           {current !== undefined && (
             <tourStep.render

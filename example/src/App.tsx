@@ -7,7 +7,7 @@ import {
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
-import React, { useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {
@@ -20,7 +20,7 @@ import {
 } from "./App.styles";
 import { DocsTooltip } from "./DocsTooltip";
 
-export const App: React.FC = () => {
+export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
 
   const tourSteps: TourStep[] = [{
@@ -152,4 +152,4 @@ export const App: React.FC = () => {
       </SpotlightTourProvider>
     </SafeAreaView>
   );
-};
+}

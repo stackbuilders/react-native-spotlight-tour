@@ -1,7 +1,7 @@
-import React, { ReactElement, ReactNode, RefObject, useContext, useLayoutEffect, useRef } from "react";
+import { cloneElement, ReactElement, ReactNode, RefObject, useContext, useEffect, useRef } from "react";
 import { StyleProp, View } from "react-native";
 
-import { SpotlightTourContext } from "./SpotlightTour.context";
+import { SpotlightTourContext } from "../../SpotlightTour.context";
 
 interface ChildProps<T> {
   children?: ReactNode;
@@ -40,13 +40,13 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
 
   const childRef = useRef<View>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (current === index) {
       childRef.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });
     }
-  }, [current]);
+  }, [changeSpot, current, index]);
 
   if (typeof children.type === "function") {
     const { style, ...rest } = children.props;
@@ -60,7 +60,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
         collapsable={false}
         focusable={false}
       >
-        {React.cloneElement(
+        {cloneElement(
           children,
           rest,
           children.props.children,
@@ -69,7 +69,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     );
   }
 
-  return React.cloneElement(
+  return cloneElement(
     children,
     { ...children.props, ref: childRef },
     children.props?.children,

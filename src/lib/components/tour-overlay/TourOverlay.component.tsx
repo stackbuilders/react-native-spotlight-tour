@@ -32,7 +32,7 @@ import {
 } from "../../SpotlightTour.context";
 import { OSConfig } from "../../SpotlightTour.provider";
 
-import { OverlayView } from "./TourOverlay.styles";
+import { OverlayView, SPOT_PADDING } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 
 export interface TourOverlayRef {
@@ -110,7 +110,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     tooltipRef.current?.measureInWindow((_x, _y, width, height) => {
       setTooltipStyle(() => {
         const align = tourStep.alignTo ?? Align.SPOT;
-        const half = (Math.max(spot.width, spot.height) / 2) * 1.15;
+        const half = (Math.max(spot.width, spot.height) / 2) * SPOT_PADDING;
         const cx = spot.x + (spot.width / 2);
         const cy = spot.y + (spot.height / 2);
         const window = Dimensions.get("window");

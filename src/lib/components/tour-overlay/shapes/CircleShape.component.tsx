@@ -3,6 +3,7 @@ import { Animated } from "react-native";
 import { Circle } from "react-native-svg";
 
 import { Motion, SpotlightTourContext } from "../../../SpotlightTour.context";
+import { SPOT_PADDING } from "../TourOverlay.styles";
 
 interface CircleShapeProps {
   motion: Motion;
@@ -20,7 +21,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
 
   useEffect(() => {
     const { height, width, x, y } = spot;
-    const r = (Math.max(width, height) / 2) * 1.15;
+    const r = (Math.max(width, height) / 2) * SPOT_PADDING;
     const cx = x + (width / 2);
     const cy = y + (height / 2);
 

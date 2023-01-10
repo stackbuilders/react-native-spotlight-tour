@@ -25,7 +25,7 @@ export function mockNativeComponent<T extends Comp>(modulePath: string, mockMeth
       return createElement(
         name.replace(/^(RCT|RK)/, ""),
         this.props,
-        this.props.children
+        this.props.children,
       );
     }
   };

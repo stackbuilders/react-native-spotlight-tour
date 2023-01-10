@@ -26,11 +26,11 @@ import {
   Align,
   BackdropPressBehavior,
   Motion,
+  OSConfig,
   Position,
   SpotlightTourContext,
   TourStep,
 } from "../../SpotlightTour.context";
-import { OSConfig } from "../../SpotlightTour.provider";
 
 import { OverlayView, SPOT_PADDING } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";

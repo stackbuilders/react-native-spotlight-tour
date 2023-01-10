@@ -5,12 +5,18 @@
     "node": true
   },
   "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project":[ "./tsconfig.json", "./example/tsconfig.json"]
+      }
+    },
     "react": {
       "version": "detect"
     }
   },
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": "latest",
     "project": ["./tsconfig.json", "./example/tsconfig.json"],
     "sourceType": "module"
   },
@@ -26,17 +32,26 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/typescript",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime"
   ],
   "overrides": [{
-    "files": ["test/**/*.ts?(x)"],
+    "files": "*.ts?(x)",
+    "parser": "@typescript-eslint/parser"
+  }, {
+    "files": "*.test.ts?(x)",
     "rules": {
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/restrict-template-expressions": "off"
     }
   }, {
-    "files": ["*.js"],
+    "files": "*.typetest.ts?(x)",
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": ["error", { "ts-expect-error": false }]
+    }
+  }, {
+    "files": "*.js?(x)",
     "rules": {
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-member-accessibility": "off",
@@ -128,6 +143,15 @@
     "eol-last": "error",
     "eqeqeq": "error",
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+    "import/newline-after-import": "error",
+    "import/no-absolute-path": "error",
+    "import/no-cycle": ["error", { "ignoreExternal": true }],
+    "import/no-duplicates": "error",
+    "import/no-import-module-exports": "error",
+    "import/no-namespace": "error",
+    "import/no-relative-packages": "error",
+    "import/no-unresolved": "error",
+    "import/no-useless-path-segments": "error",
     "import/order": ["error", {
       "alphabetize": {
         "caseInsensitive": false,

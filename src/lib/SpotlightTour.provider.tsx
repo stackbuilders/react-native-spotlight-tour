@@ -6,6 +6,7 @@ import { ChildFn, isChildFunction } from "../helpers/common";
 import {
   BackdropPressBehavior,
   Motion,
+  OSConfig,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -14,11 +15,6 @@ import {
   ZERO_SPOT,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
-
-export interface OSConfig<T> {
-  android: T;
-  ios: T;
-}
 
 interface SpotlightTourProviderProps {
   /**

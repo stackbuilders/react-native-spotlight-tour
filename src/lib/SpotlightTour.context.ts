@@ -21,6 +21,11 @@ export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> &
   isLast: boolean;
 };
 
+export interface OSConfig<T> {
+  android: T;
+  ios: T;
+}
+
 export type BackdropPressBehavior =
   | "continue"
   | "stop"

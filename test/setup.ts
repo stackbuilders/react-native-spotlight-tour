@@ -34,7 +34,7 @@ jest
   })
   .doMock("react-native/Libraries/Animated/nodes/AnimatedValue.js", () => {
     const ActualValue = jest.requireActual<typeof Animated.Value>(
-      "react-native/Libraries/Animated/nodes/AnimatedValue.js"
+      "react-native/Libraries/Animated/nodes/AnimatedValue.js",
     );
 
     return class MockedValue extends ActualValue {
@@ -46,7 +46,7 @@ jest
   })
   .doMock("react-native/Libraries/Animated/nodes/AnimatedValueXY.js", () => {
     const ActualValueXY = jest.requireActual<typeof Animated.ValueXY>(
-      "react-native/Libraries/Animated/nodes/AnimatedValueXY.js"
+      "react-native/Libraries/Animated/nodes/AnimatedValueXY.js",
     );
 
     return class MockedValue extends ActualValueXY {

@@ -126,7 +126,7 @@ type AnimatedValue = Animated.SpringAnimationConfig["toValue"];
 type TimingAnimatedValue = Animated.AnimatedInterpolation<number> | AnimatedValue;
 
 export function isAnimatedTimingInterpolation(
-  value: TimingAnimatedValue
+  value: TimingAnimatedValue,
 ): value is Animated.AnimatedInterpolation<number> {
   return typeof value === "object"
     && value instanceof Animated.AnimatedInterpolation<number>;

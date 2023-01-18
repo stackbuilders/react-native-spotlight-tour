@@ -88,11 +88,11 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     hideTooltip: () => Promise.resolve({ finished: false }),
   });
 
-  const renderStep = useCallback((index: number): void => {
+  const renderStep = useCallback((index: number): void | Promise<void> => {
     const step = steps[index];
 
     if (step !== undefined) {
-      Promise.all([
+      return Promise.all([
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
       ])

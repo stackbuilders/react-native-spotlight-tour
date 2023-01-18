@@ -8,7 +8,7 @@
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project":[ "./tsconfig.json", "./example/tsconfig.json"]
+        "project": ["./tsconfig.json", "./example/tsconfig.json"]
       }
     },
     "react": {
@@ -26,12 +26,14 @@
     "eslint-plugin-import",
     "eslint-plugin-jsdoc",
     "eslint-plugin-react",
+    "etc",
     "react-hooks"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:etc/recommended",
     "plugin:import/typescript",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime"
@@ -43,12 +45,14 @@
     "files": "*.test.ts?(x)",
     "rules": {
       "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/restrict-template-expressions": "off"
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "etc/throw-error": "off"
     }
   }, {
     "files": "*.typetest.ts?(x)",
     "rules": {
-      "@typescript-eslint/ban-ts-comment": ["error", { "ts-expect-error": false }]
+      "@typescript-eslint/ban-ts-comment": ["error", { "ts-expect-error": false }],
+      "etc/throw-error": "off"
     }
   }, {
     "files": "*.js?(x)",
@@ -56,7 +60,14 @@
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-member-accessibility": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-unsafe-return": "off"
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "@typescript-eslint/restrict-template-expressions": "off"
     }
   }],
   "rules": {
@@ -132,14 +143,18 @@
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
     "@typescript-eslint/unified-signatures": "error",
+    "array-bracket-spacing": "error",
     "arrow-parens": ["error", "as-needed"],
     "arrow-spacing": "error",
     "brace-style": "error",
     "better-styled-components/sort-declarations-alphabetically": "error",
     "camelcase": "error",
     "comma-spacing": "error",
+    "computed-property-spacing": "error",
     "constructor-super": "error",
     "curly": "error",
+    "etc/no-commented-out-code": "error",
+    "etc/throw-error": "error",
     "eol-last": "error",
     "eqeqeq": "error",
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
@@ -185,15 +200,18 @@
     "no-extra-boolean-cast": ["error", { "enforceForLogicalOperands": true }],
     "no-invalid-this": "error",
     "no-labels": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
     "no-multi-spaces": "error",
     "no-new-wrappers": "error",
     "no-param-reassign": "error",
+    "no-tabs": "error",
     "no-throw-literal": "error",
     "no-trailing-spaces": "error",
     "no-underscore-dangle": "error",
     "no-use-before-define": "off",
     "no-useless-computed-key": ["error", { "enforceForClassMembers": true }],
     "no-var": "error",
+    "object-curly-spacing": ["error", "always"],
     "object-shorthand": "error",
     "one-var": ["error", "never"],
     "prefer-const": "error",
@@ -217,6 +235,7 @@
     "semi-spacing": "error",
     "sort-keys": "error",
     "space-before-blocks": "error",
+    "space-in-parens": "error",
     "spaced-comment": "error",
     "switch-colon-spacing": "error"
   }

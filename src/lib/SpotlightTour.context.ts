@@ -1,5 +1,7 @@
 import { createContext, ReactElement, useContext } from "react";
-import { LayoutRectangle, Omit } from "react-native";
+import { LayoutRectangle } from "react-native";
+
+import { OmitR } from "../helpers/common";
 
 export enum Align {
   SCREEN = "screen",
@@ -127,7 +129,7 @@ export interface SpotlightTourCtx {
   stop: () => void;
 }
 
-export type SpotlightTour = Omit<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
+export type SpotlightTour = OmitR<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
 
 export const ZERO_SPOT: LayoutRectangle = {
   height: 0,

@@ -1,5 +1,10 @@
 import { ReactNode } from "react";
 
+export type OmitR<
+  T extends Record<keyof unknown, unknown>,
+  K extends keyof T,
+> = Pick<T, Exclude<keyof T, K>>;
+
 export type Optional<T> = T | undefined;
 
 export type ChildFn<T> = (value: T) => ReactNode;

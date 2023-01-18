@@ -19,7 +19,6 @@ import {
 global.context = describe;
 
 jest
-  .mock("react-native/Libraries/Animated/NativeAnimatedHelper")
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
@@ -32,34 +31,44 @@ jest
       measureInWindow: createMeasureMethod(buttonMockMeasureData),
     });
   })
-  .doMock("react-native/Libraries/Animated/nodes/AnimatedValue.js", () => {
-    const ActualValue = jest.requireActual<typeof Animated.Value>(
+  .mock("react-native/Libraries/Animated/nodes/AnimatedValue.js", () => {
+    const ActualValue = jest.requireActual<{ default: typeof Animated.Value; }>(
       "react-native/Libraries/Animated/nodes/AnimatedValue.js",
-    );
+    ).default;
 
-    return class MockedValue extends ActualValue {
+    class MockedValue extends ActualValue {
 
       public constructor(value: number) {
         super(value);
       }
+    }
+
+    return {
+      __esModule: true,
+      default: MockedValue,
     };
   })
-  .doMock("react-native/Libraries/Animated/nodes/AnimatedValueXY.js", () => {
-    const ActualValueXY = jest.requireActual<typeof Animated.ValueXY>(
+  .mock("react-native/Libraries/Animated/nodes/AnimatedValueXY.js", () => {
+    const ActualValueXY = jest.requireActual<{ default: typeof Animated.ValueXY; }>(
       "react-native/Libraries/Animated/nodes/AnimatedValueXY.js",
-    );
+    ).default;
 
-    return class MockedValue extends ActualValueXY {
+    class MockedValue extends ActualValueXY {
 
       public constructor(valueIn: { x: number | Animated.Value; y: number | Animated.Value; }) {
         super(valueIn);
       }
+    }
+
+    return {
+      __esModule: true,
+      default: MockedValue,
     };
   })
-  .doMock("react-native/Libraries/Animated/AnimatedImplementation", () => {
-    const ActualAnimated = jest.requireActual<Animated.Animated>(
+  .mock("react-native/Libraries/Animated/AnimatedImplementation", () => {
+    const ActualAnimated = jest.requireActual<{ default: Animated.Animated; }>(
       "react-native/Libraries/Animated/AnimatedImplementation",
-    );
+    ).default;
 
     const timingMock = (
       value: Animated.Value | Animated.ValueXY,
@@ -111,9 +120,12 @@ jest
     };
 
     return {
-      ...ActualAnimated,
-      spring: springMock,
-      timing: timingMock,
+      __esModule: true,
+      default: {
+        ...ActualAnimated,
+        spring: springMock,
+        timing: timingMock,
+      },
     };
   });
 

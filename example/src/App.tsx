@@ -7,7 +7,7 @@ import {
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
-import { ReactElement, useRef } from "react";
+import { ReactElement, useMemo, useRef } from "react";
 import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {
@@ -23,7 +23,7 @@ import { DocsTooltip } from "./DocsTooltip";
 export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
 
-  const tourSteps: TourStep[] = [{
+  const tourSteps = useMemo((): TourStep[] => [{
     alignTo: Align.SCREEN,
     position: Position.BOTTOM,
     render: ({ next }) => (
@@ -92,7 +92,7 @@ export function App(): ReactElement {
         </ButtonsGroupView>
       </SpotDescriptionView>
     ),
-  }];
+  }], []);
 
   return (
     <SafeAreaView>
@@ -102,6 +102,7 @@ export function App(): ReactElement {
         overlayOpacity={0.36}
         nativeDriver={true}
         onBackdropPress="continue"
+        motion="bounce"
       >
         {({ start }) => (
           <>

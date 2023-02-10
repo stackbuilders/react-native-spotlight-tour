@@ -32,16 +32,16 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
 
           return Animated.parallel([
             Animated.spring(center.current, {
-              damping: 50,
-              mass: 5,
-              stiffness: 400,
+              damping: 45,
+              mass: 4,
+              stiffness: 350,
               toValue: { x: cx, y: cy },
               useNativeDriver,
             }),
             Animated.spring(radius.current, {
-              damping: 30,
-              mass: 5,
-              stiffness: 400,
+              damping: 35,
+              mass: 4,
+              stiffness: 350,
               toValue: r,
               useNativeDriver,
             }),

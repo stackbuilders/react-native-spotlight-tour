@@ -1,4 +1,3 @@
-# example-install.sh
 #!/bin/bash
 
 echo "Cleaning previous build..."

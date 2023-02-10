@@ -8,7 +8,7 @@
     "importHelpers": true,
     "incremental": true,
     "jsx": "react-jsx",
-    "lib": ["ES6", "ES2019"],
+    "lib": ["ES2019"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -37,7 +37,7 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ES2017",
+    "target": "ESNext",
     "typeRoots": [
       "./node_modules/@types",
       "./typings"

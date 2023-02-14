@@ -1,13 +1,23 @@
 import { createContext, ReactElement, useContext } from "react";
 import { LayoutRectangle } from "react-native";
 
-import { OmitR } from "../helpers/common";
-
+/**
+ * Possible alignments of the tour tooltip:
+ * - `Align.SCREEN`: The tooltip alignment is relative to the whole screen.
+ * - `Align.SPOT`: The tooltip alignment is relative to the rendered step spot.
+ */
 export enum Align {
   SCREEN = "screen",
   SPOT = "spot",
 }
 
+/**
+ * Possible positions of the tour tooltip:
+ * - `Position.BOTTOM`
+ * - `Position.LEFT`
+ * - `Position.RIGHT`
+ * - `Position.TOP`
+ */
 export enum Position {
   BOTTOM = "bottom",
   LEFT = "left",
@@ -15,17 +25,54 @@ export enum Position {
   TOP = "top",
 }
 
+/**
+ * Possible motion effect for the tour spotlight:
+ * - `bounce`
+ * - `slide`
+ * - `fade`
+ */
 export type Motion = "bounce" | "slide" | "fade";
 
-export type RenderProps = Pick<SpotlightTourCtx, "next" | "previous" | "stop"> & {
+export interface RenderProps {
+  /**
+   * The index of the current step the tour is on.
+   */
   current: number;
+  /**
+   * Set to `true` if the tour is on the first step, `false` otherwise.
+   */
   isFirst: boolean;
+  /**
+   * Set to `true` if the tour is on the last step, `false` otherwise.
+   */
   isLast: boolean;
-};
+  /**
+   * Goes to the next step, if any. Stops the tour on the last step.
+   */
+  next: () => void;
+  /**
+   * Goes to the previous step, if any.
+   */
+  previous: () => void;
+  /**
+   * Terminates the tour execution.
+   */
+  stop: () => void;
+}
 
 export interface OSConfig<T> {
+  /**
+   * Generic setting which only applies to Android
+   */
   android: T;
+  /**
+   * Generic setting which only applies to iOS
+   */
   ios: T;
+  /**
+   * Generic setting which only applies to Web
+   */
+  web: T;
 }
 
 export type BackdropPressBehavior =
@@ -86,13 +133,7 @@ export interface TourStep {
   render: (props: RenderProps) => ReactElement;
 }
 
-export interface SpotlightTourCtx {
-  /**
-   * Programmatically change the spot layout
-   *
-   * @param spot the spot layout
-   */
-  changeSpot: (spot: LayoutRectangle) => void;
+export interface SpotlightTour {
   /**
    * The current step index.
    */
@@ -112,24 +153,31 @@ export interface SpotlightTourCtx {
    */
   previous: () => void;
   /**
-   * The spotlight layout.
-   */
-  spot: LayoutRectangle;
-  /**
    * Kicks off the tour from step `0`.
    */
   start: () => void;
-  /**
-   * The list of steps for the tour.
-   */
-  steps: TourStep[];
   /**
    * Terminates the tour execution.
    */
   stop: () => void;
 }
 
-export type SpotlightTour = OmitR<SpotlightTourCtx, "changeSpot" | "spot" | "steps">;
+export interface SpotlightTourCtx extends SpotlightTour {
+  /**
+   * Programmatically change the spot layout
+   *
+   * @param spot the spot layout
+   */
+  changeSpot: (spot: LayoutRectangle) => void;
+  /**
+   * The spotlight layout.
+   */
+  spot: LayoutRectangle;
+  /**
+   * The list of steps for the tour.
+   */
+  steps: TourStep[];
+}
 
 export const ZERO_SPOT: LayoutRectangle = {
   height: 0,
@@ -149,6 +197,11 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   stop: () => undefined,
 });
 
+/**
+ * React hook to access the {@link SpotlightTour} context.
+ *
+ * @returns the SpotlightTour context
+ */
 export function useSpotlightTour(): SpotlightTour {
   const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
 

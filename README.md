@@ -2,15 +2,22 @@
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
 [![Release](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml)
+[![NPM version](https://img.shields.io/npm/v/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
+[![NPM downloads](https://img.shields.io/npm/dm/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
+[![NPM license](https://img.shields.io/npm/l/@stackbuilders/react-native-spotlight-tour)](./LICENSE)
+[![GitHub Release Date](https://img.shields.io/github/release-date/stackbuilders/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/releases)
+[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@stackbuilders/react-native-spotlight-tour)](https://snyk.io/)
 
-`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android and iOS 
+`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web 
 compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
 effect. This library handles animations at the native level and is perfect for the following:
 
 * Guiding users on how to use your application
 * Showing an introduction to your users
 
-<img src="docs/demo.gif" alt="spotlight-demo-gif" width="300"/>
+<span><img src="docs/rnst-bounce.gif" alt="spotlight-bounce-gif" width="300"/></span>
+<span><img src="docs/rnst-fade.gif" alt="spotlight-fade-gif" width="300"/></span>
+<span><img src="docs/rnst-slide.gif" alt="spotlight-slide-gif" width="300"/></span>
 
 ## Requirements
 
@@ -18,7 +25,7 @@ effect. This library handles animations at the native level and is perfect for t
 * [React Native](https://reactnative.dev/) >= 0.50.0
 * [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
 
-## Installation
+## Install
 
 With `npm`:
 
@@ -32,16 +39,18 @@ With `yarn`:
 $ yarn add @stackbuilders/react-native-spotlight-tour
 ```
 
-## Basic usage
+## Usage
+
+To be able to use the tour, you'll need to wrap everything around a `SpotlightTourProvider`. This provider component will also give you access to a hook to retrieve the `SpotlightTour` context, which gives information and fine control over the tour.
 
 ```tsx
 import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
-  ...
+  // ...
 ];
 
-...
+return (
   <SpotlightTourProvider steps={mySteps} overlayColor={"gray"} overlayOpacity={0.36}>
     {({ start }) => (
       <>
@@ -69,75 +78,10 @@ const mySteps: TourStep[] = [
       </>
     )};
   </SpotlightTourProvider>
-  ...
+);
 ```
 
-### SpotlightTourProvider
-
-The `SpotlightTourProvider` allows you to wrap a section of the application to implement 
-the spotlight tour. In this section, you can define a component that will trigger the tour sequence. 
-For example, a button with an `onPress` handler that will allow you to call the provided `start()` 
-method to start the tour workflow. To customize and set up this workflow, you should pass a list 
-of `steps` to the `SpotlightTourProvider`. 
-[Check out the tour steps section](#setting-tour-steps) for more details.
-
-Once the tour starts, an overlay component will be shown to highlight a component from the section.
-This library shows an overlay component that darkens other UI elements on the screen so that users 
-can focus on the children's components of `AttachStep`.
-
-
-| Prop             | Required? | Default | Description |
-| ---------------- | :-------: | ------- | ----------- |
-| `ref`            | No        | N/A     | Mutable object for the Tour. Populated through the provider. |
-| `steps`          | Yes       | N/A     | Steps for the tour (array of `TourStep`).|
-| `overlayColor`   | No        | `black` | Color for the overlay (`String`, `Number` or `rgbaArray`). |
-| `overlayOpacity` | No        | `0.45`  | Opacity of the overlay (`Number` or `String`) |
-
-
-| Method     | Description |
-| ---------- | ----------- |
-| `start`    | Begin the tour. |
-| `next`     | Navigate to the next defined step. |
-| `previous` | Navigate to the previous step. |
-| `stop`     | Finish the tour. |
-
-### AttachStep
-
-The `AttachStep` wraps the components that will be highlighted by the library. It receives the 
-following properties:
-
-| Prop       | Required? | Default  | Description |
-| ---------- | :-------: | -------- | ----------- |
-| `children` | Yes       | N/A      | The element in which the spotlight will be to wrapped to in the specified step of the tour. |
-| `index`    | Yes       | N/A      | The index of the `steps` array to which the step is attatched to. |
-| `fill`     | No        | false    | When `AttachStep` wraps a Functional Component, it needs to add an aditional `View` on top of it to be able to measure the layout upon render. This prop allows to define the behavior of the width of such `View`. When set to `false`, it adjusts to its contents, when set to `true`, it stretches out and tries to fill it view. |
-
-
-### Setting Tour Steps
-
-The `TourStep` lets you render a component with the information you want to display for each step 
-in the tour. It has the following properties:
-
-| Prop       | Required? | Default             | Description |
-| ---------- | :-------: | ------------------- | ----------- |
-| `alignTo`  | No        | `Align.SPOT`        | Aligns the step component to the `Align.SPOT` or the `Align.SCREEN`. |
-| `before`   | No        | `Promise.resolve()` | If present, it runs an operation before a step starts. The function can return either `void`, or `Promise<void>`. |
-| `render`   | Yes       | -                   | A function component that will be rendered in the step. The props of this component should include the [RenderProps](#render-props). |
-| `position` | Yes       | -                   | The position with respect to the spot where the step component will be rendered. Possible values are `Position.BOTTOM`, `Position.LEFT`, `Position.RIGHT`, or `Position.TOP` |
-
-#### Render props
-These props will be passed to the function component of `render` in a `TourStep` object. The props contain the following:
-
-| Prop       | Type         | Description |
-| ---------- | ------------ | ----------- |
-| `current`  | `number`     | The current step index. Starting from `0`. |
-| `isFirst`  | `boolean`    | True if the current step is the first step. False otherwise. |
-| `isLast`   | `boolean`    | True if the current step is the last step. False otherwise. |
-| `next`     | `() => void` | Calling it will trigger the next step (if any). |
-| `previous` | `() => void` | Calling it will trigger the previous step (if any). |
-| `stop`     | `() => void` | Calling it will end the tour. |
-
-Bellow is a complete example of a `TourStep` array:
+The tour requires an array of steps to be configured, which will map directly to each `<AttachStep />` index. Bellow is a complete example of a `TourStep` array:
 
 ```tsx
 import {
@@ -178,7 +122,11 @@ const mySteps: TourStep[] = [{
 }];
 ```
 
-Check out the complete example [here](example/).
+You can also find a complete example [here](example/).
+
+## API Reference
+
+To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.
 
 ## License
 

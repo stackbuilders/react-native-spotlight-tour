@@ -3,13 +3,22 @@ import { StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
-interface ChildProps<T> {
+export interface ChildProps<T> {
+  /**
+   * A React children, if any.
+   */
   children?: ReactNode;
+  /**
+   * A React reference.
+   */
   ref: RefObject<unknown>;
+  /**
+   * The style prop.
+   */
   style: StyleProp<T>;
 }
 
-interface AttachStepProps<T> {
+export interface AttachStepProps<T> {
   /**
    * The element in which the spotlight will be to wrapped to in the specified
    * step of the tour.
@@ -35,6 +44,13 @@ interface AttachStepProps<T> {
   index: number;
 }
 
+/**
+ * React functional component used to attach and step to another component by
+ * only wrapping it. Use its props to customize the behavior.
+ *
+ * @param props the component props
+ * @returns an AttachStep React element
+ */
 export function AttachStep<T>({ children, fill = false, index }: AttachStepProps<T>): ReactElement {
   const { current, changeSpot } = useContext(SpotlightTourContext);
 

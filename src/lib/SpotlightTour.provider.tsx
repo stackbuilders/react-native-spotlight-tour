@@ -16,7 +16,7 @@ import {
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
-interface SpotlightTourProviderProps {
+export interface SpotlightTourProviderProps {
   /**
    * The children to render in the provider. It accepts either a React
    * component, or a function that returns a React component. When the child is
@@ -70,6 +70,9 @@ interface SpotlightTourProviderProps {
   steps: TourStep[];
 }
 
+/**
+ * React provider component to get access to the SpotlightTour context.
+ */
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,

@@ -79,13 +79,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
 
   const useNativeDriver = useMemo(() => {
     const driverConfig: OSConfig<boolean> = typeof nativeDriver === "boolean"
-      ? { android: nativeDriver, ios: nativeDriver }
+      ? { android: nativeDriver, ios: nativeDriver, web: nativeDriver }
       : nativeDriver;
 
     return Platform.select({
       android: driverConfig.android,
       default: false,
       ios: driverConfig.ios,
+      web: driverConfig.web,
     });
   }, [nativeDriver]);
 

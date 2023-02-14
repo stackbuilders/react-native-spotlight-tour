@@ -9,7 +9,7 @@
   "includeVersion": false,
   "mergeModulesMergeMode": "project",
   "mergeModulesRenameDefaults": true,
-  "name": "AssertiveTS - API Reference",
+  "name": "React Native Spotlight Tour - API Reference",
   "out": "./docs/build",
   "plugin": [
     "typedoc-plugin-markdown",

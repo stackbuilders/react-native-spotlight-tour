@@ -1,17 +1,40 @@
+---
+
 remote_theme: mmistakes/minimal-mistakes
 
-minimal_mistakes_skin: air
-
-atom_feed:
-  hide: true
-
-repository: stackbuilders/react-native-spotlight-tour
+plugins:
+  - jekyll-include-cache
+  - jekyll-github-metadata
 
 defaults:
   - scope:
       path: ""
+      type: pages
     values:
-      layout: splash
+      author_profile: true
+      classes: wide
+      layout: single
 
-plugins:
-  - jekyll-include-cache
+minimal_mistakes_skin: air
+title: React Native Spotlight Tour
+subtitle: A highly customizable tour feature with an awesome spotlight effect
+name: Stack Builders Inc.
+repository: stackbuilders/react-native-spotlight-tour
+atom_feed:
+  hide: true
+footer:
+  links:
+    - label: Repository
+      icon: fab fa-fw fa-github
+      url: https://github.com/stackbuilders/react-native-spotlight-tour
+    - label: GitHub
+      icon: fab fa-fw fa-github-alt
+      url: https://github.com/stackbuilders
+    - label: Twitter
+      icon: fab fa-fw fa-twitter-square
+      url: https://twitter.com/stackbuilders
+    - label: LinkedIn
+      icon: fab fa-fw fa-linkedin
+      url: https://www.linkedin.com/company/stack-builders/
+
+...

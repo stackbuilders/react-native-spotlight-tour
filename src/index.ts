@@ -1,12 +1,28 @@
-export { AttachStep } from "./lib/components/attach-step/AttachStep.component";
-export { TourBox } from "./lib/components/tour-box/TourBox.component";
+export {
+  ChildFn,
+  Optional,
+} from "./helpers/common";
+export {
+  AttachStep,
+  AttachStepProps,
+  ChildProps,
+} from "./lib/components/attach-step/AttachStep.component";
+export {
+  TourBox,
+  TourBoxProps,
+} from "./lib/components/tour-box/TourBox.component";
 export {
   Align,
+  BackdropPressBehavior,
   Motion,
+  OSConfig,
   Position,
   RenderProps,
   SpotlightTour,
   TourStep,
   useSpotlightTour,
 } from "./lib/SpotlightTour.context";
-export { SpotlightTourProvider } from "./lib/SpotlightTour.provider";
+export {
+  SpotlightTourProvider,
+  SpotlightTourProviderProps,
+} from "./lib/SpotlightTour.provider";

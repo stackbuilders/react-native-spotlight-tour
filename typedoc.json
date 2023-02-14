@@ -1,0 +1,27 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "cleanOutputDir": true,
+  "entryPoints": ["src/index.ts"],
+  "entryPointStrategy": "expand",
+  "gitRevision": "release",
+  "githubPages": false,
+  "hideGenerator": true,
+  "includeVersion": false,
+  "mergeModulesMergeMode": "project",
+  "mergeModulesRenameDefaults": true,
+  "name": "React Native Spotlight Tour - API Reference",
+  "out": "./docs/build",
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-merge-modules"
+  ],
+  "readme": "none",
+  "visibilityFilters": {
+    "@alpha": false,
+    "@beta": false,
+    "external": false,
+    "inherited": true,
+    "private": false,
+    "protected": false
+  }
+}

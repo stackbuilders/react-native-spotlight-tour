@@ -31,6 +31,7 @@
     "build": "tsc -p tsconfig.prod.json",
     "check": "yarn compile && yarn lint && yarn test",
     "compile": "tsc -p tsconfig.json && cd example && yarn compile",
+    "docs": "typedoc",
     "lint": "eslint .",
     "semantic-release": "semantic-release",
     "start": "./scripts/install-dev-on-example.sh && cd example && yarn start",
@@ -75,6 +76,9 @@
     "sinon": "^15.0.1",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.23.25",
+    "typedoc-plugin-markdown": "^3.14.0",
+    "typedoc-plugin-merge-modules": "^4.0.1",
     "typescript": "^4.9.5",
     "typescript-styled-plugin": "^0.18.2"
   },

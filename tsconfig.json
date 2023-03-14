@@ -8,7 +8,7 @@
     "importHelpers": true,
     "incremental": true,
     "jsx": "react-jsx",
-    "lib": ["ES2019"],
+    "lib": ["ES2022"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -38,16 +38,11 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "ESNext",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./typings"
-    ]
   },
   "exclude": [
     ".yarn",
     "build/*",
     "dist/*",
-    "example/*",
     "node_modules/*"
   ]
 }

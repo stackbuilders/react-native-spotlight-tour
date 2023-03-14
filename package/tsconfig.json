@@ -2,12 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "resolveJsonModule": true
+    "typeRoots": [
+      "../node_modules/@types",
+      "./typings"
+    ]
   },
   "exclude": [
-    "./build/*",
-    "./node_modules/*",
-    "./android/*",
-    "./ios/*"
+    "build/*",
+    "dist/*"
   ]
 }

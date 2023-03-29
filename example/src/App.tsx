@@ -116,8 +116,9 @@ export function App(): ReactElement {
           placement: "bottom",
         }}
         onBackdropPress="continue"
-        motion="bounce"
         onStop={onStopTour}
+        motion="bounce"
+        shape="circle"
       >
         {({ start }) => (
           <>

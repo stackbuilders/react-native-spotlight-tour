@@ -1,29 +1,33 @@
 import React, { memo, useEffect, useMemo, useRef } from "react";
 import isEqual from "react-fast-compare";
 import { Animated } from "react-native";
-import { Circle } from "react-native-svg";
+import { Rect } from "react-native-svg";
 
 import { ShapeProps } from "./shape.types";
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-export const CircleShape = memo<ShapeProps>(props => {
+export const RectShape = memo<ShapeProps>(props => {
   const { motion, padding, setReference, spot, useNativeDriver } = props;
 
-  const r = useMemo((): number => {
-    return Math.max(spot.width, spot.height) / 2 + padding;
-  }, [spot.width, spot.height, padding]);
+  const width = useMemo((): number => {
+    return spot.width + padding;
+  }, [spot.width, padding]);
+
+  const height = useMemo((): number => {
+    return spot.height + padding;
+  }, [spot.height, padding]);
 
   const x = useMemo((): number => {
-    return spot.x + spot.width / 2;
-  }, [spot.x, spot.width]);
+    return spot.x - ((width - spot.width) / 2);
+  }, [spot.x, spot.width, width]);
 
   const y = useMemo((): number => {
-    return spot.y + spot.height / 2;
-  }, [spot.y, spot.height]);
+    return spot.y - ((height - spot.height) / 2);
+  }, [spot.y, spot.height, height]);
 
-  const center = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver }));
-  const radius = useRef(new Animated.Value(r, { useNativeDriver }));
+  const size = useRef(new Animated.ValueXY({ x: width, y: height }, { useNativeDriver }));
+  const origin = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver }));
   const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
 
   useEffect(() => {
@@ -33,18 +37,18 @@ export const CircleShape = memo<ShapeProps>(props => {
           opacity.current.setValue(1);
 
           return Animated.parallel([
-            Animated.spring(center.current, {
+            Animated.spring(origin.current, {
               damping: 45,
               mass: 4,
               stiffness: 350,
               toValue: { x, y },
               useNativeDriver,
             }),
-            Animated.spring(radius.current, {
+            Animated.spring(size.current, {
               damping: 35,
               mass: 4,
               stiffness: 350,
-              toValue: r,
+              toValue: { x: width, y: height },
               useNativeDriver,
             }),
           ]);
@@ -57,14 +61,14 @@ export const CircleShape = memo<ShapeProps>(props => {
               useNativeDriver,
             }),
             Animated.parallel([
-              Animated.timing(center.current, {
+              Animated.timing(origin.current, {
                 duration: 0,
                 toValue: { x, y },
                 useNativeDriver,
               }),
-              Animated.timing(radius.current, {
+              Animated.timing(size.current, {
                 duration: 0,
-                toValue: r,
+                toValue: { x: width, y: height },
                 useNativeDriver,
               }),
             ]),
@@ -79,14 +83,14 @@ export const CircleShape = memo<ShapeProps>(props => {
           opacity.current.setValue(1);
 
           return Animated.parallel([
-            Animated.timing(center.current, {
+            Animated.timing(origin.current, {
               duration: 400,
               toValue: { x, y },
               useNativeDriver,
             }),
-            Animated.timing(radius.current, {
+            Animated.timing(size.current, {
               duration: 400,
-              toValue: r,
+              toValue: { x: width, y: height },
               useNativeDriver,
             }),
           ]);
@@ -97,27 +101,23 @@ export const CircleShape = memo<ShapeProps>(props => {
 
     setReference({
       measure: callback => {
-        const r2 = r * 2;
-        callback(x - r, y - r, r2, r2);
+        callback(x, y, width, height);
       },
     });
 
     return () => setReference(undefined);
-  }, [r, x, y, setReference, motion, useNativeDriver]);
-
-  if ([spot.height, spot.width].every(value => value <= 0)) {
-    return null;
-  }
+  }, [x, y, width, height, setReference, motion, useNativeDriver]);
 
   return (
-    <>
-      <AnimatedCircle
-        r={radius.current}
-        cx={center.current.x}
-        cy={center.current.y}
-        opacity={opacity.current}
-        fill="black"
-      />
-    </>
+    <AnimatedRect
+      x={origin.current.x}
+      y={origin.current.y}
+      width={size.current.x}
+      height={size.current.y}
+      opacity={opacity.current}
+      fill="black"
+      rx={4}
+      ry={4}
+    />
   );
 }, isEqual);

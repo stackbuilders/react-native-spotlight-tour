@@ -13,9 +13,11 @@ export {
 } from "./lib/components/tour-box/TourBox.component";
 export {
   BackdropPressBehavior,
+  FloatingProps,
   Motion,
   OSConfig,
   RenderProps,
+  Shape,
   SpotlightTour,
   StopParams,
   TourStep,

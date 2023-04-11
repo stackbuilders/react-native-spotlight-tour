@@ -187,4 +187,24 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       });
     });
   });
+
+  context("when a function is passed to the onStop prop in the tour provider", () => {
+    context("and the tour is stopped", () => {
+      it("invokes the function and injects the current index step", async() => {
+        const spy = Sinon.spy<(current: number | undefined) => void>(() => undefined);
+
+        const { getByText } = render(
+          <SpotlightTourProvider steps={STEPS} onStop={spy}>
+            <TestScreen />
+          </SpotlightTourProvider>,
+        );
+
+        await waitFor(() => getByText("Step 1"));
+
+        fireEvent.press(getByText("Stop"));
+
+        Sinon.assert.calledOnceWithExactly(spy, 0);
+      });
+    });
+  });
 });

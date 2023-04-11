@@ -191,7 +191,7 @@ describe("[Integration] index.test.tsx", () => {
     });
   });
 
-  describe("and the tour is stopped", () => {
+  describe("when the tour is stopped", () => {
     it("unmounts the overlay view", async () => {
       const { getByText, queryByTestId } = render(<TestScreen />);
 

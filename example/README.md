@@ -1,29 +1,6 @@
 # Examples
 Here you will find an example of both iOS and Android implementations of `react-native-spotlight-tour`.
 
-## Requirements
-Make sure you are in the `react-native-spotlight-tour` root directory and run:
-```
-yarn install
-``` 
-This will generate the `node_modules` directory.
-
-Then, you need to run: 
-```
-yarn pack
-```
-This will generate a `stackbuilders-react-native-spotlight-tour-v0.0.0.tgz` file. This will be used by the example as a package. Inside the `/example` directory, you could check the `dependencies` section of the `package.json` file to verify this. 
-
-If the library is not referenced, add it with the following command:
-```
-yarn add ../stackbuilders-react-native-spotlight-tour-v0.0.0.tgz
-```
-
-Finally, in the `/example` directory, you need to run: 
-```
-yarn install
-```
-
 ## Running the examples
 
 You should be located in the `/example` directory.

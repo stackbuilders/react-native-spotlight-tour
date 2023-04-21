@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 
 import { Align, AttachStep, Position, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";

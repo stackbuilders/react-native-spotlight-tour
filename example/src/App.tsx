@@ -7,7 +7,7 @@ import {
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
-import { ReactElement, useMemo, useRef } from "react";
+import React, { ReactElement, useMemo, useRef } from "react";
 import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {

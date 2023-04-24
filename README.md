@@ -124,6 +124,39 @@ const mySteps: TourStep[] = [{
 
 You can also find a complete example [here](example/).
 
+## Built-in Helper Components
+
+You can take advantage of the already built-in customizable components. For example, our [TourBox] (https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#tourbox) component can be used as a tooltip container for each step.
+
+
+```tsx
+const tourSteps: TourStep[] = [{
+    alignTo: Align.SCREEN,
+    position: Position.BOTTOM,
+    render: props => (
+      <TourBox
+        title="Tour: Customization"
+        titleStyle={{ 
+          fontFamily: 'Roboto', 
+          color: '#90EE90', 
+          fontWeight: 'bold'
+        }}
+        backText="Previous"
+        nextText="Next"
+        {...props}
+      >
+        <Text>
+          {"This is the third step of tour example.\n"}
+          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        </Text>
+      </TourBox>
+    ),
+  }]
+```
+
+The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the tour overlay through its [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props.
+
 ## API Reference
 
 To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.

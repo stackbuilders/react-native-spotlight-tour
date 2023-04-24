@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction } from "../helpers/common";

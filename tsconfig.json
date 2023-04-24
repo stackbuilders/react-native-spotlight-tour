@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "incremental": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "lib": ["ES2022"],
     "moduleResolution": "Node",
     "noImplicitAny": true,

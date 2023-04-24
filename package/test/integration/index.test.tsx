@@ -2,6 +2,7 @@ import { expect as jestExpect } from "@jest/globals";
 import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import React from "react";
 import { ViewStyle } from "react-native";
 import { CircleProps } from "react-native-svg";
 

@@ -129,7 +129,15 @@ You can also find a complete example [here](example/).
 You can take advantage of the already built-in customizable components. For example, our [TourBox] (https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#tourbox) component can be used as a tooltip container for each step.
 
 
+
 ```tsx
+import {
+  Align,
+  Position,
+  TourBox,
+  TourStep,
+} from "@stackbuilders/react-native-spotlight-tour";
+
 const tourSteps: TourStep[] = [{
     alignTo: Align.SCREEN,
     position: Position.BOTTOM,
@@ -152,10 +160,32 @@ const tourSteps: TourStep[] = [{
         </Text>
       </TourBox>
     ),
-  }]
+  }];
 ```
 
-The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the tour overlay through its [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props.
+### Tour customization
+
+The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the whole tour through its [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props. Otherwise, if you wish to customize each step you can do it from its configuration.
+
+
+
+```tsx
+import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+
+const mySteps: TourStep[] = [
+  // ...
+];
+
+return (
+  <SpotlightTourProvider steps={mySteps} overlayColor={"green"} overlayOpacity={0.36}>
+    {({ start }) => (
+      <>
+      {/* ... */}
+      </>
+    )};
+  </SpotlightTourProvider>
+);
+```
 
 ## API Reference
 

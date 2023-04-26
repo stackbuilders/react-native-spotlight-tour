@@ -165,7 +165,7 @@ const tourSteps: TourStep[] = [{
 
 ### Tour customization
 
-The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the whole tour through its [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props. Otherwise, if you wish to customize each step you can do it from its configuration.
+The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the overlay through the [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props.
 
 
 
@@ -177,7 +177,7 @@ const mySteps: TourStep[] = [
 ];
 
 return (
-  <SpotlightTourProvider steps={mySteps} overlayColor={"green"} overlayOpacity={0.36}>
+  <SpotlightTourProvider steps={mySteps} overlayColor={"gray"} overlayOpacity={0.36}>
     {({ start }) => (
       <>
       {/* ... */}
@@ -187,6 +187,68 @@ return (
 );
 ```
 
+Besides above customizations, you can also define the transition animation [see motion](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#motion) and the behavior when the user presses the backdrop [see onBackdropPress](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#backdroppressbehavior). Otherwise if you wish to make them different for an specific step you could override this properties in the `TourStep` configuration.
+
+
+
+```tsx
+import { 
+  Align
+  AttachStep,
+  Position,
+  SpotlightTourProvider, 
+  TourStep,
+  TourBox
+} from "@stackbuilders/react-native-spotlight-tour";
+
+const tourSteps: TourStep[] = [{
+    alignTo: Align.SCREEN,
+    position: Position.BOTTOM,
+    motion: "fade",
+    onBackdropPress: "stop",
+    render: props => (
+      <TourBox
+        title="Tour: Customization"
+        backText="Previous"
+        nextText="Next"
+        {...props}
+      >
+        <Text>
+          {"This is the first step of tour example.\n"}
+          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        </Text>
+      </TourBox>
+    ),
+  }];
+
+return (
+  <SpotlightTourProvider 
+    steps={tourSteps}
+    overlayColor={"gray"}
+    overlayOpacity={0.36}
+    onBackdropPress="continue"
+    motion="bounce"
+  >
+    {({ start }) => (
+      <>
+      <Button title="Start" onPress={start} />
+
+       <View>
+          <AttachStep index={0}>
+            <Text>Introduction</Text>
+          </AttachStep>
+
+          <Text>
+            This is an example using the spotlight-tour library.
+            Press the Start button to see it in action.
+          </Text>
+        </View>
+      </>
+    )};
+  </SpotlightTourProvider>
+);
+```
 ## API Reference
 
 To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.

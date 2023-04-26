@@ -39,6 +39,12 @@ export interface RenderProps {
    */
   current: number;
   /**
+   * Moves to a specific step.
+   *
+   * @param index the index of the step to go
+   */
+  goTo: (index: number) => void;
+  /**
    * Set to `true` if the tour is on the first step, `false` otherwise.
    */
   isFirst: boolean;

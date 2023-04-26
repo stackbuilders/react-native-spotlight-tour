@@ -1,4 +1,4 @@
-import {
+import React, {
   forwardRef,
   useCallback,
   useContext,
@@ -230,6 +230,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               next={next}
               previous={previous}
               stop={stop}
+              goTo={goTo}
             />
           )}
         </Animated.View>

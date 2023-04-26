@@ -35,8 +35,7 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:etc/recommended",
     "plugin:import/typescript",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime"
+    "plugin:react/recommended"
   ],
   "overrides": [{
     "files": "*.ts?(x)",

@@ -48,6 +48,15 @@
         "infra",
         "test"
       ]
+    },
+    {
+      "login": "StevenCuasqui",
+      "name": "Steven Cuasqui",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23414828?v=4",
+      "profile": "https://www.tivodeveloper.tech/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -157,7 +157,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/JoseLion"><img src="https://avatars.githubusercontent.com/u/3087228?v=4?s=100" width="100px;" alt="Jose Luis Leon"/><br /><sub><b>Jose Luis Leon</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=JoseLion" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=JoseLion" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/sestrella"><img src="https://avatars.githubusercontent.com/u/2049686?v=4?s=100" width="100px;" alt="Sebastián Estrella"/><br /><sub><b>Sebastián Estrella</b></sub></a><br /><a href="#infra-sestrella" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/rojasTob"><img src="https://avatars.githubusercontent.com/u/10774724?v=4?s=100" width="100px;" alt="Angie Rojas"/><br /><sub><b>Angie Rojas</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=rojasTob" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=rojasTob" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://ferandrade.com/"><img src="https://avatars.githubusercontent.com/u/6790161?v=4?s=100" width="100px;" alt="Fernanda Andrade"/><br /><sub><b>Fernanda Andrade</b></sub></a><br /><a href="#infra-flandrade" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://ferandrade.com/"><img src="https://avatars.githubusercontent.com/u/6790161?v=4?s=100" width="100px;" alt="Fernanda Andrade"/><br /><sub><b>Fernanda Andrade</b></sub></a><br /><a href="#infra-flandrade" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=flandrade" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.tivodeveloper.tech/"><img src="https://avatars.githubusercontent.com/u/23414828?v=4?s=100" width="100px;" alt="Steven Cuasqui"/><br /><sub><b>Steven Cuasqui</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=StevenCuasqui" title="Documentation">📖</a></td>
     </tr>
   </tbody>
   <tfoot>

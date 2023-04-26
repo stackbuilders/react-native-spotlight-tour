@@ -28,6 +28,16 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "rojasTob",
+      "name": "Angie Rojas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10774724?v=4",
+      "profile": "https://github.com/rojasTob",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -131,10 +131,6 @@ You can also find a complete example [here](example/).
 
 To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.
 
-## License
-
-MIT, see [the LICENSE file](LICENSE).
-
 ## Contributing
 
 Do you want to contribute to this project? Please take a look at our [contributing guideline](/docs/CONTRIBUTING.md) to know how you can help us build it.
@@ -142,7 +138,6 @@ Do you want to contribute to this project? Please take a look at our [contributi
 ---
 <img src="https://cdn.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>  
 [Check out our libraries](https://github.com/stackbuilders/) | [Join our team](https://www.stackbuilders.com/join-us/)
-
 
 ## Contributors ✨
 
@@ -184,3 +179,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+MIT, see [the LICENSE file](LICENSE).

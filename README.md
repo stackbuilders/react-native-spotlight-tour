@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -161,6 +161,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://www.tivodeveloper.tech/"><img src="https://avatars.githubusercontent.com/u/23414828?v=4?s=100" width="100px;" alt="Steven Cuasqui"/><br /><sub><b>Steven Cuasqui</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=StevenCuasqui" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Alex0jk"><img src="https://avatars.githubusercontent.com/u/22301755?v=4?s=100" width="100px;" alt="Alexander Mejía"/><br /><sub><b>Alexander Mejía</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=Alex0jk" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/lopenchi"><img src="https://avatars.githubusercontent.com/u/12633126?v=4?s=100" width="100px;" alt="Carolina López"/><br /><sub><b>Carolina López</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=lopenchi" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChristianMarca"><img src="https://avatars.githubusercontent.com/u/39254595?v=4?s=100" width="100px;" alt="cmarcag"/><br /><sub><b>cmarcag</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=ChristianMarca" title="Tests">⚠️</a></td>
     </tr>
   </tbody>
   <tfoot>

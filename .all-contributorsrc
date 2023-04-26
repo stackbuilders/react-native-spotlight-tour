@@ -75,6 +75,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ChristianMarca",
+      "name": "cmarcag",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39254595?v=4",
+      "profile": "https://github.com/ChristianMarca",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,

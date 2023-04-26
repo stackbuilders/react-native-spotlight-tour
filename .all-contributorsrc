@@ -84,6 +84,16 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "krarrobo1",
+      "name": "Ricardo Arrobo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26930130?v=4",
+      "profile": "https://github.com/krarrobo1",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

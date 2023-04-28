@@ -62,6 +62,12 @@ export interface SpotlightTourProviderProps {
    */
   onBackdropPress?: BackdropPressBehavior;
   /**
+   * Handler which gets executed when {@link SpotlightTour.start|start} is
+   * invoked. It receives the {@link SpotlightTour.current|current} step index
+   * so you can access the current step where the tour starts.
+   */
+  onStart?: ((options: SpotlightTour["current"]) => void);
+  /**
    * The color of the overlay of the tour.
    *
    * @default black
@@ -92,6 +98,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     steps,
     motion = "bounce",
     nativeDriver = true,
+    onStart,
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -119,7 +126,8 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const start = useCallback((): void => {
     renderStep(0);
-  }, [renderStep]);
+    onStart?.(current);
+  }, [renderStep, onStart, current]);
 
   const startOnce = useCallback(async (): Promise<void> => {
     const deviceUniqueId = await getUniqueId();

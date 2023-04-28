@@ -33,6 +33,11 @@ export enum Position {
  */
 export type Motion = "bounce" | "slide" | "fade";
 
+/**
+ * Possible tour autostart options
+ */
+export type AutoStartOptions = "never" | "always" | "once";
+
 export interface RenderProps {
   /**
    * The index of the current step the tour is on.

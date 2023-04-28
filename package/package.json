@@ -35,6 +35,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "react-native-device-info": "^10.6.0",
     "react-native-responsive-dimensions": "^3.1.1",
     "styled-components": "^5.3.9"
   },

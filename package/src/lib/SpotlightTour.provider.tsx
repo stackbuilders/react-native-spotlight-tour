@@ -1,9 +1,12 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
+import { getUniqueId } from "react-native-device-info";
 
 import { ChildFn, isChildFunction } from "../helpers/common";
 
 import {
+  AutoStartOptions,
   BackdropPressBehavior,
   Motion,
   OSConfig,
@@ -17,6 +20,12 @@ import {
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
 export interface SpotlightTourProviderProps {
+  /**
+   * Sets the default behaviour when the tour starts.
+   *
+   * @default never
+   */
+  autoStart?: AutoStartOptions; // never - always - once
   /**
    * The children to render in the provider. It accepts either a React
    * component, or a function that returns a React component. When the child is
@@ -75,6 +84,7 @@ export interface SpotlightTourProviderProps {
  */
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
+    autoStart = "never",
     children,
     onBackdropPress,
     overlayColor = "black",
@@ -110,6 +120,22 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   const start = useCallback((): void => {
     renderStep(0);
   }, [renderStep]);
+
+  const startOnce = useCallback(async (): Promise<void> => {
+    const deviceUniqueId = await getUniqueId();
+    const isFirstTime = !(await AsyncStorage.getItem(deviceUniqueId));
+    if (isFirstTime) {
+      await AsyncStorage.setItem(deviceUniqueId, "true", () => start());
+    }
+  }, [renderStep]);
+
+  useEffect(() => {
+    if (autoStart === "always") {
+      start();
+    } else if (autoStart === "once") {
+      startOnce();
+    }
+  }, [renderStep, autoStart]);
 
   const stop = useCallback((): void => {
     setCurrent(undefined);

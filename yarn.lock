@@ -2596,6 +2596,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "@react-native-async-storage/async-storage@npm:1.18.1"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
+  checksum: 58c8497fafdd4d112c4a70b0976783abdc6fa487f0cffca196901efd146fc838dee0cf498fdc4ef67a4634ba4ca97d60fec5a24720aea1d46f1999b0ba8b249b
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:^10.1.1":
   version: 10.1.1
   resolution: "@react-native-community/cli-clean@npm:10.1.1"
@@ -3270,6 +3281,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.21.3
     "@babel/preset-env": ^7.20.2
+    "@react-native-async-storage/async-storage": ^1.18.1
     "@stackbuilders/assertive-ts": ^1.2.0
     "@testing-library/jest-native": ^5.4.2
     "@testing-library/react-native": ^11.5.4
@@ -3286,6 +3298,7 @@ __metadata:
     react: 18.2.0
     react-is: ^18.2.0
     react-native: 0.71.4
+    react-native-device-info: ^10.6.0
     react-native-responsive-dimensions: ^3.1.1
     react-native-svg: 13.8.0
     react-test-renderer: 18.2.0
@@ -7986,6 +7999,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.3, is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -9552,6 +9572,15 @@ __metadata:
     type-fest: ^0.18.0
     yargs-parser: ^20.2.3
   checksum: bc23bf1b4423ef6a821dff9734406bce4b91ea257e7f10a8b7f896f45b59649f07adc0926e2917eacd8cf1df9e4cd89c77623cf63dfd0f8bf54de07a32ee5a85
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 
@@ -11649,6 +11678,15 @@ __metadata:
     jscodeshift: ^0.13.1
     nullthrows: ^1.1.1
   checksum: d3a40b557d4b3a0d51664070eb8388b0dde247a0518025ff5a815d3573c98ff16f616df8236e827ee16625f685169931db5c966dd144d860ad5aed437b65b28c
+  languageName: node
+  linkType: hard
+
+"react-native-device-info@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "react-native-device-info@npm:10.6.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 7a7cc438844552aef687b4a5b8efd0cd0a2959e0a3b771febfbe0b6a9ca8ff05a563e2912b30b83523bd3d5143d6616ca8fac0476abf01936a726e1578211ebb
   languageName: node
   linkType: hard
 

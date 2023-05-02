@@ -8,7 +8,7 @@ import {
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
 import { OnStopBehavior } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
-import { ReactElement, useCallback, useMemo, useRef } from "react";
+import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {

@@ -1,5 +1,8 @@
 /* eslint-disable max-classes-per-file */
+/* eslint @typescript-eslint/no-var-requires: "off" */
+import AsyncStorageMock from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 import { Animated } from "react-native";
+import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
 
 import {
   isAnimatedTimingInterpolation,
@@ -17,7 +20,6 @@ import {
 } from "./helpers/nativeMocks";
 
 global.context = describe;
-
 jest
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
@@ -80,16 +82,16 @@ jest
         start(callback) {
           if (
             isAnimatedValueXY(value)
-              && !isAnimatedTimingInterpolation(config.toValue)
-              && isXYValue(config.toValue)
+            && !isAnimatedTimingInterpolation(config.toValue)
+            && isXYValue(config.toValue)
           ) {
             value.setValue(config.toValue);
           }
 
           if (
             isAnimatedValue(value)
-              && !isAnimatedTimingInterpolation(config.toValue)
-              && isNumberValue(config.toValue)
+            && !isAnimatedTimingInterpolation(config.toValue)
+            && isNumberValue(config.toValue)
           ) {
             value.setValue(config.toValue);
           }
@@ -127,7 +129,12 @@ jest
         timing: timingMock,
       },
     };
-  });
+  })
+  .mock("@react-native-async-storage/async-storage", () =>
+    AsyncStorageMock)
+
+    .mock("react-native-device-info", () =>
+    require("react-native-device-info/jest/react-native-device-info-mock") as jest.Mock<DeviceInfoModule>);
 
 afterEach(() => {
   jest.resetAllMocks();

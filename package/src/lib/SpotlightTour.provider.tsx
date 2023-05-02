@@ -66,7 +66,7 @@ export interface SpotlightTourProviderProps {
    * invoked. It receives the {@link SpotlightTour.current|current} step index
    * so you can access the current step where the tour starts.
    */
-  onStart?: ((options: SpotlightTour["current"]) => void);
+  onStart?: () => void;
   /**
    * The color of the overlay of the tour.
    *
@@ -116,7 +116,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
       ])
-      .then(() => setCurrent(index));
+        .then(() => setCurrent(index));
     }
   }, [steps]);
 
@@ -126,7 +126,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const start = useCallback((): void => {
     renderStep(0);
-    onStart?.(current);
+    onStart?.();
   }, [renderStep, onStart, current]);
 
   const startOnce = useCallback(async (): Promise<void> => {

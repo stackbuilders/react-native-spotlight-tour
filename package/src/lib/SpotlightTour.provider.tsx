@@ -133,7 +133,8 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     const deviceUniqueId = await getUniqueId();
     const isFirstTime = !(await AsyncStorage.getItem(deviceUniqueId));
     if (isFirstTime) {
-      await AsyncStorage.setItem(deviceUniqueId, "true", () => start());
+      await AsyncStorage.setItem(deviceUniqueId, "true");
+      start();
     }
   }, [renderStep]);
 

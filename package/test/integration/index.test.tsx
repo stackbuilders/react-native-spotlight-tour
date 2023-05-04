@@ -1,4 +1,5 @@
 import { expect as jestExpect } from "@jest/globals";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
 import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
@@ -7,7 +8,7 @@ import { ViewStyle } from "react-native";
 import { CircleProps } from "react-native-svg";
 
 import { TourStep } from "../../src";
-import { BASE_STEP, TestScreen } from "../helpers/TestTour";
+import { BASE_STEP, TestScreen, TestScreenAutoStart } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
 
@@ -295,6 +296,46 @@ describe("[Integration] index.test.tsx", () => {
             jestExpect(beforeSpy).toBeCalledTimes(1);
             expect(queryByText("Step 2")).toBeNull();
           });
+        });
+      });
+    });
+  });
+
+  describe("autoStart property", () => {
+    describe("when the autoStart property is set to never", () => {
+      it("the overlay is not shown", async () => {
+        const { getByText, queryByTestId } = render(<TestScreenAutoStart autoStart="never" />);
+        await waitFor(() => getByText("Start"));
+        expect(queryByTestId("Overlay View")).toBeNull();
+      });
+    });
+
+    describe("when the autoStart property is set to always", () => {
+      it("shows the overlay view", async () => {
+        const { getByTestId } = render(<TestScreenAutoStart autoStart="always" />);
+        await waitFor(() => getByTestId("Overlay View"));
+      });
+    });
+
+    describe("when the autoStart property is set to once", () => {
+      describe("when the device is not registered", () => {
+        it("shows the overlay view", async () => {
+          const { getByTestId } = render(<TestScreenAutoStart autoStart="once" />);
+          waitFor(() => {
+            jestExpect(AsyncStorage.getItem).toHaveBeenCalled();
+            jestExpect(AsyncStorage.setItem).toHaveBeenCalled();
+          });
+          await waitFor(() => getByTestId("Overlay View"));
+        });
+      });
+      describe("when the device is already registered", () => {
+        it("the overlay is not shown", async () => {
+          await AsyncStorage.setItem("12345", "true");
+          const { queryByTestId } = render(<TestScreenAutoStart autoStart="once" />);
+          waitFor(() => {
+            jestExpect(AsyncStorage.getItem).toHaveBeenCalled();
+          });
+          expect(queryByTestId("Overlay View")).toBeNull();
         });
       });
     });

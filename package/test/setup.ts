@@ -2,7 +2,6 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import AsyncStorageMock from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 import { Animated } from "react-native";
-import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
 
 import {
   isAnimatedTimingInterpolation,
@@ -132,9 +131,10 @@ jest
   })
   .mock("@react-native-async-storage/async-storage", () =>
     AsyncStorageMock)
-
-    .mock("react-native-device-info", () =>
-    require("react-native-device-info/jest/react-native-device-info-mock") as jest.Mock<DeviceInfoModule>);
+  .mock("react-native-device-info", () =>
+    ({
+      getUniqueId: () => "12345",
+    }));
 
 afterEach(() => {
   jest.resetAllMocks();

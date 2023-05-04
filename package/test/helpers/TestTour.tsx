@@ -35,8 +35,7 @@ export const BASE_STEP: TourStep = {
   ),
 };
 
-const
-TestComponent: React.FC = () => {
+const TestComponent: React.FC = () => {
   const tourContext = useSpotlightTour();
 
   return (

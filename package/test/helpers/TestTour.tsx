@@ -1,8 +1,15 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 
-import { Align, AttachStep, Position, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";
-import { AutoStartOptions } from "../../src/lib/SpotlightTour.context";
+import {
+  Align,
+  AttachStep,
+  Position,
+  SpotlightTourProvider,
+  TourStep,
+  useSpotlightTour,
+  AutoStartOptions,
+} from "../../src";
 
 interface TestScreenProps {
   steps?: TourStep[];

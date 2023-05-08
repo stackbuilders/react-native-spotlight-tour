@@ -132,8 +132,7 @@ jest
   .mock("@react-native-async-storage/async-storage", () =>
     AsyncStorageMock)
 
-  .mock("react-native-device-info", () =>
-  ({ getUniqueId: () => "12345" }));
+  .mock("react-native-device-info", () => ({ getUniqueId: () => "12345" }));
 
 afterEach(() => {
   jest.resetAllMocks();

@@ -12,11 +12,7 @@ import {
 } from "../../src";
 
 interface TestScreenProps {
-  steps?: TourStep[];
-}
-
-interface TestScreenAutoStartProps {
-  autoStart: AutoStartOptions;
+  autoStart?: AutoStartOptions;
   steps?: TourStep[];
 }
 
@@ -67,17 +63,9 @@ const defaultSteps = [
   { ...BASE_STEP, position: Position.TOP },
 ];
 
-export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
+export const TestScreen: React.FC<TestScreenProps> = ({ steps, autoStart }) => {
   return (
-    <SpotlightTourProvider steps={steps ?? defaultSteps}>
-      <TestComponent />
-    </SpotlightTourProvider>
-  );
-};
-
-export const TestScreenAutoStart: React.FC<TestScreenAutoStartProps> = ({ autoStart, steps }) => {
-  return (
-    <SpotlightTourProvider autoStart={autoStart} steps={steps ?? defaultSteps} >
+    <SpotlightTourProvider steps={steps ?? defaultSteps} autoStart={autoStart ?? "never"}>
       <TestComponent />
     </SpotlightTourProvider>
   );

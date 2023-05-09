@@ -9,7 +9,9 @@
     "deps:fix": "rnx-align-deps --write",
     "ios": "react-native run-ios",
     "start": "react-native rnx-start",
-    "start:reset": "yarn start --reset-cache"
+    "start:reset": "yarn start --reset-cache",
+    "web:build": "react-native bundle --platform web --dev false --entry-file index.js --bundle-output dist/index.bundle.js --config metro.config.web.js",
+    "web:start": "yarn serve"
   },
   "installConfig": {
     "hoistingLimits": "workspaces"
@@ -18,10 +20,12 @@
     "@cometlib/dedent": "^0.8.0-es.10",
     "@stackbuilders/react-native-spotlight-tour": "workspace:^",
     "react": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-native": "0.71.6",
     "react-native-svg": "^13.8.0",
-    "styled-components": "^5.3.9"
+    "react-native-web": "^0.19.8",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
@@ -35,6 +39,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/styled-components-react-native": "^5.2.1",
     "metro-react-native-babel-preset": "^0.76.1",
+    "serve": "^14.2.0",
     "typescript": "^4.9.5"
   },
   "rnx-kit": {

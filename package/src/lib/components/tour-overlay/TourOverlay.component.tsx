@@ -76,7 +76,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       android: driverConfig.android,
       default: false,
       ios: driverConfig.ios,
-      web: driverConfig.web,
+      web: false,
     });
   }, [nativeDriver]);
 

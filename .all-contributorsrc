@@ -1,0 +1,101 @@
+{
+  "projectName": "react-native-spotlight-tour",
+  "projectOwner": "stackbuilders",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "JoseLion",
+      "name": "Jose Luis Leon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3087228?v=4",
+      "profile": "https://github.com/JoseLion",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "sestrella",
+      "name": "Sebastián Estrella",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2049686?v=4",
+      "profile": "https://github.com/sestrella",
+      "contributions": [
+        "infra"
+      ]
+    },
+    {
+      "login": "rojasTob",
+      "name": "Angie Rojas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10774724?v=4",
+      "profile": "https://github.com/rojasTob",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "flandrade",
+      "name": "Fernanda Andrade",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6790161?v=4",
+      "profile": "http://ferandrade.com/",
+      "contributions": [
+        "infra",
+        "test"
+      ]
+    },
+    {
+      "login": "StevenCuasqui",
+      "name": "Steven Cuasqui",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23414828?v=4",
+      "profile": "https://www.tivodeveloper.tech/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Alex0jk",
+      "name": "Alexander Mejía",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22301755?v=4",
+      "profile": "https://github.com/Alex0jk",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lopenchi",
+      "name": "Carolina López",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12633126?v=4",
+      "profile": "https://github.com/lopenchi",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ChristianMarca",
+      "name": "cmarcag",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39254595?v=4",
+      "profile": "https://github.com/ChristianMarca",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "krarrobo1",
+      "name": "Ricardo Arrobo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26930130?v=4",
+      "profile": "https://github.com/krarrobo1",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": true
+}

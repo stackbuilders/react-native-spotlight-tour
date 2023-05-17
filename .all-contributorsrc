@@ -17,7 +17,11 @@
       "profile": "https://github.com/JoseLion",
       "contributions": [
         "code",
-        "test"
+        "test",
+        "doc",
+        "infra",
+        "maintenance",
+        "review"
       ]
     },
     {

@@ -74,6 +74,14 @@ export interface SpotlightTourProviderProps {
    */
   overlayOpacity?: number;
   /**
+   * Defines the paading of the spot shape based on the wrapped component, so a
+   * zero padding means the spot shape will fit exaclty around the wrapped
+   * component. The padding value is a number in points.
+   *
+   * @default 20;
+   */
+  spotPadding?: number;
+  /**
    * An array of `TourStep` objects that define each step of the tour.
    */
   steps: TourStep[];
@@ -85,13 +93,14 @@ export interface SpotlightTourProviderProps {
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
-    onBackdropPress,
-    overlayColor = "black",
-    overlayOpacity = 0.45,
-    steps,
     motion = "bounce",
     nativeDriver = true,
+    onBackdropPress,
     onStop,
+    overlayColor = "black",
+    overlayOpacity = 0.45,
+    spotPadding = 16,
+    steps,
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -195,6 +204,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         tourStep={currentStep}
         nativeDriver={nativeDriver}
         motion={motion}
+        padding={spotPadding}
       />
     </SpotlightTourContext.Provider>
   );

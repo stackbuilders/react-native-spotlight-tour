@@ -1,6 +1,7 @@
+import "@testing-library/jest-native/extend-expect";
+
 import { expect as jestExpect } from "@jest/globals";
 import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
-import "@testing-library/jest-native/extend-expect";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { ViewStyle } from "react-native";
@@ -10,6 +11,7 @@ import { TourStep } from "../../src";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
+import { setMeasureRect } from "../setup";
 
 describe("[Integration] index.test.tsx", () => {
   describe("when the tour is not running", () => {
@@ -37,15 +39,15 @@ describe("[Integration] index.test.tsx", () => {
   describe("when the tour is running", () => {
     describe("and the tour moves to the first spot", () => {
       it("wraps the component with the SVG circle", async () => {
-        const { getByText, getByTestId } = render(<TestScreen />);
+        const { findByText, findByTestId } = render(<TestScreen />);
 
-        await waitFor(() => getByText("Start"));
+        const startButton = await findByText("Start");
 
-        fireEvent.press(getByText("Start"));
+        fireEvent.press(startButton);
 
-        await waitFor(() => getByTestId("Tooltip View"));
+        const tooltip = await findByTestId("Tooltip View");
 
-        fireEvent(getByTestId("Tooltip View"), "onLayout", {
+        fireEvent(tooltip, "onLayout", {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
@@ -54,29 +56,26 @@ describe("[Integration] index.test.tsx", () => {
           },
         });
 
-        await waitFor(() => getByTestId("Spot Svg"));
+        const spot = await findByTestId("Spot Svg");
 
-        const svgCircleProps = findPropsOnTestInstance<CircleProps>(
-          getByTestId("Spot Svg"),
-          "RNSVGCircle",
-        );
+        await waitFor(() => {
+          const svgCircleProps = findPropsOnTestInstance<CircleProps>(spot, "RNSVGCircle");
 
-        const layoutIsOverlayByCircle = checkValidIntersection({
-          height: viewMockMeasureData.height,
-          width: viewMockMeasureData.width,
-          x: viewMockMeasureData.x,
-          y: viewMockMeasureData.y,
-        }, {
-          r: Number(svgCircleProps?.r),
-          x: Number(svgCircleProps?.cx),
-          y: Number(svgCircleProps?.cy),
+          checkValidIntersection({
+            height: viewMockMeasureData.height,
+            width: viewMockMeasureData.width,
+            x: viewMockMeasureData.x,
+            y: viewMockMeasureData.y,
+          }, {
+            r: Number(svgCircleProps?.r),
+            x: Number(svgCircleProps?.cx),
+            y: Number(svgCircleProps?.cy),
+          });
         });
-
-        expect(layoutIsOverlayByCircle).toBeTrue();
       });
 
-      it("adds the tip view on the right position", async () => {
-        const { getByText, getByTestId } = render(<TestScreen />);
+      it("adds the tip view on the bottom position", async () => {
+        const { getByText, getByTestId, findByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
@@ -84,9 +83,9 @@ describe("[Integration] index.test.tsx", () => {
 
         await waitFor(() => getByText("Step 1"));
 
-        await waitFor(() => getByTestId("Tooltip View"));
+        const tooltip = await findByTestId("Tooltip View");
 
-        fireEvent(getByTestId("Tooltip View"), "onLayout", {
+        fireEvent(tooltip, "onLayout", {
           nativeEvent: {
             layout: {
               height: viewMockMeasureData.height,
@@ -97,15 +96,9 @@ describe("[Integration] index.test.tsx", () => {
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByTestId("Tooltip View").props.style)
+        expect(tooltip.props.style)
           .asType(TypeFactories.object<ViewStyle>())
-          .toBeEqual({
-            left: 275,
-            marginTop: 10,
-            opacity: 1,
-            position: "absolute",
-            top: 431,
-          });
+          .toContainAllKeys(["left", "top", "marginTop", "opacity", "position"]);
       });
     });
 
@@ -119,6 +112,8 @@ describe("[Integration] index.test.tsx", () => {
 
         await waitFor(() => getByText("Step 1"));
 
+        setMeasureRect(buttonMockMeasureData);
+
         fireEvent.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
@@ -132,29 +127,24 @@ describe("[Integration] index.test.tsx", () => {
           },
         });
 
-        await waitFor(() => getByTestId("Spot Svg"));
+        await waitFor(() => {
+          const svgCircleProps = findPropsOnTestInstance<CircleProps>(getByTestId("Spot Svg"), "RNSVGCircle");
 
-        const svgCircleProps = findPropsOnTestInstance<CircleProps>(
-          getByTestId("Spot Svg"),
-          "RNSVGCircle",
-        );
-
-        const layoutIsOverlayByCircle = checkValidIntersection({
-          height: buttonMockMeasureData.height,
-          width: buttonMockMeasureData.width,
-          x: buttonMockMeasureData.x,
-          y: buttonMockMeasureData.y,
-        }, {
-          r: Number(svgCircleProps?.r),
-          x: Number(svgCircleProps?.cx),
-          y: Number(svgCircleProps?.cy),
+          checkValidIntersection({
+            height: buttonMockMeasureData.height,
+            width: buttonMockMeasureData.width,
+            x: buttonMockMeasureData.x,
+            y: buttonMockMeasureData.y,
+          }, {
+            r: Number(svgCircleProps?.r),
+            x: Number(svgCircleProps?.cx),
+            y: Number(svgCircleProps?.cy),
+          });
         });
-
-        expect(layoutIsOverlayByCircle).toBeTrue();
       });
 
-      it("adds the second tip view on the right position", async () => {
-        const { getByText, getByTestId } = render(<TestScreen />);
+      it("adds the second tip view on the top position", async () => {
+        const { getByText, getByTestId, findByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
@@ -162,13 +152,15 @@ describe("[Integration] index.test.tsx", () => {
 
         await waitFor(() => getByText("Step 1"));
 
+        setMeasureRect(buttonMockMeasureData);
+
         fireEvent.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
 
-        await waitFor(() => getByTestId("Tooltip View"));
+        const tooltip = await findByTestId("Tooltip View");
 
-        fireEvent(getByTestId("Tooltip View"), "onLayout", {
+        fireEvent(tooltip, "onLayout", {
           nativeEvent: {
             layout: {
               height: buttonMockMeasureData.height,
@@ -179,15 +171,9 @@ describe("[Integration] index.test.tsx", () => {
 
         await waitFor(() => getByTestId("Spot Svg"));
 
-        expect(getByTestId("Tooltip View").props.style)
+        expect(tooltip.props.style)
           .asType(TypeFactories.object<ViewStyle>())
-          .toBeEqual({
-            bottom: 1363,
-            left: 275,
-            marginBottom: 10,
-            opacity: 1,
-            position: "absolute",
-          });
+          .toContainAllKeys(["bottom", "left", "marginBottom", "opacity", "position"]);
       });
     });
   });

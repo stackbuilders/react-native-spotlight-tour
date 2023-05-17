@@ -108,6 +108,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Enneson",
+      "name": "Alexander Pokhil",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68185396?v=4",
+      "profile": "https://github.com/Enneson",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

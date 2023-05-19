@@ -7,7 +7,7 @@ import {
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
-import { OnStopBehavior } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
+import { StopParams } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
@@ -24,7 +24,7 @@ import { DocsTooltip } from "./DocsTooltip";
 export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
 
-  const onStopTour = useCallback(({ index, isLast }: OnStopBehavior) => {
+  const onStopTour = useCallback(({ index, isLast }: StopParams) => {
     Alert.alert(dedent`
         Step index: ${String(index)} \n
         Is last step: ${String(isLast)}

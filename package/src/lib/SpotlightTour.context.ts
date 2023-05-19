@@ -86,7 +86,7 @@ export type BackdropPressBehavior =
   | "stop"
   | ((options: SpotlightTour) => void);
 
-export interface OnStopBehavior {
+export interface StopParams {
   /**
    * Current step index.
    */

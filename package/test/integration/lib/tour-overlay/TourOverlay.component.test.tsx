@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import Sinon from "sinon";
 
 import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../../../src";
-import { OnStopBehavior, SpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { StopParams, SpotlightTour } from "../../../../src/lib/SpotlightTour.context";
 import { BASE_STEP } from "../../../helpers/TestTour";
 
 const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);
@@ -190,7 +190,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
   context("when a function is passed to the onStop prop in the tour provider", () => {
     it("invokes the function and injects the OnStopBehavior object in the values", async() => {
-      const spy = Sinon.spy<(values: OnStopBehavior) => void>(() => undefined);
+      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -211,7 +211,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     context("and the tour is stopped in the second step", () => {
       context("and the step is NOT the last one", () => {
         it("returns step index 1 and is last equals false", async() => {
-          const spy = Sinon.spy<(values: OnStopBehavior) => void>(() => undefined);
+          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -238,7 +238,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     context("and the tour is stopped in the third step", () => {
       context("and the step is the last one", () => {
         it("returns step index 2 and is last equals true", async() => {
-          const spy = Sinon.spy<(values: OnStopBehavior) => void>(() => undefined);
+          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>

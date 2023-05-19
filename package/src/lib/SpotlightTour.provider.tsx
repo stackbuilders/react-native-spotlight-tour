@@ -7,7 +7,7 @@ import {
   BackdropPressBehavior,
   Motion,
   OSConfig,
-  OnStopBehavior,
+  StopParams,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -55,12 +55,12 @@ export interface SpotlightTourProviderProps {
   onBackdropPress?: BackdropPressBehavior;
   /**
    * Handler which gets executed when {@link SpotlightTour.stop|stop} is
-   * invoked. It receives the {@link OnStopBehavior} so
+   * invoked. It receives the {@link StopParams} so
    * you can access the `current` step index where the tour stopped
    * and a bool value `isLast` indicating if the step where the tour stopped is
    * the last one.
    */
-  onStop?: (values: OnStopBehavior) => void;
+  onStop?: (values: StopParams) => void;
   /**
    * The color of the overlay of the tour.
    *

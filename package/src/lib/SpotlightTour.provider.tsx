@@ -74,11 +74,11 @@ export interface SpotlightTourProviderProps {
    */
   overlayOpacity?: number;
   /**
-   * Defines the paading of the spot shape based on the wrapped component, so a
+   * Defines the padding of the spot shape based on the wrapped component, so a
    * zero padding means the spot shape will fit exaclty around the wrapped
    * component. The padding value is a number in points.
    *
-   * @default 20;
+   * @default 16;
    */
   spotPadding?: number;
   /**

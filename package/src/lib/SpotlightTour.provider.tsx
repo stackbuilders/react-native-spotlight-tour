@@ -7,6 +7,7 @@ import {
   BackdropPressBehavior,
   Motion,
   OSConfig,
+  StopParams,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -53,6 +54,14 @@ export interface SpotlightTourProviderProps {
    */
   onBackdropPress?: BackdropPressBehavior;
   /**
+   * Handler which gets executed when {@link SpotlightTour.stop|stop} is
+   * invoked. It receives the {@link StopParams} so
+   * you can access the `current` step index where the tour stopped
+   * and a bool value `isLast` indicating if the step where the tour stopped is
+   * the last one.
+   */
+  onStop?: (values: StopParams) => void;
+  /**
    * The color of the overlay of the tour.
    *
    * @default black
@@ -82,6 +91,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     steps,
     motion = "bounce",
     nativeDriver = true,
+    onStop,
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -112,9 +122,14 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   }, [renderStep]);
 
   const stop = useCallback((): void => {
-    setCurrent(undefined);
+    setCurrent(prev => {
+      if (prev !== undefined) {
+        onStop?.({ index: prev, isLast: prev === steps.length - 1 });
+      }
+      return undefined;
+    });
     setSpot(ZERO_SPOT);
-  }, []);
+  }, [onStop]);
 
   const next = useCallback((): void => {
     if (current !== undefined) {

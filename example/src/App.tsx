@@ -7,8 +7,9 @@ import {
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
-import React, { ReactElement, useMemo, useRef } from "react";
-import { Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
+import { StopParams } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
+import React, { ReactElement, useCallback, useMemo, useRef } from "react";
+import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 
 import {
   BoldText,
@@ -22,6 +23,14 @@ import { DocsTooltip } from "./DocsTooltip";
 
 export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
+
+  const onStopTour = useCallback(({ index, isLast }: StopParams) => {
+    Alert.alert(dedent`
+        Step index: ${String(index)} \n
+        Is last step: ${String(isLast)}
+      `,
+    );
+  }, []);
 
   const tourSteps = useMemo((): TourStep[] => [{
     alignTo: Align.SCREEN,
@@ -103,6 +112,7 @@ export function App(): ReactElement {
         nativeDriver={true}
         onBackdropPress="continue"
         motion="bounce"
+        onStop={onStopTour}
       >
         {({ start }) => (
           <>

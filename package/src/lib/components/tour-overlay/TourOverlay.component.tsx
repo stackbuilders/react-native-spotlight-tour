@@ -32,7 +32,7 @@ import {
   TourStep,
 } from "../../SpotlightTour.context";
 
-import { OverlayView, SPOT_PADDING } from "./TourOverlay.styles";
+import { OverlayView } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 
 export interface TourOverlayRef {
@@ -46,18 +46,20 @@ interface TourOverlayProps {
   motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
+  padding: number;
   spot: LayoutRectangle;
   tourStep: TourStep;
 }
 
 export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
   const {
+    backdropOpacity,
     color,
     current,
     motion,
     nativeDriver,
     onBackdropPress,
-    backdropOpacity,
+    padding,
     spot,
     tourStep,
   } = props;
@@ -111,11 +113,11 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     tooltipRef.current?.measureInWindow((_x, _y, width, height) => {
       setTooltipStyle(() => {
         const align = tourStep.alignTo ?? Align.SPOT;
-        const half = (Math.max(spot.width, spot.height) / 2) * SPOT_PADDING;
+        const half = (Math.max(spot.width, spot.height) / 2) + padding;
         const cx = spot.x + (spot.width / 2);
         const cy = spot.y + (spot.height / 2);
         const window = Dimensions.get("window");
-        const tooltipGap = 10;
+        const tooltipGap = 4;
 
         switch (tourStep.position) {
           case Position.BOTTOM: return {
@@ -148,7 +150,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         }
       });
     });
-  }, [spot.height, spot.width, spot.x, spot.y, tourStep.alignTo, tourStep.position]);
+  }, [tourStep.alignTo, tourStep.position, spot, padding]);
 
   useEffect(() => {
     const { height, width } = spot;
@@ -203,6 +205,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               <Rect height="100%" width="100%" fill="#fff" />
               <CircleShape
                 motion={tourStep.motion ?? motion}
+                padding={padding}
                 useNativeDriver={useNativeDriver}
               />
             </Mask>

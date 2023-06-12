@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -162,6 +162,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/krarrobo1"><img src="https://avatars.githubusercontent.com/u/26930130?v=4?s=100" width="100px;" alt="Ricardo Arrobo"/><br /><sub><b>Ricardo Arrobo</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://abkal.vercel.app/"><img src="https://avatars.githubusercontent.com/u/43915733?v=4?s=100" width="100px;" alt="Mohammad Abkal"/><br /><sub><b>Mohammad Abkal</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=mohamedabkal" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Enneson"><img src="https://avatars.githubusercontent.com/u/68185396?v=4?s=100" width="100px;" alt="Alexander Pokhil"/><br /><sub><b>Alexander Pokhil</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=Enneson" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alejo0o"><img src="https://avatars.githubusercontent.com/u/60680371?v=4?s=100" width="100px;" alt="Alejandro Vivanco"/><br /><sub><b>Alejandro Vivanco</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alejo0o" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>

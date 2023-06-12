@@ -117,8 +117,18 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alejo0o",
+      "name": "Alejandro Vivanco",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60680371?v=4",
+      "profile": "https://github.com/alejo0o",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "linkToUsage": true
+  "linkToUsage": true,
+  "commitType": "docs"
 }

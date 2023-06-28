@@ -126,7 +126,7 @@ You can also find a complete example [here](example/).
 
 ## Built-in Helper Components
 
-You can take advantage of the already built-in customizable components. For example, our [TourBox] (https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#tourbox) component can be used as a tooltip container for each step.
+You can take advantage of the already built-in customizable components. For example, our [TourBox](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#tourbox) component can be used as a tooltip container for each step.
 
 
 

@@ -86,6 +86,17 @@ export type BackdropPressBehavior =
   | "stop"
   | ((options: SpotlightTour) => void);
 
+export interface StopParams {
+  /**
+   * Current step index.
+   */
+  index: number;
+  /**
+   * `true` if the tour is on the last step, `false` otherwise.
+   */
+  isLast: boolean;
+}
+
 export interface TourStep {
   /**
    * Defines the tooltip alignment behavior:

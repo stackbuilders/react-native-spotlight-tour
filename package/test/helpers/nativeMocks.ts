@@ -1,11 +1,5 @@
 import { Component, ComponentClass, createElement, forwardRef, PropsWithChildren, ReactNode } from "react";
-import {
-  Animated,
-  MeasureInWindowOnSuccessCallback,
-  NativeMethods,
-} from "react-native";
-
-import { MeasureOnSuccessCallbackParams } from "./measures";
+import { Animated, NativeMethods } from "react-native";
 
 type Comp = ReturnType<typeof forwardRef> | ComponentClass;
 
@@ -15,7 +9,7 @@ export function mockNativeComponent<T extends Comp>(modulePath: string, mockMeth
   const name = OriginalComponent.displayName ?? OriginalComponent.name;
 
   const Mocked = class Other<X> extends Component<PropsWithChildren<X>> {
-    public static displayName = "Component";
+    public static displayName = OriginalComponent.displayName;
 
     public constructor(props: PropsWithChildren<X>) {
       super(props);
@@ -44,15 +38,6 @@ export const emptyNativeMethods: NativeMethods = {
   refs: {},
   setNativeProps: jest.fn(),
 };
-
-export function createMeasureMethod(
-  mockMeasureData: MeasureOnSuccessCallbackParams,
-): (callback: MeasureInWindowOnSuccessCallback) => void {
-  return callback => {
-    const { x, y, width, height } = mockMeasureData;
-    callback(x, y, width, height);
-  };
-}
 
 export const emptyAnimationMethods: Animated.CompositeAnimation = {
   reset: () => undefined,

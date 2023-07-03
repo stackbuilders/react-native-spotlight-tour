@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import Sinon from "sinon";
 
 import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../../../src";
-import { SpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { StopParams, SpotlightTour } from "../../../../src/lib/SpotlightTour.context";
 import { BASE_STEP } from "../../../helpers/TestTour";
 
 const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);
@@ -184,6 +184,85 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
         previous: Sinon.match.func,
         start: Sinon.match.func,
         stop: Sinon.match.func,
+      });
+    });
+  });
+
+  context("when a function is passed to the onStop prop in the tour provider", () => {
+    it("invokes the function and injects the OnStopBehavior object in the values", async() => {
+      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+
+      const { getByText } = render(
+        <SpotlightTourProvider steps={STEPS} onStop={spy}>
+          <TestScreen />
+        </SpotlightTourProvider>,
+      );
+
+      await waitFor(() => getByText("Step 1"));
+
+      fireEvent.press(getByText("Stop"));
+
+      Sinon.assert.calledOnceWithExactly(spy, {
+        index: 0,
+        isLast: false,
+      });
+    });
+
+    context("and the tour is stopped in the second step", () => {
+      context("and the step is NOT the last one", () => {
+        it("returns step index 1 and is last equals false", async() => {
+          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+
+          const { getByText } = render(
+            <SpotlightTourProvider steps={STEPS} onStop={spy}>
+              <TestScreen />
+            </SpotlightTourProvider>,
+          );
+
+          await waitFor(() => getByText("Step 1"));
+
+          fireEvent.press(getByText("Next"));
+
+          await waitFor(() => getByText("Step 2"));
+
+          fireEvent.press(getByText("Stop"));
+
+          Sinon.assert.calledOnceWithExactly(spy, {
+            index: 1,
+            isLast: false,
+          });
+        });
+      });
+    });
+
+    context("and the tour is stopped in the third step", () => {
+      context("and the step is the last one", () => {
+        it("returns step index 2 and is last equals true", async() => {
+          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+
+          const { getByText } = render(
+            <SpotlightTourProvider steps={STEPS} onStop={spy}>
+              <TestScreen />
+            </SpotlightTourProvider>,
+          );
+
+          await waitFor(() => getByText("Step 1"));
+
+          fireEvent.press(getByText("Next"));
+
+          await waitFor(() => getByText("Step 2"));
+
+          fireEvent.press(getByText("Next"));
+
+          await waitFor(() => getByText("Step 3"));
+
+          fireEvent.press(getByText("Stop"));
+
+          Sinon.assert.calledOnceWithExactly(spy, {
+            index: 2,
+            isLast: true,
+          });
+        });
       });
     });
   });

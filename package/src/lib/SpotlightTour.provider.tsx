@@ -10,6 +10,7 @@ import {
   BackdropPressBehavior,
   Motion,
   OSConfig,
+  StopParams,
   Position,
   SpotlightTour,
   SpotlightTourContext,
@@ -67,6 +68,14 @@ export interface SpotlightTourProviderProps {
    * so you can access the current step where the tour starts.
    */
   onStart?: () => void;
+  /*
+   * Handler which gets executed when {@link SpotlightTour.stop|stop} is
+   * invoked. It receives the {@link StopParams} so
+   * you can access the `current` step index where the tour stopped
+   * and a bool value `isLast` indicating if the step where the tour stopped is
+   * the last one.
+   */
+  onStop?: (values: StopParams) => void;
   /**
    * The color of the overlay of the tour.
    *
@@ -80,6 +89,14 @@ export interface SpotlightTourProviderProps {
    */
   overlayOpacity?: number;
   /**
+   * Defines the padding of the spot shape based on the wrapped component, so a
+   * zero padding means the spot shape will fit exaclty around the wrapped
+   * component. The padding value is a number in points.
+   *
+   * @default 16;
+   */
+  spotPadding?: number;
+  /**
    * An array of `TourStep` objects that define each step of the tour.
    */
   steps: TourStep[];
@@ -92,12 +109,14 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   const {
     autoStart = "never",
     children,
-    onBackdropPress,
-    overlayColor = "black",
-    overlayOpacity = 0.45,
-    steps,
     motion = "bounce",
     nativeDriver = true,
+    onBackdropPress,
+    onStop,
+    overlayColor = "black",
+    overlayOpacity = 0.45,
+    spotPadding = 16,
+    steps,
     onStart,
   } = props;
 
@@ -147,9 +166,14 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   }, [renderStep, autoStart]);
 
   const stop = useCallback((): void => {
-    setCurrent(undefined);
+    setCurrent(prev => {
+      if (prev !== undefined) {
+        onStop?.({ index: prev, isLast: prev === steps.length - 1 });
+      }
+      return undefined;
+    });
     setSpot(ZERO_SPOT);
-  }, []);
+  }, [onStop]);
 
   const next = useCallback((): void => {
     if (current !== undefined) {
@@ -215,6 +239,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         tourStep={currentStep}
         nativeDriver={nativeDriver}
         motion={motion}
+        padding={spotPadding}
       />
     </SpotlightTourContext.Provider>
   );

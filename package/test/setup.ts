@@ -1,7 +1,5 @@
 /* eslint-disable max-classes-per-file */
-/* eslint @typescript-eslint/no-var-requires: "off" */
-import AsyncStorageMock from "@react-native-async-storage/async-storage/jest/async-storage-mock";
-import { Animated } from "react-native";
+import { Animated, LayoutRectangle } from "react-native";
 
 import {
   isAnimatedTimingInterpolation,
@@ -10,26 +8,36 @@ import {
   isNumberValue,
   isXYValue,
 } from "./helpers/helper";
-import { buttonMockMeasureData, viewMockMeasureData } from "./helpers/measures";
 import {
-  createMeasureMethod,
   emptyAnimationMethods,
   emptyNativeMethods,
   mockNativeComponent,
 } from "./helpers/nativeMocks";
 
 global.context = describe;
+
+const REACT: LayoutRectangle = {
+  height: 400,
+  width: 200,
+  x: 1,
+  y: 1,
+};
+
+export function setMeasureRect({ height, width, x, y }: LayoutRectangle): void {
+  REACT.height = height;
+  REACT.width = width;
+  REACT.x = x;
+  REACT.y = y;
+}
+
 jest
   .mock("react-native/Libraries/Components/View/View", () => {
     return mockNativeComponent("react-native/Libraries/Components/View/View", {
       ...emptyNativeMethods,
-      measureInWindow: createMeasureMethod(viewMockMeasureData),
-    });
-  })
-  .mock("react-native/Libraries/Components/Button", () => {
-    return mockNativeComponent("react-native/Libraries/Components/Button", {
-      ...emptyNativeMethods,
-      measureInWindow: createMeasureMethod(buttonMockMeasureData),
+      measureInWindow: callback => {
+        const { height, width, x, y } = REACT;
+        callback(x, y, width, height);
+      },
     });
   })
   .mock("react-native/Libraries/Animated/nodes/AnimatedValue.js", () => {
@@ -136,4 +144,10 @@ jest
 
 afterEach(() => {
   jest.resetAllMocks();
+  setMeasureRect({
+    height: 400,
+    width: 200,
+    x: 1,
+    y: 1,
+  });
 });

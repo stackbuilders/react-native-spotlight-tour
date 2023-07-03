@@ -23,19 +23,16 @@ interface Circle {
  * Rectangles centroid formula:
  * https://www.engineeringintro.com/mechanics-of-structures/centre-of-gravity/centroid-of-rectangle/
  */
-export function checkValidIntersection(rectangle: Rectangle, circle: Circle): boolean {
-  const rectangleCentroid = {
+export function checkValidIntersection(rectangle: Rectangle, circle: Circle): void {
+  const rectCenter = {
     x: rectangle.x + rectangle.width / 2,
     y: rectangle.y + rectangle.height / 2,
   };
 
-  const circleDistanceX = Math.abs(circle.x - rectangleCentroid.x);
-  const circleDistanceY = Math.abs(circle.y - rectangleCentroid.y);
-
   // Distance between two points formula:
   // https://www.mathsisfun.com/algebra/distance-2-points.html
-  const rectangleCircleCentroidXDistance = Math.pow(rectangleCentroid.x - circle.x, 2);
-  const rectangleCircleCentroidYDistance = Math.pow(rectangleCentroid.y - circle.y, 2);
+  const rectangleCircleCentroidXDistance = Math.pow(rectCenter.x - circle.x, 2);
+  const rectangleCircleCentroidYDistance = Math.pow(rectCenter.y - circle.y, 2);
   const circleAndRectangleCentroidDistance = Math.sqrt(
     rectangleCircleCentroidYDistance + rectangleCircleCentroidXDistance,
   );
@@ -55,28 +52,29 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): bo
     isCentroidsDistanceBiggerThanTheCirclesRadiusSum;
 
   if (figuresAreOverlaid) {
-    return false;
+    throw Error("Figures are overlaid!");
   }
 
-  /**
-   * A formula that explains this implementation can be found on:
-   * https://math.stackexchange.com/a/2916460
-   */
-  const relativeCircleRectangleXDistance = Math.pow(circleDistanceX - rectangle.width / 2, 2);
-  const relativeCircleRectangleYDistance = Math.pow(circleDistanceY - rectangle.height / 2, 2);
-  const cornerDistance = Math.sqrt(
-    relativeCircleRectangleXDistance + relativeCircleRectangleYDistance,
-  );
+  if (rectCenter.x !== circle.x || rectCenter.y !== circle.y) {
+    throw Error(
+      `Circle center (${circle.x}, ${circle.y}) is not the same as ` +
+      `square center (${rectCenter.x}, ${rectCenter.y})`,
+    );
+  }
 
-  const squaredCornerDistanceIsSmallerThanSquaredCircleRadius =
-    Math.pow(cornerDistance, 2) <= Math.pow(circle.r, 2);
-  const circleRadiusAndVirtualRectangleRadiusRelation =
-    circle.r / Math.max(rectangle.width / 2, rectangle.height / 2) >= 1;
+  const rectRadiusX = Math.abs(rectCenter.x - (rectangle.width / 2));
+  const rectRadiusY = Math.abs(rectCenter.y - (rectangle.height / 2));
+  const rectRadiusMax = Math.max(rectRadiusX, rectRadiusY);
 
-  return (
-    squaredCornerDistanceIsSmallerThanSquaredCircleRadius
-    && circleRadiusAndVirtualRectangleRadiusRelation
-  );
+  if (rectRadiusMax > circle.r) {
+    throw Error(`Rectangle radius (${rectRadiusMax}) is greater than the circle radius (${circle.r})`);
+  }
+
+  const relation = circle.r / Math.max(rectangle.width / 2, rectangle.height / 2);
+
+  if (relation < 1) {
+    throw Error(`Circle vs. rectangle relation ${relation} is not greater that 1`);
+  }
 }
 
 function isReactTestInstance(child: ReactTestInstance | string): child is ReactTestInstance {

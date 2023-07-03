@@ -1,18 +1,19 @@
+import { deepEqual } from "fast-equals";
 import React, { memo, useContext, useEffect, useRef } from "react";
 import { Animated } from "react-native";
 import { Circle } from "react-native-svg";
 
 import { Motion, SpotlightTourContext } from "../../../SpotlightTour.context";
-import { SPOT_PADDING } from "../TourOverlay.styles";
 
 interface CircleShapeProps {
   motion: Motion;
+  padding: number;
   useNativeDriver: boolean;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) => {
+export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeDriver }) => {
   const { spot } = useContext(SpotlightTourContext);
 
   const center = useRef(new Animated.ValueXY({ x: 0, y: 0 }, { useNativeDriver }));
@@ -21,7 +22,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
 
   useEffect(() => {
     const { height, width, x, y } = spot;
-    const r = (Math.max(width, height) / 2) * SPOT_PADDING;
+    const r = (Math.max(width, height) / 2) + padding;
     const cx = x + (width / 2);
     const cy = y + (height / 2);
 
@@ -92,7 +93,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
     };
 
     transition().start();
-  }, [motion, spot, useNativeDriver]);
+  }, [spot, padding, motion, useNativeDriver]);
 
   if ([spot.height, spot.width].every(value => value <= 0)) {
     return null;
@@ -107,4 +108,4 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, useNativeDriver }) 
       fill="black"
     />
   );
-}, (prev, next) => prev.motion === next.motion);
+}, deepEqual);

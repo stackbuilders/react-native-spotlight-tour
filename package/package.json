@@ -35,9 +35,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.18.1",
     "fast-equals": "^5.0.1",
-    "react-native-device-info": "^10.6.0",
+    "object-hash": "^3.0.0",
+    "react-native-mmkv-storage": "^0.9.1",
     "react-native-responsive-dimensions": "^3.1.1",
     "styled-components": "^5.3.9"
   },
@@ -49,6 +49,7 @@
     "@testing-library/react-native": "^11.5.4",
     "@types/jest": "^29.4.1",
     "@types/node": "^18.15.3",
+    "@types/object-hash": "^3.0.2",
     "@types/react-test-renderer": "^18.0.0",
     "@types/sinon": "^10.0.13",
     "@types/styled-components": "^5.1.26",
@@ -75,7 +76,8 @@
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-native": ">=0.50.0",
-    "react-native-svg": ">=12.1.0"
+    "react-native-svg": ">=12.1.0",
+    "react-native-mmkv-storage": ">=0.9.1"
   },
   "peerDependenciesMeta": {
     "react": {

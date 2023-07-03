@@ -2596,17 +2596,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:^1.18.1":
-  version: 1.18.1
-  resolution: "@react-native-async-storage/async-storage@npm:1.18.1"
-  dependencies:
-    merge-options: ^3.0.4
-  peerDependencies:
-    react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
-  checksum: 58c8497fafdd4d112c4a70b0976783abdc6fa487f0cffca196901efd146fc838dee0cf498fdc4ef67a4634ba4ca97d60fec5a24720aea1d46f1999b0ba8b249b
-  languageName: node
-  linkType: hard
-
 "@react-native-community/cli-clean@npm:^10.1.1":
   version: 10.1.1
   resolution: "@react-native-community/cli-clean@npm:10.1.1"
@@ -3281,12 +3270,12 @@ __metadata:
   dependencies:
     "@babel/core": ^7.21.3
     "@babel/preset-env": ^7.20.2
-    "@react-native-async-storage/async-storage": ^1.18.1
     "@stackbuilders/assertive-ts": ^1.2.0
     "@testing-library/jest-native": ^5.4.2
     "@testing-library/react-native": ^11.5.4
     "@types/jest": ^29.4.1
     "@types/node": ^18.15.3
+    "@types/object-hash": ^3.0.2
     "@types/react-test-renderer": ^18.0.0
     "@types/sinon": ^10.0.13
     "@types/styled-components": ^5.1.26
@@ -3296,10 +3285,11 @@ __metadata:
     fast-equals: ^5.0.1
     jest: ^29.5.0
     metro-react-native-babel-preset: ^0.76.1
+    object-hash: ^3.0.0
     react: ^18.2.0
     react-is: ^18.2.0
     react-native: 0.71.6
-    react-native-device-info: ^10.6.0
+    react-native-mmkv-storage: ^0.9.1
     react-native-responsive-dimensions: ^3.1.1
     react-native-svg: ^13.8.0
     react-test-renderer: ^18.2.0
@@ -3523,6 +3513,13 @@ __metadata:
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
   checksum: e87bccbf11f95035c89a132b52b79ce69a1e3652fe55962363063c9c0dae0fe2477ebc585e03a9652adc6f381d24ba5589cc5e51849df4ced3d3e004a7d40ed5
+  languageName: node
+  linkType: hard
+
+"@types/object-hash@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/object-hash@npm:3.0.2"
+  checksum: 0332e59074e7df2e74c093a7419c05c1e1c5ae1e12d3779f3240b3031835ff045b4ac591362be0b411ace24d3b5e760386b434761c33af25904f7a3645cb3785
   languageName: node
   linkType: hard
 
@@ -6517,6 +6514,7 @@ __metadata:
     react: 18.2.0
     react-is: ^18.2.0
     react-native: 0.71.6
+    react-native-mmkv-storage: ^0.9.1
     react-native-svg: ^13.8.0
     styled-components: ^5.3.9
     typescript: ^4.9.5
@@ -8095,13 +8093,6 @@ __metadata:
   version: 1.1.0
   resolution: "is-plain-obj@npm:1.1.0"
   checksum: 0ee04807797aad50859652a7467481816cbb57e5cc97d813a7dcd8915da8195dc68c436010bf39d195226cde6a2d352f4b815f16f26b7bf486a5754290629931
-  languageName: node
-  linkType: hard
-
-"is-plain-obj@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "is-plain-obj@npm:2.1.0"
-  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
   languageName: node
   linkType: hard
 
@@ -9685,15 +9676,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"merge-options@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "merge-options@npm:3.0.4"
-  dependencies:
-    is-plain-obj: ^2.1.0
-  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
-  languageName: node
-  linkType: hard
-
 "merge-stream@npm:^2.0.0":
   version: 2.0.0
   resolution: "merge-stream@npm:2.0.0"
@@ -10886,6 +10868,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"object-hash@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "object-hash@npm:3.0.0"
+  checksum: 80b4904bb3857c52cc1bfd0b52c0352532ca12ed3b8a6ff06a90cd209dfda1b95cee059a7625eb9da29537027f68ac4619363491eedb2f5d3dddbba97494fd6c
+  languageName: node
+  linkType: hard
+
 "object-inspect@npm:^1.12.3, object-inspect@npm:^1.9.0":
   version: 1.12.3
   resolution: "object-inspect@npm:1.12.3"
@@ -11807,19 +11796,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-device-info@npm:^10.6.0":
-  version: 10.6.0
-  resolution: "react-native-device-info@npm:10.6.0"
-  peerDependencies:
-    react-native: "*"
-  checksum: 7a7cc438844552aef687b4a5b8efd0cd0a2959e0a3b771febfbe0b6a9ca8ff05a563e2912b30b83523bd3d5143d6616ca8fac0476abf01936a726e1578211ebb
-  languageName: node
-  linkType: hard
-
 "react-native-gradle-plugin@npm:^0.71.17":
   version: 0.71.17
   resolution: "react-native-gradle-plugin@npm:0.71.17"
   checksum: 5ff996bafc3959a36551dc34d481cefb070ede4025b5eb2ce659f51adf74ba0e6845cc019ea1d547e0b4007f1c3c68146fa719688f09bde308f25320c6c6f834
+  languageName: node
+  linkType: hard
+
+"react-native-mmkv-storage@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "react-native-mmkv-storage@npm:0.9.1"
+  peerDependencies:
+    react-native: "*"
+  bin:
+    mmkv-link: autolink/postlink/run.js
+  checksum: 564f1cd971d20c9db03cff2d1cf8d55a2c69bd5a907eebbee7bcdc0592917bea5c787b424b1910931c649b3f17c9a361385565af585ec72fb7d1b63b9f2570af
   languageName: node
   linkType: hard
 
@@ -13913,11 +13904,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.0.0#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
   languageName: node
   linkType: hard
 

@@ -1,8 +1,9 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMMKVStorage } from 'react-native-mmkv-storage';
+import storage from '../helpers/storage';
+import hash from 'object-hash';
+
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
-import { getUniqueId } from "react-native-device-info";
-
 import { ChildFn, isChildFunction } from "../helpers/common";
 
 import {
@@ -122,6 +123,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
+  const [tourId, setTourId] = useMMKVStorage('tourId', storage, '');
 
   const overlay = useRef<TourOverlayRef>({
     hideTooltip: () => Promise.resolve({ finished: false }),
@@ -146,16 +148,15 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   const start = useCallback((): void => {
     renderStep(0);
     onStart?.();
-  }, [renderStep, onStart, current]);
+  }, [renderStep, onStart]);
 
-  const startOnce = useCallback(async (): Promise<void> => {
-    const deviceUniqueId = await getUniqueId();
-    const isFirstTime = !(await AsyncStorage.getItem(deviceUniqueId));
-    if (isFirstTime) {
-      await AsyncStorage.setItem(deviceUniqueId, "true");
-      start();
+  const startOnce = useCallback(() => {
+    if(!tourId){
+      setTourId(hash(steps));
+      renderStep(0);
+      onStart?.();
     }
-  }, [renderStep]);
+  }, [renderStep, onStart, steps]);
 
   useEffect(() => {
     if (autoStart === "always") {

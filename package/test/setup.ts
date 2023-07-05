@@ -91,16 +91,16 @@ jest
         start(callback) {
           if (
             isAnimatedValueXY(value)
-            && !isAnimatedTimingInterpolation(config.toValue)
-            && isXYValue(config.toValue)
+              && !isAnimatedTimingInterpolation(config.toValue)
+              && isXYValue(config.toValue)
           ) {
             value.setValue(config.toValue);
           }
 
           if (
             isAnimatedValue(value)
-            && !isAnimatedTimingInterpolation(config.toValue)
-            && isNumberValue(config.toValue)
+              && !isAnimatedTimingInterpolation(config.toValue)
+              && isNumberValue(config.toValue)
           ) {
             value.setValue(config.toValue);
           }

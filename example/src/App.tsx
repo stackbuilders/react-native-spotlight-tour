@@ -113,6 +113,7 @@ export function App(): ReactElement {
         onBackdropPress="continue"
         motion="bounce"
         onStop={onStopTour}
+        autoStart="always"
       >
         {({ start }) => (
           <>

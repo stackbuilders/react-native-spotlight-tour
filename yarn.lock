@@ -3275,6 +3275,7 @@ __metadata:
     "@testing-library/react-native": ^11.5.4
     "@types/jest": ^29.4.1
     "@types/node": ^18.15.3
+    "@types/object-hash": ^3.0.2
     "@types/react-test-renderer": ^18.0.0
     "@types/sinon": ^10.0.13
     "@types/styled-components": ^5.1.26
@@ -3284,9 +3285,11 @@ __metadata:
     fast-equals: ^5.0.1
     jest: ^29.5.0
     metro-react-native-babel-preset: ^0.76.1
+    object-hash: ^3.0.0
     react: ^18.2.0
     react-is: ^18.2.0
     react-native: 0.71.6
+    react-native-mmkv-storage: ^0.9.1
     react-native-responsive-dimensions: ^3.1.1
     react-native-svg: ^13.8.0
     react-test-renderer: ^18.2.0
@@ -3303,6 +3306,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
     react-native: ">=0.50.0"
+    react-native-mmkv-storage: ">=0.9.1"
     react-native-svg: ">=12.1.0"
   peerDependenciesMeta:
     react:
@@ -3510,6 +3514,13 @@ __metadata:
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
   checksum: e87bccbf11f95035c89a132b52b79ce69a1e3652fe55962363063c9c0dae0fe2477ebc585e03a9652adc6f381d24ba5589cc5e51849df4ced3d3e004a7d40ed5
+  languageName: node
+  linkType: hard
+
+"@types/object-hash@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/object-hash@npm:3.0.2"
+  checksum: 0332e59074e7df2e74c093a7419c05c1e1c5ae1e12d3779f3240b3031835ff045b4ac591362be0b411ace24d3b5e760386b434761c33af25904f7a3645cb3785
   languageName: node
   linkType: hard
 
@@ -6504,6 +6515,7 @@ __metadata:
     react: 18.2.0
     react-is: ^18.2.0
     react-native: 0.71.6
+    react-native-mmkv-storage: ^0.9.1
     react-native-svg: ^13.8.0
     styled-components: ^5.3.9
     typescript: ^4.9.5
@@ -10857,6 +10869,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"object-hash@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "object-hash@npm:3.0.0"
+  checksum: 80b4904bb3857c52cc1bfd0b52c0352532ca12ed3b8a6ff06a90cd209dfda1b95cee059a7625eb9da29537027f68ac4619363491eedb2f5d3dddbba97494fd6c
+  languageName: node
+  linkType: hard
+
 "object-inspect@npm:^1.12.3, object-inspect@npm:^1.9.0":
   version: 1.12.3
   resolution: "object-inspect@npm:1.12.3"
@@ -11782,6 +11801,17 @@ __metadata:
   version: 0.71.17
   resolution: "react-native-gradle-plugin@npm:0.71.17"
   checksum: 5ff996bafc3959a36551dc34d481cefb070ede4025b5eb2ce659f51adf74ba0e6845cc019ea1d547e0b4007f1c3c68146fa719688f09bde308f25320c6c6f834
+  languageName: node
+  linkType: hard
+
+"react-native-mmkv-storage@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "react-native-mmkv-storage@npm:0.9.1"
+  peerDependencies:
+    react-native: "*"
+  bin:
+    mmkv-link: autolink/postlink/run.js
+  checksum: 564f1cd971d20c9db03cff2d1cf8d55a2c69bd5a907eebbee7bcdc0592917bea5c787b424b1910931c649b3f17c9a361385565af585ec72fb7d1b63b9f2570af
   languageName: node
   linkType: hard
 

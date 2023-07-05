@@ -21,6 +21,7 @@ export {
   SpotlightTour,
   TourStep,
   useSpotlightTour,
+  AutoStartOptions,
 } from "./lib/SpotlightTour.context";
 export {
   SpotlightTourProvider,

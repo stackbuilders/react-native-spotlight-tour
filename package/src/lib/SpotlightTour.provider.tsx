@@ -1,9 +1,13 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import hash from "object-hash";
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
+import { useMMKVStorage } from "react-native-mmkv-storage";
 
 import { ChildFn, isChildFunction } from "../helpers/common";
+import storage from "../helpers/storage";
 
 import {
+  AutoStartOptions,
   BackdropPressBehavior,
   Motion,
   OSConfig,
@@ -18,6 +22,12 @@ import {
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
 export interface SpotlightTourProviderProps {
+  /**
+   * Sets the default behaviour when the tour starts.
+   *
+   * @default never
+   */
+  autoStart?: AutoStartOptions; // never - always - once
   /**
    * The children to render in the provider. It accepts either a React
    * component, or a function that returns a React component. When the child is
@@ -54,6 +64,12 @@ export interface SpotlightTourProviderProps {
    */
   onBackdropPress?: BackdropPressBehavior;
   /**
+   * Handler which gets executed when {@link SpotlightTour.start|start} is
+   * invoked. It receives the {@link SpotlightTour.current|current} step index
+   * so you can access the current step where the tour starts.
+   */
+  onStart?: () => void;
+  /*
    * Handler which gets executed when {@link SpotlightTour.stop|stop} is
    * invoked. It receives the {@link StopParams} so
    * you can access the `current` step index where the tour stopped
@@ -92,6 +108,7 @@ export interface SpotlightTourProviderProps {
  */
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
+    autoStart = "never",
     children,
     motion = "bounce",
     nativeDriver = true,
@@ -101,10 +118,12 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     overlayOpacity = 0.45,
     spotPadding = 16,
     steps,
+    onStart,
   } = props;
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
+  const [tourId, setTourId] = useMMKVStorage("tourId", storage, "");
 
   const overlay = useRef<TourOverlayRef>({
     hideTooltip: () => Promise.resolve({ finished: false }),
@@ -118,7 +137,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
       ])
-      .then(() => setCurrent(index));
+        .then(() => setCurrent(index));
     }
   }, [steps]);
 
@@ -128,7 +147,24 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const start = useCallback((): void => {
     renderStep(0);
-  }, [renderStep]);
+    onStart?.();
+  }, [renderStep, onStart]);
+
+  const startOnce = useCallback(() => {
+    if (!tourId) {
+      setTourId(hash(steps));
+      renderStep(0);
+      onStart?.();
+    }
+  }, [renderStep, onStart, steps]);
+
+  useEffect(() => {
+    if (autoStart === "always") {
+      start();
+    } else if (autoStart === "once") {
+      startOnce();
+    }
+  }, [renderStep, autoStart]);
 
   const stop = useCallback((): void => {
     setCurrent(prev => {

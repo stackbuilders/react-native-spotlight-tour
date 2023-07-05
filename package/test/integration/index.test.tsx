@@ -285,4 +285,38 @@ describe("[Integration] index.test.tsx", () => {
       });
     });
   });
+
+  describe("autoStart property", () => {
+    describe("when the autoStart property is set to never", () => {
+      it("the overlay is not shown", async () => {
+        const { getByText, queryByTestId } = render(<TestScreen autoStart="never" />);
+        await waitFor(() => expect(getByText("Start")).toBePresent());
+        expect(queryByTestId("Overlay View")).toBeNull();
+      });
+    });
+
+    describe("when the autoStart property is set to always", () => {
+      it("shows the overlay view", async () => {
+        const { getByTestId } = render(<TestScreen autoStart="always" />);
+        await waitFor(() => expect(getByTestId("Overlay View")).toBePresent());
+      });
+    });
+
+    describe("when the autoStart property is set to once", () => {
+      describe("when the device is not registered", () => {
+        it("shows the overlay view", async() => {
+            const { getByTestId } = render(<TestScreen autoStart="once" />);
+            await waitFor(() => expect(getByTestId("Overlay View")).toBePresent());
+        });
+      });
+      describe("when the device is already registered", () => {
+        it("the overlay is not shown", async () => {
+          const { queryByTestId } = render(<TestScreen autoStart="once" />);
+          await waitFor(() => {
+            expect(queryByTestId("Overlay View")).toBeNull();
+          });
+        });
+      });
+    });
+  });
 });

@@ -1,10 +1,10 @@
-import { useMMKVStorage } from 'react-native-mmkv-storage';
-import storage from '../helpers/storage';
-import hash from 'object-hash';
-
+import hash from "object-hash";
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
+import { useMMKVStorage } from "react-native-mmkv-storage";
+
 import { ChildFn, isChildFunction } from "../helpers/common";
+import storage from "../helpers/storage";
 
 import {
   AutoStartOptions,
@@ -123,7 +123,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
-  const [tourId, setTourId] = useMMKVStorage('tourId', storage, '');
+  const [tourId, setTourId] = useMMKVStorage("tourId", storage, "");
 
   const overlay = useRef<TourOverlayRef>({
     hideTooltip: () => Promise.resolve({ finished: false }),
@@ -151,7 +151,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   }, [renderStep, onStart]);
 
   const startOnce = useCallback(() => {
-    if(!tourId){
+    if (!tourId) {
       setTourId(hash(steps));
       renderStep(0);
       onStart?.();

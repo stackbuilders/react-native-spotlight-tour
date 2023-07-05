@@ -1,5 +1,7 @@
 /* eslint-disable max-classes-per-file */
+import { useState } from "react";
 import { Animated, LayoutRectangle } from "react-native";
+import { MMKVInstance } from "react-native-mmkv-storage";
 
 import {
   isAnimatedTimingInterpolation,
@@ -137,10 +139,17 @@ jest
       },
     };
   })
-  .mock("@react-native-async-storage/async-storage", () =>
-    AsyncStorageMock)
-
-  .mock("react-native-device-info", () => ({ getUniqueId: () => "12345" }));
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  .mock("react-native-mmkv-storage", () => ({
+    MMKVLoader: jest.fn().mockImplementation(() => ({
+      initialize: () => jest.fn(),
+    })),
+    useMMKVStorage: (_key: string, _storage: MMKVInstance, defaultValue: string) => {
+      const [value, setValue] = useState(defaultValue);
+      const setMockValue = (newValue: string): void => setValue(newValue);
+      return [value, setMockValue];
+    },
+  }));
 
 afterEach(() => {
   jest.resetAllMocks();

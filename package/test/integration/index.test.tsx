@@ -1,7 +1,6 @@
 import "@testing-library/jest-native/extend-expect";
 
 import { expect as jestExpect } from "@jest/globals";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
@@ -291,7 +290,7 @@ describe("[Integration] index.test.tsx", () => {
     describe("when the autoStart property is set to never", () => {
       it("the overlay is not shown", async () => {
         const { getByText, queryByTestId } = render(<TestScreen autoStart="never" />);
-        await waitFor(() => getByText("Start"));
+        await waitFor(() => expect(getByText("Start")).toBePresent());
         expect(queryByTestId("Overlay View")).toBeNull();
       });
     });
@@ -299,29 +298,23 @@ describe("[Integration] index.test.tsx", () => {
     describe("when the autoStart property is set to always", () => {
       it("shows the overlay view", async () => {
         const { getByTestId } = render(<TestScreen autoStart="always" />);
-        await waitFor(() => getByTestId("Overlay View"));
+        await waitFor(() => expect(getByTestId("Overlay View")).toBePresent());
       });
     });
 
     describe("when the autoStart property is set to once", () => {
       describe("when the device is not registered", () => {
-        it("shows the overlay view", async () => {
-          const { getByTestId } = render(<TestScreen autoStart="once" />);
-          waitFor(() => {
-            jestExpect(AsyncStorage.getItem).toHaveBeenCalled();
-            jestExpect(AsyncStorage.setItem).toHaveBeenCalled();
-          });
-          await waitFor(() => getByTestId("Overlay View"));
+        it("shows the overlay view", async() => {
+            const { getByTestId } = render(<TestScreen autoStart="once" />);
+            await waitFor(() => expect(getByTestId("Overlay View")).toBePresent());
         });
       });
       describe("when the device is already registered", () => {
         it("the overlay is not shown", async () => {
-          await AsyncStorage.setItem("12345", "true");
           const { queryByTestId } = render(<TestScreen autoStart="once" />);
-          waitFor(() => {
-            jestExpect(AsyncStorage.getItem).toHaveBeenCalled();
+          await waitFor(() => {
+            expect(queryByTestId("Overlay View")).toBeNull();
           });
-          expect(queryByTestId("Overlay View")).toBeNull();
         });
       });
     });

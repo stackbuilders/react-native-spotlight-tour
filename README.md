@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -124,6 +124,131 @@ const mySteps: TourStep[] = [{
 
 You can also find a complete example [here](example/).
 
+## Built-in Helper Components
+
+You can take advantage of the built-in customizable components. For example, our [TourBox](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#tourbox) component can be used as a tooltip container for each step.
+
+
+
+```tsx
+import {
+  Align,
+  Position,
+  TourBox,
+  TourStep,
+} from "@stackbuilders/react-native-spotlight-tour";
+
+const tourSteps: TourStep[] = [{
+    alignTo: Align.SCREEN,
+    position: Position.BOTTOM,
+    render: props => (
+      <TourBox
+        title="Tour: Customization"
+        titleStyle={{ 
+          fontFamily: 'Roboto', 
+          color: '#90EE90', 
+          fontWeight: 'bold'
+        }}
+        backText="Previous"
+        nextText="Next"
+        {...props}
+      >
+        <Text>
+          {"This is the third step of tour example.\n"}
+          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        </Text>
+      </TourBox>
+    ),
+  }];
+```
+
+### Tour customization
+
+The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the overlay through the [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props.
+
+
+
+```tsx
+import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+
+const mySteps: TourStep[] = [
+  // ...
+];
+
+return (
+  <SpotlightTourProvider steps={mySteps} overlayColor={"gray"} overlayOpacity={0.36}>
+    {({ start }) => (
+      <>
+      {/* ... */}
+      </>
+    )};
+  </SpotlightTourProvider>
+);
+```
+
+Besides above customizations, you can also define the transition animation [see motion](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#motion) and the behavior when the user presses the backdrop [see onBackdropPress](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#backdroppressbehavior). Otherwise if you wish to make them different for an specific step you could override this properties in the `TourStep` configuration.
+
+
+
+```tsx
+import { 
+  Align
+  AttachStep,
+  Position,
+  SpotlightTourProvider, 
+  TourStep,
+  TourBox
+} from "@stackbuilders/react-native-spotlight-tour";
+
+const tourSteps: TourStep[] = [{
+    alignTo: Align.SCREEN,
+    position: Position.BOTTOM,
+    motion: "fade",
+    onBackdropPress: "stop",
+    render: props => (
+      <TourBox
+        title="Tour: Customization"
+        backText="Previous"
+        nextText="Next"
+        {...props}
+      >
+        <Text>
+          {"This is the first step of tour example.\n"}
+          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        </Text>
+      </TourBox>
+    ),
+  }];
+
+return (
+  <SpotlightTourProvider 
+    steps={tourSteps}
+    overlayColor={"gray"}
+    overlayOpacity={0.36}
+    onBackdropPress="continue"
+    motion="bounce"
+  >
+    {({ start }) => (
+      <>
+      <Button title="Start" onPress={start} />
+
+       <View>
+          <AttachStep index={0}>
+            <Text>Introduction</Text>
+          </AttachStep>
+
+          <Text>
+            This is an example using the spotlight-tour library.
+            Press the Start button to see it in action.
+          </Text>
+        </View>
+      </>
+    )};
+  </SpotlightTourProvider>
+);
+```
 ## API Reference
 
 To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.
@@ -159,6 +284,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/krarrobo1"><img src="https://avatars.githubusercontent.com/u/26930130?v=4?s=100" width="100px;" alt="Ricardo Arrobo"/><br /><sub><b>Ricardo Arrobo</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://abkal.vercel.app/"><img src="https://avatars.githubusercontent.com/u/43915733?v=4?s=100" width="100px;" alt="Mohammad Abkal"/><br /><sub><b>Mohammad Abkal</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=mohamedabkal" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Enneson"><img src="https://avatars.githubusercontent.com/u/68185396?v=4?s=100" width="100px;" alt="Alexander Pokhil"/><br /><sub><b>Alexander Pokhil</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=Enneson" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alejo0o"><img src="https://avatars.githubusercontent.com/u/60680371?v=4?s=100" width="100px;" alt="Alejandro Vivanco"/><br /><sub><b>Alejandro Vivanco</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alejo0o" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>

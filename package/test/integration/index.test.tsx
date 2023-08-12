@@ -1,10 +1,9 @@
 import "@testing-library/jest-native/extend-expect";
 
 import { expect as jestExpect } from "@jest/globals";
-import { expect, TypeFactories } from "@stackbuilders/assertive-ts";
+import { expect } from "@stackbuilders/assertive-ts";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
-import { ViewStyle } from "react-native";
 import { CircleProps } from "react-native-svg";
 
 import { TourStep } from "../../src";
@@ -73,33 +72,6 @@ describe("[Integration] index.test.tsx", () => {
           });
         });
       });
-
-      it("adds the tip view on the bottom position", async () => {
-        const { getByText, getByTestId, findByTestId } = render(<TestScreen />);
-
-        await waitFor(() => getByText("Start"));
-
-        fireEvent.press(getByText("Start"));
-
-        await waitFor(() => getByText("Step 1"));
-
-        const tooltip = await findByTestId("Tooltip View");
-
-        fireEvent(tooltip, "onLayout", {
-          nativeEvent: {
-            layout: {
-              height: viewMockMeasureData.height,
-              width: viewMockMeasureData.width,
-            },
-          },
-        });
-
-        await waitFor(() => getByTestId("Spot Svg"));
-
-        expect(tooltip.props.style)
-          .asType(TypeFactories.object<ViewStyle>())
-          .toContainAllKeys(["left", "top", "marginTop", "opacity", "position"]);
-      });
     });
 
     describe("and the tour moves to the second spot", () => {
@@ -141,39 +113,6 @@ describe("[Integration] index.test.tsx", () => {
             y: Number(svgCircleProps?.cy),
           });
         });
-      });
-
-      it("adds the second tip view on the top position", async () => {
-        const { getByText, getByTestId, findByTestId } = render(<TestScreen />);
-
-        await waitFor(() => getByText("Start"));
-
-        fireEvent.press(getByText("Start"));
-
-        await waitFor(() => getByText("Step 1"));
-
-        setMeasureRect(buttonMockMeasureData);
-
-        fireEvent.press(getByText("Next"));
-
-        await waitFor(() => getByText("Step 2"));
-
-        const tooltip = await findByTestId("Tooltip View");
-
-        fireEvent(tooltip, "onLayout", {
-          nativeEvent: {
-            layout: {
-              height: buttonMockMeasureData.height,
-              width: buttonMockMeasureData.width,
-            },
-          },
-        });
-
-        await waitFor(() => getByTestId("Spot Svg"));
-
-        expect(tooltip.props.style)
-          .asType(TypeFactories.object<ViewStyle>())
-          .toContainAllKeys(["bottom", "left", "marginBottom", "opacity", "position"]);
       });
     });
   });

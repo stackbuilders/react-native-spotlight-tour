@@ -11,8 +11,8 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/stackbuilders/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/releases)
 [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@stackbuilders/react-native-spotlight-tour)](https://snyk.io/)
 
-`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web 
-compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
+`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
+compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight
 effect. This library handles animations at the native level and is perfect for the following:
 
 * Guiding users on how to use your application
@@ -89,14 +89,12 @@ The tour requires an array of steps to be configured, which will map directly to
 ```tsx
 import {
   Align,
-  Position,
   TourStep,
   useSpotlightTour
 } from "@stackbuilders/react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [{
   alignTo: Align.SCREEN,
-  position: Position.BOTTOM,
   render: ({ next }) => (
     <View>
       <Text>This is the first step of tour!</Text>
@@ -109,7 +107,6 @@ const mySteps: TourStep[] = [{
     return DataService.fetchData()
       .then(setData);
   },
-  position: Position.RIGHT,
   render: () => {
     // You can also use the hook inside the step component!
     const { previous, stop } = useSpotlightTour();
@@ -136,7 +133,7 @@ To view all the types, options, and props, please check the complete [API Refere
 Do you want to contribute to this project? Please take a look at our [contributing guideline](/docs/CONTRIBUTING.md) to know how you can help us build it.
 
 ---
-<img src="https://cdn.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>  
+<img src="https://cdn.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>
 [Check out our libraries](https://github.com/stackbuilders/) | [Join our team](https://www.stackbuilders.com/join-us/)
 
 ## Contributors ✨

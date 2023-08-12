@@ -12,11 +12,9 @@ export {
   TourBoxProps,
 } from "./lib/components/tour-box/TourBox.component";
 export {
-  Align,
   BackdropPressBehavior,
   Motion,
   OSConfig,
-  Position,
   RenderProps,
   SpotlightTour,
   TourStep,
@@ -26,3 +24,12 @@ export {
   SpotlightTourProvider,
   SpotlightTourProviderProps,
 } from "./lib/SpotlightTour.provider";
+export {
+  autoPlacement,
+  arrow,
+  hide,
+  inline,
+  flip,
+  offset,
+  shift,
+} from "@floating-ui/react-native";

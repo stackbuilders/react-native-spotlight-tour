@@ -4,12 +4,10 @@ import { vh } from "../../../helpers/responsive";
 
 export const MainContainer = styled.View`
   align-items: center;
-  align-self: center;
   background-color: white;
   border-radius: 8px;
   justify-content: center;
   padding: ${vh(1)};
-  width: 90%;
 `;
 
 export const TitleText = styled.Text`
@@ -17,10 +15,10 @@ export const TitleText = styled.Text`
 `;
 
 export const FooterContainer = styled.View`
+  align-self: stretch;
   flex-direction: row;
   justify-content: space-around;
   margin-top: ${vh(1)};
-  width: 100%;
 `;
 
 export const NavButton = styled.TouchableOpacity`

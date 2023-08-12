@@ -1,11 +1,12 @@
 import dedent from "@cometlib/dedent";
 import {
-  Align,
   AttachStep,
-  Position,
   SpotlightTourProvider,
   TourBox,
   TourStep,
+  flip,
+  offset,
+  shift,
 } from "@stackbuilders/react-native-spotlight-tour";
 import { StopParams } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
@@ -33,8 +34,10 @@ export function App(): ReactElement {
   }, []);
 
   const tourSteps = useMemo((): TourStep[] => [{
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
+    floatingProps:{
+      middleware: [offset(0), shift(), flip()],
+      placement: "right",
+    },
     render: ({ next }) => (
       <SpotDescriptionView>
         <DescriptionText>
@@ -48,13 +51,9 @@ export function App(): ReactElement {
       </SpotDescriptionView>
     ),
   }, {
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     render: DocsTooltip,
   },
   {
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     render: props => (
       <TourBox
         title="Tour: Customization"
@@ -70,7 +69,10 @@ export function App(): ReactElement {
       </TourBox>
     ),
   }, {
-    alignTo: Align.SCREEN,
+    floatingProps: {
+      middleware: [offset(4), shift()],
+      placement: "top",
+    },
     before() {
       return new Promise<void>(resolve => {
         Animated.spring(gap, {
@@ -82,7 +84,6 @@ export function App(): ReactElement {
         .start(() => resolve());
       });
     },
-    position: Position.TOP,
     render: ({ previous, stop }) => (
       <SpotDescriptionView>
         <DescriptionText>
@@ -110,6 +111,10 @@ export function App(): ReactElement {
         overlayColor={"gray"}
         overlayOpacity={0.36}
         nativeDriver={true}
+        floatingProps={{
+          middleware:[offset(5), shift(), flip()],
+          placement: "bottom",
+        }}
         onBackdropPress="continue"
         motion="bounce"
         onStop={onStopTour}

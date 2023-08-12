@@ -1,4 +1,12 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { flip, offset, shift } from "@floating-ui/react-native";
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
 import { ChildFn, isChildFunction } from "../helpers/common";
@@ -8,12 +16,12 @@ import {
   Motion,
   OSConfig,
   StopParams,
-  Position,
   SpotlightTour,
   SpotlightTourContext,
   SpotlightTourCtx,
   TourStep,
   ZERO_SPOT,
+  FloatingProps,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
@@ -25,6 +33,11 @@ export interface SpotlightTourProviderProps {
    * argument.
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
+  /**
+   * Specifies {@link FloatingProps} in order to configure Floating UI
+   * in all tour steps layout.
+   */
+  floatingProps?: FloatingProps;
   /**
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
@@ -87,125 +100,143 @@ export interface SpotlightTourProviderProps {
   steps: TourStep[];
 }
 
+const DEFAULT_FLOATING_CONFIGURATIONS: FloatingProps = {
+  middleware: [flip(), offset(4), shift()],
+  placement: "bottom",
+};
+
 /**
  * React provider component to get access to the SpotlightTour context.
  */
-export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
-  const {
-    children,
-    motion = "bounce",
-    nativeDriver = true,
-    onBackdropPress,
-    onStop,
-    overlayColor = "black",
-    overlayOpacity = 0.45,
-    spotPadding = 16,
-    steps,
-  } = props;
+export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>(
+  (props, ref) => {
+    const {
+      children,
+      floatingProps: floatingMiddlewareProps = DEFAULT_FLOATING_CONFIGURATIONS,
+      motion = "bounce",
+      nativeDriver = true,
+      onBackdropPress,
+      onStop,
+      overlayColor = "black",
+      overlayOpacity = 0.45,
+      spotPadding = 16,
+      steps,
+    } = props;
 
-  const [current, setCurrent] = useState<number>();
-  const [spot, setSpot] = useState(ZERO_SPOT);
+    const [current, setCurrent] = useState<number>();
+    const [spot, setSpot] = useState(ZERO_SPOT);
 
-  const overlay = useRef<TourOverlayRef>({
-    hideTooltip: () => Promise.resolve({ finished: false }),
-  });
-
-  const renderStep = useCallback((index: number): void | Promise<void> => {
-    const step = steps[index];
-
-    if (step !== undefined) {
-      return Promise.all([
-        overlay.current.hideTooltip(),
-        Promise.resolve().then(step.before),
-      ])
-      .then(() => setCurrent(index));
-    }
-  }, [steps]);
-
-  const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
-    setSpot(newSpot);
-  }, []);
-
-  const start = useCallback((): void => {
-    renderStep(0);
-  }, [renderStep]);
-
-  const stop = useCallback((): void => {
-    setCurrent(prev => {
-      if (prev !== undefined) {
-        onStop?.({ index: prev, isLast: prev === steps.length - 1 });
-      }
-      return undefined;
+    const overlay = useRef<TourOverlayRef>({
+      hideTooltip: () => Promise.resolve({ finished: false }),
     });
-    setSpot(ZERO_SPOT);
-  }, [onStop]);
 
-  const next = useCallback((): void => {
-    if (current !== undefined) {
-      current === steps.length - 1
-        ? stop()
-        : renderStep(current + 1);
-    }
-  }, [stop, renderStep, current, steps.length]);
+    const renderStep = useCallback(
+      (index: number): void | Promise<void> => {
+        const step = steps[index];
 
-  const previous = useCallback((): void => {
-    if (current !== undefined && current > 0) {
-      renderStep(current - 1);
-    }
-  }, [renderStep, current]);
+        if (step !== undefined) {
+          return Promise.all([
+            overlay.current.hideTooltip(),
+            Promise.resolve().then(step.before),
+          ]).then(() => setCurrent(index));
+        }
+      },
+      [steps],
+    );
 
-  const goTo = useCallback((index: number): void => {
-    renderStep(index);
-  }, [renderStep]);
+    const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
+      setSpot(newSpot);
+    }, []);
 
-  const currentStep = useMemo((): TourStep => {
-    const step = current !== undefined
-      ? steps[current]
-      : undefined;
+    const start = useCallback((): void => {
+      renderStep(0);
+    }, [renderStep]);
 
-    return step ?? { position: Position.BOTTOM, render: () => <></> };
-  }, [steps, current]);
+    const stop = useCallback((): void => {
+      setCurrent(prev => {
+        if (prev !== undefined) {
+          onStop?.({ index: prev, isLast: prev === steps.length - 1 });
+        }
+        return undefined;
+      });
+      setSpot(ZERO_SPOT);
+    }, [onStop]);
 
-  const tour = useMemo((): SpotlightTourCtx => ({
-    changeSpot,
-    current,
-    goTo,
-    next,
-    previous,
-    spot,
-    start,
-    steps,
-    stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
-
-  useImperativeHandle(ref, () => ({
-    current,
-    goTo,
-    next,
-    previous,
-    start,
-    stop,
-  }));
-
-  return (
-    <SpotlightTourContext.Provider value={tour}>
-      {isChildFunction(children)
-        ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
-        : <>{children}</>
+    const next = useCallback((): void => {
+      if (current !== undefined) {
+        current === steps.length - 1 ? stop() : renderStep(current + 1);
       }
+    }, [stop, renderStep, current, steps.length]);
 
-      <TourOverlay
-        ref={overlay}
-        color={overlayColor}
-        current={current}
-        backdropOpacity={overlayOpacity}
-        onBackdropPress={onBackdropPress}
-        spot={spot}
-        tourStep={currentStep}
-        nativeDriver={nativeDriver}
-        motion={motion}
-        padding={spotPadding}
-      />
-    </SpotlightTourContext.Provider>
-  );
-});
+    const previous = useCallback((): void => {
+      if (current !== undefined && current > 0) {
+        renderStep(current - 1);
+      }
+    }, [renderStep, current]);
+
+    const goTo = useCallback(
+      (index: number): void => {
+        renderStep(index);
+      }, [renderStep],
+    );
+
+    const currentStep = useMemo((): TourStep => {
+      const step = current !== undefined ? steps[current] : undefined;
+
+      return step ?? { floatingProps: { placement: "bottom" }, render: () => <></> };
+    }, [steps, current]);
+
+    const floatingUiConfigurations = useMemo(
+      (): FloatingProps => currentStep.floatingProps ?? floatingMiddlewareProps,
+      [floatingMiddlewareProps, currentStep],
+    );
+
+    const tour = useMemo(
+      (): SpotlightTourCtx => ({
+        changeSpot,
+        current,
+        floatingUiConfigurations,
+        goTo,
+        next,
+        previous,
+        spot,
+        start,
+        steps,
+        stop,
+      }),
+      [changeSpot, current, floatingUiConfigurations, goTo, next, previous, spot, start, steps, stop],
+    );
+
+    useImperativeHandle(ref, () => ({
+      current,
+      goTo,
+      next,
+      previous,
+      start,
+      stop,
+    }));
+
+    return (
+      <SpotlightTourContext.Provider value={tour}>
+        {isChildFunction(children) ? (
+          <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
+        ) : (
+          <>{children}</>
+        )}
+
+        <TourOverlay
+          backdropOpacity={overlayOpacity}
+          color={overlayColor}
+          current={current}
+          motion={motion}
+          nativeDriver={nativeDriver}
+          onBackdropPress={onBackdropPress}
+          padding={spotPadding}
+          ref={overlay}
+          spot={spot}
+          tourStep={currentStep}
+        />
+      </SpotlightTourContext.Provider>
+    );
+  },
+);

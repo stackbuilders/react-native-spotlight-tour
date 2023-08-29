@@ -74,9 +74,23 @@ export interface StopParams {
   isLast: boolean;
 }
 
+/**
+ * Configuration object which accepts Floatin Ui
+ * middleware, placement and sameScrollView configurations.
+ */
 export interface FloatingProps {
+  /**
+   * Array of middleware objects to modify the positioning or provide data for
+   * rendering.
+   */
   middleware?: Middleware[];
+  /**
+   * Where to place the floating element relative to the reference element.
+   */
   placement?: Placement;
+  /**
+   * `true` for same scroll view, `false` otherwise.
+   */
   sameScrollView?: boolean;
 }
 
@@ -92,6 +106,9 @@ export interface TourStep {
   /**
    * Specifies {@link FloatingProps} in order to configure Floating UI
    * in a specific tour step layout.
+   *
+   * @default middlewares: [flip(), offset(4), shift()]
+   * @default placement: "bottom"
    */
   floatingProps?: FloatingProps;
   /**
@@ -161,6 +178,9 @@ export interface SpotlightTourCtx extends SpotlightTour {
   /**
    * Specifies {@link FloatingProps} in order to configure Floating UI
    * in all tour steps layout.
+   *
+   * @default middlewares: [flip(), offset(4), shift()]
+   * @default placement: "bottom"
    */
   floatingUiConfigurations: FloatingProps;
   /**

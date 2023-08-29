@@ -12,8 +12,11 @@
 [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@stackbuilders/react-native-spotlight-tour)](https://snyk.io/)
 
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
-compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight
-effect. This library handles animations at the native level and is perfect for the following:
+compatible). It uses [Floating UI](https://floating-ui.com) under the hood in order to handle elements
+positioning, it re-exports all floating ui middlewares so they can be configured in the tour.
+It also allows you to implement a highly customizable tour feature with an awesome spotlight effect.
+This library handles animations at the native level and is perfect
+for the following:
 
 * Guiding users on how to use your application
 * Showing an introduction to your users
@@ -144,9 +147,9 @@ const tourSteps: TourStep[] = [{
     render: props => (
       <TourBox
         title="Tour: Customization"
-        titleStyle={{ 
-          fontFamily: 'Roboto', 
-          color: '#90EE90', 
+        titleStyle={{
+          fontFamily: 'Roboto',
+          color: '#90EE90',
           fontWeight: 'bold'
         }}
         backText="Previous"
@@ -192,11 +195,11 @@ Besides above customizations, you can also define the transition animation [see 
 
 
 ```tsx
-import { 
+import {
   Align
   AttachStep,
   Position,
-  SpotlightTourProvider, 
+  SpotlightTourProvider,
   TourStep,
   TourBox
 } from "@stackbuilders/react-native-spotlight-tour";
@@ -223,7 +226,7 @@ const tourSteps: TourStep[] = [{
   }];
 
 return (
-  <SpotlightTourProvider 
+  <SpotlightTourProvider
     steps={tourSteps}
     overlayColor={"gray"}
     overlayOpacity={0.36}

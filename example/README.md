@@ -21,7 +21,7 @@ For running the Android example, use:
 yarn android
 ```
 
-Finally, to start the react server you could use: 
+Finally, to start the react server you could use:
 ```
 yarn start
 ```

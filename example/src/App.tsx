@@ -69,10 +69,6 @@ export function App(): ReactElement {
       </TourBox>
     ),
   }, {
-    floatingProps: {
-      middleware: [offset(4), shift()],
-      placement: "top",
-    },
     before() {
       return new Promise<void>(resolve => {
         Animated.spring(gap, {
@@ -83,6 +79,10 @@ export function App(): ReactElement {
         })
         .start(() => resolve());
       });
+    },
+    floatingProps: {
+      middleware: [offset(4), shift()],
+      placement: "top",
     },
     render: ({ previous, stop }) => (
       <SpotDescriptionView>

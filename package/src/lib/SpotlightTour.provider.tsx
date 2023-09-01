@@ -176,8 +176,8 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   }, [renderStep, current]);
 
   const goTo = useCallback((index: number): void => {
-      renderStep(index);
-    }, [renderStep]);
+    renderStep(index);
+  }, [renderStep]);
 
   const currentStep = useMemo((): TourStep => {
     const step = current !== undefined

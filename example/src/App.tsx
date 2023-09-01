@@ -7,8 +7,8 @@ import {
   flip,
   offset,
   shift,
+  StopParams,
 } from "@stackbuilders/react-native-spotlight-tour";
-import { StopParams } from "@stackbuilders/react-native-spotlight-tour/dist/lib/SpotlightTour.context";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 

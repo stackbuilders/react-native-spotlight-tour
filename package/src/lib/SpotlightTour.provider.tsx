@@ -132,19 +132,16 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     hideTooltip: () => Promise.resolve({ finished: false }),
   });
 
-  const renderStep = useCallback(
-    (index: number): void | Promise<void> => {
-      const step = steps[index];
+  const renderStep = useCallback((index: number): void | Promise<void> => {
+    const step = steps[index];
 
-      if (step !== undefined) {
-        return Promise.all([
-          overlay.current.hideTooltip(),
-          Promise.resolve().then(step.before),
-        ]).then(() => setCurrent(index));
-      }
-    },
-    [steps],
-  );
+    if (step !== undefined) {
+      return Promise.all([
+        overlay.current.hideTooltip(),
+        Promise.resolve().then(step.before),
+      ]).then(() => setCurrent(index));
+    }
+  }, [steps]);
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
@@ -166,7 +163,9 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const next = useCallback((): void => {
     if (current !== undefined) {
-      current === steps.length - 1 ? stop() : renderStep(current + 1);
+      current === steps.length - 1
+        ? stop()
+        : renderStep(current + 1);
     }
   }, [stop, renderStep, current, steps.length]);
 
@@ -176,14 +175,14 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     }
   }, [renderStep, current]);
 
-  const goTo = useCallback(
-    (index: number): void => {
+  const goTo = useCallback((index: number): void => {
       renderStep(index);
-    }, [renderStep],
-  );
+    }, [renderStep]);
 
   const currentStep = useMemo((): TourStep => {
-    const step = current !== undefined ? steps[current] : undefined;
+    const step = current !== undefined
+      ? steps[current]
+      : undefined;
 
     return step ?? { floatingProps: { placement: "bottom" }, render: () => <></> };
   }, [steps, current]);
@@ -193,21 +192,18 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     [floatingMiddlewareProps, currentStep],
   );
 
-  const tour = useMemo(
-    (): SpotlightTourCtx => ({
-      changeSpot,
-      current,
-      floatingUiConfigurations,
-      goTo,
-      next,
-      previous,
-      spot,
-      start,
-      steps,
-      stop,
-    }),
-    [changeSpot, current, floatingUiConfigurations, goTo, next, previous, spot, start, steps, stop],
-  );
+  const tour = useMemo((): SpotlightTourCtx => ({
+    changeSpot,
+    current,
+    floatingUiConfigurations,
+    goTo,
+    next,
+    previous,
+    spot,
+    start,
+    steps,
+    stop,
+  }), [changeSpot, current, floatingUiConfigurations, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,

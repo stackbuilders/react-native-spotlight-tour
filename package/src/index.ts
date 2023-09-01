@@ -17,6 +17,7 @@ export {
   OSConfig,
   RenderProps,
   SpotlightTour,
+  StopParams,
   TourStep,
   useSpotlightTour,
 } from "./lib/SpotlightTour.context";

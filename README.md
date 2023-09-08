@@ -13,7 +13,7 @@
 
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
 compatible). It uses [Floating UI](https://floating-ui.com) under the hood in order to handle elements
-positioning, it re-exports all floating ui middlewares so they can be configured in the tour.
+positioning, it re-exports all floating-ui middlewares to be configured in the tour.
 It also allows you to implement a highly customizable tour feature with an awesome spotlight effect.
 This library handles animations at the native level and is perfect
 for the following:
@@ -57,7 +57,16 @@ const mySteps: TourStep[] = [
 ];
 
 return (
-  <SpotlightTourProvider steps={mySteps} overlayColor={"gray"} overlayOpacity={0.36}>
+  <SpotlightTourProvider
+    steps={mySteps}
+    overlayColor={"gray"}
+    overlayOpacity={0.36}
+    // This configurations will apply to all steps
+    floatingProps={{
+      middleware:[offset(5), shift(), flip()],
+      placement: "bottom",
+    }}
+  >
     {({ start }) => (
       <>
         <Button title="Start" onPress={start} />
@@ -87,6 +96,9 @@ return (
 );
 ```
 
+Floating-UI props can be defined in the `<SpotlightTourProvider/>` and this will be applied to all tour steps. If no configuration is given it will take a dafault with the next values:
+`middlewares: [flip(), offset(4), shift()]` and `placement: "bottom"`.
+
 The tour requires an array of steps to be configured, which will map directly to each `<AttachStep />` index. Bellow is a complete example of a `TourStep` array:
 
 ```tsx
@@ -97,7 +109,11 @@ import {
 } from "@stackbuilders/react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [{
-  alignTo: Align.SCREEN,
+  // This configurations will apply just for this step
+  floatingProps:{
+    middleware: [offset(0), shift(), flip()],
+    placement: "right",
+  },
   render: ({ next }) => (
     <View>
       <Text>This is the first step of tour!</Text>
@@ -105,7 +121,6 @@ const mySteps: TourStep[] = [{
     </View>
   )
 }, {
-  alignTo: Align.SPOT,
   before: () => {
     return DataService.fetchData()
       .then(setData);
@@ -125,6 +140,8 @@ const mySteps: TourStep[] = [{
 }];
 ```
 
+Floating-UI props can be defined in each step for a custom configuration. If no floating configuration is specified in the step it will take the one defined in the `<SpotlightTourProvider/>`.
+
 You can also find a complete example [here](example/).
 
 ## Built-in Helper Components
@@ -136,14 +153,11 @@ You can take advantage of the built-in customizable components. For example, our
 ```tsx
 import {
   Align,
-  Position,
   TourBox,
   TourStep,
 } from "@stackbuilders/react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     render: props => (
       <TourBox
         title="Tour: Customization"
@@ -198,15 +212,12 @@ Besides above customizations, you can also define the transition animation [see 
 import {
   Align
   AttachStep,
-  Position,
   SpotlightTourProvider,
   TourStep,
   TourBox
 } from "@stackbuilders/react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     motion: "fade",
     onBackdropPress: "stop",
     render: props => (

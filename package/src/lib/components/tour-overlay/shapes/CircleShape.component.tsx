@@ -16,7 +16,7 @@ interface CircleShapeProps {
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeDriver, tourStep }) => {
-  const { current, floatingUiConfigurations, spot, steps, next, previous, goTo, stop } =
+  const { current, floatingProps, spot, steps, next, previous, goTo, stop } =
     useContext(SpotlightTourContext);
 
   const center = useRef(new Animated.ValueXY({ x: 0, y: 0 }, { useNativeDriver }));
@@ -31,7 +31,7 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeD
     return current === steps.length - 1;
   }, [current, steps]);
 
-  const { refs, floatingStyles } = useFloating(floatingUiConfigurations);
+  const { refs, floatingStyles } = useFloating(floatingProps);
 
   useEffect(() => {
     const { height, width, x, y } = spot;

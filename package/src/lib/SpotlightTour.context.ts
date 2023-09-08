@@ -182,7 +182,7 @@ export interface SpotlightTourCtx extends SpotlightTour {
    * @default middlewares: [flip(), offset(4), shift()]
    * @default placement: "bottom"
    */
-  floatingUiConfigurations: FloatingProps;
+  floatingProps: FloatingProps;
   /**
    * The spotlight layout.
    */
@@ -202,7 +202,7 @@ export const ZERO_SPOT: LayoutRectangle = {
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
-  floatingUiConfigurations: {},
+  floatingProps: {},
   goTo: () => undefined,
   next: () => undefined,
   previous: () => undefined,

@@ -114,7 +114,7 @@ const DEFAULT_FLOATING_PROPS: FloatingProps = {
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
-    floatingProps: floatingMiddlewareProps = DEFAULT_FLOATING_PROPS,
+    floatingProps = DEFAULT_FLOATING_PROPS,
     motion = "bounce",
     nativeDriver = true,
     onBackdropPress,
@@ -184,18 +184,18 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       ? steps[current]
       : undefined;
 
-    return step ?? { floatingProps: { placement: "bottom" }, render: () => <></> };
+    return step ?? { floatingProps, render: () => <></> };
   }, [steps, current]);
 
   const floatingUiConfigurations = useMemo(
-    (): FloatingProps => currentStep.floatingProps ?? floatingMiddlewareProps,
-    [floatingMiddlewareProps, currentStep],
+    (): FloatingProps => currentStep.floatingProps ?? floatingProps,
+    [floatingProps, currentStep],
   );
 
   const tour = useMemo((): SpotlightTourCtx => ({
     changeSpot,
     current,
-    floatingUiConfigurations,
+    floatingProps: floatingUiConfigurations,
     goTo,
     next,
     previous,
@@ -216,11 +216,10 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   return (
     <SpotlightTourContext.Provider value={tour}>
-      {isChildFunction(children) ? (
-        <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
-      ) : (
-        <>{children}</>
-      )}
+      {isChildFunction(children)
+        ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
+        : <>{children}</>
+      }
 
       <TourOverlay
         backdropOpacity={overlayOpacity}

@@ -1,3 +1,4 @@
+import { useFloating } from "@floating-ui/react-native";
 import React, {
   forwardRef,
   useCallback,
@@ -20,6 +21,7 @@ import { Optional } from "../../../helpers/common";
 import { vhDP, vwDP } from "../../../helpers/responsive";
 import {
   BackdropPressBehavior,
+  FloatingProps,
   Motion,
   OSConfig,
   SpotlightTourContext,
@@ -37,6 +39,7 @@ interface TourOverlayProps {
   backdropOpacity: number;
   color: ColorValue;
   current: Optional<number>;
+  floatingProps: FloatingProps;
   motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
@@ -50,6 +53,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     backdropOpacity,
     color,
     current,
+    floatingProps,
     motion,
     nativeDriver,
     onBackdropPress,
@@ -58,7 +62,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     tourStep,
   } = props;
 
-  const { goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
+  const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
+  const { refs, floatingStyles } = useFloating(tourStep.floatingProps ?? floatingProps);
 
   const tooltipOpacity = useRef(new Animated.Value(0));
 
@@ -144,7 +149,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height="100%" width="100%" fill="#fff" />
               <CircleShape
-                tourStep={tourStep}
+                setReference={refs.setReference}
                 motion={tourStep.motion ?? motion}
                 padding={padding}
                 useNativeDriver={useNativeDriver}
@@ -159,6 +164,26 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             opacity={backdropOpacity}
           />
         </Svg>
+
+        {current !== undefined && (
+          <Animated.View
+            ref={refs.setFloating}
+            testID="Tooltip View"
+            style={{ ...floatingStyles, opacity: tooltipOpacity.current }}
+          >
+            <>
+              <tourStep.render
+                current={current}
+                isFirst={current === 0}
+                isLast={current === steps.length - 1}
+                next={next}
+                previous={previous}
+                stop={stop}
+                goTo={goTo}
+              />
+            </>
+          </Animated.View>
+        )}
       </OverlayView>
     </Modal>
   );

@@ -103,18 +103,16 @@ export interface SpotlightTourProviderProps {
   steps: TourStep[];
 }
 
-const DEFAULT_FLOATING_PROPS: FloatingProps = {
-  middleware: [flip(), offset(4), shift()],
-  placement: "bottom",
-};
-
 /**
  * React provider component to get access to the SpotlightTour context.
  */
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
-    floatingProps = DEFAULT_FLOATING_PROPS,
+    floatingProps = {
+      middleware: [flip(), offset(4), shift()],
+      placement: "bottom",
+    },
     motion = "bounce",
     nativeDriver = true,
     onBackdropPress,
@@ -187,15 +185,9 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     return step ?? { floatingProps, render: () => <></> };
   }, [steps, current]);
 
-  const floatingUiConfigurations = useMemo(
-    (): FloatingProps => currentStep.floatingProps ?? floatingProps,
-    [floatingProps, currentStep],
-  );
-
   const tour = useMemo((): SpotlightTourCtx => ({
     changeSpot,
     current,
-    floatingProps: floatingUiConfigurations,
     goTo,
     next,
     previous,
@@ -203,7 +195,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     start,
     steps,
     stop,
-  }), [changeSpot, current, floatingUiConfigurations, goTo, next, previous, spot, start, steps, stop]);
+  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,
@@ -225,6 +217,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}
+        floatingProps={floatingProps}
         motion={motion}
         nativeDriver={nativeDriver}
         onBackdropPress={onBackdropPress}

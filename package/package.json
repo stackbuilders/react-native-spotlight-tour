@@ -35,7 +35,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@floating-ui/react-native": "^0.10.0",
+    "@floating-ui/react-native": "^0.10.1",
     "fast-equals": "^5.0.1",
     "react-native-responsive-dimensions": "^3.1.1",
     "styled-components": "^5.3.9"

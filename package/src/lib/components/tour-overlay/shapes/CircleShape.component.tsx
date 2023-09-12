@@ -1,37 +1,29 @@
-import { useFloating } from "@floating-ui/react-native";
 import { deepEqual } from "fast-equals";
-import React, { memo, useCallback, useContext, useEffect, useMemo, useRef } from "react";
+import React, { memo, useContext, useEffect, useRef } from "react";
 import { Animated, MeasureInWindowOnSuccessCallback } from "react-native";
 import { Circle } from "react-native-svg";
 
-import { Motion, SpotlightTourContext, TourStep } from "../../../SpotlightTour.context";
+import { Motion, SpotlightTourContext } from "../../../SpotlightTour.context";
+
+interface RefNode {
+  measure: (callback: MeasureInWindowOnSuccessCallback) => void;
+}
 
 interface CircleShapeProps {
   motion: Motion;
   padding: number;
-  tourStep: TourStep;
+  setReference: (node?: RefNode) => void;
   useNativeDriver: boolean;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeDriver, tourStep }) => {
-  const { current, floatingProps, spot, steps, next, previous, goTo, stop } =
-    useContext(SpotlightTourContext);
+export const CircleShape = memo<CircleShapeProps>(({ motion, padding, setReference, useNativeDriver }) => {
+  const { spot } = useContext(SpotlightTourContext);
 
   const center = useRef(new Animated.ValueXY({ x: 0, y: 0 }, { useNativeDriver }));
   const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
   const radius = useRef(new Animated.Value(0, { useNativeDriver }));
-
-  const isFirstStep = useMemo((): boolean => {
-    return current === 0;
-  }, [current]);
-
-  const isLastStep = useMemo((): boolean => {
-    return current === steps.length - 1;
-  }, [current, steps]);
-
-  const { refs, floatingStyles } = useFloating(floatingProps);
 
   useEffect(() => {
     const { height, width, x, y } = spot;
@@ -39,9 +31,10 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeD
     const cx = x + width / 2;
     const cy = y + height / 2;
 
-    refs.setReference({
-      measure: (callback: MeasureInWindowOnSuccessCallback) =>
-        callback(cx - r, cy - r, r * 2, r * 2),
+    setReference({
+      measure: callback => {
+        callback(cx - r, cy - r, r * 2, r * 2);
+      },
     });
 
     const transition = (): Animated.CompositeAnimation => {
@@ -111,14 +104,9 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeD
     };
 
     transition().start();
-  }, [spot, padding, motion, useNativeDriver]);
 
-  const measureAnimatedCircle = useCallback((): void => {
-    refs.setReference({
-      measure: (callback: MeasureInWindowOnSuccessCallback) =>
-        callback(spot.x, spot.y, spot.width, spot.height),
-    });
-  }, [spot]);
+    return () => setReference(undefined);
+  }, [spot, setReference, padding, motion, useNativeDriver]);
 
   if ([spot.height, spot.width].every(value => value <= 0)) {
     return null;
@@ -127,28 +115,12 @@ export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeD
   return (
     <>
       <AnimatedCircle
-        ref={measureAnimatedCircle}
         r={radius.current}
         cx={center.current.x}
         cy={center.current.y}
         opacity={opacity.current}
         fill="black"
       />
-      <Animated.View ref={refs.setFloating} testID="Tooltip View" style={floatingStyles}>
-        {current !== undefined && (
-          <>
-            <tourStep.render
-              current={current}
-              isFirst={isFirstStep}
-              isLast={isLastStep}
-              next={next}
-              previous={previous}
-              stop={stop}
-              goTo={goTo}
-            />
-          </>
-        )}
-      </Animated.View>
     </>
   );
 }, deepEqual);

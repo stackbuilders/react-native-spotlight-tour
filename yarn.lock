@@ -1775,7 +1775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react-native@npm:^0.10.0":
+"@floating-ui/react-native@npm:^0.10.1":
   version: 0.10.1
   resolution: "@floating-ui/react-native@npm:0.10.1"
   dependencies:
@@ -3298,7 +3298,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.21.3
     "@babel/preset-env": ^7.20.2
-    "@floating-ui/react-native": ^0.10.0
+    "@floating-ui/react-native": ^0.10.1
     "@stackbuilders/assertive-ts": ^1.2.0
     "@testing-library/jest-native": ^5.4.2
     "@testing-library/react-native": ^11.5.4

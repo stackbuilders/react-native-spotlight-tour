@@ -34,7 +34,7 @@ export function App(): ReactElement {
   }, []);
 
   const tourSteps = useMemo((): TourStep[] => [{
-    floatingProps:{
+    floatingProps: {
       middleware: [offset(0), shift(), flip()],
       placement: "right",
     },

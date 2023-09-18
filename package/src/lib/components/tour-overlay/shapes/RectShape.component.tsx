@@ -3,7 +3,7 @@ import isEqual from "react-fast-compare";
 import { Animated } from "react-native";
 import { Rect } from "react-native-svg";
 
-import { ShapeProps } from "./shape.types";
+import { ShapeProps, transitionOf } from "../../../../helpers/shape";
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
@@ -31,73 +31,17 @@ export const RectShape = memo<ShapeProps>(props => {
   const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
 
   useEffect(() => {
-    const transition = (): Animated.CompositeAnimation => {
-      switch (motion) {
-        case "bounce":
-          opacity.current.setValue(1);
+    const transition = transitionOf({
+      motion,
+      nextOrigin: { x, y },
+      nextSize: { x: width, y: height },
+      opacity,
+      origin,
+      size,
+      useNativeDriver,
+    });
 
-          return Animated.parallel([
-            Animated.spring(origin.current, {
-              damping: 45,
-              mass: 4,
-              stiffness: 350,
-              toValue: { x, y },
-              useNativeDriver,
-            }),
-            Animated.spring(size.current, {
-              damping: 35,
-              mass: 4,
-              stiffness: 350,
-              toValue: { x: width, y: height },
-              useNativeDriver,
-            }),
-          ]);
-
-        case "fade":
-          return Animated.sequence([
-            Animated.timing(opacity.current, {
-              duration: 400,
-              toValue: 0,
-              useNativeDriver,
-            }),
-            Animated.parallel([
-              Animated.timing(origin.current, {
-                duration: 0,
-                toValue: { x, y },
-                useNativeDriver,
-              }),
-              Animated.timing(size.current, {
-                duration: 0,
-                toValue: { x: width, y: height },
-                useNativeDriver,
-              }),
-            ]),
-            Animated.timing(opacity.current, {
-              duration: 400,
-              toValue: 1,
-              useNativeDriver,
-            }),
-          ]);
-
-        case "slide":
-          opacity.current.setValue(1);
-
-          return Animated.parallel([
-            Animated.timing(origin.current, {
-              duration: 400,
-              toValue: { x, y },
-              useNativeDriver,
-            }),
-            Animated.timing(size.current, {
-              duration: 400,
-              toValue: { x: width, y: height },
-              useNativeDriver,
-            }),
-          ]);
-      }
-    };
-
-    transition().start();
+    transition.start();
 
     setReference({
       measure: callback => {

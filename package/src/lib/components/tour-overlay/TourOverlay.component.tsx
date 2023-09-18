@@ -20,6 +20,7 @@ import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { Optional } from "../../../helpers/common";
 import { vhDP, vwDP } from "../../../helpers/responsive";
+import { ShapeProps } from "../../../helpers/shape";
 import {
   BackdropPressBehavior,
   FloatingProps,
@@ -33,7 +34,6 @@ import {
 import { OverlayView } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 import { RectShape } from "./shapes/RectShape.component";
-import { ShapeProps } from "./shapes/shape.types";
 
 export interface TourOverlayRef {
   hideTooltip: () => Promise<Animated.EndResult>;

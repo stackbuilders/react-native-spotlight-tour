@@ -11,7 +11,7 @@ import { LayoutRectangle } from "react-native";
 export type Motion = "bounce" | "slide" | "fade";
 
 /**
- * Possible shape fro the tour spotlight:
+ * Possible shape for the tour spotlight:
  * - `circle`
  * - `rectangle`
  */

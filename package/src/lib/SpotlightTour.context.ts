@@ -10,6 +10,13 @@ import { LayoutRectangle } from "react-native";
  */
 export type Motion = "bounce" | "slide" | "fade";
 
+/**
+ * Possible shape for the tour spotlight:
+ * - `circle`
+ * - `rectangle`
+ */
+export type Shape = "circle" | "rectangle";
+
 export interface RenderProps {
   /**
    * The index of the current step the tour is on.
@@ -137,6 +144,13 @@ export interface TourStep {
    * tour within the tooltip.
    */
   render: (props: RenderProps) => ReactElement;
+  /**
+   * Specifies the spotlight shape for the step. You can set the default shape
+   * globally on the `SpotlightTourProvider` props too.
+   *
+   * @default circle
+   */
+  shape?: Shape;
 }
 
 export interface SpotlightTour {

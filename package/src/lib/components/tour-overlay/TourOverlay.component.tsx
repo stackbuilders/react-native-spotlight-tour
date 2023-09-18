@@ -1,5 +1,6 @@
 import { useFloating } from "@floating-ui/react-native";
 import React, {
+  ComponentType,
   forwardRef,
   useCallback,
   useContext,
@@ -19,17 +20,20 @@ import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { Optional } from "../../../helpers/common";
 import { vhDP, vwDP } from "../../../helpers/responsive";
+import { ShapeProps } from "../../../helpers/shape";
 import {
   BackdropPressBehavior,
   FloatingProps,
   Motion,
   OSConfig,
+  Shape,
   SpotlightTourContext,
   TourStep,
 } from "../../SpotlightTour.context";
 
 import { OverlayView } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
+import { RectShape } from "./shapes/RectShape.component";
 
 export interface TourOverlayRef {
   hideTooltip: () => Promise<Animated.EndResult>;
@@ -44,6 +48,7 @@ interface TourOverlayProps {
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
   padding: number;
+  shape: Shape;
   spot: LayoutRectangle;
   tourStep: TourStep;
 }
@@ -58,6 +63,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     nativeDriver,
     onBackdropPress,
     padding,
+    shape,
     spot,
     tourStep,
   } = props;
@@ -66,6 +72,14 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   const { refs, floatingStyles } = useFloating(tourStep.floatingProps ?? floatingProps);
 
   const tooltipOpacity = useRef(new Animated.Value(0));
+
+  const stepMotion = useMemo((): Motion => {
+    return tourStep.motion ?? motion;
+  }, [tourStep, motion]);
+
+  const stepShape = useMemo((): Shape => {
+    return tourStep.shape ?? shape;
+  }, [tourStep, shape]);
 
   const useNativeDriver = useMemo(() => {
     const driverConfig: OSConfig<boolean> = typeof nativeDriver === "boolean"
@@ -79,6 +93,13 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       web: false,
     });
   }, [nativeDriver]);
+
+  const ShapeMask = useMemo(<P extends ShapeProps>(): ComponentType<P> => {
+    switch (stepShape) {
+      case "circle": return CircleShape;
+      case "rectangle": return RectShape;
+    }
+  }, [stepShape]);
 
   const handleBackdropPress = useCallback((): void => {
     const handler = tourStep.onBackdropPress ?? onBackdropPress;
@@ -148,9 +169,10 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height="100%" width="100%" fill="#fff" />
-              <CircleShape
+              <ShapeMask
+                spot={spot}
                 setReference={refs.setReference}
-                motion={tourStep.motion ?? motion}
+                motion={stepMotion}
                 padding={padding}
                 useNativeDriver={useNativeDriver}
               />

@@ -16,6 +16,7 @@ import {
   Motion,
   OSConfig,
   StopParams,
+  Shape,
   SpotlightTour,
   SpotlightTourContext,
   SpotlightTourCtx,
@@ -90,6 +91,13 @@ export interface SpotlightTourProviderProps {
    */
   overlayOpacity?: number;
   /**
+   * Sets the default spotlight shape for all steps. You can override this
+   * value on each step too.
+   *
+   * @default circle
+   */
+  shape?: Shape;
+  /**
    * Defines the padding of the spot shape based on the wrapped component, so a
    * zero padding means the spot shape will fit exaclty around the wrapped
    * component. The padding value is a number in points.
@@ -119,6 +127,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     onStop,
     overlayColor = "black",
     overlayOpacity = 0.45,
+    shape = "circle",
     spotPadding = 16,
     steps,
   } = props;
@@ -223,6 +232,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         onBackdropPress={onBackdropPress}
         padding={spotPadding}
         ref={overlay}
+        shape={shape}
         spot={spot}
         tourStep={currentStep}
       />

@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.20.2",
     "@testing-library/react-native": "^11.5.4",
     "@types/jest": "^29.5.5",
-    "@types/node": "^18.17.17",
+    "@types/node": "^20.6.2",
     "@types/react-test-renderer": "^18.0.2",
     "@types/sinon": "^10.0.16",
     "babel-jest": "^29.7.0",
@@ -65,7 +65,7 @@
     "typedoc": "^0.25.1",
     "typedoc-plugin-markdown": "^3.16.0",
     "typedoc-plugin-merge-modules": "^5.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

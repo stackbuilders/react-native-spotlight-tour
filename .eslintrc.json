@@ -9,7 +9,11 @@
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project": ["./tsconfig.json", "./example/tsconfig.json"]
+        "project": [
+          "./tsconfig.json",
+          "./package/tsconfig.json",
+          "./example/tsconfig.json"
+        ]
       }
     },
     "react": {
@@ -18,7 +22,11 @@
   },
   "parserOptions": {
     "ecmaVersion": "latest",
-    "project": ["./tsconfig.json", "./example/tsconfig.json"],
+    "project": [
+      "./tsconfig.json",
+      "./package/tsconfig.json",
+      "./example/tsconfig.json"
+    ],
     "sourceType": "module"
   },
   "plugins": [
@@ -28,7 +36,8 @@
     "eslint-plugin-jsdoc",
     "eslint-plugin-react",
     "etc",
-    "react-hooks"
+    "react-hooks",
+    "sonarjs"
   ],
   "extends": [
     "eslint:recommended",
@@ -36,7 +45,8 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:etc/recommended",
     "plugin:import/typescript",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:sonarjs/recommended"
   ],
   "overrides": [{
     "files": "*.ts?(x)",
@@ -113,6 +123,7 @@
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-non-null-assertion": "error",
+    "@typescript-eslint/no-redundant-type-constituents": "error",
     "@typescript-eslint/no-shadow": ["error", { "hoist": "all" }],
     "@typescript-eslint/no-unused-expressions": ["error", { "allowTernary": true }],
     "@typescript-eslint/no-unused-vars": ["error", {
@@ -160,7 +171,10 @@
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "import/newline-after-import": "error",
     "import/no-absolute-path": "error",
-    "import/no-cycle": ["error", { "ignoreExternal": true }],
+    "import/no-cycle": ["error", {
+      "allowUnsafeDynamicCyclicDependency": true,
+      "ignoreExternal": true
+    }],
     "import/no-duplicates": "error",
     "import/no-import-module-exports": "error",
     "import/no-namespace": "error",
@@ -177,7 +191,7 @@
     }],
     "jsdoc/check-alignment": "error",
     "jsdoc/check-indentation": ["error", { "excludeTags": ["example", "param", "returns"] }],
-    "jsdoc/newline-after-description": "error",
+    "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
     "jsx-quotes": "error",
     "keyword-spacing": "error",
     "linebreak-style": "error",
@@ -219,6 +233,7 @@
     "radix": "error",
     "rest-spread-spacing": "error",
     "react/display-name": "off",
+    "react/hook-use-state": "error",
     "react/jsx-boolean-value": ["error", "always"],
     "react/jsx-closing-bracket-location": "error",
     "react/jsx-curly-spacing": ["error", { "when": "never" }],
@@ -228,11 +243,15 @@
       "when": "multiline"
     }],
     "react/jsx-no-bind": "error",
+    "react/jsx-no-literals": "error",
     "react/jsx-tag-spacing": "error",
     "react/prop-types": "off",
     "react/self-closing-comp": "error",
     "react-hooks/rules-of-hooks": "error",
     "semi-spacing": "error",
+    "sonarjs/cognitive-complexity": "off",
+    "sonarjs/no-duplicate-string": "off",
+    "sonarjs/no-inverted-boolean-check": "error",
     "sort-keys": "error",
     "space-before-blocks": "error",
     "space-in-parens": "error",

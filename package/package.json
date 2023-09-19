@@ -34,6 +34,7 @@
     "release": "semantic-release",
     "test": "jest"
   },
+  "packageManager": "yarn@3.6.3",
   "dependencies": {
     "@floating-ui/react-native": "^0.10.1",
     "react-fast-compare": "^3.2.2",

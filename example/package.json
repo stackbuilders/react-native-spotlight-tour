@@ -16,6 +16,7 @@
   "installConfig": {
     "hoistingLimits": "workspaces"
   },
+  "packageManager": "yarn@3.6.3",
   "dependencies": {
     "@cometlib/dedent": "^0.8.0-es.10",
     "@stackbuilders/react-native-spotlight-tour": "workspace:^",

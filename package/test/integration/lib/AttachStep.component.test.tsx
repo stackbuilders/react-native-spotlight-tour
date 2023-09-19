@@ -1,4 +1,4 @@
-import { expect } from "@stackbuilders/assertive-ts";
+import { expect } from "@assertive-ts/core";
 import { render, waitFor, within } from "@testing-library/react-native";
 import React, { forwardRef, ReactElement } from "react";
 import { Text } from "react-native";

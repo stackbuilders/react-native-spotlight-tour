@@ -19,11 +19,11 @@
   "packageManager": "yarn@3.6.3",
   "dependencies": {
     "@cometlib/dedent": "^0.8.0-es.10",
-    "@stackbuilders/react-native-spotlight-tour": "workspace:^",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-native": "0.72.4",
+    "react-native-spotlight-tour": "workspace:^",
     "react-native-svg": "^13.13.0",
     "react-native-web": "^0.19.8",
     "styled-components": "^6.0.8"

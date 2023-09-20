@@ -1,4 +1,6 @@
 import dedent from "@cometlib/dedent";
+import React, { ReactElement, useCallback, useMemo, useRef } from "react";
+import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 import {
   AttachStep,
   SpotlightTourProvider,
@@ -8,9 +10,7 @@ import {
   offset,
   shift,
   StopParams,
-} from "@stackbuilders/react-native-spotlight-tour";
-import React, { ReactElement, useCallback, useMemo, useRef } from "react";
-import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
+} from "react-native-spotlight-tour";
 
 import {
   BoldText,

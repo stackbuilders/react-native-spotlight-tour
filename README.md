@@ -50,7 +50,7 @@ $ yarn add @stackbuilders/react-native-spotlight-tour
 To be able to use the tour, you'll need to wrap everything around a `SpotlightTourProvider`. This provider component will also give you access to a hook to retrieve the `SpotlightTour` context, which gives information and fine control over the tour.
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
   // ...
@@ -106,7 +106,7 @@ import {
   Align,
   TourStep,
   useSpotlightTour
-} from "@stackbuilders/react-native-spotlight-tour";
+} from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [{
   // This configurations will apply just for this step
@@ -155,7 +155,7 @@ import {
   Align,
   TourBox,
   TourStep,
-} from "@stackbuilders/react-native-spotlight-tour";
+} from "react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
     render: props => (

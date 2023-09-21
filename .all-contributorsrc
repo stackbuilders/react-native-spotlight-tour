@@ -126,6 +126,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "well1791",
+      "name": "Wellington Mendoza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6817008?v=4",
+      "profile": "https://github.com/well1791",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,

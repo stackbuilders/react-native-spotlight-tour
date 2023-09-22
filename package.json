@@ -16,6 +16,7 @@
     "docs": "yarn workspace react-native-spotlight-tour docs",
     "ios": "yarn workspace example ios",
     "lint": "eslint .",
+    "release": "turbo release --concurrency=1",
     "start": "turbo start",
     "start:reset": "turbo start:reset",
     "test": "turbo test"

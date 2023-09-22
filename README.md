@@ -49,7 +49,7 @@ $ yarn add react-native-spotlight-tour
 
 This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgraging from v2 to v3:
 
-- The package has been rename from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
+- The package has been renamed from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
   - Dont worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!
   - Remove the former package from your dependencies and use the command described in the [Install section](#install)
   - Rename any import from the previous name to use just `react-native-spotlight-tour` instead

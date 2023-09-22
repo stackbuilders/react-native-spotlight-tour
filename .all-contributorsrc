@@ -136,6 +136,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "ChristianSama",
+      "name": "Christian Samaniego",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43491324?v=4",
+      "profile": "https://github.com/ChristianSama",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -88,5 +88,9 @@
     "react-native-svg": {
       "optional": false
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

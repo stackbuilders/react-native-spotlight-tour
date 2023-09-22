@@ -9,7 +9,7 @@
 [![NPM downloads](https://img.shields.io/npm/dm/react-native-spotlight-tour)](https://www.npmjs.com/package/react-native-spotlight-tour)
 [![NPM license](https://img.shields.io/npm/l/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/blob/main/LICENSE)
 [![GitHub Release Date](https://img.shields.io/github/release-date/stackbuilders/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/releases)
-[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/react-native-spotlight-tour)](https://snyk.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/stackbuilders/react-native-spotlight-tour/badge.svg)](https://snyk.io/test/github/stackbuilders/react-native-spotlight-tour)
 
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
 compatible). It uses [Floating UI](https://floating-ui.com) under the hood in order to handle elements

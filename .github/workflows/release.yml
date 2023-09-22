@@ -2,8 +2,7 @@
 name: Release
 
 on:
-  push:
-    branches: [release]
+  workflow_dispatch:
 
 concurrency:
   group: release
@@ -16,6 +15,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [build]
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -24,10 +28,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: yarn
       - run: yarn install --immutable
+      - run: yarn build
       - run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pages:
     uses: ./.github/workflows/pages.yml

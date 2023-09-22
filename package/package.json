@@ -47,7 +47,7 @@
     "@babel/preset-env": "^7.22.20",
     "@testing-library/react-native": "^12.3.0",
     "@types/jest": "^29.5.5",
-    "@types/node": "^20.6.2",
+    "@types/node": "^20.6.3",
     "@types/react-test-renderer": "^18.0.2",
     "@types/sinon": "^10.0.16",
     "babel-jest": "^29.7.0",
@@ -57,9 +57,10 @@
     "react": "^18.2.0",
     "react-is": "^18.2.0",
     "react-native": "0.72.4",
-    "react-native-svg": "^13.13.0",
+    "react-native-svg": "^13.14.0",
     "react-test-renderer": "^18.2.0",
     "semantic-release": "^22.0.1",
+    "semantic-release-yarn": "^2.0.1",
     "sinon": "^16.0.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
@@ -70,12 +71,16 @@
   },
   "peerDependencies": {
     "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
     "react-native": ">=0.50.0",
     "react-native-svg": ">=12.1.0"
   },
   "peerDependenciesMeta": {
     "react": {
       "optional": false
+    },
+    "react-dom": {
+      "optional": true
     },
     "react-native": {
       "optional": false

@@ -24,6 +24,7 @@ for the following:
 <span><img src="docs/rnst-bounce.gif" alt="spotlight-bounce-gif" width="300"/></span>
 <span><img src="docs/rnst-fade.gif" alt="spotlight-fade-gif" width="300"/></span>
 <span><img src="docs/rnst-slide.gif" alt="spotlight-slide-gif" width="300"/></span>
+<span><img src="docs/rnst-rect.gif" alt="spotlight-rect-gif" width="300"/></span>
 
 ## Requirements
 

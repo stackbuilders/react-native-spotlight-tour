@@ -59,7 +59,7 @@ This major update brings a few fixes, some great new features, and some breaking
     - Both `Align` and `Position` enums were removed
     - Both `alignTo` and `position` props were removed
   - We now delegate the positioning to [FloatingUI](https://floating-ui.com/), so you can use the `floatingProps` prop to configure its global behavior or granularly on each step.
-  - Middleware functions are re-xported from `@floating-ui/react-native` so you can directly import them from `react-native-spotlight-tour`.
+  - Middleware functions are re-exported from `@floating-ui/react-native` to `react-native-spotlight-tour`.
   - You may not need to do changes on `floatingProps` since the default behavior is very similar to v2
 
 ## Usage

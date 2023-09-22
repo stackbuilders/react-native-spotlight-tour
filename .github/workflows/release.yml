@@ -28,6 +28,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: yarn
       - run: yarn install --immutable
+      - run: cp ./README.md ./package/README.md
       - run: yarn build
       - run: yarn release
         env:

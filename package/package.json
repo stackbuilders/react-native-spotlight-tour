@@ -59,7 +59,7 @@
     "react-native": "0.72.4",
     "react-native-svg": "^13.13.0",
     "react-test-renderer": "^18.2.0",
-    "semantic-release": "^22.0.0",
+    "semantic-release": "^22.0.1",
     "sinon": "^16.0.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",

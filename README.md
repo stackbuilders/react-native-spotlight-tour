@@ -5,11 +5,11 @@
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
 [![Release](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml)
-[![NPM version](https://img.shields.io/npm/v/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
-[![NPM downloads](https://img.shields.io/npm/dm/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
-[![NPM license](https://img.shields.io/npm/l/@stackbuilders/react-native-spotlight-tour)](./LICENSE)
+[![NPM version](https://img.shields.io/npm/v/react-native-spotlight-tour)](https://www.npmjs.com/package/react-native-spotlight-tour)
+[![NPM downloads](https://img.shields.io/npm/dm/react-native-spotlight-tour)](https://www.npmjs.com/package/react-native-spotlight-tour)
+[![NPM license](https://img.shields.io/npm/l/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/blob/main/LICENSE)
 [![GitHub Release Date](https://img.shields.io/github/release-date/stackbuilders/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/releases)
-[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@stackbuilders/react-native-spotlight-tour)](https://snyk.io/)
+[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/react-native-spotlight-tour)](https://snyk.io/)
 
 `react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
 compatible). It uses [Floating UI](https://floating-ui.com) under the hood in order to handle elements
@@ -18,42 +18,67 @@ It also allows you to implement a highly customizable tour feature with an aweso
 This library handles animations at the native level and is perfect
 for the following:
 
-* Guiding users on how to use your application
-* Showing an introduction to your users
+- Guiding users on how to use your application
+- Showing an introduction to your users
 
 <span><img src="docs/rnst-bounce.gif" alt="spotlight-bounce-gif" width="300"/></span>
 <span><img src="docs/rnst-fade.gif" alt="spotlight-fade-gif" width="300"/></span>
 <span><img src="docs/rnst-slide.gif" alt="spotlight-slide-gif" width="300"/></span>
+<span><img src="docs/rnst-rect.gif" alt="spotlight-rect-gif" width="300"/></span>
 
 ## Requirements
 
-* [ReactJS](https://reactjs.org/) >= 16.8.0
-* [React Native](https://reactnative.dev/) >= 0.50.0
-* [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
+- [ReactJS](https://reactjs.org/) >= 16.8.0
+- [React Native](https://reactnative.dev/) >= 0.50.0
+- [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
 
 ## Install
 
 With `npm`:
 
 ```bash
-$ npm install @stackbuilders/react-native-spotlight-tour
+$ npm install react-native-spotlight-tour
 ```
 
 With `yarn`:
 
 ```bash
-$ yarn add @stackbuilders/react-native-spotlight-tour
+$ yarn add react-native-spotlight-tour
 ```
+
+## 🚨 Breaking changes: v2 to v3
+
+This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgraging from v2 to v3:
+
+- The package has been renamed from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
+  - Dont worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!
+  - Remove the former package from your dependencies and use the command described in the [Install section](#install)
+  - Rename any import from the previous name to use just `react-native-spotlight-tour` instead
+- Tooltip positioning was refactored
+  - Props related to the tooltip position were removed from `SpotlightTourProvider` and the `TourStep` object.
+    - Both `Align` and `Position` enums were removed
+    - Both `alignTo` and `position` props were removed
+  - We now delegate the positioning to [FloatingUI](https://floating-ui.com/), so you can use the `floatingProps` prop to configure its global behavior or granularly on each step.
+  - Middleware functions are re-exported from `@floating-ui/react-native` to `react-native-spotlight-tour`.
+  - You may not need to do changes on `floatingProps` since the default behavior is very similar to v2
 
 ## Usage
 
 To be able to use the tour, you'll need to wrap everything around a `SpotlightTourProvider`. This provider component will also give you access to a hook to retrieve the `SpotlightTour` context, which gives information and fine control over the tour.
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotlight-tour";
+import { Button, Text, View } from "react-native";
+import {
+  AttachStep,
+  SpotlightTourProvider,
+  TourStep,
+  flip,
+  offset,
+  shift,
+} from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
-  // ...
+  // ...setup the steps
 ];
 
 return (
@@ -84,7 +109,7 @@ return (
 
         <View>
           <AttachStep index={1}>
-            <TitleText>Documentation</TitleText>
+            <Text>Documentation</Text>
           </AttachStep>
           <DescriptionText>
             Please, read the documentation before installing.
@@ -102,6 +127,7 @@ Floating-UI props can be defined in the `<SpotlightTourProvider/>` and this will
 The tour requires an array of steps to be configured, which will map directly to each `<AttachStep />` index. Bellow is a complete example of a `TourStep` array:
 
 ```tsx
+import { Button, Text, View } from "react-native";
 import {
   Align,
   TourStep,
@@ -151,11 +177,8 @@ You can take advantage of the built-in customizable components. For example, our
 
 
 ```tsx
-import {
-  Align,
-  TourBox,
-  TourStep,
-} from "react-native-spotlight-tour";
+import { Text } from "react-native";
+import { Align, TourBox, TourStep } from "react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
     render: props => (
@@ -187,7 +210,7 @@ The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlig
 
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
   // ...
@@ -209,13 +232,14 @@ Besides above customizations, you can also define the transition animation [see 
 
 
 ```tsx
+import { Button, Text, View } from "react-native";
 import {
   Align
   AttachStep,
   SpotlightTourProvider,
   TourStep,
   TourBox
-} from "@stackbuilders/react-native-spotlight-tour";
+} from "react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
     motion: "fade",

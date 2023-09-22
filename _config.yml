@@ -1,4 +1,7 @@
 ---
+exclude:
+  - example/
+  - node_modules/
 
 remote_theme: mmistakes/minimal-mistakes
 
@@ -36,5 +39,3 @@ footer:
     - label: LinkedIn
       icon: fab fa-fw fa-linkedin
       url: https://www.linkedin.com/company/stack-builders/
-
-...

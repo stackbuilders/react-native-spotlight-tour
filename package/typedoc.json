@@ -10,7 +10,7 @@
   "mergeModulesMergeMode": "project",
   "mergeModulesRenameDefaults": true,
   "name": "React Native Spotlight Tour - API Reference",
-  "out": "./docs/build",
+  "out": "../docs/build",
   "plugin": [
     "typedoc-plugin-markdown",
     "typedoc-plugin-merge-modules"

@@ -3,7 +3,8 @@ name: CI
 
 on:
   push:
-    branches-ignore: [release]
+    branches: [main]
+  pull_request:
   workflow_call:
 
 concurrency:

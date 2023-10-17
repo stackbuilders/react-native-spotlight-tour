@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -325,6 +325,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/alejo0o"><img src="https://avatars.githubusercontent.com/u/60680371?v=4?s=100" width="100px;" alt="Alejandro Vivanco"/><br /><sub><b>Alejandro Vivanco</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alejo0o" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3Aalejo0o" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/well1791"><img src="https://avatars.githubusercontent.com/u/6817008?v=4?s=100" width="100px;" alt="Wellington Mendoza"/><br /><sub><b>Wellington Mendoza</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3Awell1791" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChristianSama"><img src="https://avatars.githubusercontent.com/u/43491324?v=4?s=100" width="100px;" alt="Christian Samaniego"/><br /><sub><b>Christian Samaniego</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3AChristianSama" title="Reviewed Pull Requests">👀</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/beKoool"><img src="https://avatars.githubusercontent.com/u/76424367?v=4?s=100" width="100px;" alt="beKool.sh"/><br /><sub><b>beKool.sh</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=beKoool" title="Documentation">📖</a></td>
     </tr>
   </tbody>
   <tfoot>

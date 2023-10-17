@@ -145,6 +145,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "beKoool",
+      "name": "beKool.sh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/76424367?v=4",
+      "profile": "https://github.com/beKoool",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -23,6 +23,7 @@ import {
   TourStep,
   ZERO_SPOT,
   FloatingProps,
+  SpotOverlayProps,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
@@ -98,6 +99,10 @@ export interface SpotlightTourProviderProps {
    */
   shape?: Shape;
   /**
+   * Define the props for an overlay on top of the spot, if applicable.
+   */
+  spotOverlayProps?: SpotOverlayProps;
+  /**
    * Defines the padding of the spot shape based on the wrapped component, so a
    * zero padding means the spot shape will fit exaclty around the wrapped
    * component. The padding value is a number in points.
@@ -128,6 +133,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     overlayColor = "black",
     overlayOpacity = 0.45,
     shape = "circle",
+    spotOverlayProps,
     spotPadding = 16,
     steps,
   } = props;
@@ -234,6 +240,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         ref={overlay}
         shape={shape}
         spot={spot}
+        spotOverlayProps={spotOverlayProps}
         tourStep={currentStep}
       />
     </SpotlightTourContext.Provider>

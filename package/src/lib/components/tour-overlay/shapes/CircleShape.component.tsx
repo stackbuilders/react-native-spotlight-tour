@@ -8,7 +8,7 @@ import { ShapeProps, transitionOf } from "../../../../helpers/shape";
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export const CircleShape = memo<ShapeProps>(props => {
-  const { motion, padding, setReference, spot, useNativeDriver } = props;
+  const { fill, fillOpacity, motion, padding, setReference, spot, useNativeDriver } = props;
 
   const r = useMemo((): number => {
     return Math.max(spot.width, spot.height) / 2 + padding;
@@ -60,7 +60,8 @@ export const CircleShape = memo<ShapeProps>(props => {
         cx={center.current.x}
         cy={center.current.y}
         opacity={opacity.current}
-        fill="black"
+        fill={fill ?? "black"}
+        fillOpacity={fillOpacity}
       />
     </>
   );

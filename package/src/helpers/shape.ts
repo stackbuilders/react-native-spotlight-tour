@@ -8,6 +8,8 @@ interface RefNode {
 }
 
 export interface ShapeProps {
+  fill?: string | undefined;
+  fillOpacity?: number | undefined;
   motion: Motion;
   padding: number;
   setReference: (node?: RefNode) => void;

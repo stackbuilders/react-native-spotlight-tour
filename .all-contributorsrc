@@ -124,7 +124,35 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/60680371?v=4",
       "profile": "https://github.com/alejo0o",
       "contributions": [
-        "code"
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "well1791",
+      "name": "Wellington Mendoza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6817008?v=4",
+      "profile": "https://github.com/well1791",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "ChristianSama",
+      "name": "Christian Samaniego",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43491324?v=4",
+      "profile": "https://github.com/ChristianSama",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "beKoool",
+      "name": "beKool.sh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/76424367?v=4",
+      "profile": "https://github.com/beKoool",
+      "contributions": [
+        "doc"
       ]
     }
   ],

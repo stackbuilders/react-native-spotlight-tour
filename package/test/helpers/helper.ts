@@ -127,7 +127,7 @@ export function isAnimatedTimingInterpolation(
   value: TimingAnimatedValue,
 ): value is Animated.AnimatedInterpolation<number> {
   return typeof value === "object"
-    && value instanceof Animated.AnimatedInterpolation<number>;
+    && value instanceof Animated.AnimatedInterpolation;
 }
 
 export function isAnimatedValue(value: AnimatedValue): value is Animated.Value {

@@ -18,16 +18,22 @@
     "noUnusedParameters": true,
     "outDir": "./build",
     "plugins": [{
-      "name": "typescript-styled-plugin",
+      "name": "@styled/typescript-styled-plugin",
       "lint": {
+        "boxModel": "error",
         "duplicateProperties": "error",
+        // "emptyRules": "error", // https://github.com/styled-components/typescript-styled-plugin/issues/4
+        "float": "error",
+        "fontFaceProperties": "error",
+        "ieHack": "error",
+        "importStatement": "error",
         "important": "error",
-        "validProperties": [
-          "aspect-ratio",
-          "elevation",
-          "padding-horizontal",
-          "padding-vertical"
-        ]
+        "propertyIgnoredDueToDisplay": "error",
+        "universalSelector": "error",
+        "unknownProperties": "error",
+        "unknownVendorSpecificProperties": "error",
+        "validProperties": [],
+        "zeroUnits": "error"
       }
     }],
     "pretty": true,

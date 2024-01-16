@@ -1,5 +1,14 @@
 import hash from "object-hash";
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
+import { flip, offset, shift } from "@floating-ui/react-native";
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 import { useMMKVStorage } from "react-native-mmkv-storage";
 
@@ -12,12 +21,13 @@ import {
   Motion,
   OSConfig,
   StopParams,
-  Position,
+  Shape,
   SpotlightTour,
   SpotlightTourContext,
   SpotlightTourCtx,
   TourStep,
   ZERO_SPOT,
+  FloatingProps,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
@@ -35,6 +45,14 @@ export interface SpotlightTourProviderProps {
    * argument.
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
+  /**
+   * Specifies {@link FloatingProps} in order to configure Floating UI
+   * in all tour steps layout.
+   *
+   * @default middlewares: [flip(), offset(4), shift()]
+   * @default placement: "bottom"
+   */
+  floatingProps?: FloatingProps;
   /**
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
@@ -90,6 +108,13 @@ export interface SpotlightTourProviderProps {
    */
   overlayOpacity?: number;
   /**
+   * Sets the default spotlight shape for all steps. You can override this
+   * value on each step too.
+   *
+   * @default circle
+   */
+  shape?: Shape;
+  /**
    * Defines the padding of the spot shape based on the wrapped component, so a
    * zero padding means the spot shape will fit exaclty around the wrapped
    * component. The padding value is a number in points.
@@ -110,12 +135,17 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   const {
     autoStart = "never",
     children,
+    floatingProps = {
+      middleware: [flip(), offset(4), shift()],
+      placement: "bottom",
+    },
     motion = "bounce",
     nativeDriver = true,
     onBackdropPress,
     onStop,
     overlayColor = "black",
     overlayOpacity = 0.45,
+    shape = "circle",
     spotPadding = 16,
     steps,
     onStart,
@@ -136,8 +166,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       return Promise.all([
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
-      ])
-        .then(() => setCurrent(index));
+      ]).then(() => setCurrent(index));
     }
   }, [steps]);
 
@@ -199,7 +228,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       ? steps[current]
       : undefined;
 
-    return step ?? { position: Position.BOTTOM, render: () => <></> };
+    return step ?? { floatingProps, render: () => <></> };
   }, [steps, current]);
 
   const tour = useMemo((): SpotlightTourCtx => ({
@@ -231,16 +260,18 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       }
 
       <TourOverlay
-        ref={overlay}
+        backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}
-        backdropOpacity={overlayOpacity}
+        floatingProps={floatingProps}
+        motion={motion}
+        nativeDriver={nativeDriver}
         onBackdropPress={onBackdropPress}
+        padding={spotPadding}
+        ref={overlay}
+        shape={shape}
         spot={spot}
         tourStep={currentStep}
-        nativeDriver={nativeDriver}
-        motion={motion}
-        padding={spotPadding}
       />
     </SpotlightTourContext.Provider>
   );

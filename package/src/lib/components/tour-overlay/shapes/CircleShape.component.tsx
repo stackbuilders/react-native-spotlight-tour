@@ -1,111 +1,67 @@
-import { deepEqual } from "fast-equals";
-import React, { memo, useContext, useEffect, useRef } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
+import isEqual from "react-fast-compare";
 import { Animated } from "react-native";
 import { Circle } from "react-native-svg";
 
-import { Motion, SpotlightTourContext } from "../../../SpotlightTour.context";
-
-interface CircleShapeProps {
-  motion: Motion;
-  padding: number;
-  useNativeDriver: boolean;
-}
+import { ShapeProps, transitionOf } from "../../../../helpers/shape";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export const CircleShape = memo<CircleShapeProps>(({ motion, padding, useNativeDriver }) => {
-  const { spot } = useContext(SpotlightTourContext);
+export const CircleShape = memo<ShapeProps>(props => {
+  const { motion, padding, setReference, spot, useNativeDriver } = props;
 
-  const center = useRef(new Animated.ValueXY({ x: 0, y: 0 }, { useNativeDriver }));
+  const r = useMemo((): number => {
+    return Math.max(spot.width, spot.height) / 2 + padding;
+  }, [spot.width, spot.height, padding]);
+
+  const x = useMemo((): number => {
+    return spot.x + spot.width / 2;
+  }, [spot.x, spot.width]);
+
+  const y = useMemo((): number => {
+    return spot.y + spot.height / 2;
+  }, [spot.y, spot.height]);
+
+  const center = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver }));
+  const radius = useRef(new Animated.Value(r, { useNativeDriver }));
   const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
-  const radius = useRef(new Animated.Value(0, { useNativeDriver }));
 
   useEffect(() => {
-    const { height, width, x, y } = spot;
-    const r = (Math.max(width, height) / 2) + padding;
-    const cx = x + (width / 2);
-    const cy = y + (height / 2);
+    const transition = transitionOf({
+      motion,
+      nextOrigin: { x, y },
+      nextSize: r,
+      opacity,
+      origin: center,
+      size: radius,
+      useNativeDriver,
+    });
 
-    const transition = (): Animated.CompositeAnimation => {
-      switch (motion) {
-        case "bounce":
-          opacity.current.setValue(1);
+    transition.start();
 
-          return Animated.parallel([
-            Animated.spring(center.current, {
-              damping: 45,
-              mass: 4,
-              stiffness: 350,
-              toValue: { x: cx, y: cy },
-              useNativeDriver,
-            }),
-            Animated.spring(radius.current, {
-              damping: 35,
-              mass: 4,
-              stiffness: 350,
-              toValue: r,
-              useNativeDriver,
-            }),
-          ]);
+    setReference({
+      measure: callback => {
+        const r2 = r * 2;
+        callback(x - r, y - r, r2, r2);
+      },
+    });
 
-        case "fade":
-          return Animated.sequence([
-            Animated.timing(opacity.current, {
-              duration: 400,
-              toValue: 0,
-              useNativeDriver,
-            }),
-            Animated.parallel([
-              Animated.timing(center.current, {
-                duration: 0,
-                toValue: { x: cx, y: cy },
-                useNativeDriver,
-              }),
-              Animated.timing(radius.current, {
-                duration: 0,
-                toValue: r,
-                useNativeDriver,
-              }),
-            ]),
-            Animated.timing(opacity.current, {
-              duration: 400,
-              toValue: 1,
-              useNativeDriver,
-            }),
-          ]);
-
-        case "slide":
-          opacity.current.setValue(1);
-
-          return Animated.parallel([
-            Animated.timing(center.current, {
-              duration: 400,
-              toValue: { x: cx, y: cy },
-              useNativeDriver,
-            }),
-            Animated.timing(radius.current, {
-              duration: 400,
-              toValue: r,
-              useNativeDriver,
-            }),
-          ]);
-      }
-    };
-
-    transition().start();
-  }, [spot, padding, motion, useNativeDriver]);
+    return () => setReference(undefined);
+  }, [r, x, y, setReference, motion, useNativeDriver]);
 
   if ([spot.height, spot.width].every(value => value <= 0)) {
     return null;
   }
 
   return (
-    <AnimatedCircle
-      r={radius.current}
-      cx={center.current.x}
-      cy={center.current.y}
-      opacity={opacity.current}
-      fill="black"
-    />
+    <>
+      <AnimatedCircle
+        r={radius.current}
+        cx={center.current.x}
+        cy={center.current.y}
+        opacity={opacity.current}
+        fill="black"
+      />
+    </>
   );
-}, deepEqual);
+}, isEqual);

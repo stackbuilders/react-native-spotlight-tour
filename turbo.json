@@ -16,7 +16,7 @@
     },
     "release": {
       "cache": false,
-      "dependsOn": ["^compile", "^build"]
+      "dependsOn": ["^build"]
     },
     "start": {
       "cache": false,

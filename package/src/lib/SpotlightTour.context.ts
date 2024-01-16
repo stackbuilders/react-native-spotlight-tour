@@ -1,29 +1,6 @@
+import { Middleware, Placement } from "@floating-ui/react-native";
 import { createContext, ReactElement, useContext } from "react";
 import { LayoutRectangle } from "react-native";
-
-/**
- * Possible alignments of the tour tooltip:
- * - `Align.SCREEN`: The tooltip alignment is relative to the whole screen.
- * - `Align.SPOT`: The tooltip alignment is relative to the rendered step spot.
- */
-export enum Align {
-  SCREEN = "screen",
-  SPOT = "spot",
-}
-
-/**
- * Possible positions of the tour tooltip:
- * - `Position.BOTTOM`
- * - `Position.LEFT`
- * - `Position.RIGHT`
- * - `Position.TOP`
- */
-export enum Position {
-  BOTTOM = "bottom",
-  LEFT = "left",
-  RIGHT = "right",
-  TOP = "top",
-}
 
 /**
  * Possible motion effect for the tour spotlight:
@@ -37,6 +14,13 @@ export type Motion = "bounce" | "slide" | "fade";
  * Possible tour autostart options
  */
 export type AutoStartOptions = "never" | "always" | "once";
+
+/**
+ * Possible shape for the tour spotlight:
+ * - `circle`
+ * - `rectangle`
+ */
+export type Shape = "circle" | "rectangle";
 
 export interface RenderProps {
   /**
@@ -102,15 +86,27 @@ export interface StopParams {
   isLast: boolean;
 }
 
-export interface TourStep {
+/**
+ * Configuration object which accepts Floatin Ui
+ * middleware, placement and sameScrollView configurations.
+ */
+export interface FloatingProps {
   /**
-   * Defines the tooltip alignment behavior:
-   * - `Align.SCREEN`: Relative to whole screen.
-   * - `Align.SPOT`: Relative to the current position of the spotlight.
-   *
-   * @default Align.SPOT
+   * Array of middleware objects to modify the positioning or provide data for
+   * rendering.
    */
-  alignTo?: Align;
+  middleware?: Middleware[];
+  /**
+   * Where to place the floating element relative to the reference element.
+   */
+  placement?: Placement;
+  /**
+   * `true` for same scroll view, `false` otherwise.
+   */
+  sameScrollView?: boolean;
+}
+
+export interface TourStep {
   /**
    * Hook called right before the step starts. Useful to run effects or
    * animations required fo the step to show correctly. If a promise is
@@ -119,6 +115,14 @@ export interface TourStep {
    * @default undefined
    */
   before?: () => void | Promise<void>;
+  /**
+   * Specifies {@link FloatingProps} in order to configure Floating UI
+   * in a specific tour step layout.
+   *
+   * @default middlewares: [flip(), offset(4), shift()]
+   * @default placement: "bottom"
+   */
+  floatingProps?: FloatingProps;
   /**
    * Specifies the transition motion for the step. You can set the default
    * motion globally on the `SpotlightTourProvider` props too.
@@ -140,19 +144,18 @@ export interface TourStep {
    */
   onBackdropPress?: BackdropPressBehavior;
   /**
-   * Defines the postition of tooltip respect to the spotlight. The options are:
-   * - `Position.BOTTOM`
-   * - `Position.LEFT`
-   * - `Position.RIGHT`
-   * - `Position.TOP`
-   */
-  position: Position;
-  /**
    * A function or React function component to render the tooltip of the step.
    * It receives the {@link RenderProps} so you can access the context of the
    * tour within the tooltip.
    */
   render: (props: RenderProps) => ReactElement;
+  /**
+   * Specifies the spotlight shape for the step. You can set the default shape
+   * globally on the `SpotlightTourProvider` props too.
+   *
+   * @default circle
+   */
+  shape?: Shape;
 }
 
 export interface SpotlightTour {

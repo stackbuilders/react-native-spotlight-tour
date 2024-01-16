@@ -1,15 +1,7 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 
-import {
-  Align,
-  AttachStep,
-  Position,
-  SpotlightTourProvider,
-  TourStep,
-  useSpotlightTour,
-  AutoStartOptions,
-} from "../../src";
+import { AttachStep, AutoStartOptions, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";
 
 interface TestScreenProps {
   autoStart?: AutoStartOptions;
@@ -17,8 +9,9 @@ interface TestScreenProps {
 }
 
 export const BASE_STEP: TourStep = {
-  alignTo: Align.SCREEN,
-  position: Position.BOTTOM,
+  floatingProps:{
+    placement: "bottom",
+  },
   render: ({ current, next, previous, stop }) => (
     <View>
       <Text>{`Step ${current + 1}`}</Text>
@@ -60,7 +53,7 @@ const TestComponent: React.FC = () => {
 
 const defaultSteps = [
   BASE_STEP,
-  { ...BASE_STEP, position: Position.TOP },
+  { ...BASE_STEP },
 ];
 
 export const TestScreen: React.FC<TestScreenProps> = ({ steps, autoStart }) => {

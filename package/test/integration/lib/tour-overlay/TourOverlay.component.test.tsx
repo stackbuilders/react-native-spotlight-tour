@@ -1,4 +1,4 @@
-import { expect } from "@stackbuilders/assertive-ts";
+import { expect } from "@assertive-ts/core";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";

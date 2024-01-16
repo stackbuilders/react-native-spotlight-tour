@@ -1,60 +1,97 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
 [![Release](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/release.yml)
-[![NPM version](https://img.shields.io/npm/v/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
-[![NPM downloads](https://img.shields.io/npm/dm/@stackbuilders/react-native-spotlight-tour)](https://www.npmjs.com/package/@stackbuilders/react-native-spotlight-tour)
-[![NPM license](https://img.shields.io/npm/l/@stackbuilders/react-native-spotlight-tour)](./LICENSE)
+[![NPM version](https://img.shields.io/npm/v/react-native-spotlight-tour)](https://www.npmjs.com/package/react-native-spotlight-tour)
+[![NPM downloads](https://img.shields.io/npm/dm/react-native-spotlight-tour)](https://www.npmjs.com/package/react-native-spotlight-tour)
+[![NPM license](https://img.shields.io/npm/l/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/blob/main/LICENSE)
 [![GitHub Release Date](https://img.shields.io/github/release-date/stackbuilders/react-native-spotlight-tour)](https://github.com/stackbuilders/react-native-spotlight-tour/releases)
-[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@stackbuilders/react-native-spotlight-tour)](https://snyk.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/stackbuilders/react-native-spotlight-tour/badge.svg)](https://snyk.io/test/github/stackbuilders/react-native-spotlight-tour)
 
-`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web 
-compatible). It allows you to implement a highly customizable tour feature with an awesome spotlight 
-effect. This library handles animations at the native level and is perfect for the following:
+`react-native-spotlight-tour` is a simple and intuitive library for React Native (Android, iOS, and Web
+compatible). It uses [Floating UI](https://floating-ui.com) under the hood in order to handle elements
+positioning, it re-exports all floating-ui middlewares to be configured in the tour.
+It also allows you to implement a highly customizable tour feature with an awesome spotlight effect.
+This library handles animations at the native level and is perfect
+for the following:
 
-* Guiding users on how to use your application
-* Showing an introduction to your users
+- Guiding users on how to use your application
+- Showing an introduction to your users
 
 <span><img src="docs/rnst-bounce.gif" alt="spotlight-bounce-gif" width="300"/></span>
 <span><img src="docs/rnst-fade.gif" alt="spotlight-fade-gif" width="300"/></span>
 <span><img src="docs/rnst-slide.gif" alt="spotlight-slide-gif" width="300"/></span>
+<span><img src="docs/rnst-rect.gif" alt="spotlight-rect-gif" width="300"/></span>
 
 ## Requirements
 
-* [ReactJS](https://reactjs.org/) >= 16.8.0
-* [React Native](https://reactnative.dev/) >= 0.50.0
-* [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
+- [ReactJS](https://reactjs.org/) >= 16.8.0
+- [React Native](https://reactnative.dev/) >= 0.50.0
+- [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
 
 ## Install
 
 With `npm`:
 
 ```bash
-$ npm install @stackbuilders/react-native-spotlight-tour
+$ npm install react-native-spotlight-tour
 ```
 
 With `yarn`:
 
 ```bash
-$ yarn add @stackbuilders/react-native-spotlight-tour
+$ yarn add react-native-spotlight-tour
 ```
+
+## 🚨 Breaking changes: v2 to v3
+
+This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgraging from v2 to v3:
+
+- The package has been renamed from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
+  - Dont worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!
+  - Remove the former package from your dependencies and use the command described in the [Install section](#install)
+  - Rename any import from the previous name to use just `react-native-spotlight-tour` instead
+- Tooltip positioning was refactored
+  - Props related to the tooltip position were removed from `SpotlightTourProvider` and the `TourStep` object.
+    - Both `Align` and `Position` enums were removed
+    - Both `alignTo` and `position` props were removed
+  - We now delegate the positioning to [FloatingUI](https://floating-ui.com/), so you can use the `floatingProps` prop to configure its global behavior or granularly on each step.
+  - Middleware functions are re-exported from `@floating-ui/react-native` to `react-native-spotlight-tour`.
+  - You may not need to do changes on `floatingProps` since the default behavior is very similar to v2
 
 ## Usage
 
 To be able to use the tour, you'll need to wrap everything around a `SpotlightTourProvider`. This provider component will also give you access to a hook to retrieve the `SpotlightTour` context, which gives information and fine control over the tour.
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+import { Button, Text, View } from "react-native";
+import {
+  AttachStep,
+  SpotlightTourProvider,
+  TourStep,
+  flip,
+  offset,
+  shift,
+} from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
-  // ...
+  // ...setup the steps
 ];
 
 return (
-  <SpotlightTourProvider steps={mySteps} overlayColor={"gray"} overlayOpacity={0.36}>
+  <SpotlightTourProvider
+    steps={mySteps}
+    overlayColor={"gray"}
+    overlayOpacity={0.36}
+    // This configurations will apply to all steps
+    floatingProps={{
+      middleware:[offset(5), shift(), flip()],
+      placement: "bottom",
+    }}
+  >
     {({ start }) => (
       <>
         <Button title="Start" onPress={start} />
@@ -72,7 +109,7 @@ return (
 
         <View>
           <AttachStep index={1}>
-            <TitleText>Documentation</TitleText>
+            <Text>Documentation</Text>
           </AttachStep>
           <DescriptionText>
             Please, read the documentation before installing.
@@ -84,19 +121,25 @@ return (
 );
 ```
 
+Floating-UI props can be defined in the `<SpotlightTourProvider/>` and this will be applied to all tour steps. If no configuration is given it will take a dafault with the next values:
+`middlewares: [flip(), offset(4), shift()]` and `placement: "bottom"`.
+
 The tour requires an array of steps to be configured, which will map directly to each `<AttachStep />` index. Bellow is a complete example of a `TourStep` array:
 
 ```tsx
+import { Button, Text, View } from "react-native";
 import {
   Align,
-  Position,
   TourStep,
   useSpotlightTour
-} from "@stackbuilders/react-native-spotlight-tour";
+} from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [{
-  alignTo: Align.SCREEN,
-  position: Position.BOTTOM,
+  // This configurations will apply just for this step
+  floatingProps:{
+    middleware: [offset(0), shift(), flip()],
+    placement: "right",
+  },
   render: ({ next }) => (
     <View>
       <Text>This is the first step of tour!</Text>
@@ -104,12 +147,10 @@ const mySteps: TourStep[] = [{
     </View>
   )
 }, {
-  alignTo: Align.SPOT,
   before: () => {
     return DataService.fetchData()
       .then(setData);
   },
-  position: Position.RIGHT,
   render: () => {
     // You can also use the hook inside the step component!
     const { previous, stop } = useSpotlightTour();
@@ -125,6 +166,8 @@ const mySteps: TourStep[] = [{
 }];
 ```
 
+Floating-UI props can be defined in each step for a custom configuration. If no floating configuration is specified in the step it will take the one defined in the `<SpotlightTourProvider/>`.
+
 You can also find a complete example [here](example/).
 
 ## Built-in Helper Components
@@ -134,22 +177,16 @@ You can take advantage of the built-in customizable components. For example, our
 
 
 ```tsx
-import {
-  Align,
-  Position,
-  TourBox,
-  TourStep,
-} from "@stackbuilders/react-native-spotlight-tour";
+import { Text } from "react-native";
+import { Align, TourBox, TourStep } from "react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     render: props => (
       <TourBox
         title="Tour: Customization"
-        titleStyle={{ 
-          fontFamily: 'Roboto', 
-          color: '#90EE90', 
+        titleStyle={{
+          fontFamily: 'Roboto',
+          color: '#90EE90',
           fontWeight: 'bold'
         }}
         backText="Previous"
@@ -173,7 +210,7 @@ The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlig
 
 
 ```tsx
-import { AttachStep, SpotlightTourProvider, TourStep } from "@stackbuilders/react-native-spotlight-tour";
+import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotlight-tour";
 
 const mySteps: TourStep[] = [
   // ...
@@ -195,18 +232,16 @@ Besides above customizations, you can also define the transition animation [see 
 
 
 ```tsx
-import { 
+import { Button, Text, View } from "react-native";
+import {
   Align
   AttachStep,
-  Position,
-  SpotlightTourProvider, 
+  SpotlightTourProvider,
   TourStep,
   TourBox
-} from "@stackbuilders/react-native-spotlight-tour";
+} from "react-native-spotlight-tour";
 
 const tourSteps: TourStep[] = [{
-    alignTo: Align.SCREEN,
-    position: Position.BOTTOM,
     motion: "fade",
     onBackdropPress: "stop",
     render: props => (
@@ -226,7 +261,7 @@ const tourSteps: TourStep[] = [{
   }];
 
 return (
-  <SpotlightTourProvider 
+  <SpotlightTourProvider
     steps={tourSteps}
     overlayColor={"gray"}
     overlayOpacity={0.36}
@@ -261,7 +296,7 @@ To view all the types, options, and props, please check the complete [API Refere
 Do you want to contribute to this project? Please take a look at our [contributing guideline](/docs/CONTRIBUTING.md) to know how you can help us build it.
 
 ---
-<img src="https://cdn.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>  
+<img src="https://cdn.stackbuilders.com/media/images/Sb-supports.original.png" alt="Stack Builders" width="50%"></img>
 [Check out our libraries](https://github.com/stackbuilders/) | [Join our team](https://www.stackbuilders.com/join-us/)
 
 ## Contributors ✨
@@ -287,7 +322,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/krarrobo1"><img src="https://avatars.githubusercontent.com/u/26930130?v=4?s=100" width="100px;" alt="Ricardo Arrobo"/><br /><sub><b>Ricardo Arrobo</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=krarrobo1" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://abkal.vercel.app/"><img src="https://avatars.githubusercontent.com/u/43915733?v=4?s=100" width="100px;" alt="Mohammad Abkal"/><br /><sub><b>Mohammad Abkal</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=mohamedabkal" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Enneson"><img src="https://avatars.githubusercontent.com/u/68185396?v=4?s=100" width="100px;" alt="Alexander Pokhil"/><br /><sub><b>Alexander Pokhil</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=Enneson" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alejo0o"><img src="https://avatars.githubusercontent.com/u/60680371?v=4?s=100" width="100px;" alt="Alejandro Vivanco"/><br /><sub><b>Alejandro Vivanco</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alejo0o" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alejo0o"><img src="https://avatars.githubusercontent.com/u/60680371?v=4?s=100" width="100px;" alt="Alejandro Vivanco"/><br /><sub><b>Alejandro Vivanco</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alejo0o" title="Code">💻</a> <a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3Aalejo0o" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/well1791"><img src="https://avatars.githubusercontent.com/u/6817008?v=4?s=100" width="100px;" alt="Wellington Mendoza"/><br /><sub><b>Wellington Mendoza</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3Awell1791" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChristianSama"><img src="https://avatars.githubusercontent.com/u/43491324?v=4?s=100" width="100px;" alt="Christian Samaniego"/><br /><sub><b>Christian Samaniego</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/pulls?q=is%3Apr+reviewed-by%3AChristianSama" title="Reviewed Pull Requests">👀</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/beKoool"><img src="https://avatars.githubusercontent.com/u/76424367?v=4?s=100" width="100px;" alt="beKool.sh"/><br /><sub><b>beKool.sh</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=beKoool" title="Documentation">📖</a></td>
     </tr>
   </tbody>
   <tfoot>

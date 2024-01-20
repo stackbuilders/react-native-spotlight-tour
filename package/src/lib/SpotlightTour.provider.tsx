@@ -179,7 +179,9 @@ export const SpotlightTourProvider = forwardRef<
 
   const next = useCallback((): void => {
     if (current !== undefined) {
-      current === steps.length - 1 ? stop() : renderStep(current + 1);
+      current === steps.length - 1
+        ? stop()
+        : renderStep(current + 1);
     }
   }, [stop, renderStep, current, steps.length]);
 

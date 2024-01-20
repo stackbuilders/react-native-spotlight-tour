@@ -37,21 +37,21 @@ for the following:
 With `npm`:
 
 ```bash
-$ npm install react-native-spotlight-tour
+npm install react-native-spotlight-tour
 ```
 
 With `yarn`:
 
 ```bash
-$ yarn add react-native-spotlight-tour
+yarn add react-native-spotlight-tour
 ```
 
 ## 🚨 Breaking changes: v2 to v3
 
-This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgraging from v2 to v3:
+This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgrading from v2 to v3:
 
 - The package has been renamed from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
-  - Dont worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!
+  - Don't worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!
   - Remove the former package from your dependencies and use the command described in the [Install section](#install)
   - Rename any import from the previous name to use just `react-native-spotlight-tour` instead
 - Tooltip positioning was refactored
@@ -121,7 +121,7 @@ return (
 );
 ```
 
-Floating-UI props can be defined in the `<SpotlightTourProvider/>` and this will be applied to all tour steps. If no configuration is given it will take a dafault with the next values:
+Floating-UI props can be defined in the `<SpotlightTourProvider/>` and this will be applied to all tour steps. If no configuration is given it will take a default with the next values:
 `middlewares: [flip(), offset(4), shift()]` and `placement: "bottom"`.
 
 The tour requires an array of steps to be configured, which will map directly to each `<AttachStep />` index. Bellow is a complete example of a `TourStep` array:
@@ -207,8 +207,6 @@ const tourSteps: TourStep[] = [{
 
 The [SpotlightTourProvider](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#spotlighttourprovider) also allows you to customize the overlay through the [overlayColor](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlaycolor) and [overlayOpacity](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/interfaces/SpotlightTourProviderProps.html#overlayopacity) props.
 
-
-
 ```tsx
 import { AttachStep, SpotlightTourProvider, TourStep } from "react-native-spotlight-tour";
 
@@ -228,8 +226,6 @@ return (
 ```
 
 Besides above customizations, you can also define the transition animation [see motion](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#motion) and the behavior when the user presses the backdrop [see onBackdropPress](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/#backdroppressbehavior). Otherwise if you wish to make them different for an specific step you could override this properties in the `TourStep` configuration.
-
-
 
 ```tsx
 import { Button, Text, View } from "react-native";
@@ -287,6 +283,7 @@ return (
   </SpotlightTourProvider>
 );
 ```
+
 ## API Reference
 
 To view all the types, options, and props, please check the complete [API Reference](https://stackbuilders.github.io/react-native-spotlight-tour/docs/build/) documentation.

@@ -24,13 +24,16 @@ import {
   ZERO_SPOT,
   FloatingProps,
 } from "./SpotlightTour.context";
-import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
+import {
+  TourOverlay,
+  TourOverlayRef,
+} from "./components/tour-overlay/TourOverlay.component";
 
 export interface SpotlightTourProviderProps {
   /**
    * The children to render in the provider. It accepts either a React
    * component, or a function that returns a React component. When the child is
-   * a funtion, the `SpotlightTour` context can be accessed from the first
+   * a function, the `SpotlightTour` context can be accessed from the first
    * argument.
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
@@ -62,7 +65,7 @@ export interface SpotlightTourProviderProps {
    * Sets the default behavior of pressing the tour's backdrop. You can use
    * either one of the following values:
    * - A callback function with the {@link SpotlightTour} options object in the
-   * first argument. This allows more franular control over the tour.
+   * first argument. This allows more granular control over the tour.
    * - The `continue` literal string, which is a shortcut to move to the next
    * step, and stop the tour on the last step.
    * - the `stop` literal string, which is a shortcut to stop the tour.
@@ -99,7 +102,7 @@ export interface SpotlightTourProviderProps {
   shape?: Shape;
   /**
    * Defines the padding of the spot shape based on the wrapped component, so a
-   * zero padding means the spot shape will fit exaclty around the wrapped
+   * zero padding means the spot shape will fit exactly around the wrapped
    * component. The padding value is a number in points.
    *
    * @default 16;
@@ -114,7 +117,10 @@ export interface SpotlightTourProviderProps {
 /**
  * React provider component to get access to the SpotlightTour context.
  */
-export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
+export const SpotlightTourProvider = forwardRef<
+  SpotlightTour,
+  SpotlightTourProviderProps
+>((props, ref) => {
   const {
     children,
     floatingProps = {
@@ -139,16 +145,19 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     hideTooltip: () => Promise.resolve({ finished: false }),
   });
 
-  const renderStep = useCallback((index: number): void | Promise<void> => {
-    const step = steps[index];
+  const renderStep = useCallback(
+    (index: number): void | Promise<void> => {
+      const step = steps[index];
 
-    if (step !== undefined) {
-      return Promise.all([
-        overlay.current.hideTooltip(),
-        Promise.resolve().then(step.before),
-      ]).then(() => setCurrent(index));
-    }
-  }, [steps]);
+      if (step !== undefined) {
+        return Promise.all([
+          overlay.current.hideTooltip(),
+          Promise.resolve().then(step.before),
+        ]).then(() => setCurrent(index));
+      }
+    },
+    [steps],
+  );
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
@@ -170,9 +179,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const next = useCallback((): void => {
     if (current !== undefined) {
-      current === steps.length - 1
-        ? stop()
-        : renderStep(current + 1);
+      current === steps.length - 1 ? stop() : renderStep(current + 1);
     }
   }, [stop, renderStep, current, steps.length]);
 
@@ -182,9 +189,12 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     }
   }, [renderStep, current]);
 
-  const goTo = useCallback((index: number): void => {
-    renderStep(index);
-  }, [renderStep]);
+  const goTo = useCallback(
+    (index: number): void => {
+      renderStep(index);
+    },
+    [renderStep],
+  );
 
   const currentStep = useMemo((): TourStep => {
     const step = current !== undefined
@@ -194,17 +204,20 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     return step ?? { floatingProps, render: () => <></> };
   }, [steps, current]);
 
-  const tour = useMemo((): SpotlightTourCtx => ({
-    changeSpot,
-    current,
-    goTo,
-    next,
-    previous,
-    spot,
-    start,
-    steps,
-    stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
+  const tour = useMemo(
+    (): SpotlightTourCtx => ({
+      changeSpot,
+      current,
+      goTo,
+      next,
+      previous,
+      spot,
+      start,
+      steps,
+      stop,
+    }),
+    [changeSpot, current, goTo, next, previous, spot, start, steps, stop],
+  );
 
   useImperativeHandle(ref, () => ({
     current,
@@ -217,10 +230,13 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   return (
     <SpotlightTourContext.Provider value={tour}>
-      {isChildFunction(children)
-        ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
-        : <>{children}</>
-      }
+      {isChildFunction(children) ? (
+        <SpotlightTourContext.Consumer>
+          {children}
+        </SpotlightTourContext.Consumer>
+      ) : (
+        <>{children}</>
+      )}
 
       <TourOverlay
         backdropOpacity={overlayOpacity}

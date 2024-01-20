@@ -26,20 +26,20 @@ export interface AttachStepProps<T> {
   children: ReactElement<ChildProps<T>>;
   /**
    * When `AttachStep` wraps a Functional Component, it needs to add an
-   * aditional `View` on top of it to be able to measure the layout upon
+   * additional `View` on top of it to be able to measure the layout upon
    * render. This prop allows to define the behavior of the width of such
    * `View`. When set to `false`, it adjusts to its contents, when set to
    * `true`, it stretches out and tries to fill it view.
    *
-   * **Note:** This prop has no effect when wrapping native components or
-   * componentes created with `React.forwardRef`, which pass the `ref` to
-   * another native component.
+   * **Note:** This property has no effect when it's applied to native
+   * components or components created using `React.forwardRef`, which pass
+   * the `ref` to another native component.
    *
    * @default false
    */
   fill?: boolean;
   /**
-   * The index of the `steps` array to which the step is attatched to.
+   * The index of the `steps` array to which the step is attached to.
    */
   index: number;
 }

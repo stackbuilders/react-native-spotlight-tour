@@ -82,7 +82,7 @@ export interface StopParams {
 }
 
 /**
- * Configuration object which accepts Floatin Ui
+ * Configuration object which accepts Floating Ui
  * middleware, placement and sameScrollView configurations.
  */
 export interface FloatingProps {

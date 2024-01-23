@@ -1,14 +1,6 @@
+import { flip, offset, shift } from "@floating-ui/react-native";
 import hash from "object-hash";
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState, useEffect } from "react";
-import { flip, offset, shift } from "@floating-ui/react-native";
-import React, {
-  forwardRef,
-  useCallback,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 import { useMMKVStorage } from "react-native-mmkv-storage";
 

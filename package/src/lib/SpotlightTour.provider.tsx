@@ -24,10 +24,7 @@ import {
   ZERO_SPOT,
   FloatingProps,
 } from "./SpotlightTour.context";
-import {
-  TourOverlay,
-  TourOverlayRef,
-} from "./components/tour-overlay/TourOverlay.component";
+import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
 export interface SpotlightTourProviderProps {
   /**
@@ -117,10 +114,7 @@ export interface SpotlightTourProviderProps {
 /**
  * React provider component to get access to the SpotlightTour context.
  */
-export const SpotlightTourProvider = forwardRef<
-  SpotlightTour,
-  SpotlightTourProviderProps
->((props, ref) => {
+export const SpotlightTourProvider = forwardRef<SpotlightTour,SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
     floatingProps = {
@@ -145,19 +139,16 @@ export const SpotlightTourProvider = forwardRef<
     hideTooltip: () => Promise.resolve({ finished: false }),
   });
 
-  const renderStep = useCallback(
-    (index: number): void | Promise<void> => {
-      const step = steps[index];
+  const renderStep = useCallback((index: number): void | Promise<void> => {
+    const step = steps[index];
 
-      if (step !== undefined) {
-        return Promise.all([
-          overlay.current.hideTooltip(),
-          Promise.resolve().then(step.before),
-        ]).then(() => setCurrent(index));
-      }
-    },
-    [steps],
-  );
+    if (step !== undefined) {
+      return Promise.all([
+        overlay.current.hideTooltip(),
+        Promise.resolve().then(step.before),
+      ]).then(() => setCurrent(index));
+    }
+  },[steps]);
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
@@ -194,9 +185,7 @@ export const SpotlightTourProvider = forwardRef<
   const goTo = useCallback(
     (index: number): void => {
       renderStep(index);
-    },
-    [renderStep],
-  );
+  },[renderStep]);
 
   const currentStep = useMemo((): TourStep => {
     const step = current !== undefined
@@ -217,9 +206,7 @@ export const SpotlightTourProvider = forwardRef<
       start,
       steps,
       stop,
-    }),
-    [changeSpot, current, goTo, next, previous, spot, start, steps, stop],
-  );
+    }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,
@@ -232,13 +219,10 @@ export const SpotlightTourProvider = forwardRef<
 
   return (
     <SpotlightTourContext.Provider value={tour}>
-      {isChildFunction(children) ? (
-        <SpotlightTourContext.Consumer>
-          {children}
-        </SpotlightTourContext.Consumer>
-      ) : (
-        <>{children}</>
-      )}
+      {isChildFunction(children)
+        ? <SpotlightTourContext.Consumer>{children}</SpotlightTourContext.Consumer>
+        : <>{children}</>
+      }
 
       <TourOverlay
         backdropOpacity={overlayOpacity}

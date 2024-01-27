@@ -114,7 +114,7 @@ export interface SpotlightTourProviderProps {
 /**
  * React provider component to get access to the SpotlightTour context.
  */
-export const SpotlightTourProvider = forwardRef<SpotlightTour,SpotlightTourProviderProps>((props, ref) => {
+export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     children,
     floatingProps = {
@@ -148,7 +148,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour,SpotlightTourProvi
         Promise.resolve().then(step.before),
       ]).then(() => setCurrent(index));
     }
-  },[steps]);
+  }, [steps]);
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
@@ -182,10 +182,9 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour,SpotlightTourProvi
     }
   }, [renderStep, current]);
 
-  const goTo = useCallback(
-    (index: number): void => {
-      renderStep(index);
-  },[renderStep]);
+  const goTo = useCallback((index: number): void => {
+    renderStep(index);
+  }, [renderStep]);
 
   const currentStep = useMemo((): TourStep => {
     const step = current !== undefined
@@ -195,18 +194,17 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour,SpotlightTourProvi
     return step ?? { floatingProps, render: () => <></> };
   }, [steps, current]);
 
-  const tour = useMemo(
-    (): SpotlightTourCtx => ({
-      changeSpot,
-      current,
-      goTo,
-      next,
-      previous,
-      spot,
-      start,
-      steps,
-      stop,
-    }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
+  const tour = useMemo((): SpotlightTourCtx => ({
+    changeSpot,
+    current,
+    goTo,
+    next,
+    previous,
+    spot,
+    start,
+    steps,
+    stop,
+  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,

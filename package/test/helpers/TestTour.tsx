@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 
-import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";
+import { AttachStep, AutoStartOptions, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";
 
 interface TestScreenProps {
+  autoStart?: AutoStartOptions;
   steps?: TourStep[];
 }
 
@@ -55,9 +56,9 @@ const defaultSteps = [
   { ...BASE_STEP },
 ];
 
-export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
+export const TestScreen: React.FC<TestScreenProps> = ({ steps, autoStart }) => {
   return (
-    <SpotlightTourProvider steps={steps ?? defaultSteps}>
+    <SpotlightTourProvider steps={steps ?? defaultSteps} autoStart={autoStart ?? "never"}>
       <TestComponent />
     </SpotlightTourProvider>
   );

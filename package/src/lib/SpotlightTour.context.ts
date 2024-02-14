@@ -11,6 +11,11 @@ import { LayoutRectangle } from "react-native";
 export type Motion = "bounce" | "slide" | "fade";
 
 /**
+ * Possible tour autostart options
+ */
+export type AutoStartOptions = "never" | "always" | "once";
+
+/**
  * Possible shape for the tour spotlight:
  * - `circle`
  * - `rectangle`

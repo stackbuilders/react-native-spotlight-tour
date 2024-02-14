@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-native": "0.72.4",
+    "react-native-mmkv-storage": "^0.9.1",
     "react-native-spotlight-tour": "workspace:^",
     "react-native-svg": "^13.14.0",
     "react-native-web": "^0.19.9",

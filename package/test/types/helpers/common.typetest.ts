@@ -9,5 +9,6 @@ interface Foo {
 }
 
 expectTypeOf<OmitR<Foo, "y" | "z">>().toEqualTypeOf<{ x: boolean; }>();
+expectTypeOf<OmitR<Foo, "x">>().toEqualTypeOf<{ y: number; z: string; }>();
 // @ts-expect-error
 expectTypeOf<OmitR<Foo, "a">>().not.toEqualTypeOf<Foo>();

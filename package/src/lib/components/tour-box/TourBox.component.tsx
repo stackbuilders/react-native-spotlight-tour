@@ -61,7 +61,7 @@ export interface TourBoxProps extends RenderProps {
 }
 
 /**
- * A built-in TourBox component which can be used as a tooltip containder for
+ * A built-in TourBox component which can be used as a tooltip container for
  * each step. While it's highly customizable, it's not required and can be
  * replaced by your own component.
  *

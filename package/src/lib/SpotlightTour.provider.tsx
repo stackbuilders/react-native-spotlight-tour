@@ -134,6 +134,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const [current, setCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
+  const [nextSpot, setNextSpot] = useState(ZERO_SPOT);
 
   const overlay = useRef<TourOverlayRef>({
     hideTooltip: () => Promise.resolve({ finished: false }),
@@ -145,13 +146,17 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     if (step !== undefined) {
       return Promise.all([
         overlay.current.hideTooltip(),
-        Promise.resolve().then(step.before),
+        Promise.resolve().then(() => step.before?.(nextSpot)),
       ]).then(() => setCurrent(index));
     }
   }, [steps]);
 
   const changeSpot = useCallback((newSpot: LayoutRectangle): void => {
     setSpot(newSpot);
+  }, []);
+
+  const changeNextSpot = useCallback((newSpot: LayoutRectangle): void => {
+    setNextSpot(newSpot);
   }, []);
 
   const start = useCallback((): void => {
@@ -195,6 +200,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   }, [steps, current]);
 
   const tour = useMemo((): SpotlightTourCtx => ({
+    changeNextSpot,
     changeSpot,
     current,
     goTo,
@@ -204,7 +210,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     start,
     steps,
     stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
+  }), [changeNextSpot, changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
 
   useImperativeHandle(ref, () => ({
     current,

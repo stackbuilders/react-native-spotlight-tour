@@ -109,7 +109,7 @@ export interface TourStep {
    *
    * @default undefined
    */
-  before?: () => void | Promise<void>;
+  before?: (spotLayout: LayoutRectangle) => void | Promise<void>;
   /**
    * Specifies {@link FloatingProps} in order to configure Floating UI
    * in a specific tour step layout.
@@ -184,6 +184,12 @@ export interface SpotlightTour {
 
 export interface SpotlightTourCtx extends SpotlightTour {
   /**
+   * Programmatically change the next spot layout
+   *
+   * @param spot the spot layout
+   */
+  changeNextSpot: (spot: LayoutRectangle) => void;
+  /**
    * Programmatically change the spot layout
    *
    * @param spot the spot layout
@@ -207,6 +213,7 @@ export const ZERO_SPOT: LayoutRectangle = {
 };
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
+  changeNextSpot: () => undefined,
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,

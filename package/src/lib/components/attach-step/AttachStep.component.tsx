@@ -52,11 +52,17 @@ export interface AttachStepProps<T> {
  * @returns an AttachStep React element
  */
 export function AttachStep<T>({ children, fill = false, index }: AttachStepProps<T>): ReactElement {
-  const { current, changeSpot } = useContext(SpotlightTourContext);
+  const { current, changeSpot, changeNextSpot } = useContext(SpotlightTourContext);
 
   const childRef = useRef<View>(null);
 
   useEffect(() => {
+    if (current === index - 1) {
+      childRef.current?.measureInWindow((x, y, width, height) => {
+        changeNextSpot({ height, width, x, y });
+      });
+    }
+
     if (current === index) {
       childRef.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });

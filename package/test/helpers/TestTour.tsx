@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 
-import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src";
+import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src/main";
 
 interface TestScreenProps {
   steps?: TourStep[];

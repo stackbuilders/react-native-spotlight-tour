@@ -3,7 +3,8 @@ import { render, waitFor, within } from "@testing-library/react-native";
 import React, { forwardRef, ReactElement } from "react";
 import { Text } from "react-native";
 
-import { AttachStep, SpotlightTourProvider } from "../../../src";
+import { SpotlightTourProvider } from "../../../src/lib/SpotlightTour.provider";
+import { AttachStep } from "../../../src/lib/components/attach-step/AttachStep.component";
 
 /**
  * Native components are mocked by Jest and transformed to functional

@@ -1,4 +1,4 @@
-import dedent from "@cometlib/dedent";
+import dedent from "dedent";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 import {
@@ -25,9 +25,11 @@ import { DocsTooltip } from "./DocsTooltip";
 export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
 
-  const onStopTour = useCallback(({ index, isLast }: StopParams) => {
-    Alert.alert(dedent`
-        Step index: ${String(index)} \n
+  const showSummary = useCallback(({ index, isLast }: StopParams) => {
+    Alert.alert(
+      "Tour Finished",
+      dedent`
+        Step index: ${String(index)}
         Is last step: ${String(isLast)}
       `,
     );
@@ -116,7 +118,7 @@ export function App(): ReactElement {
           placement: "bottom",
         }}
         onBackdropPress="continue"
-        onStop={onStopTour}
+        onStop={showSummary}
         motion="bounce"
         shape="circle"
       >

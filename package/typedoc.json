@@ -1,7 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "cleanOutputDir": true,
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": ["src/main.ts"],
   "entryPointStrategy": "expand",
   "gitRevision": "release",
   "githubPages": false,

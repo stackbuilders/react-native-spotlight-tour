@@ -16,7 +16,7 @@ const config = makeMetroConfig({
       "react-native": reactNativeWebPath,
       "react-native-web": reactNativeWebPath,
     },
-    platforms: ["ios", "android", "web"],
+    platforms: ["ios", "android", "native"],
     resolveRequest: MetroSymlinksResolver(),
   },
 });

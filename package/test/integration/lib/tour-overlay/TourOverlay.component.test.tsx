@@ -4,8 +4,9 @@ import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import Sinon from "sinon";
 
-import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../../../src";
-import { StopParams, SpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { StopParams, SpotlightTour, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provider";
+import { AttachStep } from "../../../../src/lib/components/attach-step/AttachStep.component";
 import { BASE_STEP } from "../../../helpers/TestTour";
 
 const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);

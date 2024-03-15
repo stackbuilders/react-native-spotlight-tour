@@ -4,13 +4,13 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { CircleProps } from "react-native-svg";
 
-import { TourStep } from "../../src";
+import { TourStep } from "../../src/lib/SpotlightTour.context";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
 import { setMeasureRect } from "../setup";
 
-describe("[Integration] index.test.tsx", () => {
+describe("[Integration] main.test.tsx", () => {
   describe("when the tour is not running", () => {
     it("the overlay is not shown", async () => {
       const { getByText, queryByTestId } = render(<TestScreen />);

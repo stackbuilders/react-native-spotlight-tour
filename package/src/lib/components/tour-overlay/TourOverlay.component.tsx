@@ -27,6 +27,7 @@ import {
   Motion,
   OSConfig,
   Shape,
+  SpotOverlayProps,
   SpotlightTourContext,
   TourStep,
 } from "../../SpotlightTour.context";
@@ -50,6 +51,7 @@ interface TourOverlayProps {
   padding: number;
   shape: Shape;
   spot: LayoutRectangle;
+  spotOverlayProps?: SpotOverlayProps;
   tourStep: TourStep;
 }
 
@@ -65,6 +67,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     padding,
     shape,
     spot,
+    spotOverlayProps,
     tourStep,
   } = props;
 
@@ -178,6 +181,17 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               />
             </Mask>
           </Defs>
+          {spotOverlayProps &&
+            <ShapeMask
+              spot={spot}
+              setReference={refs.setReference}
+              motion={stepMotion}
+              padding={padding}
+              useNativeDriver={useNativeDriver}
+              fill={spotOverlayProps.fill}
+              fillOpacity={spotOverlayProps.fillOpacity}
+            />
+          }
           <Rect
             height="100%"
             width="100%"

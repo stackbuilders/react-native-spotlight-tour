@@ -101,6 +101,17 @@ export interface FloatingProps {
   sameScrollView?: boolean;
 }
 
+export interface SpotOverlayProps {
+  /**
+   * Fill colour for the overlay on top of the spot.
+   */
+  fill: string;
+  /**
+   * Fill opacity for the overlay on top of the spot.
+   */
+  fillOpacity?: number;
+}
+
 export interface TourStep {
   /**
    * Hook called right before the step starts. Useful to run effects or

@@ -1,14 +1,14 @@
 import { expect } from "@assertive-ts/core";
-import { expect as jestExpect } from "@jest/globals";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { fireEvent, render, userEvent, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { CircleProps } from "react-native-svg";
+import { mockNative, restoreNativeMocks } from "react-native-testing-mocks";
+import Sinon from "sinon";
 
 import { TourStep } from "../../src/lib/SpotlightTour.context";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
-import { setMeasureRect } from "../setup";
 
 describe("[Integration] main.test.tsx", () => {
   describe("when the tour is not running", () => {
@@ -26,7 +26,7 @@ describe("[Integration] main.test.tsx", () => {
 
         await waitFor(() => getByText("Start"));
 
-        fireEvent.press(getByText("Start"));
+        await userEvent.press(getByText("Start"));
 
         await waitFor(() => getByTestId("Overlay View"));
       });
@@ -34,13 +34,22 @@ describe("[Integration] main.test.tsx", () => {
   });
 
   describe("when the tour is running", () => {
+    afterEach(restoreNativeMocks);
+
     describe("and the tour moves to the first spot", () => {
       it("wraps the component with the SVG circle", async () => {
+        mockNative("View", {
+          measureInWindow: callback => {
+            const { height, width, x, y } = viewMockMeasureData;
+            callback(x, y, width, height);
+          },
+        });
+
         const { findByText, findByTestId } = render(<TestScreen />);
 
         const startButton = await findByText("Start");
 
-        fireEvent.press(startButton);
+        await userEvent.press(startButton);
 
         const tooltip = await findByTestId("Tooltip View");
 
@@ -74,17 +83,29 @@ describe("[Integration] main.test.tsx", () => {
 
     describe("and the tour moves to the second spot", () => {
       it("wraps the component with the SVG circle", async () => {
+        mockNative("View", {
+          measureInWindow: callback => {
+            const { height, width, x, y } = viewMockMeasureData;
+            callback(x, y, width, height);
+          },
+        });
+
         const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
-        fireEvent.press(getByText("Start"));
+        await userEvent.press(getByText("Start"));
 
         await waitFor(() => getByText("Step 1"));
 
-        setMeasureRect(buttonMockMeasureData);
+        mockNative("View", {
+          measureInWindow: callback => {
+            const { height, width, x, y } = buttonMockMeasureData;
+            callback(x, y, width, height);
+          },
+        });
 
-        fireEvent.press(getByText("Next"));
+        await userEvent.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
 
@@ -121,11 +142,11 @@ describe("[Integration] main.test.tsx", () => {
 
       await waitFor(() => getByText("Start"));
 
-      fireEvent.press(getByText("Start"));
+      await userEvent.press(getByText("Start"));
 
       await waitFor(() => getByText("Step 1"));
 
-      fireEvent.press(getByText("Stop"));
+      await userEvent.press(getByText("Stop"));
 
       expect(queryByTestId("Overlay View")).toBeNull();
     });
@@ -134,26 +155,26 @@ describe("[Integration] main.test.tsx", () => {
   describe("and the step has a before hook", () => {
     describe("and the hook does NOT return a promise", () => {
       it("runs the hook before going to the next step", async () => {
-        const beforeSpy = jest.fn(() => undefined);
+        const spy = Sinon.spy(() => undefined);
         const steps: TourStep[] = [
           BASE_STEP,
-          { ...BASE_STEP, before: beforeSpy },
+          { ...BASE_STEP, before: spy },
         ];
         const { getByText } = render(<TestScreen steps={steps} />);
 
         await waitFor(() => getByText("Start"));
 
-        fireEvent.press(getByText("Start"));
+        await userEvent.press(getByText("Start"));
 
         await waitFor(() => {
-          jestExpect(beforeSpy).not.toBeCalled();
+          expect(spy).toNeverBeCalled();
           getByText("Step 1");
         });
 
-        fireEvent.press(getByText("Next"));
+        await userEvent.press(getByText("Next"));
 
         await waitFor(() => {
-          jestExpect(beforeSpy).toBeCalledTimes(1);
+          expect(spy).toBeCalledOnce();
           getByText("Step 2");
         });
       });
@@ -162,60 +183,53 @@ describe("[Integration] main.test.tsx", () => {
     describe("and the hook returns a promise", () => {
       describe("and the promise is resolved", () => {
         it("runs the hook before going to the next step", async () => {
-          const beforeSpy = jest.fn(() => Promise.resolve());
+          const spy = Sinon.spy(() => Promise.resolve());
           const steps: TourStep[] = [
             BASE_STEP,
-            { ...BASE_STEP, before: beforeSpy },
+            { ...BASE_STEP, before: spy },
           ];
           const { getByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          fireEvent.press(getByText("Start"));
+          await userEvent.press(getByText("Start"));
 
           await waitFor(() => {
-            jestExpect(beforeSpy).not.toBeCalled();
+            expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          fireEvent.press(getByText("Next"));
+          await userEvent.press(getByText("Next"));
 
           await waitFor(() => {
-            jestExpect(beforeSpy).toBeCalledTimes(1);
+            expect(spy).toBeCalledOnce();
             getByText("Step 2");
           });
         });
       });
 
-      /**
-       * Jest changed the behavior of unhandled rejections and exceptions, so
-       * now there's no way of testing these kind of scenarios. We're skipping
-       * this until the issue below is solved:
-       *
-       * ISSUE: https://github.com/facebook/jest/issues/5620
-       */
-      describe.skip("and the promise is rejected", () => {
+      describe("and the promise is rejected", () => {
         it("does NOT move to the next step", async () => {
-          const beforeSpy = jest.fn(() => Promise.reject(new Error("Fail!")));
+          const spy = Sinon.spy(() => Promise.reject(new Error("Fail!")));
           const steps: TourStep[] = [
             BASE_STEP,
-            { ...BASE_STEP, before: beforeSpy },
+            { ...BASE_STEP, before: spy },
           ];
           const { getByText, queryByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          fireEvent.press(getByText("Start"));
+          await userEvent.press(getByText("Start"));
 
           await waitFor(() => {
-            jestExpect(beforeSpy).not.toBeCalled();
+            expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          fireEvent.press(getByText("Next"));
+          await userEvent.press(getByText("Next"));
 
           await waitFor(() => {
-            jestExpect(beforeSpy).toBeCalledTimes(1);
+            expect(spy).toBeCalledOnce();
             expect(queryByText("Step 2")).toBeNull();
           });
         });

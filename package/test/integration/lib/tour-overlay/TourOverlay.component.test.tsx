@@ -1,5 +1,5 @@
 import { expect } from "@assertive-ts/core";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { render, userEvent, waitFor } from "@testing-library/react-native";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import Sinon from "sinon";
@@ -58,7 +58,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      fireEvent.press(getByText("Next"));
+      await userEvent.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 2"));
 
@@ -76,13 +76,13 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      fireEvent.press(getByText("Next"));
+      await userEvent.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 2"));
 
       expect(queryByText("Step 1")).toBeNull();
 
-      fireEvent.press(getByText("Previous"));
+      await userEvent.press(getByText("Previous"));
 
       await waitFor(() => getByText("Step 1"));
 
@@ -102,7 +102,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      fireEvent.press(backdrop);
+      await userEvent.press(backdrop);
 
       await waitFor(() => getByText("Step 2"));
 
@@ -122,7 +122,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      fireEvent.press(backdrop);
+      await userEvent.press(backdrop);
 
       expect(queryByText("Step 1")).toBeNull();
       expect(queryByText("Step 2")).toBeNull();
@@ -148,13 +148,13 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      fireEvent.press(backdrop);
+      await userEvent.press(backdrop);
 
       await waitFor(() => getByText("Step 2"));
 
       expect(queryByText("Step 1")).toBeNull();
 
-      fireEvent.press(backdrop);
+      await userEvent.press(backdrop);
 
       expect(queryByText("Step 1")).toBeNull();
       expect(queryByText("Step 2")).toBeNull();
@@ -176,7 +176,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      fireEvent.press(backdrop);
+      await userEvent.press(backdrop);
 
       Sinon.assert.calledOnceWithExactly(spy, {
         current: 0,
@@ -201,7 +201,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      fireEvent.press(getByText("Stop"));
+      await userEvent.press(getByText("Stop"));
 
       Sinon.assert.calledOnceWithExactly(spy, {
         index: 0,
@@ -222,11 +222,11 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
           await waitFor(() => getByText("Step 1"));
 
-          fireEvent.press(getByText("Next"));
+          await userEvent.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 2"));
 
-          fireEvent.press(getByText("Stop"));
+          await userEvent.press(getByText("Stop"));
 
           Sinon.assert.calledOnceWithExactly(spy, {
             index: 1,
@@ -249,15 +249,15 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
           await waitFor(() => getByText("Step 1"));
 
-          fireEvent.press(getByText("Next"));
+          await userEvent.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 2"));
 
-          fireEvent.press(getByText("Next"));
+          await userEvent.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 3"));
 
-          fireEvent.press(getByText("Stop"));
+          await userEvent.press(getByText("Stop"));
 
           Sinon.assert.calledOnceWithExactly(spy, {
             index: 2,

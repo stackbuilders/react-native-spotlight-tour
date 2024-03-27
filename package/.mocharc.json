@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/mocharc",
+  "extension": ["ts", "tsx"],
+  "recursive": true,
+  "require": [
+    "ts-node/register",
+    "react-native-testing-mocks/register",
+    "test/setup.ts",
+    "test/hooks.ts"
+  ],
+  "slow": 500,
+  "spec": ["test/**/*.test.ts?(x)"]
+}

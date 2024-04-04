@@ -40,8 +40,9 @@ export interface AttachStepProps<T> {
   fill?: boolean;
   /**
    * The index of the `steps` array to which the step is attached to.
+   * It can be a single index or multiple ones.
    */
-  index: number;
+  index: number | Array<number>;
 }
 
 /**
@@ -57,12 +58,12 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
   const childRef = useRef<View>(null);
 
   useEffect(() => {
-    if (current === index) {
+    if (checkIndex(index, current)) {
       childRef.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });
     }
-  }, [changeSpot, current, index]);
+  }, [changeSpot, current, index.toString()]);
 
   if (typeof children.type === "function") {
     const { style, ...rest } = children.props;
@@ -90,4 +91,16 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     { ...children.props, ref: childRef },
     children.props?.children,
   );
+}
+
+function checkIndex<T>(index: AttachStepProps<T>["index"], current: number | undefined): boolean {
+  if (current === undefined) {
+    return false;
+  }
+
+  if (Array.isArray(index)) {
+    return index.includes(current);
+  }
+
+  return current === index;
 }

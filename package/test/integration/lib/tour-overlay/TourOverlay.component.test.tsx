@@ -24,7 +24,7 @@ function TestScreen(): React.ReactElement {
         <Text>{"Test Tour 1"}</Text>
       </AttachStep>
 
-      <AttachStep index={1}>
+      <AttachStep index={[1]}>
         <Text>{"Test Tour 2"}</Text>
       </AttachStep>
 
@@ -264,6 +264,49 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
             isLast: true,
           });
         });
+      });
+    });
+  });
+
+  context("when an AttachStep has multiple indexes", () => {
+    it("renders all the steps correctly", async() => {
+      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+
+      function TestView(): React.ReactElement {
+        const { start } = useSpotlightTour();
+
+        useEffect(() => {
+          start();
+        }, []);
+
+        return <View>
+            <AttachStep index={[0, 1, 2]}>
+              <Text>{"Test Tour"}</Text>
+            </AttachStep>
+          </View>;
+      }
+
+      const { getByText } = render(
+        <SpotlightTourProvider steps={STEPS} onStop={spy}>
+          <TestView />
+        </SpotlightTourProvider>,
+      );
+
+      await waitFor(() => getByText("Step 1"));
+
+      fireEvent.press(getByText("Next"));
+
+      await waitFor(() => getByText("Step 2"));
+
+      fireEvent.press(getByText("Next"));
+
+      await waitFor(() => getByText("Step 3"));
+
+      fireEvent.press(getByText("Stop"));
+
+      Sinon.assert.calledOnceWithExactly(spy, {
+        index: 2,
+        isLast: true,
       });
     });
   });

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
+import Sinon from "sinon";
 
 import { AttachStep, SpotlightTourProvider, TourStep, useSpotlightTour } from "../../src/main";
 
@@ -40,7 +41,7 @@ const TestComponent: React.FC = () => {
       </AttachStep>
 
       <AttachStep index={1}>
-        <Button onPress={jest.fn()} title="Test button" />
+        <Button onPress={Sinon.fake} title="Test button" />
       </AttachStep>
 
       <TouchableOpacity onPress={tourContext.start}>
@@ -57,7 +58,7 @@ const defaultSteps = [
 
 export const TestScreen: React.FC<TestScreenProps> = ({ steps }) => {
   return (
-    <SpotlightTourProvider steps={steps ?? defaultSteps}>
+    <SpotlightTourProvider nativeDriver={false} steps={steps ?? defaultSteps}>
       <TestComponent />
     </SpotlightTourProvider>
   );

@@ -9,9 +9,6 @@ interface TestScreenProps {
 }
 
 export const BASE_STEP: TourStep = {
-  floatingProps:{
-    placement: "bottom",
-  },
   render: ({ current, next, previous, stop }) => (
     <View>
       <Text>{`Step ${current + 1}`}</Text>

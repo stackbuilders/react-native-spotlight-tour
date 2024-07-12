@@ -16,6 +16,13 @@ export type OmitR<
 export type Optional<T> = T | undefined;
 
 /**
+ * Transforms the value types of an object to be `Optional`.
+ */
+export type ToOptional<T> = {
+  [K in keyof Required<T>]: Optional<T[K]>;
+};
+
+/**
  * An alias of what a React child looks when passed as function.
  */
 export type ChildFn<T> = (value: T) => ReactNode;

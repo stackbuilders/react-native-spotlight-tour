@@ -1,6 +1,6 @@
-import { Middleware, Placement } from "@floating-ui/react-native";
+import { FlipOptions, Placement, ShiftOptions } from "@floating-ui/react-native";
 import { createContext, ReactElement, useContext } from "react";
-import { LayoutRectangle } from "react-native";
+import { ColorValue, LayoutRectangle } from "react-native";
 
 /**
  * Possible motion effect for the tour spotlight:
@@ -81,27 +81,69 @@ export interface StopParams {
   isLast: boolean;
 }
 
+export interface ArrowOptions {
+  /**
+   * The color of the tooltip arrow.
+   *
+   * @default white
+   */
+  color?: ColorValue;
+  /**
+   * The rounding radius of the arrow tip.
+   *
+   * @default 2.5
+   */
+  corner?: number;
+  /**
+   * The size of the tooltip arrow.
+   *
+   * @default 16
+   */
+  size?: number;
+}
+
 /**
  * Configuration object which accepts Floating Ui
  * middleware, placement and sameScrollView configurations.
  */
-export interface FloatingProps {
+export interface TooltipProps {
   /**
-   * Array of middleware objects to modify the positioning or provide data for
-   * rendering.
+   * Tooltip arrow options. It accepts 3 types of value:
+   * - boolean: When `false`, disable rendering the arrow. While `true` renders
+   * using the default values.
+   * - number: Use it to change the size of the arrow only.
+   * - object: Options to further customize the arrow style.
+   *
+   * @default 20
    */
-  middleware?: Middleware[];
+  arrow?: number | boolean | ArrowOptions;
   /**
-   * Where to place the floating element relative to the reference element.
+   * Enables flipping the placement of the tooltip in order to keep it in view.
+   *
+   * @default true
+   */
+  flip?: FlipOptions | boolean;
+  /**
+   * Offset points between the tooltip and the spotlight.
+   *
+   * @default 4
+   */
+  offset?: number;
+  /**
+   * The placement of the tooltip relative to the spotlight.
+   *
+   * @default "bottom"
    */
   placement?: Placement;
   /**
-   * `true` for same scroll view, `false` otherwise.
+   * Enables shifting the tooltip in order to keep it in view.
+   *
+   * @default { padding: 8 }
    */
-  sameScrollView?: boolean;
+  shift?: ShiftOptions | boolean;
 }
 
-export interface TourStep {
+export interface TourStep extends TooltipProps {
   /**
    * Hook called right before the step starts. Useful to run effects or
    * animations required fo the step to show correctly. If a promise is
@@ -110,14 +152,6 @@ export interface TourStep {
    * @default undefined
    */
   before?: () => void | Promise<void>;
-  /**
-   * Specifies {@link FloatingProps} in order to configure Floating UI
-   * in a specific tour step layout.
-   *
-   * @default middlewares: [flip(), offset(4), shift()]
-   * @default placement: "bottom"
-   */
-  floatingProps?: FloatingProps;
   /**
    * Specifies the transition motion for the step. You can set the default
    * motion globally on the `SpotlightTourProvider` props too.

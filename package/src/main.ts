@@ -1,7 +1,4 @@
-export {
-  ChildFn,
-  Optional,
-} from "./helpers/common";
+export { ChildFn, OmitR, Optional, ToOptional } from "./helpers/common";
 export {
   AttachStep,
   AttachStepProps,
@@ -13,13 +10,13 @@ export {
 } from "./lib/components/tour-box/TourBox.component";
 export {
   BackdropPressBehavior,
-  FloatingProps,
   Motion,
   OSConfig,
   RenderProps,
   Shape,
   SpotlightTour,
   StopParams,
+  TooltipProps,
   TourStep,
   useSpotlightTour,
 } from "./lib/SpotlightTour.context";

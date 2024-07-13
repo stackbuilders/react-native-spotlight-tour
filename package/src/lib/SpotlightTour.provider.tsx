@@ -1,4 +1,3 @@
-import { flip, offset, shift } from "@floating-ui/react-native";
 import React, {
   forwardRef,
   useCallback,
@@ -22,11 +21,11 @@ import {
   SpotlightTourCtx,
   TourStep,
   ZERO_SPOT,
-  FloatingProps,
+  TooltipProps,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 
-export interface SpotlightTourProviderProps {
+export interface SpotlightTourProviderProps extends TooltipProps {
   /**
    * The children to render in the provider. It accepts either a React
    * component, or a function that returns a React component. When the child is
@@ -34,14 +33,6 @@ export interface SpotlightTourProviderProps {
    * argument.
    */
   children: React.ReactNode | ChildFn<SpotlightTour>;
-  /**
-   * Specifies {@link FloatingProps} in order to configure Floating UI
-   * in all tour steps layout.
-   *
-   * @default middlewares: [flip(), offset(4), shift()]
-   * @default placement: "bottom"
-   */
-  floatingProps?: FloatingProps;
   /**
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
@@ -116,11 +107,12 @@ export interface SpotlightTourProviderProps {
  */
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
+    arrow,
+    flip,
+    offset,
+    placement,
+    shift,
     children,
-    floatingProps = {
-      middleware: [flip(), offset(4), shift()],
-      placement: "bottom",
-    },
     motion = "bounce",
     nativeDriver = true,
     onBackdropPress,
@@ -191,7 +183,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       ? steps[current]
       : undefined;
 
-    return step ?? { floatingProps, render: () => <></> };
+    return step ?? { render: () => <></> };
   }, [steps, current]);
 
   const tour = useMemo((): SpotlightTourCtx => ({
@@ -226,7 +218,6 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}
-        floatingProps={floatingProps}
         motion={motion}
         nativeDriver={nativeDriver}
         onBackdropPress={onBackdropPress}
@@ -235,6 +226,11 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         shape={shape}
         spot={spot}
         tourStep={currentStep}
+        arrow={arrow}
+        flip={flip}
+        offset={offset}
+        placement={placement}
+        shift={shift}
       />
     </SpotlightTourContext.Provider>
   );

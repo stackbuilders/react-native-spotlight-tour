@@ -6,9 +6,6 @@ import {
   SpotlightTourProvider,
   TourBox,
   TourStep,
-  flip,
-  offset,
-  shift,
   StopParams,
 } from "react-native-spotlight-tour";
 
@@ -36,10 +33,6 @@ export function App(): ReactElement {
   }, []);
 
   const tourSteps = useMemo((): TourStep[] => [{
-    floatingProps: {
-      middleware: [offset(0), shift(), flip()],
-      placement: "right",
-    },
     render: ({ next }) => (
       <SpotDescriptionView>
         <DescriptionText>
@@ -54,8 +47,8 @@ export function App(): ReactElement {
     ),
   }, {
     render: DocsTooltip,
-  },
-  {
+  }, {
+    arrow: true,
     render: props => (
       <TourBox
         title="Tour: Customization"
@@ -81,10 +74,6 @@ export function App(): ReactElement {
         })
         .start(() => resolve());
       });
-    },
-    floatingProps: {
-      middleware: [offset(4), shift()],
-      placement: "top",
     },
     render: ({ previous, stop }) => (
       <SpotDescriptionView>
@@ -113,14 +102,11 @@ export function App(): ReactElement {
         overlayColor={"gray"}
         overlayOpacity={0.36}
         nativeDriver={true}
-        floatingProps={{
-          middleware:[offset(5), shift(), flip()],
-          placement: "bottom",
-        }}
         onBackdropPress="continue"
         onStop={showSummary}
         motion="bounce"
         shape="circle"
+        arrow={{ color: "#B0C4DE" }}
       >
         {({ start }) => (
           <>

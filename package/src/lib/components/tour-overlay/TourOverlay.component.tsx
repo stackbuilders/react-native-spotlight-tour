@@ -1,4 +1,11 @@
-import { useFloating } from "@floating-ui/react-native";
+import {
+  UseFloatingOptions,
+  arrow,
+  flip,
+  offset,
+  shift,
+  useFloating,
+} from "@floating-ui/react-native";
 import React, {
   ComponentType,
   forwardRef,
@@ -8,6 +15,7 @@ import React, {
   useMemo,
   useRef,
   useEffect,
+  RefObject,
 } from "react";
 import {
   Animated,
@@ -15,23 +23,24 @@ import {
   LayoutRectangle,
   Modal,
   Platform,
+  View,
 } from "react-native";
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
-import { Optional } from "../../../helpers/common";
+import { Optional, ToOptional } from "../../../helpers/common";
 import { vhDP, vwDP } from "../../../helpers/responsive";
 import { ShapeProps } from "../../../helpers/shape";
 import {
   BackdropPressBehavior,
-  FloatingProps,
   Motion,
   OSConfig,
   Shape,
   SpotlightTourContext,
+  TooltipProps,
   TourStep,
 } from "../../SpotlightTour.context";
 
-import { OverlayView } from "./TourOverlay.styles";
+import { DEFAULT_ARROW, OverlayView, TooltipArrow } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 import { RectShape } from "./shapes/RectShape.component";
 
@@ -39,11 +48,10 @@ export interface TourOverlayRef {
   hideTooltip: () => Promise<Animated.EndResult>;
 }
 
-interface TourOverlayProps {
+interface TourOverlayProps extends ToOptional<TooltipProps> {
   backdropOpacity: number;
   color: ColorValue;
   current: Optional<number>;
-  floatingProps: FloatingProps;
   motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
@@ -58,7 +66,6 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     backdropOpacity,
     color,
     current,
-    floatingProps,
     motion,
     nativeDriver,
     onBackdropPress,
@@ -66,10 +73,26 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     shape,
     spot,
     tourStep,
+    ...tooltipProps
   } = props;
 
   const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
-  const { refs, floatingStyles } = useFloating(tourStep.floatingProps ?? floatingProps);
+
+  const arrowRef = useRef<View>(null);
+
+  const floating = useMemo((): TooltipProps => ({
+    arrow: tourStep.arrow ?? tooltipProps.arrow,
+    flip: tourStep.flip ?? tooltipProps.flip,
+    offset: tourStep.offset ?? tooltipProps.offset,
+    placement: tourStep.placement ?? tooltipProps.placement,
+    shift: tourStep.shift ?? tooltipProps.shift,
+  }), [tooltipProps, tourStep.arrow, tourStep.flip, tourStep.offset, tourStep.placement, tourStep.shift]);
+
+  const floatingOptions = useMemo(() => {
+    return makeFloatingOptions(arrowRef, floating);
+  }, [floating]);
+
+  const { refs, floatingStyles, middlewareData, placement } = useFloating(floatingOptions);
 
   const tooltipOpacity = useRef(new Animated.Value(0));
 
@@ -193,20 +216,56 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             testID="Tooltip View"
             style={{ ...floatingStyles, opacity: tooltipOpacity.current }}
           >
-            <>
-              <tourStep.render
-                current={current}
-                isFirst={current === 0}
-                isLast={current === steps.length - 1}
-                next={next}
-                previous={previous}
-                stop={stop}
-                goTo={goTo}
+            <tourStep.render
+              current={current}
+              isFirst={current === 0}
+              isLast={current === steps.length - 1}
+              next={next}
+              previous={previous}
+              stop={stop}
+              goTo={goTo}
+            />
+            {floating.arrow !== false && (
+              <TooltipArrow
+                ref={arrowRef}
+                placement={placement}
+                position={middlewareData.arrow}
+                size={floating.arrow === true ? undefined : floating.arrow}
               />
-            </>
+            )}
           </Animated.View>
         )}
       </OverlayView>
     </Modal>
   );
 });
+
+function makeFloatingOptions(arrowRef: RefObject<View>, props: Optional<TooltipProps>): UseFloatingOptions {
+  const arrowOption = typeof props?.arrow === "boolean"
+    ? DEFAULT_ARROW
+    : props?.arrow;
+  const { size } = typeof arrowOption === "number"
+    ? { ...DEFAULT_ARROW, size: arrowOption }
+    : { ...DEFAULT_ARROW, ...arrowOption };
+  const baseOffset = props?.offset || 4;
+  const offsetValue = props?.arrow !== false
+    ? (Math.sqrt(2 * size ** 2) / 2) + baseOffset
+    : baseOffset;
+  const arrowMw = props?.arrow !== false
+    ? arrow({ element: arrowRef })
+    : undefined;
+  const flipMw = props?.flip !== false
+    ? flip(props?.flip === true ? undefined : props?.flip)
+    : undefined;
+  const offsetMw = props?.offset !== 0
+    ? offset(offsetValue)
+    : undefined;
+  const shiftMw = props?.shift !== false
+    ? shift(typeof props?.shift === "object" ? props.shift : { padding: 8 })
+    : undefined;
+
+  return {
+    middleware: [flipMw, offsetMw, shiftMw, arrowMw].filter(Boolean),
+    placement: props?.placement,
+  };
+}

@@ -14,14 +14,14 @@ import {
   BackdropPressBehavior,
   Motion,
   OSConfig,
-  StopParams,
   Shape,
   SpotlightTour,
   SpotlightTourContext,
   SpotlightTourCtx,
+  StopParams,
+  TooltipProps,
   TourStep,
   ZERO_SPOT,
-  TooltipProps,
 } from "./SpotlightTour.context";
 import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
 

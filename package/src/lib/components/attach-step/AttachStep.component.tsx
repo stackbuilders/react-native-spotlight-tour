@@ -1,4 +1,4 @@
-import React, { cloneElement, ReactElement, ReactNode, RefObject, useContext, useEffect, useRef } from "react";
+import React, { ReactElement, ReactNode, RefObject, cloneElement, useContext, useEffect, useRef } from "react";
 import { StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";

@@ -43,13 +43,13 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): vo
    * This formula verifies if the distance between the rectangle centroid and
    * circle centroid is larger than the circle radius
    */
-  const isCentroidsDistanceBiggerThanTheCirclesRadiusSum =
-    circleAndRectangleCentroidDistance >= rectangle.height / 2 + circle.r &&
-    circleAndRectangleCentroidDistance >= rectangle.width / 2 + circle.r;
+  const isCentroidsDistanceBiggerThanTheCirclesRadiusSum
+    = circleAndRectangleCentroidDistance >= rectangle.height / 2 + circle.r
+    && circleAndRectangleCentroidDistance >= rectangle.width / 2 + circle.r;
 
-  const figuresAreOverlaid =
-    isCircleRadiusShorterThanCentroidsDistance &&
-    isCentroidsDistanceBiggerThanTheCirclesRadiusSum;
+  const figuresAreOverlaid
+    = isCircleRadiusShorterThanCentroidsDistance
+    && isCentroidsDistanceBiggerThanTheCirclesRadiusSum;
 
   if (figuresAreOverlaid) {
     throw Error("Figures are overlaid!");
@@ -57,8 +57,8 @@ export function checkValidIntersection(rectangle: Rectangle, circle: Circle): vo
 
   if (rectCenter.x !== circle.x || rectCenter.y !== circle.y) {
     throw Error(
-      `Circle center (${circle.x}, ${circle.y}) is not the same as ` +
-      `square center (${rectCenter.x}, ${rectCenter.y})`,
+      `Circle center (${circle.x}, ${circle.y}) is not the same as `
+      + `square center (${rectCenter.x}, ${rectCenter.y})`,
     );
   }
 

@@ -4,9 +4,9 @@ import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-n
 import {
   AttachStep,
   SpotlightTourProvider,
+  StopParams,
   TourBox,
   TourStep,
-  StopParams,
 } from "react-native-spotlight-tour";
 
 import {
@@ -37,8 +37,11 @@ export function App(): ReactElement {
       <SpotDescriptionView>
         <DescriptionText>
           <BoldText>{"Tour: Intro section\n"}</BoldText>
-          {"This is the first step of tour example.\n"}
-          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
+          {dedent`
+            This is the first step of tour example.
+            If you want to go to the next step, please press \
+          `}
+          <BoldText>{"Next.\n"}</BoldText>
         </DescriptionText>
         <ButtonsGroupView>
           <Button title="Next" onPress={next} />
@@ -57,9 +60,13 @@ export function App(): ReactElement {
         {...props}
       >
         <Text>
-          {"This is the third step of tour example.\n"}
-          {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
-          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+          {dedent`
+            This is the third step of tour example.
+            If you want to go to the next step, please press \
+          `}
+          <BoldText>{"Next.\n"}</BoldText>
+          {"If you want to go to the previous step, press "}
+          <BoldText>{"Previous.\n"}</BoldText>
         </Text>
       </TourBox>
     ),
@@ -81,10 +88,12 @@ export function App(): ReactElement {
           <BoldText>{"Tour: Try it!\n"}</BoldText>
           {dedent`
             This is the final step of the tour example.
-            You can move your view or make transitions before an step kicks off!\n
+            You can move your view or make transitions before an step kicks off!
+            If you want to go to the previous step, press \
           `}
-          {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
-          {"If you want to finish the tour, press "}<BoldText>{"Finish.\n"}</BoldText>
+          <BoldText>{"Previous.\n"}</BoldText>
+          {"If you want to finish the tour, press "}
+          <BoldText>{"Finish.\n"}</BoldText>
         </DescriptionText>
 
         <ButtonsGroupView>
@@ -99,7 +108,7 @@ export function App(): ReactElement {
     <SafeAreaView>
       <SpotlightTourProvider
         steps={tourSteps}
-        overlayColor={"gray"}
+        overlayColor="gray"
         overlayOpacity={0.36}
         nativeDriver={true}
         onBackdropPress="continue"

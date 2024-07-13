@@ -1,3 +1,4 @@
+import dedent from "dedent";
 import React, { ReactElement } from "react";
 import { Button } from "react-native";
 import { useSpotlightTour } from "react-native-spotlight-tour";
@@ -12,9 +13,13 @@ export function DocsTooltip(): ReactElement {
     <SpotDescriptionView>
       <DescriptionText>
         <BoldText>{"Tour: Documentation section\n"}</BoldText>
-        {"This is the second step of tour example.\n"}
-        {"If you want to go to the next step, please press "}<BoldText>{"Next.\n"}</BoldText>
-        {"If you want to go to the previous step, press "}<BoldText>{"Previous.\n"}</BoldText>
+        {dedent`
+          This is the second step of tour example.
+          If you want to go to the next step, please press \
+        `}
+        <BoldText>{"Next.\n"}</BoldText>
+        {"If you want to go to the previous step, press "}
+        <BoldText>{"Previous.\n"}</BoldText>
       </DescriptionText>
 
       <ButtonsGroupView>

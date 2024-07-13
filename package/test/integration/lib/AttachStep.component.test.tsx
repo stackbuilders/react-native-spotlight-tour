@@ -1,6 +1,6 @@
 import { expect } from "@assertive-ts/core";
 import { render, waitFor, within } from "@testing-library/react-native";
-import React, { forwardRef, ReactElement } from "react";
+import React, { ReactElement, forwardRef } from "react";
 import { Text } from "react-native";
 
 import { SpotlightTourProvider } from "../../../src/lib/SpotlightTour.provider";

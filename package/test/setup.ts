@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { usePlugin } from "@assertive-ts/core";
 import { SinonPlugin } from "@assertive-ts/sinon";
 import { userEvent } from "@testing-library/react-native";

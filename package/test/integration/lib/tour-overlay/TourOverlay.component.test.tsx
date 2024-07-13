@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import Sinon from "sinon";
 
-import { StopParams, SpotlightTour, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { SpotlightTour, StopParams, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
 import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provider";
 import { AttachStep } from "../../../../src/lib/components/attach-step/AttachStep.component";
 import { BASE_STEP } from "../../../helpers/TestTour";
@@ -190,7 +190,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
   });
 
   context("when a function is passed to the onStop prop in the tour provider", () => {
-    it("invokes the function and injects the OnStopBehavior object in the values", async() => {
+    it("invokes the function and injects the OnStopBehavior object in the values", async () => {
       const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
       const { getByText } = render(
@@ -211,7 +211,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
     context("and the tour is stopped in the second step", () => {
       context("and the step is NOT the last one", () => {
-        it("returns step index 1 and is last equals false", async() => {
+        it("returns step index 1 and is last equals false", async () => {
           const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
           const { getByText } = render(
@@ -238,7 +238,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
 
     context("and the tour is stopped in the third step", () => {
       context("and the step is the last one", () => {
-        it("returns step index 2 and is last equals true", async() => {
+        it("returns step index 2 and is last equals true", async () => {
           const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
           const { getByText } = render(

@@ -24,7 +24,7 @@
     "start:reset": "turbo start:reset",
     "test": "turbo test"
   },
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.3.1",
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
     "@eslint/eslintrc": "^3.1.0",
@@ -42,11 +42,11 @@
     "eslint-plugin-extra-rules": "^0.0.0-development",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.7.0",
-    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react": "^7.34.4",
     "eslint-plugin-sonarjs": "^1.0.3",
     "globals": "^15.8.0",
-    "turbo": "^1.12.5",
-    "typescript": "^5.4.2",
+    "turbo": "^2.0.6",
+    "typescript": "^5.5.3",
     "typescript-eslint": "^7.16.0"
   }
 }

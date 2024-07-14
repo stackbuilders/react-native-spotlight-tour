@@ -1,7 +1,8 @@
 import { usePlugin } from "@assertive-ts/core";
 import { SinonPlugin } from "@assertive-ts/sinon";
-import { userEvent } from "@testing-library/react-native";
+import { cleanup, userEvent } from "@testing-library/react-native";
 import Sinon from "sinon";
+import { afterEach, beforeEach } from "vitest";
 
 usePlugin(SinonPlugin);
 
@@ -13,3 +14,15 @@ const newUserEvent = userEvent.setup({
 });
 
 Object.assign(userEvent, newUserEvent);
+
+beforeEach(() => {
+  Sinon.useFakeTimers({
+    advanceTimeDelta: 0,
+    shouldAdvanceTime: true,
+  });
+});
+
+afterEach(() => {
+  Sinon.restore();
+  cleanup();
+});

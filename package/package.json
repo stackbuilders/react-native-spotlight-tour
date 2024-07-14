@@ -31,11 +31,11 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.prod.json",
-    "check": "yarn compile && yarn test",
+    "check": "yarn compile && yarn test --run",
     "compile": "tsc",
     "docs": "typedoc",
     "release": "semantic-release",
-    "test": "NODE_ENV=test mocha"
+    "test": "vitest"
   },
   "packageManager": "yarn@3.6.3",
   "dependencies": {
@@ -47,13 +47,11 @@
   "devDependencies": {
     "@assertive-ts/core": "^2.1.0",
     "@assertive-ts/sinon": "^1.0.0",
-    "@testing-library/react-native": "~12.4.5",
-    "@types/mocha": "^10.0.7",
+    "@testing-library/react-native": "^12.5.1",
     "@types/node": "^20.14.10",
     "@types/react-test-renderer": "^18.3.0",
     "@types/sinon": "^17.0.3",
     "expect-type": "^0.19.0",
-    "mocha": "^10.6.0",
     "react": "^18.3.1",
     "react-is": "^18.3.1",
     "react-native": "0.74.3",
@@ -63,11 +61,11 @@
     "semantic-release": "^24.0.0",
     "semantic-release-yarn": "^3.0.2",
     "sinon": "^18.0.0",
-    "ts-node": "^10.9.2",
     "typedoc": "^0.26.4",
     "typedoc-plugin-markdown": "^4.2.1",
     "typedoc-plugin-merge-modules": "^6.0.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

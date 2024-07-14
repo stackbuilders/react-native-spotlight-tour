@@ -2,6 +2,7 @@ import { expect } from "@assertive-ts/core";
 import { render, waitFor, within } from "@testing-library/react-native";
 import React, { ReactElement, forwardRef } from "react";
 import { Text } from "react-native";
+import { describe, it, suite } from "vitest";
 
 import { SpotlightTourProvider } from "../../../src/lib/SpotlightTour.provider";
 import { AttachStep } from "../../../src/lib/components/attach-step/AttachStep.component";
@@ -23,8 +24,8 @@ function CustomText(): ReactElement {
   );
 }
 
-describe("[Integration] AttachStep.component.test.tsx", () => {
-  context("when a native component is passed as child", () => {
+suite("[Integration] AttachStep.component.test.tsx", () => {
+  describe("when a native component is passed as child", () => {
     it("renders the child without wrapping it on a native View", async () => {
       const { getByText, queryByTestId } = render(
         <SpotlightTourProvider steps={[]}>
@@ -40,7 +41,7 @@ describe("[Integration] AttachStep.component.test.tsx", () => {
     });
   });
 
-  context("when a function component is passed as child", () => {
+  describe("when a function component is passed as child", () => {
     it("renders the child wrapped on a native View", async () => {
       const { getByTestId } = render(
         <SpotlightTourProvider steps={[]}>

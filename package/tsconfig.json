@@ -10,9 +10,5 @@
   "exclude": [
     "build/*",
     "dist/*"
-  ],
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true
-  }
+  ]
 }

@@ -3,6 +3,7 @@ import { render, userEvent, waitFor } from "@testing-library/react-native";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import Sinon from "sinon";
+import { describe, it, suite } from "vitest";
 
 import { SpotlightTour, StopParams, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
 import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provider";
@@ -35,8 +36,8 @@ function TestScreen(): React.ReactElement {
   );
 }
 
-describe("[Integration] TourOverlay.component.test.tsx", () => {
-  context("when the spot is in the first step", () => {
+suite("[Integration] TourOverlay.component.test.tsx", () => {
+  describe("when the spot is in the first step", () => {
     it("renders the first step", async () => {
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS}>
@@ -48,7 +49,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when the next action is called", () => {
+  describe("when the next action is called", () => {
     it("removes the previous step and renders the next step", async () => {
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
@@ -66,7 +67,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when previous action is called", () => {
+  describe("when previous action is called", () => {
     it("removes the current step and renders the previous step", async () => {
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
@@ -90,7 +91,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when the backdrop behavior is set to continue", () => {
+  describe("when the backdrop behavior is set to continue", () => {
     it("goes to the next step when the backdrop is pressed", async () => {
       const { getByText, findByTestId, queryByText } = render(
         <SpotlightTourProvider steps={STEPS} onBackdropPress="continue">
@@ -110,7 +111,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when the backdrop behavior is set to stop", () => {
+  describe("when the backdrop behavior is set to stop", () => {
     it("stops the tour when the backdrop is pressed", async () => {
       const { getByText, findByTestId, queryByText } = render(
         <SpotlightTourProvider steps={STEPS} onBackdropPress="stop">
@@ -130,7 +131,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when the backdrop behavior is present in the step", () => {
+  describe("when the backdrop behavior is present in the step", () => {
     it("overrides the backdrop press default behavior", async () => {
       const steps = STEPS.map<TourStep>((step, i) => {
         return i === 1
@@ -162,7 +163,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when a function is passed to the backdrop press behavior", () => {
+  describe("when a function is passed to the backdrop press behavior", () => {
     it("injects the SpotlightTour object in the options", async () => {
       const spy = Sinon.spy<(options: SpotlightTour) => void>(() => undefined);
 
@@ -189,7 +190,7 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
     });
   });
 
-  context("when a function is passed to the onStop prop in the tour provider", () => {
+  describe("when a function is passed to the onStop prop in the tour provider", () => {
     it("invokes the function and injects the OnStopBehavior object in the values", async () => {
       const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
@@ -209,8 +210,8 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       });
     });
 
-    context("and the tour is stopped in the second step", () => {
-      context("and the step is NOT the last one", () => {
+    describe("and the tour is stopped in the second step", () => {
+      describe("and the step is NOT the last one", () => {
         it("returns step index 1 and is last equals false", async () => {
           const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 
@@ -236,8 +237,8 @@ describe("[Integration] TourOverlay.component.test.tsx", () => {
       });
     });
 
-    context("and the tour is stopped in the third step", () => {
-      context("and the step is the last one", () => {
+    describe("and the tour is stopped in the third step", () => {
+      describe("and the step is the last one", () => {
         it("returns step index 2 and is last equals true", async () => {
           const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
 

@@ -4,13 +4,14 @@ import React from "react";
 import { CircleProps } from "react-native-svg";
 import { mockNative, restoreNativeMocks } from "react-native-testing-mocks";
 import Sinon from "sinon";
+import { afterEach, describe, it, suite } from "vitest";
 
 import { TourStep } from "../../src/lib/SpotlightTour.context";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
 
-describe("[Integration] main.test.tsx", () => {
+suite("[Integration] main.test.tsx", () => {
   describe("when the tour is not running", () => {
     it("the overlay is not shown", async () => {
       const { getByText, queryByTestId } = render(<TestScreen />);
@@ -210,7 +211,22 @@ describe("[Integration] main.test.tsx", () => {
 
       describe("and the promise is rejected", () => {
         it("does NOT move to the next step", async () => {
-          const spy = Sinon.spy(() => Promise.reject(new Error("Fail!")));
+          const error = new Error("Fail!");
+          const promiseRejected = new Promise<void>((resolve, reject) => {
+            const handler = (reason: unknown): void => {
+              process.off("unhandledRejection", handler);
+
+              try {
+                expect(reason).toBeEqual(error);
+                resolve();
+              } catch (err) {
+                reject(err);
+              }
+            };
+
+            process.on("unhandledRejection", handler);
+          });
+          const spy = Sinon.spy(() => Promise.reject(error));
           const steps: TourStep[] = [
             BASE_STEP,
             { ...BASE_STEP, before: spy },
@@ -228,10 +244,10 @@ describe("[Integration] main.test.tsx", () => {
 
           await userEvent.press(getByText("Next"));
 
-          await waitFor(() => {
-            expect(spy).toBeCalledOnce();
-            expect(queryByText("Step 2")).toBeNull();
-          });
+          await expect(promiseRejected).toBeResolved();
+
+          expect(spy).toBeCalledOnce();
+          expect(queryByText("Step 2")).toBeNull();
         });
       });
     });

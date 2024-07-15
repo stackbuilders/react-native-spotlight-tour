@@ -229,8 +229,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               <TooltipArrow
                 ref={arrowRef}
                 placement={placement}
-                position={middlewareData.arrow}
-                size={floating.arrow === true ? undefined : floating.arrow}
+                data={middlewareData.arrow}
+                arrow={floating.arrow === true ? undefined : floating.arrow}
               />
             )}
           </Animated.View>

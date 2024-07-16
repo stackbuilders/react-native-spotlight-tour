@@ -1,5 +1,14 @@
-import React, { ReactElement, ReactNode, RefObject, cloneElement, useContext, useEffect, useRef } from "react";
-import { StyleProp, View } from "react-native";
+import React, {
+  ReactElement,
+  ReactNode,
+  RefObject,
+  cloneElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
+import { LayoutChangeEvent, StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
@@ -8,6 +17,12 @@ export interface ChildProps<T> {
    * A React children, if any.
    */
   children?: ReactNode;
+  /**
+   * Native components layout change event.
+   *
+   * @param event The layout event.
+   */
+  onLayout?: (event: LayoutChangeEvent) => void;
   /**
    * A React reference.
    */
@@ -54,15 +69,24 @@ export interface AttachStepProps<T> {
 export function AttachStep<T>({ children, fill = false, index }: AttachStepProps<T>): ReactElement {
   const { current, changeSpot } = useContext(SpotlightTourContext);
 
-  const childRef = useRef<View>(null);
+  const ref = useRef<View>(null);
 
-  useEffect(() => {
+  const updateSpot = useCallback((): void => {
     if (current === index) {
-      childRef.current?.measureInWindow((x, y, width, height) => {
+      ref.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });
     }
   }, [changeSpot, current, index]);
+
+  const onLayout = useCallback((event: LayoutChangeEvent): void => {
+    updateSpot();
+    children.props.onLayout?.(event);
+  }, [updateSpot, children.props.onLayout]);
+
+  useEffect(() => {
+    updateSpot();
+  }, [updateSpot]);
 
   if (typeof children.type === "function") {
     const { style, ...rest } = children.props;
@@ -71,10 +95,11 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     return (
       <View
         testID="attach-wrapper-view"
-        ref={childRef}
+        ref={ref}
         style={{ alignSelf: fill ? "stretch" : "flex-start", ...childStyle }}
         collapsable={false}
         focusable={false}
+        onLayout={updateSpot}
       >
         {cloneElement(
           children,
@@ -87,7 +112,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
 
   return cloneElement(
     children,
-    { ...children.props, ref: childRef },
+    { ...children.props, onLayout, ref },
     children.props?.children,
   );
 }

@@ -6404,6 +6404,7 @@ __metadata:
     react-native: "npm:0.74.3"
     react-native-spotlight-tour: "workspace:^"
     react-native-svg: "npm:^15.4.0"
+    react-native-svg-web: "npm:^1.0.9"
     react-native-web: "npm:^0.19.12"
     serve: "npm:^14.2.3"
     styled-components: "npm:^6.1.11"
@@ -10956,6 +10957,17 @@ __metadata:
       optional: false
   languageName: unknown
   linkType: soft
+
+"react-native-svg-web@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "react-native-svg-web@npm:1.0.9"
+  peerDependencies:
+    prop-types: "*"
+    react: "*"
+    react-native-web: ">= 0.10.1"
+  checksum: 10/fb217afb275a3e06f8c4e5e79d6099cdabb16fa294cd7611bc4cdbbc3ffcaa6c848cdb23dbe7673d11ab57a635c82a0f752a627fbc183f4884c255346f1c53e5
+  languageName: node
+  linkType: hard
 
 "react-native-svg@npm:^15.4.0":
   version: 15.4.0

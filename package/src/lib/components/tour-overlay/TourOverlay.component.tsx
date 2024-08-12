@@ -35,6 +35,7 @@ import {
   Motion,
   OSConfig,
   Shape,
+  ShapeOptions,
   SpotlightTourContext,
   TooltipProps,
   TourStep,
@@ -55,8 +56,7 @@ interface TourOverlayProps extends ToOptional<TooltipProps> {
   motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
-  padding: number;
-  shape: Shape;
+  shape: Shape | ShapeOptions;
   spot: LayoutRectangle;
   tourStep: TourStep;
 }
@@ -69,7 +69,6 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     motion,
     nativeDriver,
     onBackdropPress,
-    padding,
     shape,
     spot,
     tourStep,
@@ -100,8 +99,13 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     return tourStep.motion ?? motion;
   }, [tourStep, motion]);
 
-  const stepShape = useMemo((): Shape => {
-    return tourStep.shape ?? shape;
+  const shapeOptions = useMemo((): Required<ShapeOptions> => {
+    const options = tourStep.shape ?? shape;
+    const padding = 16;
+
+    return typeof options !== "string"
+      ? { padding, type: "circle", ...options }
+      : { padding, type: options };
   }, [tourStep, shape]);
 
   const useNativeDriver = useMemo(() => {
@@ -118,11 +122,11 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   }, [nativeDriver]);
 
   const ShapeMask = useMemo(<P extends ShapeProps>(): ComponentType<P> => {
-    switch (stepShape) {
+    switch (shapeOptions.type) {
       case "circle": return CircleShape;
       case "rectangle": return RectShape;
     }
-  }, [stepShape]);
+  }, [shapeOptions]);
 
   const handleBackdropPress = useCallback((): void => {
     const handler = tourStep.onBackdropPress ?? onBackdropPress;
@@ -196,7 +200,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
                 spot={spot}
                 setReference={refs.setReference}
                 motion={stepMotion}
-                padding={padding}
+                padding={shapeOptions.padding}
                 useNativeDriver={useNativeDriver}
               />
             </Mask>

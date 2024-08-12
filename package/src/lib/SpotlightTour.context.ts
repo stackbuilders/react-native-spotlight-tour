@@ -17,6 +17,25 @@ export type Motion = "bounce" | "slide" | "fade";
  */
 export type Shape = "circle" | "rectangle";
 
+export interface ShapeOptions {
+  /**
+   * The padding of the spot shape based on the wrapped component. A zero
+   * padding means the spot shape will fit exactly around the wrapped
+   * component. The padding value is a number in points.
+   *
+   * @default 16;
+   */
+  padding?: number;
+  /**
+   * The shape of the spotlight. Possible values are:
+   * - `circle`
+   * - `rectangle`
+   *
+   * @default circle
+   */
+  type?: Shape;
+}
+
 export interface RenderProps {
   /**
    * The index of the current step the tour is on.
@@ -179,12 +198,12 @@ export interface TourStep extends TooltipProps {
    */
   render: (props: RenderProps) => ReactElement;
   /**
-   * Specifies the spotlight shape for the step. You can set the default shape
+   * Configures the spotlight shape for the step. You can set the default shape
    * globally on the `SpotlightTourProvider` props too.
    *
    * @default circle
    */
-  shape?: Shape;
+  shape?: Shape | ShapeOptions;
 }
 
 export interface SpotlightTour {

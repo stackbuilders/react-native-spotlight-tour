@@ -15,8 +15,8 @@ const config = makeMetroConfig({
   resolver: {
     extraNodeModules: {
       "react-native": reactNativeWebPath,
-      "react-native-web": reactNativeWebPath,
       "react-native-svg": reactNativeSvgPath,
+      "react-native-web": reactNativeWebPath,
     },
     platforms: ["ios", "android", "native"],
     resolveRequest: MetroSymlinksResolver(),

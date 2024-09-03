@@ -3,6 +3,7 @@ const { makeMetroConfig } = require("@rnx-kit/metro-config");
 const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks");
 
 const reactNativeWebPath = require.resolve("react-native-web");
+const reactNativeSvgPath = require.resolve("react-native-svg-web");
 
 /**
  * Metro configuration
@@ -14,6 +15,7 @@ const config = makeMetroConfig({
   resolver: {
     extraNodeModules: {
       "react-native": reactNativeWebPath,
+      "react-native-svg": reactNativeSvgPath,
       "react-native-web": reactNativeWebPath,
     },
     platforms: ["ios", "android", "native"],

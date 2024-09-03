@@ -13,7 +13,7 @@
     "ios": "react-native run-ios",
     "start": "react-native rnx-start",
     "start:reset": "yarn start --reset-cache",
-    "web:build": "react-native bundle --config metro.config.web.js --dev false --entry-file index.js --bundle-output dist/index.bundle.js",
+    "web:build": "react-native bundle --config metro.config.web.cjs --dev false --entry-file index.js --bundle-output dist/index.bundle.js",
     "web:start": "yarn serve"
   },
   "installConfig": {
@@ -28,6 +28,7 @@
     "react-native": "0.74.3",
     "react-native-spotlight-tour": "workspace:^",
     "react-native-svg": "^15.4.0",
+    "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.19.12",
     "styled-components": "^6.1.11"
   },

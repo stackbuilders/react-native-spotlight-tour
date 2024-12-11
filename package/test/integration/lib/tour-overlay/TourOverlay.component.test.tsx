@@ -183,7 +183,9 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
         current: 0,
         goTo: Sinon.match.func,
         next: Sinon.match.func,
+        pause: Sinon.match.func,
         previous: Sinon.match.func,
+        resume: Sinon.match.func,
         start: Sinon.match.func,
         stop: Sinon.match.func,
       });

@@ -16,6 +16,8 @@ export {
   Shape,
   SpotlightTour,
   StopParams,
+  PauseParams,
+  ResumeParams,
   TooltipProps,
   TourStep,
   useSpotlightTour,

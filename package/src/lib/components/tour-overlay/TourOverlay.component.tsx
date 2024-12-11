@@ -75,7 +75,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     ...tooltipProps
   } = props;
 
-  const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
+  const { goTo, next, previous, start, steps, stop, pause, resume } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
 
@@ -140,10 +140,10 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           return stop();
 
         default:
-          return handler({ current, goTo, next, previous, start, stop });
+          return handler({ current, goTo, next, pause, previous, resume, start, stop });
       }
     }
-  }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop]);
+  }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop, pause, resume]);
 
   useEffect(() => {
     const { height, width } = spot;
@@ -155,7 +155,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         toValue: 1,
         useNativeDriver,
       })
-      .start();
+        .start();
     }
   }, [spot, useNativeDriver]);
 
@@ -168,7 +168,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             toValue: 0,
             useNativeDriver,
           })
-          .start(resolve);
+            .start(resolve);
         } else {
           resolve({ finished: true });
         }
@@ -227,6 +227,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               next={next}
               previous={previous}
               stop={stop}
+              pause={pause}
+              resume={resume}
               goTo={goTo}
             />
             {floating.arrow !== false && (

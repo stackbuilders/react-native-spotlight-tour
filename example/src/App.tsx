@@ -3,6 +3,7 @@ import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 import {
   AttachStep,
+  PauseParams,
   SpotlightTourProvider,
   StopParams,
   TourBox,
@@ -32,8 +33,17 @@ export function App(): ReactElement {
     );
   }, []);
 
+  const alertPause = useCallback(({ index }: PauseParams) => {
+    Alert.alert(
+      "Pause Example",
+      dedent`
+      Paused on step: ${String(index)} 
+    `,
+    );
+  }, []);
+
   const tourSteps = useMemo((): TourStep[] => [{
-    render: ({ next }) => (
+    render: ({ next, pause }) => (
       <SpotDescriptionView>
         <DescriptionText>
           <BoldText>{"Tour: Intro section\n"}</BoldText>
@@ -42,8 +52,13 @@ export function App(): ReactElement {
             If you want to go to the next step, please press \
           `}
           <BoldText>{"Next.\n"}</BoldText>
+          {dedent`
+            If you want to Pause the Tour, please press \
+          `}
+          <BoldText>{"Pause.\n"}</BoldText>
         </DescriptionText>
         <ButtonsGroupView>
+          <Button title="Pause" onPress={pause} />
           <Button title="Next" onPress={next} />
         </ButtonsGroupView>
       </SpotDescriptionView>
@@ -65,6 +80,8 @@ export function App(): ReactElement {
             If you want to go to the next step, please press \
           `}
           <BoldText>{"Next.\n"}</BoldText>
+          {"If you want to pause the tour, press "}
+          <BoldText>{"Pause.\n"}</BoldText>
           {"If you want to go to the previous step, press "}
           <BoldText>{"Previous.\n"}</BoldText>
         </Text>
@@ -79,7 +96,7 @@ export function App(): ReactElement {
           toValue: Dimensions.get("screen").height * 0.25,
           useNativeDriver: false, // Translate animation not supported native by native driver
         })
-        .start(() => resolve());
+          .start(() => resolve());
       });
     },
     render: ({ previous, stop }) => (
@@ -113,13 +130,15 @@ export function App(): ReactElement {
         nativeDriver={true}
         onBackdropPress="continue"
         onStop={showSummary}
+        onPause={alertPause}
         motion="bounce"
         shape="circle"
         arrow={{ color: "#B0C4DE" }}
       >
-        {({ start }) => (
+        {({ start, resume, lastCurrent }) => (
           <>
             <Button title="Start" onPress={start} />
+            {lastCurrent !== undefined && <Button title="Resume" onPress={resume} />}
 
             <SectionContainerView>
               <AttachStep index={0}>

@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
+import { isForwardRef } from "react-is";
 import { LayoutChangeEvent, StyleProp, View } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
@@ -88,7 +89,7 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     updateSpot();
   }, [updateSpot]);
 
-  if (typeof children.type === "function") {
+  if (typeof children.type === "function" || isForwardRef(children)) {
     const { style, ...rest } = children.props;
     const childStyle = style ?? { };
 

@@ -154,6 +154,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "ravanscafi",
+      "name": "Ravan Scafi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6104262?v=4",
+      "profile": "https://ravan.me",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

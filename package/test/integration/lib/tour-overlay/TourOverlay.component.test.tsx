@@ -1,7 +1,7 @@
 import { expect } from "@assertive-ts/core";
 import { render, userEvent, waitFor } from "@testing-library/react-native";
-import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import React, { ReactElement, ReactNode, useEffect } from "react";
+import { Text } from "react-native";
 import Sinon from "sinon";
 import { describe, it, suite } from "vitest";
 
@@ -10,29 +10,37 @@ import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provide
 import { AttachStep } from "../../../../src/lib/components/attach-step/AttachStep.component";
 import { BASE_STEP } from "../../../helpers/TestTour";
 
+interface TestLayoutProps {
+  children: ReactNode;
+}
+
 const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);
 
-function TestScreen(): React.ReactElement {
+function AutoStartTour({ children }: TestLayoutProps): ReactElement {
   const { start } = useSpotlightTour();
 
   useEffect(() => {
     start();
   }, []);
 
+  return <>{children}</>;
+}
+
+function TestScreen(): ReactElement {
   return (
-    <View>
+    <AutoStartTour>
       <AttachStep index={0}>
         <Text>{"Test Tour 1"}</Text>
       </AttachStep>
 
-      <AttachStep index={1}>
+      <AttachStep index={[1]}>
         <Text>{"Test Tour 2"}</Text>
       </AttachStep>
 
       <AttachStep index={2}>
         <Text>{"Test Tour 3"}</Text>
       </AttachStep>
-    </View>
+    </AutoStartTour>
   );
 }
 
@@ -265,6 +273,39 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
             isLast: true,
           });
         });
+      });
+    });
+  });
+
+  describe("when an AttachStep has multiple indexes", () => {
+    it("renders all the steps correctly", async () => {
+      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+
+      const { getByText } = render(
+        <SpotlightTourProvider steps={STEPS} onStop={spy}>
+          <AutoStartTour>
+            <AttachStep index={[0, 1, 2]}>
+              <Text>{"Test Tour"}</Text>
+            </AttachStep>
+          </AutoStartTour>
+        </SpotlightTourProvider>,
+      );
+
+      await waitFor(() => getByText("Step 1"));
+
+      await userEvent.press(getByText("Next"));
+
+      await waitFor(() => getByText("Step 2"));
+
+      await userEvent.press(getByText("Next"));
+
+      await waitFor(() => getByText("Step 3"));
+
+      await userEvent.press(getByText("Stop"));
+
+      Sinon.assert.calledOnceWithExactly(spy, {
+        index: 2,
+        isLast: true,
       });
     });
   });

@@ -14,6 +14,7 @@ export {
   OSConfig,
   RenderProps,
   Shape,
+  ShapeOptions,
   SpotlightTour,
   StopParams,
   TooltipProps,

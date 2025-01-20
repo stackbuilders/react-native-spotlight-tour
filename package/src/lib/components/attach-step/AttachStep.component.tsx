@@ -51,8 +51,9 @@ export interface AttachStepProps {
   fill?: boolean;
   /**
    * The index of the `steps` array to which the step is attached to.
+   * It can be a single index or multiple ones.
    */
-  index: number;
+  index: number | Array<number>;
   /**
    * Style applied to AttachStep wrapper
    */
@@ -68,15 +69,18 @@ export interface AttachStepProps {
  */
 export function AttachStep({ children, fill = false, index, style }: AttachStepProps): ReactElement {
   const { current, changeSpot } = useContext(SpotlightTourContext);
+
   const ref = useRef<View>(null);
 
   const updateSpot = useCallback((): void => {
-    if (current === index) {
+    const indexes = typeof index === "number" ? [index] : index;
+
+    if (current !== undefined && indexes.includes(current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });
     }
-  }, [changeSpot, current, index]);
+  }, [changeSpot, current, JSON.stringify(index)]);
 
   const onLayout = useCallback((event: LayoutChangeEvent): void => {
     updateSpot();

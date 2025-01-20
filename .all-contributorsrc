@@ -154,6 +154,24 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "alxpkhl",
+      "name": "Alexander Pokhil",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68185396?v=4",
+      "profile": "https://github.com/alxpkhl",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ravanscafi",
+      "name": "Ravan Scafi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6104262?v=4",
+      "profile": "https://ravan.me",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

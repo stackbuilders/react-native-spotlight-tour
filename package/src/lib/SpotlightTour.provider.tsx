@@ -17,6 +17,7 @@ import {
   PauseParams,
   ResumeParams,
   Shape,
+  ShapeOptions,
   SpotlightTour,
   SpotlightTourContext,
   SpotlightTourCtx,
@@ -96,20 +97,12 @@ export interface SpotlightTourProviderProps extends TooltipProps {
    */
   overlayOpacity?: number;
   /**
-   * Sets the default spotlight shape for all steps. You can override this
-   * value on each step too.
+   * Configures the default spotlight shape for all steps. You can override
+   * this value on each step too.
    *
    * @default circle
    */
-  shape?: Shape;
-  /**
-   * Defines the padding of the spot shape based on the wrapped component, so a
-   * zero padding means the spot shape will fit exactly around the wrapped
-   * component. The padding value is a number in points.
-   *
-   * @default 16;
-   */
-  spotPadding?: number;
+  shape?: Shape | ShapeOptions;
   /**
    * An array of `TourStep` objects that define each step of the tour.
    */
@@ -136,7 +129,6 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     overlayColor = "black",
     overlayOpacity = 0.45,
     shape = "circle",
-    spotPadding = 16,
     steps,
   } = props;
 
@@ -262,7 +254,6 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         motion={motion}
         nativeDriver={nativeDriver}
         onBackdropPress={onBackdropPress}
-        padding={spotPadding}
         ref={overlay}
         shape={shape}
         spot={spot}

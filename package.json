@@ -9,7 +9,7 @@
     "package/"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=18 <=22.6"
   },
   "scripts": {
     "android": "yarn workspace example android",

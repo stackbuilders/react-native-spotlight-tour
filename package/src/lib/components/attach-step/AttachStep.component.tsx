@@ -8,12 +8,11 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { isForwardRef } from "react-is";
-import { LayoutChangeEvent, StyleProp, View } from "react-native";
+import { LayoutChangeEvent, StyleProp, View, ViewStyle } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
-export interface ChildProps<T> {
+export interface ChildProps {
   /**
    * A React children, if any.
    */
@@ -28,18 +27,14 @@ export interface ChildProps<T> {
    * A React reference.
    */
   ref: RefObject<unknown>;
-  /**
-   * The style prop.
-   */
-  style: StyleProp<T>;
 }
 
-export interface AttachStepProps<T> {
+export interface AttachStepProps {
   /**
    * The element in which the spotlight will be to wrapped to in the specified
    * step of the tour.
    */
-  children: ReactElement<ChildProps<T>>;
+  children: ReactElement<ChildProps>;
   /**
    * When `AttachStep` wraps a Functional Component, it needs to add an
    * additional `View` on top of it to be able to measure the layout upon
@@ -58,6 +53,10 @@ export interface AttachStepProps<T> {
    * The index of the `steps` array to which the step is attached to.
    */
   index: number;
+  /**
+   * Style applied to AttachStep wrapper
+   */
+  style?: StyleProp<ViewStyle>
 }
 
 /**
@@ -67,9 +66,8 @@ export interface AttachStepProps<T> {
  * @param props the component props
  * @returns an AttachStep React element
  */
-export function AttachStep<T>({ children, fill = false, index }: AttachStepProps<T>): ReactElement {
+export function AttachStep({ children, fill = false, index, style }: AttachStepProps): ReactElement {
   const { current, changeSpot } = useContext(SpotlightTourContext);
-
   const ref = useRef<View>(null);
 
   const updateSpot = useCallback((): void => {
@@ -89,31 +87,20 @@ export function AttachStep<T>({ children, fill = false, index }: AttachStepProps
     updateSpot();
   }, [updateSpot]);
 
-  if (typeof children.type === "function" || isForwardRef(children)) {
-    const { style, ...rest } = children.props;
-    const childStyle = style ?? { };
-
-    return (
-      <View
-        testID="attach-wrapper-view"
-        ref={ref}
-        style={{ alignSelf: fill ? "stretch" : "flex-start", ...childStyle }}
-        collapsable={false}
-        focusable={false}
-        onLayout={updateSpot}
-      >
-        {cloneElement(
-          children,
-          rest,
-          children.props.children,
-        )}
-      </View>
-    );
-  }
-
-  return cloneElement(
-    children,
-    { ...children.props, onLayout, ref },
-    children.props?.children,
+  return (
+    <View
+      testID="attach-wrapper-view"
+      ref={ref}
+      style={[{ alignSelf: fill ? "stretch" : "flex-start"}, style]}
+      collapsable={false}
+      focusable={false}
+      onLayout={onLayout}
+    >
+      {cloneElement(
+        children,
+        children.props,
+        children.props.children,
+      )}
+    </View>
   );
 }

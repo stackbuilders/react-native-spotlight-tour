@@ -1,4 +1,3 @@
-import { expect } from "@assertive-ts/core";
 import { render, waitFor, within } from "@testing-library/react-native";
 import React, { ReactElement, forwardRef } from "react";
 import { Text } from "react-native";
@@ -26,8 +25,8 @@ function CustomText(): ReactElement {
 
 suite("[Integration] AttachStep.component.test.tsx", () => {
   describe("when a native component is passed as child", () => {
-    it("renders the child without wrapping it on a native View", async () => {
-      const { getByText, queryByTestId } = render(
+    it("renders the child wrapping it on a native View", async () => {
+      const { getByTestId } = render(
         <SpotlightTourProvider steps={[]}>
           <AttachStep index={0}>
             <NativeText />
@@ -35,9 +34,10 @@ suite("[Integration] AttachStep.component.test.tsx", () => {
         </SpotlightTourProvider>,
       );
 
-      await waitFor(() => getByText("Native Text"));
-
-      expect(queryByTestId("attach-wrapper-view")).toBeNull();
+      await waitFor(() =>
+        within(getByTestId("attach-wrapper-view"))
+          .getByText("Native Text"),
+      );
     });
   });
 

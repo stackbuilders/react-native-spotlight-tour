@@ -57,7 +57,7 @@ export interface AttachStepProps {
   /**
    * Style applied to AttachStep wrapper
    */
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -95,7 +95,7 @@ export function AttachStep({ children, fill = false, index, style }: AttachStepP
     <View
       testID="attach-wrapper-view"
       ref={ref}
-      style={[{ alignSelf: fill ? "stretch" : "flex-start"}, style]}
+      style={[{ alignSelf: fill ? "stretch" : "flex-start" }, style]}
       collapsable={false}
       focusable={false}
       onLayout={onLayout}

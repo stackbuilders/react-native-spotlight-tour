@@ -1,13 +1,9 @@
 import dedent from "dedent";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
-import { Alert, Animated as VanillaAnimated, Button, Dimensions, SafeAreaView, Text } from "react-native";
-import {
-  AttachStep,
-  SpotlightTourProvider,
-  StopParams,
-  TourBox,
-  TourStep,
-} from "react-native-spotlight-tour";
+import { Alert, Button, Dimensions, SafeAreaView, Text, Animated as VanillaAnimated } from "react-native";
+import { Text as TextPaper } from "react-native-paper";
+import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+import { AttachStep, SpotlightTourProvider, StopParams, TourBox, TourStep } from "react-native-spotlight-tour";
 
 import {
   BoldText,
@@ -18,8 +14,6 @@ import {
   TitleText,
 } from "./App.styles";
 import { DocsTooltip } from "./DocsTooltip";
-import { Text as TextPaper } from 'react-native-paper';
-import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 
 export function App(): ReactElement {
   const gap = useRef(new VanillaAnimated.Value(0)).current;
@@ -108,8 +102,8 @@ export function App(): ReactElement {
   }, {
     before() {
       return new Promise<void>(resolve => {
-        reanimatedGap.value = withSpring(Dimensions.get("screen").height * 0.24)
-        return resolve()
+        reanimatedGap.value = withSpring(Dimensions.get("screen").height * 0.24);
+        return resolve();
       });
     },
     render: ({ previous, stop }) => (
@@ -191,15 +185,17 @@ export function App(): ReactElement {
                 </DescriptionText>
               </SectionContainerView>
             </VanillaAnimated.View>
-            <Animated.View style={[{transform: [{translateY: reanimatedGap}]}]}>
+            <Animated.View style={[{ transform: [{ translateY: reanimatedGap }] }]}>
               <SectionContainerView>
                   <AttachStep index={4}>
-                    <TextPaper variant="titleMedium">{"Use it with your favorite libraries!"}</TextPaper>
+                    <TextPaper variant="titleMedium">
+                      {"Use it with your favorite libraries!"}
+                    </TextPaper>
                   </AttachStep>
                   <DescriptionText>
                     {"It supports other animation and design libraries"}
                   </DescriptionText>
-                </SectionContainerView>
+              </SectionContainerView>
             </Animated.View>
           </>
         )}

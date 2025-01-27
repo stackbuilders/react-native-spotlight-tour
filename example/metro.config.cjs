@@ -3,7 +3,7 @@ const { makeMetroConfig } = require("@rnx-kit/metro-config");
 const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks");
 const {
   wrapWithReanimatedMetroConfig,
-} = require('react-native-reanimated/metro-config');
+} = require("react-native-reanimated/metro-config");
 
 /**
  * Metro configuration
@@ -17,8 +17,8 @@ const config = makeMetroConfig({
   },
 });
 
-// maybe needs to wrap metro config with reanimated wrapper
+// may need to wrap metro config with reanimated wrapper
 // https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started#step-3-wrap-metro-config-with-reanimated-wrapper-recommended
 module.exports = wrapWithReanimatedMetroConfig(
-  mergeConfig(getDefaultConfig(__dirname), config)
+  mergeConfig(getDefaultConfig(__dirname), config),
 );

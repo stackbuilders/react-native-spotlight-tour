@@ -1,6 +1,6 @@
 # React Native Spotlight Tour
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CI](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/stackbuilders/react-native-spotlight-tour/actions/workflows/ci.yml)
@@ -327,6 +327,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/beKoool"><img src="https://avatars.githubusercontent.com/u/76424367?v=4?s=100" width="100px;" alt="beKool.sh"/><br /><sub><b>beKool.sh</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=beKoool" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/alxpkhl"><img src="https://avatars.githubusercontent.com/u/68185396?v=4?s=100" width="100px;" alt="Alexander Pokhil"/><br /><sub><b>Alexander Pokhil</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=alxpkhl" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://ravan.me"><img src="https://avatars.githubusercontent.com/u/6104262?v=4?s=100" width="100px;" alt="Ravan Scafi"/><br /><sub><b>Ravan Scafi</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=ravanscafi" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anddriex"><img src="https://avatars.githubusercontent.com/u/42983405?v=4?s=100" width="100px;" alt="Andres Perez"/><br /><sub><b>Andres Perez</b></sub></a><br /><a href="https://github.com/stackbuilders/react-native-spotlight-tour/commits?author=anddriex" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>

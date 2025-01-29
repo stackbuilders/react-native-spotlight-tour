@@ -172,6 +172,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "anddriex",
+      "name": "Andres Perez",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42983405?v=4",
+      "profile": "https://github.com/anddriex",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

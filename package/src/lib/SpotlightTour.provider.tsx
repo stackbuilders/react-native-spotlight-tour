@@ -14,6 +14,8 @@ import {
   BackdropPressBehavior,
   Motion,
   OSConfig,
+  PauseParams,
+  ResumeParams,
   Shape,
   ShapeOptions,
   SpotlightTour,
@@ -63,6 +65,18 @@ export interface SpotlightTourProviderProps extends TooltipProps {
    */
   onBackdropPress?: BackdropPressBehavior;
   /**
+   * Handler which gets executed when {@link SpotlightTour.pause|pause} is
+   * invoked. It receives the {@link PauseParams} so
+   * you can access the step index where the tour paused.
+   */
+  onPause?: (values: PauseParams) => void;
+  /**
+   * Handler which gets executed when {@link SpotlightTour.resume|resume} is
+   * invoked. It receives the {@link ResumeParams} so
+   * you can access the step index where the tour resumed.
+   */
+  onResume?: (values: ResumeParams) => void;
+  /**
    * Handler which gets executed when {@link SpotlightTour.stop|stop} is
    * invoked. It receives the {@link StopParams} so
    * you can access the `current` step index where the tour stopped
@@ -110,6 +124,8 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     nativeDriver = true,
     onBackdropPress,
     onStop,
+    onPause,
+    onResume,
     overlayColor = "black",
     overlayOpacity = 0.45,
     shape = "circle",
@@ -117,6 +133,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   } = props;
 
   const [current, setCurrent] = useState<number>();
+  const [lastCurrent, setLastCurrent] = useState<number>();
   const [spot, setSpot] = useState(ZERO_SPOT);
 
   const overlay = useRef<TourOverlayRef>({
@@ -131,7 +148,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
       ])
-      .then(() => setCurrent(index));
+        .then(() => setCurrent(index));
     }
   }, [steps]);
 
@@ -150,8 +167,19 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       }
       return undefined;
     });
+    setLastCurrent(current);
     setSpot(ZERO_SPOT);
   }, [onStop]);
+
+  const pause = useCallback((): void => {
+    setLastCurrent(current);
+    setCurrent(prev => {
+      if (prev !== undefined) {
+        onPause?.({ index: prev });
+      }
+      return undefined;
+    });
+  }, [onPause, current]);
 
   const next = useCallback((): void => {
     if (current !== undefined) {
@@ -171,6 +199,13 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     renderStep(index);
   }, [renderStep]);
 
+  const resume = useCallback((): void => {
+    if (lastCurrent !== undefined) {
+      goTo(lastCurrent);
+      onResume?.({ index: lastCurrent });
+    }
+  }, [onResume, lastCurrent]);
+
   const currentStep = useMemo((): TourStep => {
     const step = current !== undefined
       ? steps[current]
@@ -183,19 +218,24 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     changeSpot,
     current,
     goTo,
+    lastCurrent,
     next,
+    pause,
     previous,
+    resume,
     spot,
     start,
     steps,
     stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop]);
+  }), [changeSpot, current, lastCurrent, goTo, next, previous, spot, start, steps, stop, pause]);
 
   useImperativeHandle(ref, () => ({
     current,
     goTo,
     next,
+    pause,
     previous,
+    resume,
     start,
     stop,
   }));

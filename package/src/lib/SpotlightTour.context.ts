@@ -60,9 +60,17 @@ export interface RenderProps {
    */
   next: () => void;
   /**
+   * Pauses the tour execution.
+   */
+  pause: () => void;
+  /**
    * Goes to the previous step, if any.
    */
   previous: () => void;
+  /**
+   * Resumes the tour execution.
+   */
+  resume: () => void;
   /**
    * Terminates the tour execution.
    */
@@ -98,6 +106,20 @@ export interface StopParams {
    * `true` if the tour is on the last step, `false` otherwise.
    */
   isLast: boolean;
+}
+
+export interface PauseParams {
+  /**
+   * Step index when paused.
+   */
+  index: number;
+}
+
+export interface ResumeParams {
+  /**
+   * Step index where the tour resumed.
+   */
+  index: number;
 }
 
 export interface ArrowOptions {
@@ -218,13 +240,25 @@ export interface SpotlightTour {
    */
   goTo: (index: number) => void;
   /**
+   * The last step index, when the tour was paused
+   */
+  lastCurrent?: number;
+  /**
    * Goes to the next step, if any. Stops the tour on the last step.
    */
   next: () => void;
   /**
+   * Pauses the tour execution.
+   */
+  pause: () => void;
+  /**
    * Goes to the previous step, if any.
    */
   previous: () => void;
+  /**
+   * Resumes the tour execution.
+   */
+  resume: () => void;
   /**
    * Kicks off the tour from step `0`.
    */
@@ -263,7 +297,9 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,
+  pause: () => undefined,
   previous: () => undefined,
+  resume: () => undefined,
   spot: ZERO_SPOT,
   start: () => undefined,
   steps: [],
@@ -276,13 +312,16 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
  * @returns the SpotlightTour context
  */
 export function useSpotlightTour(): SpotlightTour {
-  const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
+  const { current, lastCurrent, goTo, next, previous, start, stop, pause, resume } = useContext(SpotlightTourContext);
 
   return {
     current,
     goTo,
+    lastCurrent,
     next,
+    pause,
     previous,
+    resume,
     start,
     stop,
   };

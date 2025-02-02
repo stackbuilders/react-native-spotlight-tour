@@ -73,7 +73,7 @@ export function App(): ReactElement {
         Animated.spring(gap, {
           bounciness: 100,
           speed: 1,
-          toValue: Dimensions.get("screen").height * 0.25,
+          toValue: Dimensions.get("screen").height * 0.20,
           useNativeDriver: false, // Translate animation not supported native by native driver
         })
         .start(() => resolve());
@@ -102,7 +102,7 @@ export function App(): ReactElement {
   }, {
     before() {
       return new Promise<void>(resolve => {
-        reanimatedGap.value = withSpring(Dimensions.get("screen").height * 0.24);
+        reanimatedGap.value = withSpring(Dimensions.get("screen").height * 0.20);
         return resolve();
       });
     },

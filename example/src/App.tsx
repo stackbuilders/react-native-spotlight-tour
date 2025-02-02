@@ -106,25 +106,24 @@ export function App(): ReactElement {
         return resolve();
       });
     },
-    render: ({ previous, stop }) => (
-      <SpotDescriptionView>
-        <TextPaper variant="bodyMedium">
-          <BoldText>{"Tour: Use it with your favorite libraries!\n"}</BoldText>
+    render: props => (
+      <TourBox
+        title="Tour: Compatibility"
+        backText="Previous"
+        nextText="Finish"
+        {...props}
+      >
+        <TextPaper>
           {dedent`
             This is the final step of the tour example.
-            Combine it with other animation or design libraries!
+            It is compatible with other animation or design libraries!
             If you want to go to the previous step, press \
           `}
           <BoldText>{"Previous.\n"}</BoldText>
           {"If you want to finish the tour, press "}
           <BoldText>{"Finish.\n"}</BoldText>
         </TextPaper>
-
-        <ButtonsGroupView>
-          <Button title="Previous" onPress={previous} />
-          <Button title="Finish" onPress={stop} />
-        </ButtonsGroupView>
-      </SpotDescriptionView>
+      </TourBox>
     ),
   }], []);
 
@@ -189,7 +188,7 @@ export function App(): ReactElement {
               <SectionContainerView>
                   <AttachStep index={4}>
                     <TextPaper variant="titleMedium">
-                      {"Use it with your favorite libraries!"}
+                      {"Compatibility!"}
                     </TextPaper>
                   </AttachStep>
                   <DescriptionText>

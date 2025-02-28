@@ -140,7 +140,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           return stop();
 
         default:
-          return handler({ current, goTo, next, pause, previous, resume, start, stop });
+          return handler({ current, goTo, next, pause, previous, resume, start, status: "running", stop });
       }
     }
   }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop, pause, resume]);
@@ -155,7 +155,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         toValue: 1,
         useNativeDriver,
       })
-        .start();
+      .start();
     }
   }, [spot, useNativeDriver]);
 
@@ -168,7 +168,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             toValue: 0,
             useNativeDriver,
           })
-            .start(resolve);
+          .start(resolve);
         } else {
           resolve({ finished: true });
         }

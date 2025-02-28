@@ -29,10 +29,6 @@ export interface TourBoxProps extends RenderProps {
    */
   hideNext?: boolean;
   /**
-   * Should hide the Pause button.
-   */
-  hidePause?: boolean;
-  /**
    * Next button styles.
    */
   nextStyle?: StyleProp<ViewStyle>;
@@ -58,6 +54,10 @@ export interface TourBoxProps extends RenderProps {
    * Pause button text.
    */
   pauseText?: string;
+  /**
+   * Should show the Pause button.
+   */
+  showPause?: boolean;
   /**
    * TourBox main container styles.
    */
@@ -88,7 +88,6 @@ export function TourBox(props: TourBoxProps): ReactElement {
     title,
     hideNext,
     hideBack,
-    hidePause,
     onBack,
     onNext,
     onPause,
@@ -100,6 +99,7 @@ export function TourBox(props: TourBoxProps): ReactElement {
     isLast,
     isFirst,
     previous,
+    showPause,
     stop,
     pause,
     next,
@@ -130,7 +130,7 @@ export function TourBox(props: TourBoxProps): ReactElement {
 
       {children}
 
-      {(!hideBack || !hideNext || !hidePause) && (
+      {(!hideBack || !hideNext || showPause) && (
         <FooterContainer>
           {!hideBack && (
             <NavButton style={backStyle} onPress={handleBack}>
@@ -139,7 +139,7 @@ export function TourBox(props: TourBoxProps): ReactElement {
               </Text>
             </NavButton>
           )}
-          {!hidePause && (
+          {showPause && (
             <NavButton style={backStyle} onPress={handlePause}>
               <Text>
                 {pauseText}

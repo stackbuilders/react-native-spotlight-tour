@@ -47,6 +47,18 @@ export interface TourBoxProps extends RenderProps {
    */
   onNext?: () => void;
   /**
+   * Callback for when the Pause button is pressed.
+   */
+  onPause?: () => void;
+  /**
+   * Pause button text.
+   */
+  pauseText?: string;
+  /**
+   * Should show the Pause button.
+   */
+  showPause?: boolean;
+  /**
    * TourBox main container styles.
    */
   style?: StyleProp<ViewStyle>;
@@ -72,11 +84,13 @@ export function TourBox(props: TourBoxProps): ReactElement {
   const {
     backText = "Back",
     nextText = "Next",
+    pauseText = "Pause",
     title,
     hideNext,
     hideBack,
     onBack,
     onNext,
+    onPause,
     backStyle,
     nextStyle,
     titleStyle,
@@ -85,7 +99,9 @@ export function TourBox(props: TourBoxProps): ReactElement {
     isLast,
     isFirst,
     previous,
+    showPause,
     stop,
+    pause,
     next,
   } = props;
 
@@ -99,6 +115,11 @@ export function TourBox(props: TourBoxProps): ReactElement {
     onNext?.();
   }, [isLast, stop, next, onNext]);
 
+  const handlePause = useCallback((): void => {
+    pause();
+    onPause?.();
+  }, [pause]);
+
   return (
     <MainContainer style={style}>
       {title !== undefined && (
@@ -109,12 +130,19 @@ export function TourBox(props: TourBoxProps): ReactElement {
 
       {children}
 
-      {(!hideBack || !hideNext) && (
+      {(!hideBack || !hideNext || showPause) && (
         <FooterContainer>
           {!hideBack && (
             <NavButton style={backStyle} onPress={handleBack}>
               <Text>
                 {backText}
+              </Text>
+            </NavButton>
+          )}
+          {showPause && (
+            <NavButton style={backStyle} onPress={handlePause}>
+              <Text>
+                {pauseText}
               </Text>
             </NavButton>
           )}

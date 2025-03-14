@@ -228,6 +228,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     const isLast = index === steps.length - 1;
 
     goTo(index);
+    setPausedAt(undefined);
     onResume?.({ index, isLast });
   }, [goTo, onResume, pausedAt, steps.length]);
 

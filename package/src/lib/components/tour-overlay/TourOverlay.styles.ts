@@ -2,7 +2,6 @@ import { MiddlewareData, Placement } from "@floating-ui/react-native";
 import { Platform, StyleSheet, ViewStyle } from "react-native";
 
 import { Optional } from "../../../helpers/common";
-import { vh, vw } from "../../../helpers/responsive";
 import { ArrowOptions } from "../../SpotlightTour.context";
 
 interface TooltipArrowProps {
@@ -19,8 +18,7 @@ export const DEFAULT_ARROW: Required<ArrowOptions> = {
 
 export const Css = StyleSheet.create({
   overlayView: {
-    height: vh(100),
-    width: vw(100),
+    flex: 1,
   },
   tooltipArrow: {
     backgroundColor: "transparent",

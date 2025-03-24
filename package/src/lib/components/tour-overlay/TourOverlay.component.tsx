@@ -24,6 +24,7 @@ import {
   Modal,
   Platform,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
@@ -176,18 +177,21 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     },
   }), [current, useNativeDriver]);
 
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
   return (
     <Modal
       animationType="fade"
       presentationStyle="overFullScreen"
       transparent={true}
       visible={current !== undefined}
+      supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right"]}
     >
       <View testID="Overlay View" style={Css.overlayView}>
         <Svg
           testID="Spot Svg"
-          height="100%"
-          width="100%"
+          height={screenHeight}
+          width={screenWidth}
           viewBox={`0 0 ${vw(100)} ${vh(100)}`}
           onPress={handleBackdropPress}
           shouldRasterizeIOS={true}
@@ -195,7 +199,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
-              <Rect height="100%" width="100%" fill="#fff" />
+              <Rect height={screenHeight} width={screenWidth} fill="#fff" />
               <ShapeMask
                 spot={spot}
                 setReference={refs.setReference}
@@ -206,8 +210,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             </Mask>
           </Defs>
           <Rect
-            height="100%"
-            width="100%"
+            height={screenHeight}
+            width={screenWidth}
             fill={color}
             mask="url(#mask)"
             opacity={backdropOpacity}

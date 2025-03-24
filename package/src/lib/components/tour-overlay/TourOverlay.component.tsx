@@ -24,11 +24,12 @@ import {
   Modal,
   Platform,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { Optional, ToOptional } from "../../../helpers/common";
-import { vhDP, vwDP } from "../../../helpers/responsive";
+import { vh, vw } from "../../../helpers/responsive";
 import { ShapeProps } from "../../../helpers/shape";
 import {
   BackdropPressBehavior,
@@ -41,7 +42,7 @@ import {
   TourStep,
 } from "../../SpotlightTour.context";
 
-import { DEFAULT_ARROW, OverlayView, TooltipArrow } from "./TourOverlay.styles";
+import { Css, DEFAULT_ARROW, arrowCss } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 import { RectShape } from "./shapes/RectShape.component";
 
@@ -176,26 +177,29 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     },
   }), [current, useNativeDriver]);
 
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
   return (
     <Modal
       animationType="fade"
       presentationStyle="overFullScreen"
       transparent={true}
       visible={current !== undefined}
+      supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right"]}
     >
-      <OverlayView testID="Overlay View">
+      <View testID="Overlay View" style={Css.overlayView}>
         <Svg
           testID="Spot Svg"
-          height="100%"
-          width="100%"
-          viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
+          height={screenHeight}
+          width={screenWidth}
+          viewBox={`0 0 ${vw(100)} ${vh(100)}`}
           onPress={handleBackdropPress}
           shouldRasterizeIOS={true}
           renderToHardwareTextureAndroid={true}
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
-              <Rect height="100%" width="100%" fill="#fff" />
+              <Rect height={screenHeight} width={screenWidth} fill="#fff" />
               <ShapeMask
                 spot={spot}
                 setReference={refs.setReference}
@@ -206,8 +210,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             </Mask>
           </Defs>
           <Rect
-            height="100%"
-            width="100%"
+            height={screenHeight}
+            width={screenWidth}
             fill={color}
             mask="url(#mask)"
             opacity={backdropOpacity}
@@ -232,16 +236,23 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               goTo={goTo}
             />
             {floating.arrow !== false && (
-              <TooltipArrow
+              <View
+                style={[
+                  Css.tooltipArrow,
+                  arrowCss({
+                    arrow: typeof floating.arrow !== "boolean"
+                      ? floating.arrow
+                      : undefined,
+                    data: middlewareData.arrow,
+                    placement,
+                  }),
+                ]}
                 ref={arrowRef}
-                placement={placement}
-                data={middlewareData.arrow}
-                arrow={floating.arrow === true ? undefined : floating.arrow}
               />
             )}
           </Animated.View>
         )}
-      </OverlayView>
+      </View>
     </Modal>
   );
 });

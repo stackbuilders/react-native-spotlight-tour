@@ -11757,7 +11757,6 @@ __metadata:
     semantic-release: "npm:^24.0.0"
     semantic-release-yarn: "npm:^3.0.2"
     sinon: "npm:^18.0.0"
-    styled-components: "npm:^6.1.11"
     typedoc: "npm:^0.26.4"
     typedoc-plugin-markdown: "npm:^4.2.1"
     typedoc-plugin-merge-modules: "npm:^6.0.0"

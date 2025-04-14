@@ -25,10 +25,6 @@ jobs:
       - run: yarn install --immutable
       - run: yarn compile
       - run: yarn lint
-      - run: |
-          if [[ "${{ matrix.node }}" == 20* ]]; then
-            NODE_OPTIONS="--no-experimental-detect-module" yarn test
-          else
-            yarn test
-          fi
-        shell: bash
+      - run: yarn test
+        env:
+          NODE_OPTIONS: ${{ matrix.node == '20' && '--no-experimental-detect-module' || '' }}

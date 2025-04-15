@@ -23,11 +23,13 @@ suite("[Integration] main.test.tsx", () => {
 
     describe("and the start button is pressed", () => {
       it("shows the overlay view", async () => {
+        const user = userEvent.setup();
+
         const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => getByTestId("Overlay View"));
       });
@@ -46,11 +48,13 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
+        const user = userEvent.setup();
+
         const { findByText, findByTestId } = render(<TestScreen />);
 
         const startButton = await findByText("Start");
 
-        await userEvent.press(startButton);
+        await user.press(startButton);
 
         const tooltip = await findByTestId("Tooltip View");
 
@@ -91,11 +95,13 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
+        const user = userEvent.setup();
+
         const { getByText, getByTestId } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => getByText("Step 1"));
 
@@ -106,7 +112,7 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
-        await userEvent.press(getByText("Next"));
+        await user.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
 
@@ -139,15 +145,17 @@ suite("[Integration] main.test.tsx", () => {
 
   describe("when the tour is stopped", () => {
     it("unmounts the overlay view", async () => {
+      const user = userEvent.setup();
+
       const { getByText, queryByTestId } = render(<TestScreen />);
 
       await waitFor(() => getByText("Start"));
 
-      await userEvent.press(getByText("Start"));
+      await user.press(getByText("Start"));
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Stop"));
+      await user.press(getByText("Stop"));
 
       expect(queryByTestId("Overlay View")).toBeNull();
     });
@@ -161,18 +169,20 @@ suite("[Integration] main.test.tsx", () => {
           BASE_STEP,
           { ...BASE_STEP, before: spy },
         ];
+        const user = userEvent.setup();
+
         const { getByText } = render(<TestScreen steps={steps} />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => {
           expect(spy).toNeverBeCalled();
           getByText("Step 1");
         });
 
-        await userEvent.press(getByText("Next"));
+        await user.press(getByText("Next"));
 
         await waitFor(() => {
           expect(spy).toBeCalledOnce();
@@ -189,18 +199,20 @@ suite("[Integration] main.test.tsx", () => {
             BASE_STEP,
             { ...BASE_STEP, before: spy },
           ];
+          const user = userEvent.setup();
+
           const { getByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          await userEvent.press(getByText("Start"));
+          await user.press(getByText("Start"));
 
           await waitFor(() => {
             expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await waitFor(() => {
             expect(spy).toBeCalledOnce();
@@ -231,18 +243,20 @@ suite("[Integration] main.test.tsx", () => {
             BASE_STEP,
             { ...BASE_STEP, before: spy },
           ];
+          const user = userEvent.setup();
+
           const { getByText, queryByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          await userEvent.press(getByText("Start"));
+          await user.press(getByText("Start"));
 
           await waitFor(() => {
             expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await expect(promiseRejected).toBeResolved();
 

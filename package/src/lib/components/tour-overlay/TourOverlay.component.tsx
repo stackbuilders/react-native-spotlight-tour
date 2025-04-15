@@ -253,7 +253,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   );
 });
 
-function makeFloatingOptions(arrowRef: RefObject<View>, props: Optional<TooltipProps>): UseFloatingOptions {
+function makeFloatingOptions(arrowRef: RefObject<View | null>, props: Optional<TooltipProps>): UseFloatingOptions {
   const arrowOption = typeof props?.arrow === "boolean"
     ? DEFAULT_ARROW
     : props?.arrow;

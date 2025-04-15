@@ -1,3 +1,4 @@
+/* eslint-disable deprecation/deprecation */
 import { PropsWithChildren } from "react";
 import { Animated } from "react-native";
 import { ReactTestInstance } from "react-test-renderer";

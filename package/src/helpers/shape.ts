@@ -1,4 +1,4 @@
-import { MutableRefObject } from "react";
+import { RefObject } from "react";
 import { Animated, LayoutRectangle, MeasureInWindowOnSuccessCallback } from "react-native";
 
 import { Motion } from "../lib/SpotlightTour.context";
@@ -23,19 +23,19 @@ interface Point {
 interface BaseTransitionOptions {
   motion: Motion;
   nextOrigin: Point;
-  opacity: MutableRefObject<Animated.Value>;
-  origin: MutableRefObject<Animated.ValueXY>;
+  opacity: RefObject<Animated.Value>;
+  origin: RefObject<Animated.ValueXY>;
   useNativeDriver: boolean;
 }
 
 interface ValueTransitionOptions extends BaseTransitionOptions {
   nextSize: number;
-  size: MutableRefObject<Animated.Value>;
+  size: RefObject<Animated.Value>;
 }
 
 interface PointTransitionOptions extends BaseTransitionOptions {
   nextSize: Point;
-  size: MutableRefObject<Animated.ValueXY>;
+  size: RefObject<Animated.ValueXY>;
 }
 
 type TransitionOptions = ValueTransitionOptions | PointTransitionOptions;

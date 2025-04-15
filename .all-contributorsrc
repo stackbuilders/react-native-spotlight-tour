@@ -190,6 +190,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "AlbertMukarsel",
+      "name": "Alberto Mucarsel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55022826?v=4",
+      "profile": "https://github.com/AlbertMukarsel",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,

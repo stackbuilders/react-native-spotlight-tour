@@ -9,12 +9,12 @@
     "package/"
   ],
   "engines": {
-    "node": ">=18 <=22.6"
+    "node": ">=18"
   },
   "scripts": {
     "android": "yarn workspace example android",
     "build": "turbo build",
-    "check": "turbo check && yarn lint",
+    "check": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo check && yarn lint",
     "compile": "turbo compile",
     "docs": "yarn workspace react-native-spotlight-tour docs",
     "ios": "yarn workspace example ios",
@@ -22,31 +22,24 @@
     "release": "turbo release --concurrency=1",
     "start": "turbo start",
     "start:reset": "turbo start:reset",
-    "test": "turbo test"
+    "test": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo test",
+    "test:ci": "turbo test"
   },
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.9.1",
   "devDependencies": {
-    "@eslint/compat": "^1.1.1",
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.7.0",
-    "@styled/typescript-styled-plugin": "^1.0.1",
-    "@stylistic/eslint-plugin": "^2.3.0",
-    "@types/eslint__eslintrc": "^2.1.1",
-    "@types/eslint__js": "^8.42.3",
+    "@eslint/js": "^9.27.0",
+    "@stylistic/eslint-plugin": "^4.4.0",
     "all-contributors-cli": "^6.26.1",
-    "eslint": "^9.7.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-better-styled-components": "^1.1.2",
-    "eslint-plugin-deprecation": "^3.0.0",
-    "eslint-plugin-etc": "^2.0.3",
-    "eslint-plugin-extra-rules": "^0.0.0-development",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsdoc": "^48.7.0",
-    "eslint-plugin-react": "^7.34.4",
-    "eslint-plugin-sonarjs": "^1.0.3",
-    "globals": "^15.8.0",
-    "turbo": "^2.0.6",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^7.16.0"
+    "eslint": "^9.27.0",
+    "eslint-import-resolver-typescript": "^4.4.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.17",
+    "eslint-plugin-perfectionist": "^4.13.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "globals": "^16.2.0",
+    "turbo": "^2.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.0"
   }
 }

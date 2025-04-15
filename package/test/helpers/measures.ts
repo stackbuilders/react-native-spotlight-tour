@@ -1,4 +1,4 @@
-import { LayoutRectangle } from "react-native";
+import type { LayoutRectangle } from "react-native";
 
 export const viewMockMeasureData: LayoutRectangle = {
   height: 400,

@@ -1,15 +1,15 @@
 import { expect } from "@assertive-ts/core";
 import { fireEvent, render, userEvent, waitFor } from "@testing-library/react-native";
-import React from "react";
-import { CircleProps } from "react-native-svg";
 import { mockNative, restoreNativeMocks } from "react-native-testing-mocks";
 import Sinon from "sinon";
 import { afterEach, describe, it, suite } from "vitest";
 
-import { TourStep } from "../../src/lib/SpotlightTour.context";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
+
+import type { TourStep } from "../../src/lib/SpotlightTour.context";
+import type { CircleProps } from "react-native-svg";
 
 suite("[Integration] main.test.tsx", () => {
   describe("when the tour is not running", () => {
@@ -23,11 +23,13 @@ suite("[Integration] main.test.tsx", () => {
 
     describe("and the start button is pressed", () => {
       it("shows the overlay view", async () => {
-        const { getByText, getByTestId } = render(<TestScreen />);
+        const user = userEvent.setup();
+
+        const { getByTestId, getByText } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => getByTestId("Overlay View"));
       });
@@ -46,11 +48,13 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
-        const { findByText, findByTestId } = render(<TestScreen />);
+        const user = userEvent.setup();
+
+        const { findByTestId, findByText } = render(<TestScreen />);
 
         const startButton = await findByText("Start");
 
-        await userEvent.press(startButton);
+        await user.press(startButton);
 
         const tooltip = await findByTestId("Tooltip View");
 
@@ -91,11 +95,13 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
-        const { getByText, getByTestId } = render(<TestScreen />);
+        const user = userEvent.setup();
+
+        const { getByTestId, getByText } = render(<TestScreen />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => getByText("Step 1"));
 
@@ -106,7 +112,7 @@ suite("[Integration] main.test.tsx", () => {
           },
         });
 
-        await userEvent.press(getByText("Next"));
+        await user.press(getByText("Next"));
 
         await waitFor(() => getByText("Step 2"));
 
@@ -139,15 +145,17 @@ suite("[Integration] main.test.tsx", () => {
 
   describe("when the tour is stopped", () => {
     it("unmounts the overlay view", async () => {
+      const user = userEvent.setup();
+
       const { getByText, queryByTestId } = render(<TestScreen />);
 
       await waitFor(() => getByText("Start"));
 
-      await userEvent.press(getByText("Start"));
+      await user.press(getByText("Start"));
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Stop"));
+      await user.press(getByText("Stop"));
 
       expect(queryByTestId("Overlay View")).toBeNull();
     });
@@ -161,18 +169,20 @@ suite("[Integration] main.test.tsx", () => {
           BASE_STEP,
           { ...BASE_STEP, before: spy },
         ];
+        const user = userEvent.setup();
+
         const { getByText } = render(<TestScreen steps={steps} />);
 
         await waitFor(() => getByText("Start"));
 
-        await userEvent.press(getByText("Start"));
+        await user.press(getByText("Start"));
 
         await waitFor(() => {
           expect(spy).toNeverBeCalled();
           getByText("Step 1");
         });
 
-        await userEvent.press(getByText("Next"));
+        await user.press(getByText("Next"));
 
         await waitFor(() => {
           expect(spy).toBeCalledOnce();
@@ -189,18 +199,20 @@ suite("[Integration] main.test.tsx", () => {
             BASE_STEP,
             { ...BASE_STEP, before: spy },
           ];
+          const user = userEvent.setup();
+
           const { getByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          await userEvent.press(getByText("Start"));
+          await user.press(getByText("Start"));
 
           await waitFor(() => {
             expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await waitFor(() => {
             expect(spy).toBeCalledOnce();
@@ -231,18 +243,20 @@ suite("[Integration] main.test.tsx", () => {
             BASE_STEP,
             { ...BASE_STEP, before: spy },
           ];
+          const user = userEvent.setup();
+
           const { getByText, queryByText } = render(<TestScreen steps={steps} />);
 
           await waitFor(() => getByText("Start"));
 
-          await userEvent.press(getByText("Start"));
+          await user.press(getByText("Start"));
 
           await waitFor(() => {
             expect(spy).toNeverBeCalled();
             getByText("Step 1");
           });
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await expect(promiseRejected).toBeResolved();
 

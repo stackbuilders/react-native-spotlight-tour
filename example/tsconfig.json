@@ -2,7 +2,31 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "resolveJsonModule": true
+    "plugins": [{
+      "name": "@styled/typescript-styled-plugin",
+      "lint": {
+        "boxModel": "error",
+        "duplicateProperties": "error",
+        // "emptyRules": "error", // https://github.com/styled-components/typescript-styled-plugin/issues/4
+        "float": "error",
+        "fontFaceProperties": "error",
+        "ieHack": "error",
+        "importStatement": "error",
+        "important": "error",
+        "propertyIgnoredDueToDisplay": "error",
+        "universalSelector": "error",
+        "unknownProperties": "error",
+        "unknownVendorSpecificProperties": "error",
+        "validProperties": [],
+        "zeroUnits": "error"
+      }
+    }],
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "../node_modules/@types",
+      "./node_modules/@types",
+      "./typings"
+    ]
   },
   "exclude": [
     "./build/*",

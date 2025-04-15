@@ -1,14 +1,17 @@
 import {
-  UseFloatingOptions,
+  type FlipOptions,
+  type Middleware,
+  type ShiftOptions,
+  type UseFloatingOptions,
   arrow,
   flip,
   offset,
   shift,
   useFloating,
 } from "@floating-ui/react-native";
-import React, {
-  ComponentType,
-  RefObject,
+import {
+  type ComponentType,
+  type RefObject,
   forwardRef,
   useCallback,
   useContext,
@@ -19,31 +22,32 @@ import React, {
 } from "react";
 import {
   Animated,
-  ColorValue,
-  LayoutRectangle,
+  type ColorValue,
+  type LayoutRectangle,
   Modal,
   Platform,
   View,
 } from "react-native";
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
-import { Optional, ToOptional } from "../../../helpers/common";
 import { vh, vw } from "../../../helpers/responsive";
-import { ShapeProps } from "../../../helpers/shape";
 import {
-  BackdropPressBehavior,
-  Motion,
-  OSConfig,
-  Shape,
-  ShapeOptions,
+  type BackdropPressBehavior,
+  type Motion,
+  type OSConfig,
+  type Shape,
+  type ShapeOptions,
   SpotlightTourContext,
-  TooltipProps,
-  TourStep,
+  type TooltipProps,
+  type TourStep,
 } from "../../SpotlightTour.context";
 
 import { Css, DEFAULT_ARROW, arrowCss } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 import { RectShape } from "./shapes/RectShape.component";
+
+import type { Optional, ToOptional } from "../../../helpers/common";
+import type { ShapeProps } from "../../../helpers/shape";
 
 export interface TourOverlayRef {
   hideTooltip: () => Promise<Animated.EndResult>;
@@ -75,7 +79,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     ...tooltipProps
   } = props;
 
-  const { goTo, next, previous, start, steps, stop, pause, resume } = useContext(SpotlightTourContext);
+  const { goTo, next, pause, previous, resume, start, steps, stop } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
 
@@ -91,7 +95,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     return makeFloatingOptions(arrowRef, floating);
   }, [floating]);
 
-  const { refs, floatingStyles, middlewareData, placement } = useFloating(floatingOptions);
+  const { floatingStyles, middlewareData, placement, refs } = useFloating(floatingOptions);
 
   const tooltipOpacity = useRef(new Animated.Value(0));
 
@@ -155,7 +159,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         toValue: 1,
         useNativeDriver,
       })
-      .start();
+        .start();
     }
   }, [spot, useNativeDriver]);
 
@@ -168,7 +172,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             toValue: 0,
             useNativeDriver,
           })
-          .start(resolve);
+            .start(resolve);
         } else {
           resolve({ finished: true });
         }
@@ -253,7 +257,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   );
 });
 
-function makeFloatingOptions(arrowRef: RefObject<View>, props: Optional<TooltipProps>): UseFloatingOptions {
+function makeFloatingOptions(arrowRef: RefObject<null | View>, props: Optional<TooltipProps>): UseFloatingOptions {
   const arrowOption = typeof props?.arrow === "boolean"
     ? DEFAULT_ARROW
     : props?.arrow;
@@ -267,18 +271,30 @@ function makeFloatingOptions(arrowRef: RefObject<View>, props: Optional<TooltipP
   const arrowMw = props?.arrow !== false
     ? arrow({ element: arrowRef })
     : undefined;
-  const flipMw = props?.flip !== false
-    ? flip(props?.flip === true ? undefined : props?.flip)
-    : undefined;
+  const flipMw = flipMiddleware(props?.flip);
   const offsetMw = props?.offset !== 0
     ? offset(offsetValue)
     : undefined;
-  const shiftMw = props?.shift !== false
-    ? shift(typeof props?.shift === "object" ? props.shift : { padding: 8 })
-    : undefined;
+  const shiftMw = shiftMiddleware(props?.shift);
 
   return {
     middleware: [flipMw, offsetMw, shiftMw, arrowMw].filter(Boolean),
     placement: props?.placement,
   };
+}
+
+function flipMiddleware(flipProps: Optional<boolean | FlipOptions>): Optional<Middleware> {
+  if (flipProps !== false) {
+    return flip(flipProps === true ? undefined : flipProps);
+  }
+
+  return undefined;
+}
+
+function shiftMiddleware(shiftProps: Optional<boolean | ShiftOptions>): Optional<Middleware> {
+  if (shiftProps !== false) {
+    return shift(shiftProps === true ? undefined : shiftProps);
+  }
+
+  return undefined;
 }

@@ -1,6 +1,7 @@
-import { FlipOptions, Placement, ShiftOptions } from "@floating-ui/react-native";
-import { ReactElement, createContext, useContext } from "react";
-import { ColorValue, LayoutRectangle } from "react-native";
+import { type ReactElement, createContext, useContext } from "react";
+
+import type { FlipOptions, Placement, ShiftOptions } from "@floating-ui/react-native";
+import type { ColorValue, LayoutRectangle } from "react-native";
 
 /**
  * Possible status for the tour:
@@ -8,7 +9,7 @@ import { ColorValue, LayoutRectangle } from "react-native";
  * - `running`
  * - `paused`
  */
-export type TourStatus = "idle" | "running" | "paused";
+export type TourStatus = "idle" | "paused" | "running";
 
 /**
  * Possible motion effect for the tour spotlight:
@@ -16,7 +17,7 @@ export type TourStatus = "idle" | "running" | "paused";
  * - `slide`
  * - `fade`
  */
-export type Motion = "bounce" | "slide" | "fade";
+export type Motion = "bounce" | "fade" | "slide";
 
 /**
  * Possible shape for the tour spotlight:
@@ -151,13 +152,13 @@ export interface TooltipProps {
    *
    * @default 20
    */
-  arrow?: number | boolean | ArrowOptions;
+  arrow?: ArrowOptions | boolean | number;
   /**
    * Enables flipping the placement of the tooltip in order to keep it in view.
    *
    * @default true
    */
-  flip?: FlipOptions | boolean;
+  flip?: boolean | FlipOptions;
   /**
    * Offset points between the tooltip and the spotlight.
    *
@@ -175,7 +176,7 @@ export interface TooltipProps {
    *
    * @default { padding: 8 }
    */
-  shift?: ShiftOptions | boolean;
+  shift?: boolean | ShiftOptions;
 }
 
 export interface TourStep extends TooltipProps {
@@ -186,7 +187,7 @@ export interface TourStep extends TooltipProps {
    *
    * @default undefined
    */
-  before?: () => void | Promise<void>;
+  before?: () => Promise<void> | void;
   /**
    * Specifies the transition motion for the step. You can set the default
    * motion globally on the `SpotlightTourProvider` props too.
@@ -307,7 +308,7 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
  * @returns the SpotlightTour context
  */
 export function useSpotlightTour(): SpotlightTour {
-  const { current, goTo, next, previous, start, stop, pause, resume, status } = useContext(SpotlightTourContext);
+  const { current, goTo, next, pause, previous, resume, start, status, stop } = useContext(SpotlightTourContext);
 
   return {
     current,

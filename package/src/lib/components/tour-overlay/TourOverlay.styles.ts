@@ -1,12 +1,13 @@
-import { MiddlewareData, Placement } from "@floating-ui/react-native";
-import { Platform, StyleSheet, ViewStyle } from "react-native";
+import { Platform, StyleSheet, type ViewStyle } from "react-native";
 
-import { Optional } from "../../../helpers/common";
 import { vh, vw } from "../../../helpers/responsive";
-import { ArrowOptions } from "../../SpotlightTour.context";
+
+import type { Optional } from "../../../helpers/common";
+import type { ArrowOptions } from "../../SpotlightTour.context";
+import type { MiddlewareData, Placement } from "@floating-ui/react-native";
 
 interface TooltipArrowProps {
-  arrow: Optional<number | ArrowOptions>;
+  arrow: Optional<ArrowOptions | number>;
   data: Optional<MiddlewareData["arrow"]>;
   placement: Placement;
 }

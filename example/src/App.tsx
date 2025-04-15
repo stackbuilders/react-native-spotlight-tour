@@ -1,12 +1,12 @@
 import dedent from "dedent";
-import React, { ReactElement, useCallback, useMemo, useRef } from "react";
-import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
+import { type ReactElement, useCallback, useMemo } from "react";
+import { Alert, Animated, Button, Dimensions, SafeAreaView, Text, useAnimatedValue } from "react-native";
 import {
   AttachStep,
   SpotlightTourProvider,
   TourBox,
-  TourState,
-  TourStep,
+  type TourState,
+  type TourStep,
 } from "react-native-spotlight-tour";
 
 import {
@@ -20,7 +20,7 @@ import {
 import { DocsTooltip } from "./DocsTooltip";
 
 export function App(): ReactElement {
-  const gap = useRef(new Animated.Value(0)).current;
+  const gap = useAnimatedValue(0, { useNativeDriver: true });
 
   const showSummary = useCallback(({ index, isLast }: TourState) => {
     Alert.alert(
@@ -87,9 +87,9 @@ export function App(): ReactElement {
           bounciness: 100,
           speed: 1,
           toValue: Dimensions.get("screen").height * 0.25,
-          useNativeDriver: false, // Translate animation not supported native by native driver
+          useNativeDriver: true,
         })
-        .start(() => resolve());
+          .start(() => resolve());
       });
     },
     render: ({ previous, stop }) => (
@@ -128,13 +128,13 @@ export function App(): ReactElement {
         shape="circle"
         arrow={{ color: "#B0C4DE" }}
       >
-        {({ start, resume, status }) => (
+        {({ resume, start, status }) => (
           <>
             {status !== "paused" && <Button title="Start" onPress={start} />}
             {status === "paused" && <Button title="Resume" onPress={resume} />}
 
             <SectionContainerView>
-              <AttachStep index={0}>
+              <AttachStep index={1}>
                 <TitleText>{"Introduction"}</TitleText>
               </AttachStep>
               <DescriptionText>
@@ -146,7 +146,7 @@ export function App(): ReactElement {
             </SectionContainerView>
 
             <SectionContainerView>
-              <AttachStep index={1}>
+              <AttachStep index={0}>
                 <TitleText>{"Documentation"}</TitleText>
               </AttachStep>
               <DescriptionText>

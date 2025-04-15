@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /**
  * Like the built-in {@link Omit}, but constraints the target to extend from a
@@ -34,7 +34,7 @@ export type ChildFn<T> = (value: T) => ReactNode;
  * @param children any React children
  * @returns true if the children is a function, false otherwise
  */
-export function isChildFunction<T>(children: ReactNode | ChildFn<T>): children is ChildFn<T> {
+export function isChildFunction<T>(children: ChildFn<T> | ReactNode): children is ChildFn<T> {
   return typeof children === "function";
 }
 

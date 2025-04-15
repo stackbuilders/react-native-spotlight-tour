@@ -4,7 +4,6 @@
   "repository": "git@github.com:stackbuilders/react-native-spotlight-tour.git",
   "author": "Stack Builders <info@stackbuilders.com> (https://github.com/stackbuilders)",
   "license": "MIT",
-  "type": "module",
   "workspaces": [
     "example/",
     "package/"

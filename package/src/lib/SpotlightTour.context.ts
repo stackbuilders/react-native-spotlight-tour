@@ -3,6 +3,14 @@ import { ReactElement, createContext, useContext } from "react";
 import { ColorValue, LayoutRectangle } from "react-native";
 
 /**
+ * Possible status for the tour:
+ * - `idle`
+ * - `running`
+ * - `paused`
+ */
+export type TourStatus = "idle" | "running" | "paused";
+
+/**
  * Possible motion effect for the tour spotlight:
  * - `bounce`
  * - `slide`
@@ -60,9 +68,17 @@ export interface RenderProps {
    */
   next: () => void;
   /**
+   * Pauses the tour execution.
+   */
+  pause: () => void;
+  /**
    * Goes to the previous step, if any.
    */
   previous: () => void;
+  /**
+   * Resumes the tour execution.
+   */
+  resume: () => void;
   /**
    * Terminates the tour execution.
    */
@@ -89,13 +105,13 @@ export type BackdropPressBehavior =
   | "stop"
   | ((options: SpotlightTour) => void);
 
-export interface StopParams {
+export interface TourState {
   /**
    * Current step index.
    */
   index: number;
   /**
-   * `true` if the tour is on the last step, `false` otherwise.
+   * Set to `true` if the tour is on the last step, `false` otherwise.
    */
   isLast: boolean;
 }
@@ -222,13 +238,25 @@ export interface SpotlightTour {
    */
   next: () => void;
   /**
+   * Pauses the tour execution.
+   */
+  pause: () => void;
+  /**
    * Goes to the previous step, if any.
    */
   previous: () => void;
   /**
+   * Resumes the tour execution.
+   */
+  resume: () => void;
+  /**
    * Kicks off the tour from step `0`.
    */
   start: () => void;
+  /**
+   * The current status of the tour.
+   */
+  status: TourStatus;
   /**
    * Terminates the tour execution.
    */
@@ -263,9 +291,12 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
   goTo: () => undefined,
   next: () => undefined,
+  pause: () => undefined,
   previous: () => undefined,
+  resume: () => undefined,
   spot: ZERO_SPOT,
   start: () => undefined,
+  status: "idle",
   steps: [],
   stop: () => undefined,
 });
@@ -276,14 +307,17 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
  * @returns the SpotlightTour context
  */
 export function useSpotlightTour(): SpotlightTour {
-  const { current, goTo, next, previous, start, stop } = useContext(SpotlightTourContext);
+  const { current, goTo, next, previous, start, stop, pause, resume, status } = useContext(SpotlightTourContext);
 
   return {
     current,
     goTo,
     next,
+    pause,
     previous,
+    resume,
     start,
+    status,
     stop,
   };
 }

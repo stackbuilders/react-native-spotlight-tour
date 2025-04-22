@@ -28,7 +28,7 @@ import {
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
 
 import { Optional, ToOptional } from "../../../helpers/common";
-import { vhDP, vwDP } from "../../../helpers/responsive";
+import { vh, vw } from "../../../helpers/responsive";
 import { ShapeProps } from "../../../helpers/shape";
 import {
   BackdropPressBehavior,
@@ -41,7 +41,7 @@ import {
   TourStep,
 } from "../../SpotlightTour.context";
 
-import { DEFAULT_ARROW, OverlayView, TooltipArrow } from "./TourOverlay.styles";
+import { Css, DEFAULT_ARROW, arrowCss } from "./TourOverlay.styles";
 import { CircleShape } from "./shapes/CircleShape.component";
 import { RectShape } from "./shapes/RectShape.component";
 
@@ -75,7 +75,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     ...tooltipProps
   } = props;
 
-  const { goTo, next, previous, start, steps, stop } = useContext(SpotlightTourContext);
+  const { goTo, next, previous, start, steps, stop, pause, resume } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
 
@@ -140,10 +140,10 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
           return stop();
 
         default:
-          return handler({ current, goTo, next, previous, start, stop });
+          return handler({ current, goTo, next, pause, previous, resume, start, status: "running", stop });
       }
     }
-  }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop]);
+  }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop, pause, resume]);
 
   useEffect(() => {
     const { height, width } = spot;
@@ -183,12 +183,12 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       transparent={true}
       visible={current !== undefined}
     >
-      <OverlayView testID="Overlay View">
+      <View testID="Overlay View" style={Css.overlayView}>
         <Svg
           testID="Spot Svg"
           height="100%"
           width="100%"
-          viewBox={`0 0 ${vwDP(100)} ${vhDP(100)}`}
+          viewBox={`0 0 ${vw(100)} ${vh(100)}`}
           onPress={handleBackdropPress}
           shouldRasterizeIOS={true}
           renderToHardwareTextureAndroid={true}
@@ -227,19 +227,28 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
               next={next}
               previous={previous}
               stop={stop}
+              pause={pause}
+              resume={resume}
               goTo={goTo}
             />
             {floating.arrow !== false && (
-              <TooltipArrow
+              <View
+                style={[
+                  Css.tooltipArrow,
+                  arrowCss({
+                    arrow: typeof floating.arrow !== "boolean"
+                      ? floating.arrow
+                      : undefined,
+                    data: middlewareData.arrow,
+                    placement,
+                  }),
+                ]}
                 ref={arrowRef}
-                placement={placement}
-                data={middlewareData.arrow}
-                arrow={floating.arrow === true ? undefined : floating.arrow}
               />
             )}
           </Animated.View>
         )}
-      </OverlayView>
+      </View>
     </Modal>
   );
 });

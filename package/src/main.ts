@@ -16,8 +16,9 @@ export {
   Shape,
   ShapeOptions,
   SpotlightTour,
-  StopParams,
+  TourState,
   TooltipProps,
+  TourStatus,
   TourStep,
   useSpotlightTour,
 } from "./lib/SpotlightTour.context";

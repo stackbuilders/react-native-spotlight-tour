@@ -5,7 +5,7 @@ import { Text } from "react-native";
 import Sinon from "sinon";
 import { describe, it, suite } from "vitest";
 
-import { SpotlightTour, StopParams, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { SpotlightTour, TourState, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
 import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provider";
 import { AttachStep } from "../../../../src/lib/components/attach-step/AttachStep.component";
 import { BASE_STEP } from "../../../helpers/TestTour";
@@ -191,8 +191,11 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
         current: 0,
         goTo: Sinon.match.func,
         next: Sinon.match.func,
+        pause: Sinon.match.func,
         previous: Sinon.match.func,
+        resume: Sinon.match.func,
         start: Sinon.match.func,
+        status: "running",
         stop: Sinon.match.func,
       });
     });
@@ -200,7 +203,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when a function is passed to the onStop prop in the tour provider", () => {
     it("invokes the function and injects the OnStopBehavior object in the values", async () => {
-      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+      const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
 
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -221,7 +224,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
     describe("and the tour is stopped in the second step", () => {
       describe("and the step is NOT the last one", () => {
         it("returns step index 1 and is last equals false", async () => {
-          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+          const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -248,7 +251,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
     describe("and the tour is stopped in the third step", () => {
       describe("and the step is the last one", () => {
         it("returns step index 2 and is last equals true", async () => {
-          const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+          const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -279,7 +282,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when an AttachStep has multiple indexes", () => {
     it("renders all the steps correctly", async () => {
-      const spy = Sinon.spy<(values: StopParams) => void>(() => undefined);
+      const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
 
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS} onStop={spy}>

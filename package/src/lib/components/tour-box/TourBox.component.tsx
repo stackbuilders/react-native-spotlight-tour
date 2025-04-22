@@ -1,9 +1,9 @@
 import React, { ReactElement, ReactNode, useCallback } from "react";
-import { StyleProp, Text, TextStyle, ViewStyle } from "react-native";
+import { StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { RenderProps } from "../../SpotlightTour.context";
 
-import { FooterContainer, MainContainer, NavButton, TitleText } from "./TourBox.styles";
+import { Css } from "./TourBox.styles";
 
 export interface TourBoxProps extends RenderProps {
   /**
@@ -47,6 +47,22 @@ export interface TourBoxProps extends RenderProps {
    */
   onNext?: () => void;
   /**
+   * Callback for when the Pause button is pressed.
+   */
+  onPause?: () => void;
+  /**
+   * Back button styles.
+   */
+  pauseStyle?: StyleProp<ViewStyle>;
+  /**
+   * Pause button text.
+   */
+  pauseText?: string;
+  /**
+   * Should show the Pause button.
+   */
+  showPause?: boolean;
+  /**
    * TourBox main container styles.
    */
   style?: StyleProp<ViewStyle>;
@@ -72,11 +88,13 @@ export function TourBox(props: TourBoxProps): ReactElement {
   const {
     backText = "Back",
     nextText = "Next",
+    pauseText = "Pause",
     title,
     hideNext,
     hideBack,
     onBack,
     onNext,
+    onPause,
     backStyle,
     nextStyle,
     titleStyle,
@@ -84,8 +102,11 @@ export function TourBox(props: TourBoxProps): ReactElement {
     children,
     isLast,
     isFirst,
+    pauseStyle,
     previous,
+    showPause,
     stop,
+    pause,
     next,
   } = props;
 
@@ -99,34 +120,46 @@ export function TourBox(props: TourBoxProps): ReactElement {
     onNext?.();
   }, [isLast, stop, next, onNext]);
 
+  const handlePause = useCallback((): void => {
+    pause();
+    onPause?.();
+  }, [pause]);
+
   return (
-    <MainContainer style={style}>
+    <View style={[Css.mainView, style]}>
       {title !== undefined && (
-        <TitleText style={titleStyle}>
+        <Text style={[Css.titleText, titleStyle]}>
           {title}
-        </TitleText>
+        </Text>
       )}
 
       {children}
 
-      {(!hideBack || !hideNext) && (
-        <FooterContainer>
+      {(!hideBack || !hideNext || showPause) && (
+        <View style={Css.footerView}>
           {!hideBack && (
-            <NavButton style={backStyle} onPress={handleBack}>
+            <TouchableOpacity style={[Css.navButton, backStyle]} onPress={handleBack}>
               <Text>
                 {backText}
               </Text>
-            </NavButton>
+            </TouchableOpacity>
+          )}
+          {showPause && (
+            <TouchableOpacity style={[Css.navButton, pauseStyle]} onPress={handlePause}>
+              <Text>
+                {pauseText}
+              </Text>
+            </TouchableOpacity>
           )}
           {!hideNext && (
-            <NavButton style={nextStyle} onPress={handleNext}>
+            <TouchableOpacity style={[Css.navButton, nextStyle]} onPress={handleNext}>
               <Text>
                 {nextText}
               </Text>
-            </NavButton>
+            </TouchableOpacity>
           )}
-        </FooterContainer>
+        </View>
       )}
-    </MainContainer>
+    </View>
   );
 }

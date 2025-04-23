@@ -1,13 +1,9 @@
 import dedent from "dedent";
 import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
-import {
-  AttachStep,
-  SpotlightTourProvider,
-  TourBox,
-  TourState,
-  TourStep,
-} from "react-native-spotlight-tour";
+import { Text as TextPaper } from "react-native-paper";
+import ReAnimated, { useSharedValue, withSpring } from "react-native-reanimated";
+import { AttachStep, SpotlightTourProvider, TourBox, TourState, TourStep } from "react-native-spotlight-tour";
 
 import {
   BoldText,
@@ -21,6 +17,7 @@ import { DocsTooltip } from "./DocsTooltip";
 
 export function App(): ReactElement {
   const gap = useRef(new Animated.Value(0)).current;
+  const reanimatedGap = useSharedValue(0);
 
   const showSummary = useCallback(({ index, isLast }: TourState) => {
     Alert.alert(
@@ -86,31 +83,57 @@ export function App(): ReactElement {
         Animated.spring(gap, {
           bounciness: 100,
           speed: 1,
-          toValue: Dimensions.get("screen").height * 0.25,
+          toValue: Dimensions.get("screen").height * 0.20,
           useNativeDriver: false, // Translate animation not supported native by native driver
         })
         .start(() => resolve());
       });
     },
-    render: ({ previous, stop }) => (
+    render: ({ next, previous }) => (
       <SpotDescriptionView>
         <DescriptionText>
           <BoldText>{"Tour: Try it!\n"}</BoldText>
           {dedent`
-            This is the final step of the tour example.
+            This is the fourth step of the tour example.
             You can move your view or make transitions before an step kicks off!
+            If you want to go to the previous step, press \
+          `}
+          <BoldText>{"Previous.\n"}</BoldText>
+          {"If you want to the last step of the tour, press "}
+          <BoldText>{"Next.\n"}</BoldText>
+        </DescriptionText>
+
+        <ButtonsGroupView>
+          <Button title="Previous" onPress={previous} />
+          <Button title="Next" onPress={next} />
+        </ButtonsGroupView>
+      </SpotDescriptionView>
+    ),
+  }, {
+    before() {
+      return new Promise<void>(resolve => {
+        reanimatedGap.value = withSpring(Dimensions.get("screen").height * 0.20);
+        return resolve();
+      });
+    },
+    render: props => (
+      <TourBox
+        title="Tour: Compatibility"
+        backText="Previous"
+        nextText="Finish"
+        {...props}
+      >
+        <TextPaper>
+          {dedent`
+            This is the final step of the tour example.
+            It is compatible with other animation or design libraries!
             If you want to go to the previous step, press \
           `}
           <BoldText>{"Previous.\n"}</BoldText>
           {"If you want to finish the tour, press "}
           <BoldText>{"Finish.\n"}</BoldText>
-        </DescriptionText>
-
-        <ButtonsGroupView>
-          <Button title="Previous" onPress={previous} />
-          <Button title="Finish" onPress={stop} />
-        </ButtonsGroupView>
-      </SpotDescriptionView>
+        </TextPaper>
+      </TourBox>
     ),
   }], []);
 
@@ -173,6 +196,18 @@ export function App(): ReactElement {
                 </DescriptionText>
               </SectionContainerView>
             </Animated.View>
+            <ReAnimated.View style={[{ transform: [{ translateY: reanimatedGap }] }]}>
+              <SectionContainerView>
+                  <AttachStep index={4}>
+                    <TextPaper variant="titleMedium">
+                      {"Compatibility!"}
+                    </TextPaper>
+                  </AttachStep>
+                  <DescriptionText>
+                    {"It supports other animation and design libraries"}
+                  </DescriptionText>
+              </SectionContainerView>
+            </ReAnimated.View>
           </>
         )}
       </SpotlightTourProvider>

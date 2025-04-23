@@ -3,7 +3,7 @@ import React, { ReactElement, useCallback, useMemo, useRef } from "react";
 import { Alert, Animated, Button, Dimensions, SafeAreaView, Text } from "react-native";
 import { Text as TextPaper } from "react-native-paper";
 import ReAnimated, { useSharedValue, withSpring } from "react-native-reanimated";
-import { AttachStep, SpotlightTourProvider, StopParams, TourBox, TourStep } from "react-native-spotlight-tour";
+import { AttachStep, SpotlightTourProvider, TourBox, TourState, TourStep } from "react-native-spotlight-tour";
 
 import {
   BoldText,

@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "incremental": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["ES2022"],
     "moduleResolution": "Node",
     "noImplicitAny": true,
@@ -17,25 +17,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./build",
-    "plugins": [{
-      "name": "@styled/typescript-styled-plugin",
-      "lint": {
-        "boxModel": "error",
-        "duplicateProperties": "error",
-        // "emptyRules": "error", // https://github.com/styled-components/typescript-styled-plugin/issues/4
-        "float": "error",
-        "fontFaceProperties": "error",
-        "ieHack": "error",
-        "importStatement": "error",
-        "important": "error",
-        "propertyIgnoredDueToDisplay": "error",
-        "universalSelector": "error",
-        "unknownProperties": "error",
-        "unknownVendorSpecificProperties": "error",
-        "validProperties": [],
-        "zeroUnits": "error"
-      }
-    }],
     "pretty": true,
     "removeComments": false,
     "skipLibCheck": true,

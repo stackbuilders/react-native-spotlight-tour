@@ -1,11 +1,15 @@
 import { expect } from "@assertive-ts/core";
 import { render, userEvent, waitFor } from "@testing-library/react-native";
-import React, { ReactElement, ReactNode, useEffect } from "react";
+import { type ReactElement, type ReactNode, useEffect } from "react";
 import { Text } from "react-native";
 import Sinon from "sinon";
 import { describe, it, suite } from "vitest";
 
-import { SpotlightTour, TourState, TourStep, useSpotlightTour } from "../../../../src/lib/SpotlightTour.context";
+import { type SpotlightTour,
+  type TourState,
+  type TourStep,
+  useSpotlightTour,
+} from "../../../../src/lib/SpotlightTour.context";
 import { SpotlightTourProvider } from "../../../../src/lib/SpotlightTour.provider";
 import { AttachStep } from "../../../../src/lib/components/attach-step/AttachStep.component";
 import { BASE_STEP } from "../../../helpers/TestTour";
@@ -59,6 +63,8 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when the next action is called", () => {
     it("removes the previous step and renders the next step", async () => {
+      const user = userEvent.setup();
+
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />
@@ -67,7 +73,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Next"));
+      await user.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 2"));
 
@@ -77,6 +83,8 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when previous action is called", () => {
     it("removes the current step and renders the previous step", async () => {
+      const user = userEvent.setup();
+
       const { getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS}>
           <TestScreen />
@@ -85,13 +93,13 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Next"));
+      await user.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 2"));
 
       expect(queryByText("Step 1")).toBeNull();
 
-      await userEvent.press(getByText("Previous"));
+      await user.press(getByText("Previous"));
 
       await waitFor(() => getByText("Step 1"));
 
@@ -101,7 +109,9 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when the backdrop behavior is set to continue", () => {
     it("goes to the next step when the backdrop is pressed", async () => {
-      const { getByText, findByTestId, queryByText } = render(
+      const user = userEvent.setup();
+
+      const { findByTestId, getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS} onBackdropPress="continue">
           <TestScreen />
         </SpotlightTourProvider>,
@@ -111,7 +121,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      await userEvent.press(backdrop);
+      await user.press(backdrop);
 
       await waitFor(() => getByText("Step 2"));
 
@@ -121,7 +131,9 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
   describe("when the backdrop behavior is set to stop", () => {
     it("stops the tour when the backdrop is pressed", async () => {
-      const { getByText, findByTestId, queryByText } = render(
+      const user = userEvent.setup();
+
+      const { findByTestId, getByText, queryByText } = render(
         <SpotlightTourProvider steps={STEPS} onBackdropPress="stop">
           <TestScreen />
         </SpotlightTourProvider>,
@@ -131,7 +143,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      await userEvent.press(backdrop);
+      await user.press(backdrop);
 
       expect(queryByText("Step 1")).toBeNull();
       expect(queryByText("Step 2")).toBeNull();
@@ -146,8 +158,9 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
           ? { ...step, onBackdropPress: "stop" }
           : step;
       });
+      const user = userEvent.setup();
 
-      const { getByText, findByTestId, queryByText } = render(
+      const { findByTestId, getByText, queryByText } = render(
         <SpotlightTourProvider steps={steps} onBackdropPress="continue">
           <TestScreen />
         </SpotlightTourProvider>,
@@ -157,13 +170,13 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      await userEvent.press(backdrop);
+      await user.press(backdrop);
 
       await waitFor(() => getByText("Step 2"));
 
       expect(queryByText("Step 1")).toBeNull();
 
-      await userEvent.press(backdrop);
+      await user.press(backdrop);
 
       expect(queryByText("Step 1")).toBeNull();
       expect(queryByText("Step 2")).toBeNull();
@@ -174,8 +187,9 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
   describe("when a function is passed to the backdrop press behavior", () => {
     it("injects the SpotlightTour object in the options", async () => {
       const spy = Sinon.spy<(options: SpotlightTour) => void>(() => undefined);
+      const user = userEvent.setup();
 
-      const { getByText, findByTestId } = render(
+      const { findByTestId, getByText } = render(
         <SpotlightTourProvider steps={STEPS} onBackdropPress={spy}>
           <TestScreen />
         </SpotlightTourProvider>,
@@ -185,7 +199,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       const backdrop = await findByTestId("Spot Svg");
 
-      await userEvent.press(backdrop);
+      await user.press(backdrop);
 
       Sinon.assert.calledOnceWithExactly(spy, {
         current: 0,
@@ -204,6 +218,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
   describe("when a function is passed to the onStop prop in the tour provider", () => {
     it("invokes the function and injects the OnStopBehavior object in the values", async () => {
       const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
+      const user = userEvent.setup();
 
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -213,7 +228,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Stop"));
+      await user.press(getByText("Stop"));
 
       Sinon.assert.calledOnceWithExactly(spy, {
         index: 0,
@@ -225,6 +240,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
       describe("and the step is NOT the last one", () => {
         it("returns step index 1 and is last equals false", async () => {
           const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
+          const user = userEvent.setup();
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -234,11 +250,11 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
           await waitFor(() => getByText("Step 1"));
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 2"));
 
-          await userEvent.press(getByText("Stop"));
+          await user.press(getByText("Stop"));
 
           Sinon.assert.calledOnceWithExactly(spy, {
             index: 1,
@@ -252,6 +268,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
       describe("and the step is the last one", () => {
         it("returns step index 2 and is last equals true", async () => {
           const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
+          const user = userEvent.setup();
 
           const { getByText } = render(
             <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -261,15 +278,15 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
           await waitFor(() => getByText("Step 1"));
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 2"));
 
-          await userEvent.press(getByText("Next"));
+          await user.press(getByText("Next"));
 
           await waitFor(() => getByText("Step 3"));
 
-          await userEvent.press(getByText("Stop"));
+          await user.press(getByText("Stop"));
 
           Sinon.assert.calledOnceWithExactly(spy, {
             index: 2,
@@ -283,6 +300,7 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
   describe("when an AttachStep has multiple indexes", () => {
     it("renders all the steps correctly", async () => {
       const spy = Sinon.spy<(values: TourState) => void>(() => undefined);
+      const user = userEvent.setup();
 
       const { getByText } = render(
         <SpotlightTourProvider steps={STEPS} onStop={spy}>
@@ -296,15 +314,15 @@ suite("[Integration] TourOverlay.component.test.tsx", () => {
 
       await waitFor(() => getByText("Step 1"));
 
-      await userEvent.press(getByText("Next"));
+      await user.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 2"));
 
-      await userEvent.press(getByText("Next"));
+      await user.press(getByText("Next"));
 
       await waitFor(() => getByText("Step 3"));
 
-      await userEvent.press(getByText("Stop"));
+      await user.press(getByText("Stop"));
 
       Sinon.assert.calledOnceWithExactly(spy, {
         index: 2,

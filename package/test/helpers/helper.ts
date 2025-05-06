@@ -1,6 +1,8 @@
-import { PropsWithChildren } from "react";
+/* eslint-disable sonarjs/deprecation */
 import { Animated } from "react-native";
-import { ReactTestInstance } from "react-test-renderer";
+
+import type { PropsWithChildren } from "react";
+import type { ReactTestInstance } from "react-test-renderer";
 
 interface Rectangle {
   height: number;
@@ -82,7 +84,7 @@ function isReactTestInstance(child: ReactTestInstance | string): child is ReactT
 }
 
 function isReactProps<T extends object>(
-  props: PropsWithChildren<T> | null,
+  props: null | PropsWithChildren<T>,
 ): props is PropsWithChildren<T> {
   return typeof props === "object";
 }
@@ -94,7 +96,7 @@ export function findPropsOnTestInstance<P>(
   const findInsideChild = <T extends P>(
     childReactTestInstance: ReactTestInstance,
     depth: number,
-  ): Array<PropsWithChildren<T> | null> => {
+  ): Array<null | PropsWithChildren<T>> => {
     if (!isReactTestInstance(childReactTestInstance) || depth <= 0) {
       return [null];
     }
@@ -107,7 +109,7 @@ export function findPropsOnTestInstance<P>(
       isReactTestInstance(nestedChild)
         ? findInsideChild(nestedChild, depth - 1)
         : null,
-    ) as Array<PropsWithChildren<T> | null>;
+    ) as Array<null | PropsWithChildren<T>>;
   };
 
   const props = findInsideChild(reactTestInstance, 20)

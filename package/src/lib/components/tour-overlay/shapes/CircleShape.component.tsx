@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import isEqual from "react-fast-compare";
 import { Animated } from "react-native";
 import { Circle } from "react-native-svg";
 
-import { ShapeProps, transitionOf } from "../../../../helpers/shape";
+import { type ShapeProps, transitionOf } from "../../../../helpers/shape";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 

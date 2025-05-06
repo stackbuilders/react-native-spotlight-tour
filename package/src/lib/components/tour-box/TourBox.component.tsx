@@ -1,9 +1,9 @@
-import React, { ReactElement, ReactNode, useCallback } from "react";
-import { StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
-
-import { RenderProps } from "../../SpotlightTour.context";
+import { type ReactElement, type ReactNode, useCallback } from "react";
+import { type StyleProp, Text, type TextStyle, TouchableOpacity, View, type ViewStyle } from "react-native";
 
 import { Css } from "./TourBox.styles";
+
+import type { RenderProps } from "../../SpotlightTour.context";
 
 export interface TourBoxProps extends RenderProps {
   /**
@@ -86,28 +86,28 @@ export interface TourBoxProps extends RenderProps {
  */
 export function TourBox(props: TourBoxProps): ReactElement {
   const {
+    backStyle,
     backText = "Back",
-    nextText = "Next",
-    pauseText = "Pause",
-    title,
-    hideNext,
+    children,
     hideBack,
+    hideNext,
+    isFirst,
+    isLast,
+    next,
+    nextStyle,
+    nextText = "Next",
     onBack,
     onNext,
     onPause,
-    backStyle,
-    nextStyle,
-    titleStyle,
-    style,
-    children,
-    isLast,
-    isFirst,
+    pause,
     pauseStyle,
+    pauseText = "Pause",
     previous,
     showPause,
     stop,
-    pause,
-    next,
+    style,
+    title,
+    titleStyle,
   } = props;
 
   const handleBack = useCallback((): void => {

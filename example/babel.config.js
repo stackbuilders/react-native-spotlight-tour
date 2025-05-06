@@ -2,5 +2,15 @@
  * @type {import('@babel/core').TransformOptions}
  */
 module.exports = {
-  presets: ["@rnx-kit/babel-preset-metro-react-native"],
+  plugins: [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        runtime: "automatic",
+      },
+    ],
+  ],
+  presets: [
+    ["@rnx-kit/babel-preset-metro-react-native", { useTransformReactJSXExperimental: true }],
+  ],
 };

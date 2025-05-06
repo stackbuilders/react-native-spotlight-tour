@@ -25,4 +25,6 @@ jobs:
       - run: yarn install --immutable
       - run: yarn compile
       - run: yarn lint
-      - run: yarn test:ci
+      - run: yarn test
+        env:
+          NODE_OPTIONS: ${{ matrix.node == '20' && '--no-experimental-detect-module' || '' }}

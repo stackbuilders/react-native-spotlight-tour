@@ -1,14 +1,14 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  RefObject,
+import {
+  type ReactElement,
+  type ReactNode,
+  type RefObject,
   cloneElement,
   useCallback,
   useContext,
   useEffect,
   useRef,
 } from "react";
-import { LayoutChangeEvent, StyleProp, View, ViewStyle } from "react-native";
+import { type LayoutChangeEvent, type StyleProp, View, type ViewStyle } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
@@ -53,7 +53,7 @@ export interface AttachStepProps {
    * The index of the `steps` array to which the step is attached to.
    * It can be a single index or multiple ones.
    */
-  index: number | Array<number>;
+  index: Array<number> | number;
   /**
    * Style applied to AttachStep wrapper
    */
@@ -68,7 +68,7 @@ export interface AttachStepProps {
  * @returns an AttachStep React element
  */
 export function AttachStep({ children, fill = false, index, style }: AttachStepProps): ReactElement {
-  const { current, changeSpot } = useContext(SpotlightTourContext);
+  const { changeSpot, current } = useContext(SpotlightTourContext);
 
   const ref = useRef<View>(null);
 

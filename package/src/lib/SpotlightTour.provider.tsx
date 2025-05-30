@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   useCallback,
   useImperativeHandle,
@@ -6,26 +6,27 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { ColorValue, LayoutRectangle } from "react-native";
 
-import { ChildFn, isChildFunction } from "../helpers/common";
+import { type ChildFn, isChildFunction } from "../helpers/common";
 
 import {
-  BackdropPressBehavior,
-  Motion,
-  OSConfig,
-  Shape,
-  ShapeOptions,
-  SpotlightTour,
+  type BackdropPressBehavior,
+  type Motion,
+  type OSConfig,
+  type Shape,
+  type ShapeOptions,
+  type SpotlightTour,
   SpotlightTourContext,
-  SpotlightTourCtx,
-  TooltipProps,
-  TourState,
-  TourStatus,
-  TourStep,
+  type SpotlightTourCtx,
+  type TooltipProps,
+  type TourState,
+  type TourStatus,
+  type TourStep,
   ZERO_SPOT,
 } from "./SpotlightTour.context";
-import { TourOverlay, TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
+import { TourOverlay, type TourOverlayRef } from "./components/tour-overlay/TourOverlay.component";
+
+import type { ColorValue, LayoutRectangle } from "react-native";
 
 export interface SpotlightTourProviderProps extends TooltipProps {
   /**
@@ -34,7 +35,7 @@ export interface SpotlightTourProviderProps extends TooltipProps {
    * a function, the `SpotlightTour` context can be accessed from the first
    * argument.
    */
-  children: React.ReactNode | ChildFn<SpotlightTour>;
+  children: ChildFn<SpotlightTour> | React.ReactNode;
   /**
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
@@ -114,20 +115,20 @@ export interface SpotlightTourProviderProps extends TooltipProps {
 export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProviderProps>((props, ref) => {
   const {
     arrow,
-    flip,
-    offset,
-    placement,
-    shift,
     children,
+    flip,
     motion = "bounce",
     nativeDriver = true,
+    offset,
     onBackdropPress,
-    onStop,
     onPause,
     onResume,
+    onStop,
     overlayColor = "black",
     overlayOpacity = 0.45,
+    placement,
     shape = "circle",
+    shift,
     steps,
   } = props;
 
@@ -165,7 +166,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         overlay.current.hideTooltip(),
         Promise.resolve().then(step.before),
       ])
-      .then(() => setCurrent(index));
+        .then(() => setCurrent(index));
     }
   }, [steps]);
 

@@ -1,5 +1,5 @@
 import { render, waitFor, within } from "@testing-library/react-native";
-import React, { ReactElement, forwardRef } from "react";
+import { type ReactElement, forwardRef } from "react";
 import { Text } from "react-native";
 import { describe, it, suite } from "vitest";
 

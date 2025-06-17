@@ -1,9 +1,9 @@
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 export function vw(percentage: number): number {
-  return responsiveWidth(percentage);
+  return responsiveScreenWidth(percentage);
 }
 
 export function vh(percentage: number): number {
-  return responsiveHeight(percentage);
+  return responsiveScreenHeight(percentage);
 }

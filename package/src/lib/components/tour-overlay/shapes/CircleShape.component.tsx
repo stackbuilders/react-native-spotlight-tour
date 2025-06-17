@@ -22,9 +22,9 @@ export const CircleShape = memo<ShapeProps>(props => {
     return spot.y + spot.height / 2;
   }, [spot.y, spot.height]);
 
-  const center = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver }));
-  const radius = useRef(new Animated.Value(r, { useNativeDriver }));
-  const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
+  const center = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver })).current;
+  const radius = useRef(new Animated.Value(r, { useNativeDriver })).current;
+  const opacity = useRef(new Animated.Value(0, { useNativeDriver })).current;
 
   useEffect(() => {
     const transition = transitionOf({
@@ -54,14 +54,12 @@ export const CircleShape = memo<ShapeProps>(props => {
   }
 
   return (
-    <>
-      <AnimatedCircle
-        r={radius.current}
-        cx={center.current.x}
-        cy={center.current.y}
-        opacity={opacity.current}
-        fill="black"
-      />
-    </>
+    <AnimatedCircle
+      r={radius}
+      cx={center.x}
+      cy={center.y}
+      opacity={opacity}
+      fill="black"
+    />
   );
 }, isEqual);

@@ -7,6 +7,9 @@ concurrency:
   group: release
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     uses: ./.github/workflows/ci.yml
@@ -31,7 +34,7 @@ jobs:
       - run: yarn build
       - run: yarn release
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pages:

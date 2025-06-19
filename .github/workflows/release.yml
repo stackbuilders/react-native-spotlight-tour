@@ -1,7 +1,7 @@
 name: Release
 
-on:
-  workflow_dispatch:
+on: push
+  # workflow_dispatch:
 
 concurrency:
   group: release
@@ -29,10 +29,15 @@ jobs:
       - run: yarn install --immutable
       - run: cp ./README.md ./package/README.md
       - run: yarn build
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - run: yarn release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          # YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pages:
     uses: ./.github/workflows/pages.yml

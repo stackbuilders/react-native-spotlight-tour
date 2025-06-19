@@ -184,15 +184,15 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     <Modal
       animationType="fade"
       presentationStyle="overFullScreen"
-      supportedOrientations={["landscape", "portrait"]}
+      supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right", "portrait-upside-down"]}
       transparent={true}
       visible={current !== undefined}
     >
       <View testID="Overlay View" style={Css.overlayView}>
         <Svg
           testID="Spot Svg"
-          height="100%"
-          width="100%"
+          height={vh(100)}
+          width={vw(100)}
           viewBox={`0 0 ${vw(100)} ${vh(100)}`}
           onPress={handleBackdropPress}
           shouldRasterizeIOS={true}
@@ -200,7 +200,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
-              <Rect height="100%" width="100%" fill="#fff" />
+              <Rect height={vh(100)} width={vw(100)} fill="#fff" />
               <ShapeMask
                 spot={spot}
                 setReference={refs.setReference}
@@ -211,8 +211,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             </Mask>
           </Defs>
           <Rect
-            height="100%"
-            width="100%"
+            height={vh(100)}
+            width={vw(100)}
             fill={color}
             mask="url(#mask)"
             opacity={backdropOpacity}

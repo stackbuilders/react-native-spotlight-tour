@@ -36,6 +36,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - run: |
           echo "github_token=$GITHUB_TOKEN"
+          echo "gh_token=$GH_TOKEN"
           yarn release
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}

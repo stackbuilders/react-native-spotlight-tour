@@ -38,7 +38,7 @@ jobs:
           echo "github_token=$GITHUB_TOKEN"
           yarn release
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           # YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # pages:

@@ -26,9 +26,9 @@ export const RectShape = memo<ShapeProps>(props => {
     return spot.y - ((height - spot.height) / 2);
   }, [spot.y, spot.height, height]);
 
-  const size = useRef(new Animated.ValueXY({ x: width, y: height }, { useNativeDriver }));
-  const origin = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver }));
-  const opacity = useRef(new Animated.Value(0, { useNativeDriver }));
+  const size = useRef(new Animated.ValueXY({ x: width, y: height }, { useNativeDriver })).current;
+  const origin = useRef(new Animated.ValueXY({ x, y }, { useNativeDriver })).current;
+  const opacity = useRef(new Animated.Value(0, { useNativeDriver })).current;
 
   useEffect(() => {
     const transition = transitionOf({
@@ -54,11 +54,11 @@ export const RectShape = memo<ShapeProps>(props => {
 
   return (
     <AnimatedRect
-      x={origin.current.x}
-      y={origin.current.y}
-      width={size.current.x}
-      height={size.current.y}
-      opacity={opacity.current}
+      x={origin.x}
+      y={origin.y}
+      width={size.x}
+      height={size.y}
+      opacity={opacity}
       fill="black"
       rx={4}
       ry={4}

@@ -25,7 +25,7 @@ jobs:
           cache: yarn
       - run: yarn install --immutable
       - run: yarn docs
-      - uses: actions/configure-pages@v4
+      - uses: actions/configure-pages@v5
       - uses: actions/jekyll-build-pages@v1
         with:
           source: ./

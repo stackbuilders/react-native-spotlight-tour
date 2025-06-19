@@ -1,7 +1,6 @@
 import { Animated, type LayoutRectangle, type MeasureInWindowOnSuccessCallback } from "react-native";
 
 import type { Motion } from "../lib/SpotlightTour.context";
-import type { RefObject } from "react";
 
 interface RefNode {
   measure: (callback: MeasureInWindowOnSuccessCallback) => void;
@@ -23,19 +22,19 @@ interface Point {
 interface BaseTransitionOptions {
   motion: Motion;
   nextOrigin: Point;
-  opacity: RefObject<Animated.Value>;
-  origin: RefObject<Animated.ValueXY>;
+  opacity: Animated.Value;
+  origin: Animated.ValueXY;
   useNativeDriver: boolean;
 }
 
 interface ValueTransitionOptions extends BaseTransitionOptions {
   nextSize: number;
-  size: RefObject<Animated.Value>;
+  size: Animated.Value;
 }
 
 interface PointTransitionOptions extends BaseTransitionOptions {
   nextSize: Point;
-  size: RefObject<Animated.ValueXY>;
+  size: Animated.ValueXY;
 }
 
 type TransitionOptions = PointTransitionOptions | ValueTransitionOptions;
@@ -53,19 +52,23 @@ export function transitionOf(options: TransitionOptions): Animated.CompositeAnim
 
   switch (motion) {
     case "bounce":
-      opacity.current.setValue(1);
+      opacity.setValue(1);
 
       return Animated.parallel([
-        Animated.spring(origin.current, {
+        Animated.spring(origin, {
           damping: 45,
           mass: 4,
+          restDisplacementThreshold: 0.0875,
+          restSpeedThreshold: 1000,
           stiffness: 350,
           toValue: nextOrigin,
           useNativeDriver,
         }),
-        Animated.spring(size.current, {
-          damping: 35,
+        Animated.spring(size, {
+          damping: 45,
           mass: 4,
+          restDisplacementThreshold: 0.0875,
+          restSpeedThreshold: 1000,
           stiffness: 350,
           toValue: nextSize,
           useNativeDriver,
@@ -74,24 +77,24 @@ export function transitionOf(options: TransitionOptions): Animated.CompositeAnim
 
     case "fade":
       return Animated.sequence([
-        Animated.timing(opacity.current, {
+        Animated.timing(opacity, {
           duration: 400,
           toValue: 0,
           useNativeDriver,
         }),
         Animated.parallel([
-          Animated.timing(origin.current, {
+          Animated.timing(origin, {
             duration: 0,
             toValue: nextOrigin,
             useNativeDriver,
           }),
-          Animated.timing(size.current, {
+          Animated.timing(size, {
             duration: 0,
             toValue: nextSize,
             useNativeDriver,
           }),
         ]),
-        Animated.timing(opacity.current, {
+        Animated.timing(opacity, {
           duration: 400,
           toValue: 1,
           useNativeDriver,
@@ -99,15 +102,15 @@ export function transitionOf(options: TransitionOptions): Animated.CompositeAnim
       ]);
 
     case "slide":
-      opacity.current.setValue(1);
+      opacity.setValue(1);
 
       return Animated.parallel([
-        Animated.timing(origin.current, {
+        Animated.timing(origin, {
           duration: 400,
           toValue: nextOrigin,
           useNativeDriver,
         }),
-        Animated.timing(size.current, {
+        Animated.timing(size, {
           duration: 400,
           toValue: nextSize,
           useNativeDriver,

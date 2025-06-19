@@ -184,6 +184,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     <Modal
       animationType="fade"
       presentationStyle="overFullScreen"
+      supportedOrientations={["landscape", "portrait"]}
       transparent={true}
       visible={current !== undefined}
     >

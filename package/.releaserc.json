@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/semantic-release",
+  "repositoryUrl": "https://github.com/stackbuilders/react-native-spotlight-tour.git",
   "branches": ["main"],
   "plugins": [
     "@semantic-release/commit-analyzer",

@@ -57,12 +57,14 @@ interface TourOverlayProps extends ToOptional<TooltipProps> {
   backdropOpacity: number;
   color: ColorValue;
   current: Optional<number>;
+  maskOffset?: number;
   motion: Motion;
   nativeDriver: boolean | OSConfig<boolean>;
   onBackdropPress: Optional<BackdropPressBehavior>;
   shape: Shape | ShapeOptions;
   spot: LayoutRectangle;
   tourStep: TourStep;
+  translucent?: boolean;
 }
 
 export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, ref) => {
@@ -70,18 +72,25 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     backdropOpacity,
     color,
     current,
+    maskOffset = 0,
     motion,
     nativeDriver,
     onBackdropPress,
     shape,
-    spot,
+    spot: defaultSpot,
     tourStep,
+    translucent,
     ...tooltipProps
   } = props;
 
   const { goTo, next, pause, previous, resume, start, steps, stop } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
+
+  const spot = useMemo((): LayoutRectangle => ({
+    ...defaultSpot,
+    ...(translucent && { y: defaultSpot.y + maskOffset }),
+  }), [defaultSpot, translucent, maskOffset]);
 
   const floating = useMemo((): TooltipProps => ({
     arrow: tourStep.arrow ?? tooltipProps.arrow,

@@ -37,6 +37,15 @@ export interface SpotlightTourProviderProps extends TooltipProps {
    */
   children: ChildFn<SpotlightTour> | React.ReactNode;
   /**
+   * Additional y position around the spotlight target point to account for
+   * UI elements like status bars or navigation bars, especially when using
+   * translucent or edge-to-edge modes. This creates extra space between the
+   * target element and the spotlight mask.
+   *
+   * @default 0
+   */
+  maskOffset?: number;
+  /**
    * Sets the default transition motion for all steps. You can override this
    * value on each step too.
    *
@@ -107,6 +116,15 @@ export interface SpotlightTourProviderProps extends TooltipProps {
    * An array of `TourStep` objects that define each step of the tour.
    */
   steps: TourStep[];
+  /**
+   * Android only: Enable translucent status and navigation bars to allow the
+   * tour overlay to extend behind system bars. Uses react-native-edge-to-edge
+   * internally to handle the translucent bars setup.
+   *
+   * @platform android
+   * @default false
+   */
+  translucent?: boolean;
 }
 
 /**
@@ -117,6 +135,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     arrow,
     children,
     flip,
+    maskOffset = 0,
     motion = "bounce",
     nativeDriver = true,
     offset,
@@ -130,6 +149,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     shape = "circle",
     shift,
     steps,
+    translucent,
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -271,6 +291,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}
+        maskOffset={maskOffset}
         motion={motion}
         nativeDriver={nativeDriver}
         onBackdropPress={onBackdropPress}
@@ -283,6 +304,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
         offset={offset}
         placement={placement}
         shift={shift}
+        translucent={translucent}
       />
     </SpotlightTourContext.Provider>
   );

@@ -1,8 +1,11 @@
 import dedent from "dedent";
 import { type ReactElement, useCallback, useMemo } from "react";
-import { Alert, Animated, Button, Dimensions, SafeAreaView, Text, useAnimatedValue } from "react-native";
+import { Alert, Animated, Button, Dimensions, Platform, StatusBar, Text, View, useAnimatedValue } from "react-native";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   AttachStep,
+  type RenderProps,
+  type SpotlightTour,
   SpotlightTourProvider,
   TourBox,
   type TourState,
@@ -19,8 +22,9 @@ import {
 } from "./App.styles";
 import { DocsTooltip } from "./DocsTooltip";
 
-export function App(): ReactElement {
+function AppContent(): ReactElement {
   const gap = useAnimatedValue(0, { useNativeDriver: true });
+  const insets = useSafeAreaInsets();
 
   const showSummary = useCallback(({ index, isLast }: TourState) => {
     Alert.alert(
@@ -40,7 +44,7 @@ export function App(): ReactElement {
   }, []);
 
   const tourSteps = useMemo((): TourStep[] => [{
-    render: ({ next, pause }) => (
+    render: ({ next, pause }: RenderProps) => (
       <SpotDescriptionView>
         <DescriptionText>
           <BoldText>{"Tour: Intro section\n"}</BoldText>
@@ -59,7 +63,7 @@ export function App(): ReactElement {
     render: DocsTooltip,
   }, {
     arrow: true,
-    render: props => (
+    render: (props: RenderProps) => (
       <TourBox
         title="Tour: Customization"
         backText="Previous"
@@ -92,7 +96,9 @@ export function App(): ReactElement {
           .start(() => resolve());
       });
     },
-    render: ({ previous, stop }) => (
+    flip: true,
+    placement: "top",
+    render: ({ previous, stop }: RenderProps) => (
       <SpotDescriptionView>
         <DescriptionText>
           <BoldText>{"Tour: Try it!\n"}</BoldText>
@@ -115,7 +121,12 @@ export function App(): ReactElement {
   }], []);
 
   return (
-    <SafeAreaView>
+    <View style={{
+      flex: 1,
+      paddingTop: insets.top,
+    }}
+    >
+      <StatusBar translucent={true} backgroundColor="transparent" barStyle="dark-content" />
       <SpotlightTourProvider
         steps={tourSteps}
         overlayColor="gray"
@@ -127,15 +138,16 @@ export function App(): ReactElement {
         motion="bounce"
         shape="circle"
         arrow={{ color: "#B0C4DE" }}
+        coordinateAdjustment={Platform.OS === "android" ? { y: insets.top } : undefined}
       >
-        {({ resume, start, status }) => (
+        {({ resume, start, status }: SpotlightTour) => (
           <>
             {status !== "paused" && <Button title="Start" onPress={start} />}
             {status === "paused" && <Button title="Resume" onPress={resume} />}
 
             <SectionContainerView>
-              <AttachStep index={1}>
-                <TitleText>{"Introduction"}</TitleText>
+              <AttachStep index={0}>
+                <TitleText>{"Introduction."}</TitleText>
               </AttachStep>
               <DescriptionText>
                 {dedent`
@@ -146,7 +158,7 @@ export function App(): ReactElement {
             </SectionContainerView>
 
             <SectionContainerView>
-              <AttachStep index={0}>
+              <AttachStep index={1}>
                 <TitleText>{"Documentation"}</TitleText>
               </AttachStep>
               <DescriptionText>
@@ -176,6 +188,14 @@ export function App(): ReactElement {
           </>
         )}
       </SpotlightTourProvider>
-    </SafeAreaView>
+    </View>
+  );
+}
+
+export function App(): ReactElement {
+  return (
+    <SafeAreaProvider>
+      <AppContent />
+    </SafeAreaProvider>
   );
 }

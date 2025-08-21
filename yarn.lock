@@ -7191,6 +7191,7 @@ __metadata:
     react-dom: "npm:19.1.0"
     react-is: "npm:19.1.0"
     react-native: "npm:0.80.0"
+    react-native-safe-area-context: "npm:^5.6.1"
     react-native-spotlight-tour: "workspace:^"
     react-native-svg: "npm:^15.12.0"
     react-native-svg-web: "npm:^1.0.9"
@@ -12047,6 +12048,16 @@ __metadata:
   peerDependencies:
     react-native: ">=0.44.1"
   checksum: 10/fa16d076bf81af486fc6f1eb50057574bc5f96f0e24a52b92f66a8af153e5a5f9e838cf942d1c26390273cceea1de894f0e214c232ec890875a82267f83a86f6
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-context@npm:^5.6.1":
+  version: 5.6.1
+  resolution: "react-native-safe-area-context@npm:5.6.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10/2fc93cf46a6cbad28e5850bef009905c6db44066fb7e6f7bbce52c2ae4b0467c6718e4f572a42f8387c6b37f6d61ebe79980d0c2b5899e23dc19482a7db8417b
   languageName: node
   linkType: hard
 

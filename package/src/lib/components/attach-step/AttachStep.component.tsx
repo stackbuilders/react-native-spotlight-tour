@@ -55,6 +55,14 @@ export interface AttachStepProps {
    */
   index: Array<number> | number;
   /**
+   * Local offset adjustment for this specific AttachStep.
+   * This will be added to any global coordinate adjustment.
+   */
+  offset?: {
+    x?: number;
+    y?: number;
+  };
+  /**
    * Style applied to AttachStep wrapper
    */
   style?: StyleProp<ViewStyle>;
@@ -67,8 +75,8 @@ export interface AttachStepProps {
  * @param props the component props
  * @returns an AttachStep React element
  */
-export function AttachStep({ children, fill = false, index, style }: AttachStepProps): ReactElement {
-  const { changeSpot, current } = useContext(SpotlightTourContext);
+export function AttachStep({ children, fill = false, index, offset, style }: AttachStepProps): ReactElement {
+  const { changeSpot, coordinateAdjustment, current } = useContext(SpotlightTourContext);
 
   const ref = useRef<View>(null);
 
@@ -77,10 +85,22 @@ export function AttachStep({ children, fill = false, index, style }: AttachStepP
 
     if (current !== undefined && indexes.includes(current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
-        changeSpot({ height, width, x, y });
+        // Apply global coordinate adjustment
+        const globalX = coordinateAdjustment?.x || 0;
+        const globalY = coordinateAdjustment?.y || 0;
+
+        // Apply local offset
+        const localX = offset?.x || 0;
+        const localY = offset?.y || 0;
+
+        // Combine all adjustments
+        const adjustedX = x + globalX + localX;
+        const adjustedY = y + globalY + localY;
+
+        changeSpot({ height, width, x: adjustedX, y: adjustedY });
       });
     }
-  }, [changeSpot, current, JSON.stringify(index)]);
+  }, [changeSpot, current, JSON.stringify(index), coordinateAdjustment, offset]);
 
   const onLayout = useCallback((event: LayoutChangeEvent): void => {
     updateSpot();

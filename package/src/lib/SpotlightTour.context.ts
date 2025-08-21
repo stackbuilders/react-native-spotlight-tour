@@ -154,6 +154,11 @@ export interface TooltipProps {
    */
   arrow?: ArrowOptions | boolean | number;
   /**
+   * Global coordinate adjustment for all spotlight calculations.
+   * Useful for edge-to-edge layouts or custom status bar configurations.
+   */
+  coordinateAdjustment?: CoordinateAdjustment;
+  /**
    * Enables flipping the placement of the tooltip in order to keep it in view.
    *
    * @default true
@@ -272,6 +277,10 @@ export interface SpotlightTourCtx extends SpotlightTour {
    */
   changeSpot: (spot: LayoutRectangle) => void;
   /**
+   * Global coordinate adjustment for all spotlight calculations.
+   */
+  coordinateAdjustment?: CoordinateAdjustment;
+  /**
    * The spotlight layout.
    */
   spot: LayoutRectangle;
@@ -290,6 +299,7 @@ export const ZERO_SPOT: LayoutRectangle = {
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
+  coordinateAdjustment: undefined,
   goTo: () => undefined,
   next: () => undefined,
   pause: () => undefined,
@@ -321,4 +331,15 @@ export function useSpotlightTour(): SpotlightTour {
     status,
     stop,
   };
+}
+
+export interface CoordinateAdjustment {
+  /**
+   * Global X offset to apply to all spotlight calculations
+   */
+  x?: number;
+  /**
+   * Global Y offset to apply to all spotlight calculations
+   */
+  y?: number;
 }

@@ -187,6 +187,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right", "portrait-upside-down"]}
       transparent={true}
       visible={current !== undefined}
+      statusBarTranslucent={true}
     >
       <View testID="Overlay View" style={Css.overlayView}>
         <Svg

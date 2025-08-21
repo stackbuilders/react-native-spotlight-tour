@@ -116,6 +116,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
   const {
     arrow,
     children,
+    coordinateAdjustment,
     flip,
     motion = "bounce",
     nativeDriver = true,
@@ -235,6 +236,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
 
   const tour = useMemo((): SpotlightTourCtx => ({
     changeSpot,
+    coordinateAdjustment,
     current,
     goTo,
     next,
@@ -246,7 +248,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     status,
     steps,
     stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop, pause]);
+  }), [changeSpot, coordinateAdjustment, current, goTo, next, previous, spot, start, steps, stop, pause]);
 
   useImperativeHandle(ref, () => ({
     current,
@@ -268,6 +270,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       }
 
       <TourOverlay
+        coordinateAdjustment={coordinateAdjustment}
         backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}

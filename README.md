@@ -32,6 +32,10 @@ for the following:
 - [React Native](https://reactnative.dev/) >= 0.50.0
 - [react-native-svg](https://github.com/react-native-svg/react-native-svg) >= 12.1.0
 
+## ✨ Edge-to-Edge Support
+
+This library supports edge-to-edge display, including Android 15's enforced edge-to-edge mode. The tour overlay automatically covers the full screen including system bars. When using edge-to-edge layouts, you may need to adjust spotlight positioning using the `coordinateAdjustment` prop or individual `offset` props on `AttachStep` components. See the [example app](example/) for a working edge-to-edge implementation.
+
 ## Install
 
 With `npm`:

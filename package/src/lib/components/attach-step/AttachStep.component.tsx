@@ -8,7 +8,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { type LayoutChangeEvent, type StyleProp, View, type ViewStyle } from "react-native";
+import { type LayoutChangeEvent, Platform, type StyleProp, View, type ViewStyle } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
@@ -67,8 +67,9 @@ export interface AttachStepProps {
  * @param props the component props
  * @returns an AttachStep React element
  */
-export function AttachStep({ children, fill = false, index, style }: AttachStepProps): ReactElement {
-  const { changeSpot, current } = useContext(SpotlightTourContext);
+export function AttachStep({ children, fill = false, index, style }: AttachStepProps):
+ReactElement {
+  const { changeSpot, current, translucentStatusBar } = useContext(SpotlightTourContext);
 
   const ref = useRef<View>(null);
 
@@ -77,10 +78,18 @@ export function AttachStep({ children, fill = false, index, style }: AttachStepP
 
     if (current !== undefined && indexes.includes(current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
-        changeSpot({ height, width, x, y });
+        if (!translucentStatusBar?.enable || Platform.OS === "ios") {
+          changeSpot({ height, width, x, y });
+          return;
+        }
+        const { coordinateAdjustment } = translucentStatusBar;
+        const globalX = coordinateAdjustment?.x || 0;
+        const globalY = coordinateAdjustment?.y || 0;
+
+        changeSpot({ height, width, x: x + globalX, y: y + globalY });
       });
     }
-  }, [changeSpot, current, JSON.stringify(index)]);
+  }, [changeSpot, current, JSON.stringify(index), translucentStatusBar]);
 
   const onLayout = useCallback((event: LayoutChangeEvent): void => {
     updateSpot();

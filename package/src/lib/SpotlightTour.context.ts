@@ -177,6 +177,11 @@ export interface TooltipProps {
    * @default { padding: 8 }
    */
   shift?: boolean | ShiftOptions;
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   * Useful for edge-to-edge layouts or custom status bar configurations.
+   */
+  translucentStatusBar?: TranslucentStatusBar;
 }
 
 export interface TourStep extends TooltipProps {
@@ -279,6 +284,10 @@ export interface SpotlightTourCtx extends SpotlightTour {
    * The list of steps for the tour.
    */
   steps: TourStep[];
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   */
+  translucentStatusBar?: TranslucentStatusBar;
 }
 
 export const ZERO_SPOT: LayoutRectangle = {
@@ -300,6 +309,7 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   status: "idle",
   steps: [],
   stop: () => undefined,
+  translucentStatusBar: undefined,
 });
 
 /**
@@ -321,4 +331,25 @@ export function useSpotlightTour(): SpotlightTour {
     status,
     stop,
   };
+}
+export interface CoordinateAdjustment {
+  /**
+   * Global X offset to apply to all spotlight calculations
+   */
+  x?: number;
+  /**
+   * Global Y offset to apply to all spotlight calculations
+   */
+  y?: number;
+}
+export interface TranslucentStatusBar {
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   */
+  coordinateAdjustment?: CoordinateAdjustment;
+  /**
+   * Whether to enable the translucent status bar
+   */
+  enable?: boolean;
+
 }

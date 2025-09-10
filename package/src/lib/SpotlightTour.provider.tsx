@@ -130,6 +130,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     shape = "circle",
     shift,
     steps,
+    translucentStatusBar,
   } = props;
 
   const [current, setCurrent] = useState<number>();
@@ -246,7 +247,8 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
     status,
     steps,
     stop,
-  }), [changeSpot, current, goTo, next, previous, spot, start, steps, stop, pause]);
+    translucentStatusBar,
+  }), [changeSpot, translucentStatusBar, current, goTo, next, previous, spot, start, steps, stop, pause]);
 
   useImperativeHandle(ref, () => ({
     current,
@@ -268,6 +270,7 @@ export const SpotlightTourProvider = forwardRef<SpotlightTour, SpotlightTourProv
       }
 
       <TourOverlay
+        translucentStatusBar={translucentStatusBar}
         backdropOpacity={overlayOpacity}
         color={overlayColor}
         current={current}

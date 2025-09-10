@@ -8,7 +8,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { type LayoutChangeEvent, type StyleProp, View, type ViewStyle } from "react-native";
+import { type LayoutChangeEvent, Platform, type StyleProp, View, type ViewStyle } from "react-native";
 
 import { SpotlightTourContext } from "../../SpotlightTour.context";
 
@@ -55,14 +55,6 @@ export interface AttachStepProps {
    */
   index: Array<number> | number;
   /**
-   * Local offset adjustment for this specific AttachStep.
-   * This will be added to any global coordinate adjustment.
-   */
-  offset?: {
-    x?: number;
-    y?: number;
-  };
-  /**
    * Style applied to AttachStep wrapper
    */
   style?: StyleProp<ViewStyle>;
@@ -75,8 +67,9 @@ export interface AttachStepProps {
  * @param props the component props
  * @returns an AttachStep React element
  */
-export function AttachStep({ children, fill = false, index, offset, style }: AttachStepProps): ReactElement {
-  const { changeSpot, coordinateAdjustment, current } = useContext(SpotlightTourContext);
+export function AttachStep({ children, fill = false, index, style }: AttachStepProps):
+ReactElement {
+  const { changeSpot, current, translucentStatusBar } = useContext(SpotlightTourContext);
 
   const ref = useRef<View>(null);
 
@@ -85,22 +78,18 @@ export function AttachStep({ children, fill = false, index, offset, style }: Att
 
     if (current !== undefined && indexes.includes(current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
-        // Apply global coordinate adjustment
+        if (!translucentStatusBar?.enable || Platform.OS === "ios") {
+          changeSpot({ height, width, x, y });
+          return;
+        }
+        const { coordinateAdjustment } = translucentStatusBar;
         const globalX = coordinateAdjustment?.x || 0;
         const globalY = coordinateAdjustment?.y || 0;
 
-        // Apply local offset
-        const localX = offset?.x || 0;
-        const localY = offset?.y || 0;
-
-        // Combine all adjustments
-        const adjustedX = x + globalX + localX;
-        const adjustedY = y + globalY + localY;
-
-        changeSpot({ height, width, x: adjustedX, y: adjustedY });
+        changeSpot({ height, width, x: x + globalX, y: y + globalY });
       });
     }
-  }, [changeSpot, current, JSON.stringify(index), coordinateAdjustment, offset]);
+  }, [changeSpot, current, JSON.stringify(index), translucentStatusBar]);
 
   const onLayout = useCallback((event: LayoutChangeEvent): void => {
     updateSpot();

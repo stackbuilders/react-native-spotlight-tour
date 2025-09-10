@@ -34,7 +34,27 @@ for the following:
 
 ## ✨ Edge-to-Edge Support
 
-This library supports edge-to-edge display, including Android 15's enforced edge-to-edge mode. The tour overlay automatically covers the full screen including system bars. When using edge-to-edge layouts, you may need to adjust spotlight positioning using the `coordinateAdjustment` prop or individual `offset` props on `AttachStep` components. See the [example app](example/) for a working edge-to-edge implementation.
+This library supports edge-to-edge display (including Android 15’s enforced mode). The tour overlay already covers the whole screen, system bars included.
+
+When your screens use a translucent status bar you can enable proper handling—and optionally nudge the spotlight—via the new `translucentStatusBar` prop:
+
+```tsx
+<SpotlightTourProvider
+  translucentStatusBar={{
+    enable: true,                 // overlay under system bars
+    coordinateAdjustment: { y: insets.top }, // y = status-bar height (e.g. use SafeArea insets.top)
+  }}
+  {...otherProps}
+>
+  {/* … */}
+</SpotlightTourProvider>
+```
+
+`insets.top` is the height of the status bar returned by `react-native-safe-area-context`. Any value that represents the actual status-bar height will work.
+
+`translucentStatusBar` is **optional**—if you omit it or set `enable` to `false`, the tour continues to behave exactly as before.
+
+See the [example app](example/) for a fully-working edge-to-edge implementation.
 
 ## Install
 

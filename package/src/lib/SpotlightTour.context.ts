@@ -154,11 +154,6 @@ export interface TooltipProps {
    */
   arrow?: ArrowOptions | boolean | number;
   /**
-   * Global coordinate adjustment for all spotlight calculations.
-   * Useful for edge-to-edge layouts or custom status bar configurations.
-   */
-  coordinateAdjustment?: CoordinateAdjustment;
-  /**
    * Enables flipping the placement of the tooltip in order to keep it in view.
    *
    * @default true
@@ -182,6 +177,11 @@ export interface TooltipProps {
    * @default { padding: 8 }
    */
   shift?: boolean | ShiftOptions;
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   * Useful for edge-to-edge layouts or custom status bar configurations.
+   */
+  translucentStatusBar?: TranslucentStatusBar;
 }
 
 export interface TourStep extends TooltipProps {
@@ -277,10 +277,6 @@ export interface SpotlightTourCtx extends SpotlightTour {
    */
   changeSpot: (spot: LayoutRectangle) => void;
   /**
-   * Global coordinate adjustment for all spotlight calculations.
-   */
-  coordinateAdjustment?: CoordinateAdjustment;
-  /**
    * The spotlight layout.
    */
   spot: LayoutRectangle;
@@ -288,6 +284,10 @@ export interface SpotlightTourCtx extends SpotlightTour {
    * The list of steps for the tour.
    */
   steps: TourStep[];
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   */
+  translucentStatusBar?: TranslucentStatusBar;
 }
 
 export const ZERO_SPOT: LayoutRectangle = {
@@ -299,7 +299,6 @@ export const ZERO_SPOT: LayoutRectangle = {
 
 export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   changeSpot: () => undefined,
-  coordinateAdjustment: undefined,
   goTo: () => undefined,
   next: () => undefined,
   pause: () => undefined,
@@ -310,6 +309,7 @@ export const SpotlightTourContext = createContext<SpotlightTourCtx>({
   status: "idle",
   steps: [],
   stop: () => undefined,
+  translucentStatusBar: undefined,
 });
 
 /**
@@ -332,7 +332,6 @@ export function useSpotlightTour(): SpotlightTour {
     stop,
   };
 }
-
 export interface CoordinateAdjustment {
   /**
    * Global X offset to apply to all spotlight calculations
@@ -342,4 +341,15 @@ export interface CoordinateAdjustment {
    * Global Y offset to apply to all spotlight calculations
    */
   y?: number;
+}
+export interface TranslucentStatusBar {
+  /**
+   * Global coordinate adjustment for all spotlight calculations.
+   */
+  coordinateAdjustment?: CoordinateAdjustment;
+  /**
+   * Whether to enable the translucent status bar
+   */
+  enable?: boolean;
+
 }

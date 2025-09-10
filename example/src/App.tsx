@@ -1,7 +1,7 @@
 import dedent from "dedent";
 import { type ReactElement, useCallback, useMemo } from "react";
-import { Alert, Animated, Button, Dimensions, Platform, StatusBar, Text, View, useAnimatedValue } from "react-native";
-import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { Alert, Animated, Button, Dimensions, Text, useAnimatedValue } from "react-native";
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   AttachStep,
   type RenderProps,
@@ -24,8 +24,7 @@ import { DocsTooltip } from "./DocsTooltip";
 
 function AppContent(): ReactElement {
   const gap = useAnimatedValue(0, { useNativeDriver: true });
-  const insets = useSafeAreaInsets();
-
+  const { top } = useSafeAreaInsets();
   const showSummary = useCallback(({ index, isLast }: TourState) => {
     Alert.alert(
       "Tour Finished",
@@ -121,16 +120,11 @@ function AppContent(): ReactElement {
   }], []);
 
   return (
-    <View style={{
-      flex: 1,
-      paddingTop: insets.top,
-    }}
-    >
-      <StatusBar translucent={true} backgroundColor="transparent" barStyle="dark-content" />
+    <SafeAreaView style={{ flex: 1 }}>
       <SpotlightTourProvider
         steps={tourSteps}
         overlayColor="gray"
-        overlayOpacity={0.36}
+        overlayOpacity={0.86}
         nativeDriver={true}
         onBackdropPress="continue"
         onStop={showSummary}
@@ -138,7 +132,10 @@ function AppContent(): ReactElement {
         motion="bounce"
         shape="circle"
         arrow={{ color: "#B0C4DE" }}
-        coordinateAdjustment={Platform.OS === "android" ? { y: insets.top } : undefined}
+        translucentStatusBar={{
+          coordinateAdjustment: { y: top },
+          enable: true,
+        }}
       >
         {({ resume, start, status }: SpotlightTour) => (
           <>
@@ -188,7 +185,7 @@ function AppContent(): ReactElement {
           </>
         )}
       </SpotlightTourProvider>
-    </View>
+    </SafeAreaView>
   );
 }
 

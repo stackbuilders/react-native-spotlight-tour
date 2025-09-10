@@ -79,7 +79,9 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
     ...tooltipProps
   } = props;
 
-  const { goTo, next, pause, previous, resume, start, steps, stop } = useContext(SpotlightTourContext);
+  const {
+    goTo, next, pause, previous, resume, start, steps, stop, translucentStatusBar,
+  } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
 
@@ -187,7 +189,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right", "portrait-upside-down"]}
       transparent={true}
       visible={current !== undefined}
-      statusBarTranslucent={true}
+      statusBarTranslucent={translucentStatusBar?.enable ?? false}
     >
       <View testID="Overlay View" style={Css.overlayView}>
         <Svg

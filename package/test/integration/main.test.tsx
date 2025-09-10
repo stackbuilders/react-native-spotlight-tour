@@ -1,14 +1,21 @@
 import { expect } from "@assertive-ts/core";
 import { fireEvent, render, userEvent, waitFor } from "@testing-library/react-native";
+import { Platform, Text, TouchableOpacity } from "react-native";
 import { mockNative, restoreNativeMocks } from "react-native-testing-mocks";
 import Sinon from "sinon";
 import { afterEach, describe, it, suite } from "vitest";
 
+import {
+  AttachStep,
+  SpotlightTourProvider,
+  type TourStep,
+  useSpotlightTour,
+} from "../../src/main";
 import { BASE_STEP, TestScreen } from "../helpers/TestTour";
 import { checkValidIntersection, findPropsOnTestInstance } from "../helpers/helper";
 import { buttonMockMeasureData, viewMockMeasureData } from "../helpers/measures";
 
-import type { TourStep } from "../../src/lib/SpotlightTour.context";
+import type React from "react";
 import type { CircleProps } from "react-native-svg";
 
 suite("[Integration] main.test.tsx", () => {
@@ -264,6 +271,88 @@ suite("[Integration] main.test.tsx", () => {
           expect(queryByText("Step 2")).toBeNull();
         });
       });
+    });
+  });
+
+  describe("when translucentStatusBar is enabled", () => {
+    it("applies the coordinateAdjustment to the spotlight position", async () => {
+      const ADJUST_Y = 50;
+
+      // Mock Platform.OS to be Android so coordinate adjustment applies
+      const originalOS = Platform.OS;
+      (Platform as { OS: string; }).OS = "android";
+
+      mockNative("View", {
+        measureInWindow: callback => {
+          const { height, width, x, y } = viewMockMeasureData;
+          callback(x, y, width, height);
+        },
+      });
+
+      const steps: TourStep[] = [BASE_STEP];
+
+      const CoordinateAdjustmentScreen = (): React.ReactElement => {
+        const TestComponent = (): React.ReactElement => {
+          const { start } = useSpotlightTour();
+
+          return (
+            <>
+              <AttachStep index={0}>
+                <Text>{"Test"}</Text>
+              </AttachStep>
+
+              <TouchableOpacity onPress={start}>
+                <Text>{"Start"}</Text>
+              </TouchableOpacity>
+            </>
+          );
+        };
+
+        return (
+          <SpotlightTourProvider
+            nativeDriver={false}
+            steps={steps}
+            translucentStatusBar={{ coordinateAdjustment: { y: ADJUST_Y }, enable: true }}
+          >
+            <TestComponent />
+          </SpotlightTourProvider>
+        );
+      };
+
+      const user = userEvent.setup();
+
+      const { findByTestId, findByText } = render(<CoordinateAdjustmentScreen />);
+
+      await user.press(await findByText("Start"));
+
+      // Wait for overlay to appear
+      await waitFor(() => findByTestId("Overlay View"));
+
+      // Wait until the tooltip text for step 1 is rendered
+      await waitFor(() => findByText("Step 1"));
+
+      const tooltip = await findByTestId("Tooltip View");
+
+      fireEvent(tooltip, "onLayout", {
+        nativeEvent: {
+          layout: {
+            height: viewMockMeasureData.height,
+            width: viewMockMeasureData.width,
+          },
+        },
+      });
+
+      const spotSvg = await findByTestId("Spot Svg");
+
+      await waitFor(() => {
+        const svgCircleProps = findPropsOnTestInstance<CircleProps>(spotSvg, "RNSVGCircle");
+
+        const expectedCy = viewMockMeasureData.y + viewMockMeasureData.height / 2 + ADJUST_Y;
+        expect(Number(svgCircleProps?.cy)).toBeEqual(expectedCy);
+      });
+
+      // Restore original Platform.OS
+      (Platform as { OS: string; }).OS = originalOS;
     });
   });
 });

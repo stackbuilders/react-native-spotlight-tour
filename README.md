@@ -48,7 +48,7 @@ yarn add react-native-spotlight-tour
 
 ## 🚨 Breaking changes: v2 to v3
 
-This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgrading from v2 to v3:
+This major update brings a few fixes, some great new features, and some breaking changes. These are some highlight you'll need to consider while upgrading from v2 to v3
 
 - The package has been renamed from `@stackbuilders/react-native-spotlight-tour` to just `react-native-spotlight-tour`
   - Don't worry, this library is still developed and maintained by the [Stack Builders Inc.](https://www.stackbuilders.com/) team!

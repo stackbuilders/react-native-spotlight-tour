@@ -106,10 +106,15 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   const shapeOptions = useMemo((): Required<ShapeOptions> => {
     const options = tourStep.shape ?? shape;
     const padding = 16;
+    const borderRadius = 4;
 
-    return typeof options !== "string"
-      ? { padding, type: "circle", ...options }
-      : { padding, type: options };
+    if (typeof options === "string") {
+      return { borderRadius, padding, type: options };
+    }
+
+    const merged = { borderRadius, padding, ...options } as Required<ShapeOptions>;
+    merged.type = (options as ShapeOptions).type ?? "circle";
+    return merged;
   }, [tourStep, shape]);
 
   const useNativeDriver = useMemo(() => {
@@ -202,6 +207,11 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
               <Rect height={vh(100)} width={vw(100)} fill="#fff" />
               <ShapeMask
+                borderRadius={
+                  shapeOptions.type === "rectangle"
+                    ? shapeOptions.borderRadius
+                    : 0
+                }
                 spot={spot}
                 setReference={refs.setReference}
                 motion={stepMotion}

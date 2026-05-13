@@ -26,15 +26,18 @@ export type Motion = "bounce" | "fade" | "slide";
  */
 export type Shape = "circle" | "rectangle";
 
-export interface ShapeOptions {
+export interface BaseShapeOptions {
   /**
    * The padding of the spot shape based on the wrapped component. A zero
    * padding means the spot shape will fit exactly around the wrapped
    * component. The padding value is a number in points.
    *
-   * @default 16;
+   * @default 16
    */
   padding?: number;
+}
+
+export interface CircleShapeOptions extends BaseShapeOptions {
   /**
    * The shape of the spotlight. Possible values are:
    * - `circle`
@@ -42,8 +45,28 @@ export interface ShapeOptions {
    *
    * @default circle
    */
-  type?: Shape;
+  type: "circle";
 }
+
+/**
+ * Options when the shape is a rectangle.
+ */
+export interface RectangleShapeOptions extends BaseShapeOptions {
+  /**
+   * The border radius of the rectangle’s corners, in points.
+   * This property only applies when the shape type is `"rectangle"`.
+   *
+   * If omitted, the border radius defaults to `4`.
+   */
+  borderRadius?: number;
+
+  /**
+   * The shape of the spotlight.
+   */
+  type: "rectangle";
+}
+
+export type ShapeOptions = CircleShapeOptions | RectangleShapeOptions;
 
 export interface RenderProps {
   /**

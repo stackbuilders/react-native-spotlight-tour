@@ -2744,12 +2744,12 @@ __metadata:
   linkType: hard
 
 "@rnx-kit/tools-apple@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@rnx-kit/tools-apple@npm:0.2.1"
+  version: 0.2.3
+  resolution: "@rnx-kit/tools-apple@npm:0.2.3"
   dependencies:
-    "@rnx-kit/tools-shell": "npm:^0.2.0"
-    fast-xml-parser: "npm:^4.0.0"
-  checksum: 10/45b007ba559240d42c638ef76588c9fa27e716b3d34b6eb86547b4f8bcac9e593348d8e232f7277c08762de31ac4ace229023f7ce12ea5985df39e267b297015
+    "@rnx-kit/tools-shell": "npm:^0.2.2"
+    fast-xml-parser: "npm:^5.3.4"
+  checksum: 10/67c1902242b2883214a838bc3cf0c2a7692dd2ee3e0667abeae15ee9dd43443534fbe9ad19d2b1e0bb6189fe5221d9f60406ce7d89ca3b3f5f0dfca17bf7578d
   languageName: node
   linkType: hard
 
@@ -2799,6 +2799,13 @@ __metadata:
   version: 0.2.1
   resolution: "@rnx-kit/tools-shell@npm:0.2.1"
   checksum: 10/df5ea758f3f7b1601e1ecafd15cf8c26d56b64e6284cf0047b183bc9d61fe6b3b3f8444746cef37ed962ca682d2a7bd653a8e30d22fb0815614c596e3449b412
+  languageName: node
+  linkType: hard
+
+"@rnx-kit/tools-shell@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@rnx-kit/tools-shell@npm:0.2.2"
+  checksum: 10/aa0ba64a6d924abb68493059ec4a8098edb65a4057611185c2361434ac5d050266595636707e96bd1adca443324da247f910b0603373adc3917367a0744849d0
   languageName: node
   linkType: hard
 
@@ -7316,7 +7323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-builder@npm:^1.1.7":
+"fast-xml-builder@npm:^1.2.0":
   version: 1.2.0
   resolution: "fast-xml-builder@npm:1.2.0"
   dependencies:
@@ -7326,17 +7333,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:5.7.3":
-  version: 5.7.3
-  resolution: "fast-xml-parser@npm:5.7.3"
+"fast-xml-parser@npm:^5.3.4, fast-xml-parser@npm:^5.3.6":
+  version: 5.8.0
+  resolution: "fast-xml-parser@npm:5.8.0"
   dependencies:
     "@nodable/entities": "npm:^2.1.0"
-    fast-xml-builder: "npm:^1.1.7"
+    fast-xml-builder: "npm:^1.2.0"
     path-expression-matcher: "npm:^1.5.0"
-    strnum: "npm:^2.2.3"
+    strnum: "npm:^2.3.0"
+    xml-naming: "npm:^0.1.0"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/00a58655d0d58c1f914c7fd8e3a94e88799c3d473e29a6d2231dc02103df069e8c6043137cbec8df1cda6525a39914d1b84455a79530f63be266876a2211251c
+  checksum: 10/0167d17d5275c95e005639f8fca7b4d88fec3fd013063725280f4e982313b1c798e4565d5ced7f61ce10e8f0d876a1976492cc8ac27da3080915ff549fd00705
   languageName: node
   linkType: hard
 
@@ -13765,7 +13773,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strnum@npm:^2.2.3":
+"strnum@npm:^2.3.0":
   version: 2.3.0
   resolution: "strnum@npm:2.3.0"
   checksum: 10/ce79c86bb2b96f053eb28e14924c13604e22977dcdece9aa914c25e16cc5c4bbe048976fe0b2a4decf08a1e13600b820749cea25463fc0e5fee3078339e0a457

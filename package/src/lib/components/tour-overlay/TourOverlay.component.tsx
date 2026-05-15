@@ -23,9 +23,11 @@ import {
 import {
   Animated,
   type ColorValue,
+  Dimensions,
   type LayoutRectangle,
   Modal,
   Platform,
+  StatusBar,
   View,
 } from "react-native";
 import { Defs, Mask, Rect, Svg } from "react-native-svg";
@@ -82,6 +84,32 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   const { goTo, next, pause, previous, resume, start, steps, stop } = useContext(SpotlightTourContext);
 
   const arrowRef = useRef<View>(null);
+
+  // Get actual screen dimensions for edge-to-edge support
+  const screenDimensions = useMemo(() => {
+    const { width, height } = Dimensions.get('screen');
+    const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
+    
+    // For Android edge-to-edge, use full screen dimensions
+    return {
+      width,
+      height: Platform.OS === 'android' ? height : height,
+      viewBoxWidth: width,
+      viewBoxHeight: Platform.OS === 'android' ? height : height,
+      statusBarHeight,
+    };
+  }, []);
+
+  // Adjust spot position for status bar offset when using statusBarTranslucent
+  const adjustedSpot = useMemo(() => {
+    if (Platform.OS === 'android' && screenDimensions.statusBarHeight > 0) {
+      return {
+        ...spot,
+        y: spot.y + screenDimensions.statusBarHeight,
+      };
+    }
+    return spot;
+  }, [spot, screenDimensions.statusBarHeight]);
 
   const floating = useMemo((): TooltipProps => ({
     arrow: tourStep.arrow ?? tooltipProps.arrow,
@@ -150,7 +178,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
   }, [tourStep, onBackdropPress, current, goTo, next, previous, start, stop, pause, resume]);
 
   useEffect(() => {
-    const { height, width } = spot;
+    const { height, width } = adjustedSpot;
 
     if ([height, width].every(value => value > 0)) {
       Animated.timing(tooltipOpacity.current, {
@@ -161,7 +189,7 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       })
         .start();
     }
-  }, [spot, useNativeDriver]);
+  }, [adjustedSpot, useNativeDriver]);
 
   useImperativeHandle<TourOverlayRef, TourOverlayRef>(ref, () => ({
     hideTooltip: () => {
@@ -187,22 +215,31 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
       supportedOrientations={["portrait", "landscape", "landscape-left", "landscape-right", "portrait-upside-down"]}
       transparent={true}
       visible={current !== undefined}
+      statusBarTranslucent
     >
-      <View testID="Overlay View" style={Css.overlayView}>
-        <Svg
+      <View 
+        testID="Overlay View" 
+        style={[
+          Css.overlayView,
+          {
+            height: screenDimensions.height,
+            width: screenDimensions.width,
+          }
+        ]}
+      >        <Svg
           testID="Spot Svg"
-          height={vh(100)}
-          width={vw(100)}
-          viewBox={`0 0 ${vw(100)} ${vh(100)}`}
+          height={screenDimensions.height}
+          width={screenDimensions.width}
+          viewBox={`0 0 ${screenDimensions.viewBoxWidth} ${screenDimensions.viewBoxHeight}`}
           onPress={handleBackdropPress}
           shouldRasterizeIOS={true}
           renderToHardwareTextureAndroid={true}
         >
           <Defs>
             <Mask id="mask" x={0} y={0} height="100%" width="100%">
-              <Rect height={vh(100)} width={vw(100)} fill="#fff" />
+              <Rect height={screenDimensions.height} width={screenDimensions.width} fill="#fff" />
               <ShapeMask
-                spot={spot}
+                spot={adjustedSpot}
                 setReference={refs.setReference}
                 motion={stepMotion}
                 padding={shapeOptions.padding}
@@ -211,8 +248,8 @@ export const TourOverlay = forwardRef<TourOverlayRef, TourOverlayProps>((props, 
             </Mask>
           </Defs>
           <Rect
-            height={vh(100)}
-            width={vw(100)}
+            height={screenDimensions.height}
+            width={screenDimensions.width}
             fill={color}
             mask="url(#mask)"
             opacity={backdropOpacity}

@@ -13773,7 +13773,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strnum@npm:^2.3.0":
+"strnum@npm:^2.2.3":
   version: 2.3.0
   resolution: "strnum@npm:2.3.0"
   checksum: 10/ce79c86bb2b96f053eb28e14924c13604e22977dcdece9aa914c25e16cc5c4bbe048976fe0b2a4decf08a1e13600b820749cea25463fc0e5fee3078339e0a457

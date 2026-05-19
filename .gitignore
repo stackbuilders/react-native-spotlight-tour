@@ -24,3 +24,4 @@ local.properties
 
 # Packages
 *.tgz
+.DS_Store

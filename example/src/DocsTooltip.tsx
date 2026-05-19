@@ -1,6 +1,6 @@
 import dedent from "dedent";
 import { Button } from "react-native";
-import { useSpotlightTour } from "react-native-spotlight-tour";
+import { type SpotlightTour, useSpotlightTour } from "react-native-spotlight-tour";
 
 import { BoldText, ButtonsGroupView, DescriptionText, SpotDescriptionView } from "./App.styles";
 
@@ -8,7 +8,7 @@ import type { ReactElement } from "react";
 
 export function DocsTooltip(): ReactElement {
   // You can also use the hook instead of the props here!
-  const { next, previous } = useSpotlightTour();
+  const { next, previous }: SpotlightTour = useSpotlightTour();
 
   return (
     <SpotDescriptionView>

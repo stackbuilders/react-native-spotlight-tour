@@ -63,7 +63,6 @@ export default eslintTs.config(
       reportUnusedDisableDirectives: "error",
     },
     plugins: {
-      import: importPlugin,
       jsdoc,
       perfectionist,
     },

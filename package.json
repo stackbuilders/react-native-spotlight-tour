@@ -23,7 +23,7 @@
     "start": "turbo start",
     "start:reset": "turbo start:reset",
     "test": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo test",
-    "test:ci": "turbo test"
+    "test:ci": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo test -- --run"
   },
   "packageManager": "yarn@4.9.1",
   "devDependencies": {

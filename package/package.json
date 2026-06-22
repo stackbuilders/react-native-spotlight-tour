@@ -35,7 +35,7 @@
     "compile": "tsc",
     "docs": "typedoc",
     "release": "semantic-release",
-    "test": "vitest"
+    "test": "NODE_OPTIONS=\"--no-experimental-detect-module\" vitest"
   },
   "packageManager": "yarn@3.6.3",
   "dependencies": {

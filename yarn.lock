@@ -12194,7 +12194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is-19@npm:react-is@^19.2.5, react-is@npm:^19.1.0":
+"react-is-19@npm:react-is@^19.2.5, react-is@npm:^19.2.3":
   version: 19.2.7
   resolution: "react-is@npm:19.2.7"
   checksum: 10/ae0d3ae7638aa2fa2a82a78a817daf2806e57fa0aef357d07e1e8d1e9a301902e5967168e9334b5816db0df8fa980a725cd57569ba5a9e6e76a71e117b18be04
@@ -12274,7 +12274,7 @@ __metadata:
     react-native-responsive-dimensions: "npm:^3.1.1"
     react-native-svg: "npm:^15.12.0"
     react-native-testing-mocks: "npm:^1.7.0"
-    react-test-renderer: "npm:19.1.0"
+    react-test-renderer: "npm:19.2.3"
     semantic-release: "npm:^24.2.5"
     semantic-release-yarn: "npm:^3.0.2"
     sinon: "npm:^21.0.0"
@@ -12428,15 +12428,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-test-renderer@npm:19.1.0":
-  version: 19.1.0
-  resolution: "react-test-renderer@npm:19.1.0"
+"react-test-renderer@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react-test-renderer@npm:19.2.3"
   dependencies:
-    react-is: "npm:^19.1.0"
-    scheduler: "npm:^0.26.0"
+    react-is: "npm:^19.2.3"
+    scheduler: "npm:^0.27.0"
   peerDependencies:
-    react: ^19.1.0
-  checksum: 10/73ae0ea779bacd0ff084dd3644b763a4431d68adf9c6acffdaa3d0810aab5322f24c95c60259c23b77f38b5f36d9d614ffaa46d91a33840536f2d4b7188dcc89
+    react: ^19.2.3
+  checksum: 10/a9de4d869b1555a54c02e8701be262dfa669eb366ff5cdb43ba49fa516beae439cbec2c3e5606c909e773c232328993e231b393af5eef25e87a845d4c7fb00dc
   languageName: node
   linkType: hard
 
@@ -13039,7 +13039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.27.0":
+"scheduler@npm:0.27.0, scheduler@npm:^0.27.0":
   version: 0.27.0
   resolution: "scheduler@npm:0.27.0"
   checksum: 10/eab3c3a8373195173e59c147224fc30dabe6dd453f248f5e610e8458512a5a2ee3a06465dc400ebfe6d35c9f5b7f3bb6b2e41c88c86fd177c25a73e7286a1e06

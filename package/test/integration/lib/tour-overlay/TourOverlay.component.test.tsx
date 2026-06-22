@@ -18,6 +18,7 @@ interface TestLayoutProps {
   children: ReactNode;
 }
 
+// eslint-disable-next-line sonarjs/argument-type
 const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);
 
 function AutoStartTour({ children }: TestLayoutProps): ReactElement {

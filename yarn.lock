@@ -7063,9 +7063,9 @@ __metadata:
     "@types/react": "npm:^19.1.8"
     dedent: "npm:^1.6.0"
     metro-config: "npm:^0.82.4"
-    react: "npm:19.2.7"
-    react-dom: "npm:19.2.7"
-    react-is: "npm:19.2.7"
+    react: "npm:19.2.3"
+    react-dom: "npm:19.2.3"
+    react-is: "npm:19.2.3"
     react-native: "npm:0.84.0"
     react-native-safe-area-context: "npm:^5.8.0"
     react-native-spotlight-tour: "workspace:^"
@@ -12169,14 +12169,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.2.7":
-  version: 19.2.7
-  resolution: "react-dom@npm:19.2.7"
+"react-dom@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react-dom@npm:19.2.3"
   dependencies:
     scheduler: "npm:^0.27.0"
   peerDependencies:
-    react: ^19.2.7
-  checksum: 10/9564f4b83843ca5518ed5f807c93cb1663706559cde52f3ef814b41e60b63b16e684d849926458f0ba436745d7eabf822cba1c528be370e7b2f35a4c91e35941
+    react: ^19.2.3
+  checksum: 10/5780f6d4c8e8ece09f82c5500ba2d55e01c30b5273f9281734d7d3b65013cd1fa52ec4e4436e5248c0a9e5bc340836044051168bbad8d7eac4d33ee6c2a867a1
   languageName: node
   linkType: hard
 
@@ -12194,10 +12194,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is-19@npm:react-is@^19.2.5, react-is@npm:19.2.7, react-is@npm:^19.2.7":
+"react-is-19@npm:react-is@^19.2.5, react-is@npm:^19.2.3":
   version: 19.2.7
   resolution: "react-is@npm:19.2.7"
   checksum: 10/ae0d3ae7638aa2fa2a82a78a817daf2806e57fa0aef357d07e1e8d1e9a301902e5967168e9334b5816db0df8fa980a725cd57569ba5a9e6e76a71e117b18be04
+  languageName: node
+  linkType: hard
+
+"react-is@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react-is@npm:19.2.3"
+  checksum: 10/547ac397308204742447b5e4cf556cf09aa97f4cc1c95c4a28e4b2e73a7efab03e59d7b89b4a01f67bf9bf0ca87348a7f0e88bc87c0af6be458aaac1dec5e132
   languageName: node
   linkType: hard
 
@@ -12260,14 +12267,14 @@ __metadata:
     "@types/node": "npm:^24.0.3"
     "@types/react-test-renderer": "npm:19.1.0"
     "@types/sinon": "npm:^17.0.4"
-    react: "npm:19.2.7"
+    react: "npm:19.2.3"
     react-fast-compare: "npm:^3.2.2"
-    react-is: "npm:19.2.7"
+    react-is: "npm:19.2.3"
     react-native: "npm:0.84.0"
     react-native-responsive-dimensions: "npm:^3.1.1"
     react-native-svg: "npm:^15.12.0"
     react-native-testing-mocks: "npm:^1.7.0"
-    react-test-renderer: "npm:19.2.7"
+    react-test-renderer: "npm:19.2.3"
     semantic-release: "npm:^24.2.5"
     semantic-release-yarn: "npm:^3.0.2"
     sinon: "npm:^21.0.0"
@@ -12421,22 +12428,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-test-renderer@npm:19.2.7":
-  version: 19.2.7
-  resolution: "react-test-renderer@npm:19.2.7"
+"react-test-renderer@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react-test-renderer@npm:19.2.3"
   dependencies:
-    react-is: "npm:^19.2.7"
+    react-is: "npm:^19.2.3"
     scheduler: "npm:^0.27.0"
   peerDependencies:
-    react: ^19.2.7
-  checksum: 10/edc70e537ec32e546f5bdc9a5c657cd62f375d35673a1fa568169fcb4e8e0cdfb6b328920850209f5e59875c16b9fdaa85533c6785869b6326f00b84696fe8cb
+    react: ^19.2.3
+  checksum: 10/a9de4d869b1555a54c02e8701be262dfa669eb366ff5cdb43ba49fa516beae439cbec2c3e5606c909e773c232328993e231b393af5eef25e87a845d4c7fb00dc
   languageName: node
   linkType: hard
 
-"react@npm:19.2.7":
-  version: 19.2.7
-  resolution: "react@npm:19.2.7"
-  checksum: 10/2939997e87d7f0ee0d9d2bb556866b616b999dfb7916283647034eda867a045a39c4f7a736c8ea6beffffcd78397fc30f63a7a3aaf8425b683c3060670859560
+"react@npm:19.2.3":
+  version: 19.2.3
+  resolution: "react@npm:19.2.3"
+  checksum: 10/d16b7f35c0d35a56f63d9d1693819762e4abc479c57dd6310298920bed3820fcec7e17a99d44983416d8f5049143ea45b8005d3ab8324bae8973224400502b08
   languageName: node
   linkType: hard
 

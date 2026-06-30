@@ -113,7 +113,6 @@ export function findPropsOnTestInstance<P>(
   };
 
   const props = findInsideChild(reactTestInstance, 20)
-  // eslint-disable-next-line sonarjs/argument-type
     .flat(Infinity)
     .filter(item => !!item)[0];
 

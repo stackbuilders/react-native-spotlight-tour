@@ -75,7 +75,6 @@ export function AttachStep({ children, fill = false, index, style }: AttachStepP
   const updateSpot = useCallback((): void => {
     const indexes = typeof index === "number" ? [index] : index;
 
-    // eslint-disable-next-line sonarjs/argument-type
     if (current !== undefined && indexes.includes(current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });

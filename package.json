@@ -22,8 +22,8 @@
     "release": "turbo release --concurrency=1",
     "start": "turbo start",
     "start:reset": "turbo start:reset",
-    "test": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo test",
-    "test:ci": "NODE_OPTIONS=\"--no-experimental-detect-module\" turbo test -- --run"
+    "test": "turbo test",
+    "test:ci": "turbo test"
   },
   "packageManager": "yarn@4.9.1",
   "devDependencies": {

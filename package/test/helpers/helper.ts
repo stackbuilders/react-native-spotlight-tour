@@ -105,19 +105,18 @@ export function findPropsOnTestInstance<P>(
       return [childReactTestInstance.props as PropsWithChildren<T>];
     }
 
-    return childReactTestInstance.children.map(nestedChild =>
+    return childReactTestInstance.children.flatMap(nestedChild =>
       isReactTestInstance(nestedChild)
         ? findInsideChild(nestedChild, depth - 1)
-        : null,
-    ) as Array<null | PropsWithChildren<T>>;
+        : [null],
+    );
   };
 
   const props = findInsideChild(reactTestInstance, 20)
-    .flat(Infinity)
     .filter(item => !!item)[0];
 
   return props !== undefined && isReactProps(props)
-    ? props as PropsWithChildren<P>
+    ? props
     : { } as PropsWithChildren<P>;
 }
 

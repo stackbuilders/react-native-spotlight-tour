@@ -240,7 +240,6 @@ export default eslintTs.config(
       "react/jsx-no-bind": "error",
       "react/jsx-no-literals": "error",
       "react/prop-types": "off",
-      "sonarjs/argument-type": "off",
       "sonarjs/cognitive-complexity": "off",
       "sonarjs/different-types-comparison": "off",
       "sonarjs/function-return-type": "off",

@@ -4,11 +4,12 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [reactNativeVitestPlugin()],
   test: {
-    deps: {
-      inline: ["dot-prop-immutable", "react-native-testing-mocks"],
-      interopDefault: true,
-    },
     include: ["test/**/*.test.ts?(x)"],
+    poolOptions: {
+      forks: {
+        execArgv: ["--no-experimental-detect-module"],
+      },
+    },
     setupFiles: "./test/setup.ts",
   },
 });

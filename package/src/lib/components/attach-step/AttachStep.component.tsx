@@ -75,7 +75,7 @@ export function AttachStep({ children, fill = false, index, style }: AttachStepP
   const updateSpot = useCallback((): void => {
     const indexes = typeof index === "number" ? [index] : index;
 
-    if (current !== undefined && indexes.includes(current)) {
+    if (current !== undefined && indexes.some(i => i === current)) {
       ref.current?.measureInWindow((x, y, width, height) => {
         changeSpot({ height, width, x, y });
       });

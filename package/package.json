@@ -35,7 +35,7 @@
     "compile": "tsc",
     "docs": "typedoc",
     "release": "semantic-release",
-    "test": "vitest"
+    "test": "NODE_OPTIONS=\"--no-experimental-detect-module\" vitest"
   },
   "packageManager": "yarn@3.6.3",
   "dependencies": {
@@ -46,17 +46,17 @@
   "devDependencies": {
     "@assertive-ts/core": "^2.1.0",
     "@assertive-ts/sinon": "^1.0.0",
-    "@react-native/babel-preset": "^0.80.0",
+    "@react-native/babel-preset": "0.84.0",
     "@testing-library/react-native": "^13.2.0",
     "@types/node": "^24.0.3",
     "@types/react-test-renderer": "19.1.0",
     "@types/sinon": "^17.0.4",
-    "react": "19.1.0",
-    "react-is": "19.1.0",
-    "react-native": "0.80.0",
+    "react": "19.2.3",
+    "react-is": "19.2.3",
+    "react-native": "0.84.0",
     "react-native-svg": "^15.12.0",
     "react-native-testing-mocks": "^1.7.0",
-    "react-test-renderer": "19.1.0",
+    "react-test-renderer": "19.2.3",
     "semantic-release": "^24.2.5",
     "semantic-release-yarn": "^3.0.2",
     "sinon": "^21.0.0",

@@ -6841,7 +6841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.31.0":
+"eslint-plugin-import@npm:^2.32.0":
   version: 2.32.0
   resolution: "eslint-plugin-import@npm:2.32.0"
   dependencies:
@@ -12326,7 +12326,7 @@ __metadata:
     all-contributors-cli: "npm:^6.26.1"
     eslint: "npm:^9.29.0"
     eslint-import-resolver-typescript: "npm:^4.4.3"
-    eslint-plugin-import: "npm:^2.31.0"
+    eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-jsdoc: "npm:^51.0.3"
     eslint-plugin-perfectionist: "npm:^4.14.0"
     eslint-plugin-react: "npm:^7.37.5"

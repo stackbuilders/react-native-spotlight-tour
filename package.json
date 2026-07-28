@@ -40,6 +40,6 @@
     "globals": "^16.2.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "8.65.0"
+    "typescript-eslint": "^8.65.0"
   }
 }

@@ -12334,7 +12334,7 @@ __metadata:
     globals: "npm:^16.2.0"
     turbo: "npm:^2.5.4"
     typescript: "npm:^5.8.3"
-    typescript-eslint: "npm:8.65.0"
+    typescript-eslint: "npm:^8.65.0"
   languageName: unknown
   linkType: soft
 
@@ -14642,7 +14642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:8.65.0":
+"typescript-eslint@npm:^8.65.0":
   version: 8.65.0
   resolution: "typescript-eslint@npm:8.65.0"
   dependencies:

@@ -32,7 +32,7 @@
     "all-contributors-cli": "^6.26.1",
     "eslint": "^9.29.0",
     "eslint-import-resolver-typescript": "^4.4.3",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsdoc": "^51.0.3",
     "eslint-plugin-perfectionist": "^4.14.0",
     "eslint-plugin-react": "^7.37.5",
@@ -40,6 +40,6 @@
     "globals": "^16.2.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.1"
+    "typescript-eslint": "^8.65.0"
   }
 }

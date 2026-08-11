@@ -28,11 +28,18 @@ export type Shape = "circle" | "rectangle";
 
 export interface ShapeOptions {
   /**
+   * The rounding radius of the rectangle shape corners.
+   * Ignored if `type` is `"circle"`.
+   *
+   * @default 4
+   */
+  borderRadius?: number;
+  /**
    * The padding of the spot shape based on the wrapped component. A zero
    * padding means the spot shape will fit exactly around the wrapped
    * component. The padding value is a number in points.
    *
-   * @default 16;
+   * @default 16
    */
   padding?: number;
   /**

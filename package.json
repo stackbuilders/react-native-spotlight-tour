@@ -26,6 +26,9 @@
     "test:ci": "turbo test"
   },
   "packageManager": "yarn@4.9.1",
+  "resolutions": {
+    "tar": "npm:7.5.22"
+  },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@stylistic/eslint-plugin": "^4.4.1",

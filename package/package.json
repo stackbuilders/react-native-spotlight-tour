@@ -64,7 +64,7 @@
     "typedoc-plugin-markdown": "^4.6.4",
     "typedoc-plugin-merge-modules": "^7.0.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.7"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

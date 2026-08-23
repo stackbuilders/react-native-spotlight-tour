@@ -8,7 +8,7 @@ import { type ShapeProps, transitionOf } from "../../../../helpers/shape";
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
 export const RectShape = memo<ShapeProps>(props => {
-  const { motion, padding, setReference, spot, useNativeDriver } = props;
+  const { borderRadius, motion, padding, setReference, spot, useNativeDriver } = props;
 
   const width = useMemo((): number => {
     return spot.width + padding;
@@ -60,8 +60,8 @@ export const RectShape = memo<ShapeProps>(props => {
       height={size.y}
       opacity={opacity}
       fill="black"
-      rx={4}
-      ry={4}
+      rx={borderRadius}
+      ry={borderRadius}
     />
   );
 }, isEqual);

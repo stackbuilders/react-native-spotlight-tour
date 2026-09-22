@@ -5,6 +5,11 @@ export default defineConfig({
   plugins: [reactNativeVitestPlugin()],
   test: {
     include: ["test/**/*.test.ts?(x)"],
+    poolOptions: {
+      forks: {
+        execArgv: ["--no-experimental-detect-module"],
+      },
+    },
     setupFiles: "./test/setup.ts",
   },
 });

@@ -1,6 +1,7 @@
 import dedent from "dedent";
 import { type ReactElement, useCallback, useMemo } from "react";
-import { Alert, Animated, Button, Dimensions, SafeAreaView, Text, useAnimatedValue } from "react-native";
+import { Alert, Animated, Button, Dimensions, Text, useAnimatedValue } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AttachStep,
   SpotlightTourProvider,

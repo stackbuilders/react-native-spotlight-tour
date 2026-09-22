@@ -18,7 +18,7 @@ interface TestLayoutProps {
   children: ReactNode;
 }
 
-const STEPS = Array.from<TourStep>({ length: 3 }).fill(BASE_STEP);
+const STEPS: TourStep[] = Array.from({ length: 3 }, () => BASE_STEP);
 
 function AutoStartTour({ children }: TestLayoutProps): ReactElement {
   const { start } = useSpotlightTour();

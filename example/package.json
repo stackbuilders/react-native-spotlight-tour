@@ -49,7 +49,7 @@
     "@rnx-kit/metro-resolver-symlinks": "^0.2.5",
     "@styled/typescript-styled-plugin": "^1.0.1",
     "@types/react": "^19.1.8",
-    "metro-config": "^0.82.4",
+    "metro-config": "^0.83.8",
     "serve": "^14.2.4",
     "typescript": "^5.8.3"
   },

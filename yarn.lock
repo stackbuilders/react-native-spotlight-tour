@@ -9825,7 +9825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-config@npm:0.83.8":
+"metro-config@npm:0.83.8, metro-config@npm:^0.83.3, metro-config@npm:^0.83.8":
   version: 0.83.8
   resolution: "metro-config@npm:0.83.8"
   dependencies:
@@ -9841,7 +9841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-core@npm:0.83.8":
+"metro-core@npm:0.83.8, metro-core@npm:^0.83.3":
   version: 0.83.8
   resolution: "metro-core@npm:0.83.8"
   dependencies:
@@ -9888,7 +9888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-runtime@npm:0.83.8":
+"metro-runtime@npm:0.83.8, metro-runtime@npm:^0.83.3":
   version: 0.83.8
   resolution: "metro-runtime@npm:0.83.8"
   dependencies:
@@ -9898,7 +9898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-source-map@npm:0.83.8":
+"metro-source-map@npm:0.83.8, metro-source-map@npm:^0.83.3":
   version: 0.83.8
   resolution: "metro-source-map@npm:0.83.8"
   dependencies:
@@ -9966,7 +9966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro@npm:0.83.8":
+"metro@npm:0.83.8, metro@npm:^0.83.3":
   version: 0.83.8
   resolution: "metro@npm:0.83.8"
   dependencies:

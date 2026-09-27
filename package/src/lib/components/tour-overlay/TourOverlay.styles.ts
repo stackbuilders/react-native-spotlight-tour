@@ -1,6 +1,6 @@
+import { Dimensions } from "react-native";
 import { Platform, StyleSheet, type ViewStyle } from "react-native";
 
-import { vh, vw } from "../../../helpers/responsive";
 
 import type { Optional } from "../../../helpers/common";
 import type { ArrowOptions } from "../../SpotlightTour.context";
@@ -20,8 +20,11 @@ export const DEFAULT_ARROW: Required<ArrowOptions> = {
 
 export const Css = StyleSheet.create({
   overlayView: {
-    height: vh(100),
-    width: vw(100),
+    position: "absolute",
+    top: 0,
+    left: 0,
+    height: Dimensions.get("screen").height,
+    width: Dimensions.get("screen").width,
   },
   tooltipArrow: {
     backgroundColor: "transparent",

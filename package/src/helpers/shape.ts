@@ -7,6 +7,7 @@ interface RefNode {
 }
 
 export interface ShapeProps {
+  borderRadius: number;
   motion: Motion;
   padding: number;
   setReference: (node?: RefNode) => void;

@@ -27,7 +27,9 @@
   },
   "packageManager": "yarn@4.9.1",
   "resolutions": {
-    "tar": "npm:7.5.22"
+    "tar": "npm:7.5.22",
+    "shell-quote": "1.9.0",
+    "vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0": "patch:vite@npm%3A7.3.6#~/.yarn/patches/vite-npm-7.3.6-7e42869881.patch"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

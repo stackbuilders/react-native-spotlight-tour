@@ -1,13 +1,14 @@
-import { reactNativeVitestPlugin } from "react-native-testing-mocks/vitest";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [reactNativeVitestPlugin()],
   test: {
+    environment: "./test/environment.ts",
+    execArgv: ["--no-experimental-detect-module"],
+    globals: true,
     include: ["test/**/*.test.ts?(x)"],
-    poolOptions: {
-      forks: {
-        execArgv: ["--no-experimental-detect-module"],
+    server: {
+      deps: {
+        external: ["react-native", "@react-native"],
       },
     },
     setupFiles: "./test/setup.ts",

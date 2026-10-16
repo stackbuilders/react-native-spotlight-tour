@@ -3,7 +3,7 @@
   "cleanOutputDir": true,
   "entryPoints": ["src/main.ts"],
   "entryPointStrategy": "expand",
-  "gitRevision": "release",
+  "gitRevision": "main",
   "githubPages": false,
   "hideGenerator": true,
   "includeVersion": false,

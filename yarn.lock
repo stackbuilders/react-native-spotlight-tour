@@ -11456,8 +11456,8 @@ __metadata:
   linkType: hard
 
 "pbkdf2@npm:^3.1.2, pbkdf2@npm:^3.1.5":
-  version: 3.1.6
-  resolution: "pbkdf2@npm:3.1.6"
+  version: 3.1.7
+  resolution: "pbkdf2@npm:3.1.7"
   dependencies:
     create-hash: "npm:^1.2.0"
     create-hmac: "npm:^1.1.7"
@@ -11465,7 +11465,7 @@ __metadata:
     safe-buffer: "npm:^5.2.1"
     sha.js: "npm:^2.4.12"
     to-buffer: "npm:^1.2.2"
-  checksum: 10/489af0d7b0c25da78517c45e3f2f02804e2131d7cc9d0393d086ac53c07b852248eb92c1011613a87984191647a254ae2928888df042484d79f7b359c417f6ea
+  checksum: 10/3b8cf9d991d823d426f71aecbb75f9ec261887683448f1f41e16cd3745512b3d96c3f455f6417ca5c562a9ef557a82f7888e703e8f03695de989603ae5d1f555
   languageName: node
   linkType: hard
 

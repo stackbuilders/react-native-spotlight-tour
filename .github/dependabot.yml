@@ -1,0 +1,62 @@
+version: 2
+
+updates:
+  # Yarn workspaces (root, package/, example/) are resolved from the root lockfile
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    # GitHub bypasses cooldowns for known vulnerability fixes
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 14
+      semver-patch-days: 7
+    groups:
+      react-native:
+        patterns:
+          - "react-native"
+          - "react-native-*"
+          - "@react-native/*"
+          - "@react-native-community/*"
+      lint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "@stylistic/*"
+          - "typescript-eslint"
+      babel:
+        patterns:
+          - "@babel/*"
+
+  - package-ecosystem: bundler
+    directory: /example
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 14
+      semver-patch-days: 7
+
+  - package-ecosystem: gradle
+    directory: /example/android
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 14
+      semver-patch-days: 7
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7

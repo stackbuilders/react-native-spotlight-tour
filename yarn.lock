@@ -2487,6 +2487,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rnx-kit/console@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@rnx-kit/console@npm:3.0.0"
+  checksum: 10/4ac9d21aa36272701f716ac1a061672bc5827d991163a763e61d99cf8352582cb0db1b4a999556f92c79cceeaff5358ec0c65734e08feceeb2a3d37434151b07
+  languageName: node
+  linkType: hard
+
 "@rnx-kit/metro-config@npm:^2.1.0":
   version: 2.2.4
   resolution: "@rnx-kit/metro-config@npm:2.2.4"
@@ -2544,11 +2551,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rnx-kit/metro-resolver-symlinks@npm:^0.2.5":
-  version: 0.2.11
-  resolution: "@rnx-kit/metro-resolver-symlinks@npm:0.2.11"
+"@rnx-kit/metro-resolver-symlinks@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@rnx-kit/metro-resolver-symlinks@npm:0.3.2"
   dependencies:
-    "@rnx-kit/console": "npm:^2.0.0"
+    "@rnx-kit/console": "npm:^3.0.0"
     "@rnx-kit/tools-node": "npm:^3.0.3"
     "@rnx-kit/tools-react-native": "npm:^2.3.2"
     enhanced-resolve: "npm:^5.8.3"
@@ -2557,7 +2564,7 @@ __metadata:
   peerDependenciesMeta:
     oxc-resolver:
       optional: true
-  checksum: 10/15ea82aed685e008e0cd289042150cec2c7cd42cf7b67881cecdc238e066b5a22700cbdf10be1a3250a28af223f4389e0317b4b56b4ffba4b1576bc522b8d5bf
+  checksum: 10/7ae79b87582c3c95a3961b8ac74ca5255db41ae6683b3828d385b359112ee5f6f8e165c3be0a2e01ef6d28bd39f385f1d25090cbb6c9405393fcaf9784c505fb
   languageName: node
   linkType: hard
 
@@ -7028,7 +7035,7 @@ __metadata:
     "@rnx-kit/babel-preset-metro-react-native": "npm:^2.0.0"
     "@rnx-kit/cli": "npm:^0.18.9"
     "@rnx-kit/metro-config": "npm:^2.1.0"
-    "@rnx-kit/metro-resolver-symlinks": "npm:^0.2.5"
+    "@rnx-kit/metro-resolver-symlinks": "npm:^0.3.2"
     "@styled/typescript-styled-plugin": "npm:^1.0.1"
     "@types/react": "npm:^19.1.8"
     dedent: "npm:^1.6.0"

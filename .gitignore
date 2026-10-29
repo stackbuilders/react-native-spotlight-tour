@@ -24,3 +24,10 @@ local.properties
 
 # Packages
 *.tgz
+
+# Claude Code
+.claude/worktrees/
+.claude/settings.local.json
+
+# Local audit reports
+audit/

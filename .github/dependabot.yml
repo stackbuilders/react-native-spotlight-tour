@@ -30,6 +30,14 @@ updates:
       babel:
         patterns:
           - "@babel/*"
+    ignore:
+      # RN 0.87 breaks the test setup: react-native-testing-mocks 1.7.0 can't
+      # mock native modules before InitializeCore runs. Upgrade RN manually
+      # (with upgrade-helper) once the mocks support it.
+      - dependency-name: "react-native"
+        versions: [">= 0.87.0"]
+      - dependency-name: "@react-native/*"
+        versions: [">= 0.87.0"]
 
   - package-ecosystem: bundler
     directory: /example
@@ -52,6 +60,9 @@ updates:
       semver-major-days: 30
       semver-minor-days: 14
       semver-patch-days: 7
+    ignore:
+      # The RN template dictates the wrapper version; bump it with RN upgrades
+      - dependency-name: "gradle-wrapper"
 
   - package-ecosystem: github-actions
     directory: /
@@ -60,3 +71,8 @@ updates:
     open-pull-requests-limit: 5
     cooldown:
       default-days: 7
+      semver-major-days: 30
+    groups:
+      actions:
+        patterns:
+          - "*"

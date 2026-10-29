@@ -101,10 +101,7 @@ export interface OSConfig<T> {
   web: T;
 }
 
-export type BackdropPressBehavior =
-  | "continue"
-  | "stop"
-  | ((options: SpotlightTour) => void);
+export type BackdropPressBehavior = "continue" | "stop" | ((options: SpotlightTour) => void);
 
 export interface TourState {
   /**

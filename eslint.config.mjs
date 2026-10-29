@@ -1,4 +1,5 @@
 // @ts-check
+import { fixupConfigRules } from "@eslint/compat";
 import eslintJs from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
 import * as importPlugin from "eslint-plugin-import";
@@ -22,9 +23,13 @@ function fixConfigTypes(config) {
 export default eslintTs.config(
   eslintJs.configs.recommended,
   ...eslintTs.configs.recommendedTypeChecked,
-  fixConfigTypes(importPlugin.flatConfigs?.typescript),
-  fixConfigTypes(reactPlugin.configs.flat?.recommended),
-  fixConfigTypes(reactPlugin.configs.flat?.["jsx-runtime"]),
+  // eslint-plugin-import and eslint-plugin-react do not support ESLint v10 yet.
+  // `fixupConfigRules` shims the removed context methods (e.g. `getFilename`).
+  ...fixupConfigRules([
+    fixConfigTypes(importPlugin.flatConfigs?.typescript),
+    fixConfigTypes(reactPlugin.configs.flat?.recommended),
+    fixConfigTypes(reactPlugin.configs.flat?.["jsx-runtime"]),
+  ]),
   sonarjs.configs.recommended,
   stylistic.configs.customize({
     braceStyle: "1tbs",
@@ -86,7 +91,6 @@ export default eslintTs.config(
       "@stylistic/jsx-curly-brace-presence": ["error", { children: "always" }],
       "@stylistic/jsx-curly-newline": "off",
       "@stylistic/jsx-pascal-case": ["error", { allowNamespace: true }],
-      "@stylistic/jsx-props-no-multi-spaces": "error",
       "@stylistic/jsx-self-closing-comp": "error",
       "@stylistic/jsx-wrap-multilines": ["error", { prop: "ignore" }],
       "@stylistic/linebreak-style": "error",
@@ -107,7 +111,7 @@ export default eslintTs.config(
       "@stylistic/padded-blocks": ["error", "never", { allowSingleLineBlocks: false }],
       "@stylistic/quote-props": ["error", "as-needed"],
       "@stylistic/quotes": ["error", "double", {
-        allowTemplateLiterals: false,
+        allowTemplateLiterals: "never",
         avoidEscape: true,
       }],
       "@stylistic/space-before-function-paren": ["error", { anonymous: "never", named: "never" }],

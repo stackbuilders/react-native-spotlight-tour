@@ -27,8 +27,7 @@
   },
   "packageManager": "yarn@4.9.1",
   "resolutions": {
-    "tar": "npm:7.5.22",
-    "shell-quote": "1.9.0"
+    "tar": "npm:7.5.22"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

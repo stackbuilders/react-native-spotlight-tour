@@ -44,7 +44,7 @@
     "@react-native/metro-config": "0.84.0",
     "@rnx-kit/align-deps": "^3.0.7",
     "@rnx-kit/babel-preset-metro-react-native": "^2.0.0",
-    "@rnx-kit/cli": "^0.18.9",
+    "@rnx-kit/cli": "^2.0.5",
     "@rnx-kit/metro-config": "^2.1.0",
     "@rnx-kit/metro-resolver-symlinks": "^0.3.2",
     "@styled/typescript-styled-plugin": "^1.0.1",

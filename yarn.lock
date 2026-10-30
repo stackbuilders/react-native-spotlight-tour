@@ -3401,16 +3401,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@styled/typescript-styled-plugin@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@styled/typescript-styled-plugin@npm:1.0.1"
+"@styled/typescript-styled-plugin@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@styled/typescript-styled-plugin@npm:1.1.1"
   dependencies:
-    "@vscode/emmet-helper": "npm:^2.9.2"
+    "@vscode/emmet-helper": "npm:2.11.0"
     typescript-template-language-service-decorator: "npm:^2.3.2"
-    vscode-css-languageservice: "npm:^6.2.11"
-    vscode-languageserver-textdocument: "npm:^1.0.11"
-    vscode-languageserver-types: "npm:^3.17.5"
-  checksum: 10/2bf64c9e018b525d84bbc78cc755c2a97bf8607b4c28944b7c4927b644ce80ddb0284ac08d26c7d37051148de11a285e95a1afcc84742334f71d698c1374d279
+    vscode-css-languageservice: "npm:6.3.10"
+    vscode-languageserver-textdocument: "npm:1.0.15"
+    vscode-languageserver-types: "npm:3.18.4"
+  checksum: 10/e35b4edb0f45eab040bef49cbd836419b3adc79b6f9c8c37a0e73656a0f9feb6f56b6f48b25fee61917938a5d284f3523c62d74e30271acba48070100a0e0860
   languageName: node
   linkType: hard
 
@@ -4200,7 +4200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vscode/emmet-helper@npm:^2.9.2":
+"@vscode/emmet-helper@npm:2.11.0":
   version: 2.11.0
   resolution: "@vscode/emmet-helper@npm:2.11.0"
   dependencies:
@@ -7234,7 +7234,7 @@ __metadata:
     "@rnx-kit/cli": "npm:^0.18.9"
     "@rnx-kit/metro-config": "npm:^2.1.0"
     "@rnx-kit/metro-resolver-symlinks": "npm:^0.3.2"
-    "@styled/typescript-styled-plugin": "npm:^1.0.1"
+    "@styled/typescript-styled-plugin": "npm:^1.1.1"
     "@types/react": "npm:^19.1.8"
     dedent: "npm:^1.6.0"
     metro-config: "npm:^0.83.8"
@@ -15073,7 +15073,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-css-languageservice@npm:^6.2.11":
+"vscode-css-languageservice@npm:6.3.10":
   version: 6.3.10
   resolution: "vscode-css-languageservice@npm:6.3.10"
   dependencies:
@@ -15085,7 +15085,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-languageserver-textdocument@npm:^1.0.1, vscode-languageserver-textdocument@npm:^1.0.11, vscode-languageserver-textdocument@npm:^1.0.12":
+"vscode-languageserver-textdocument@npm:1.0.15":
+  version: 1.0.15
+  resolution: "vscode-languageserver-textdocument@npm:1.0.15"
+  checksum: 10/35843f62ad93b02f17d072a9c83140863826da7acd7bb6f40f2c26928e85fd15e1ee57db4f0c8a8caa6787fff132b58233dcf9a182808b0e6c07fe5929810ae9
+  languageName: node
+  linkType: hard
+
+"vscode-languageserver-textdocument@npm:^1.0.1, vscode-languageserver-textdocument@npm:^1.0.12":
   version: 1.0.13
   resolution: "vscode-languageserver-textdocument@npm:1.0.13"
   checksum: 10/0962cd125e932d81f18667eb5048da34b93f9060c3f7bc808138ead7741d1672bcebe638e4dd3634398b0ab0175c1d1e58ad5c418ee7afed30717c20c788354b
@@ -15099,7 +15106,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-languageserver-types@npm:^3.15.1, vscode-languageserver-types@npm:^3.17.5":
+"vscode-languageserver-types@npm:3.18.4":
+  version: 3.18.4
+  resolution: "vscode-languageserver-types@npm:3.18.4"
+  checksum: 10/e399241413ab69e35e422862f935e6bdfe312834dd6202342c15418ea76f44d60e933fb343fc157a8905bd63f334be3b57f74f8fd4234b94179ac476068ac822
+  languageName: node
+  linkType: hard
+
+"vscode-languageserver-types@npm:^3.15.1":
   version: 3.18.0
   resolution: "vscode-languageserver-types@npm:3.18.0"
   checksum: 10/7a0c61005e863b291cca864a96c81dd4281468ae88c0d60048b7c1445ed7842f9ad627a05d14adc6c4f8fa221b1f803184e6be81e6d50bb4692320f549ed973a

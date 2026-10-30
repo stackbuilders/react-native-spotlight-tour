@@ -31,19 +31,19 @@
     "shell-quote": "1.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.5",
-    "@stylistic/eslint-plugin": "^4.4.1",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "all-contributors-cli": "^6.26.1",
-    "eslint": "^9.39.5",
+    "eslint": "^10.11.0",
     "eslint-import-resolver-typescript": "^4.4.3",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^51.0.3",
-    "eslint-plugin-perfectionist": "^4.14.0",
+    "eslint-plugin-jsdoc": "^65.0.1",
+    "eslint-plugin-perfectionist": "^5.12.1",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-sonarjs": "^3.0.3",
+    "eslint-plugin-sonarjs": "^4.2.2",
     "globals": "^16.2.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "^8.71.2"
   }
 }

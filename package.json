@@ -40,7 +40,7 @@
     "eslint-plugin-jsdoc": "^51.0.3",
     "eslint-plugin-perfectionist": "^4.14.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-sonarjs": "^3.0.3",
+    "eslint-plugin-sonarjs": "^4.0.3",
     "globals": "^16.2.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
